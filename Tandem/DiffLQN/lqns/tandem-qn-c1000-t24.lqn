@@ -1,16 +1,13 @@
-import subprocess
-
-def writeLQNFile(nClients, nThreads):
-    s = f"""# Processors declaration, with multiplicity 
+# Processors declaration, with multiplicity 
 P 0
-p ProcClient f m {nClients} 
+p ProcClient f m 1000 
 p ProcRouter f m 1
 -1
 
 # Tasks declaration
 T 0
-t ClientTask r BrowseEntry -1 ProcClient m {nClients} # {nClients} client tasks running on client processors
-t RouterTask n AddressEntry -1 ProcRouter m {nThreads}  #   {nThreads} server tasks running on server processors
+t ClientTask r BrowseEntry -1 ProcClient m 1000 # 1000 client tasks running on client processors
+t RouterTask n AddressEntry -1 ProcRouter m 24  #   24 server tasks running on server processors
 -1
 
 # Entries declaration
@@ -34,16 +31,4 @@ s AddressEntry 0.0012 -1            # entry AddressEntry has time demand 0.0012 
 #! throughput: BrowseEntry -1 # AddressEntry
 
 # 3. Export settings
-#! export csv"""
-
-    with open(f"./lqns/tandem-qn-c{nClients}-t{nThreads}.lqn", "w") as text_file:
-        text_file.write(s)
-
-
-# Produce .lqn files varying number of clients
-for nClients in range(100, 1001, 100):
-    writeLQNFile(nClients, 10)
-
-# Produce .lqn files varying number of threads
-for nThreads in range(3, 31, 3):
-    writeLQNFile(1000, nThreads)
+#! export csv

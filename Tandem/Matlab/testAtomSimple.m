@@ -20,7 +20,7 @@ end
 s2 = zeros(10,1);
 for i = 1:10
     index = i * 100;
-    filename = strcat('../DiffLQN/tandem-qn-c', int2str(index), '-t10.csv');
+    filename = strcat('../DiffLQN/csvs/tandem-qn-c', int2str(index), '-t10.csv');
     csvMatrix = readmatrix(filename);
     s2(i) = csvMatrix(4);
 end
@@ -29,7 +29,7 @@ end
 s1 = zeros(10,1);
 for i = 1:10
     index = i * 3;
-    filename = strcat('../DiffLQN/tandem-qn-c1000-t', int2str(index), '.csv');
+    filename = strcat('../DiffLQN/csvs/tandem-qn-c1000-t', int2str(index), '.csv');
     csvMatrix = readmatrix(filename);
     s1(i) = csvMatrix(4);
 end

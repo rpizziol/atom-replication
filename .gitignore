@@ -130,6 +130,4 @@ dmypy.json
 
 # DiffLQN
 *.jar
-*.csv
-*.lqn
 *.png
