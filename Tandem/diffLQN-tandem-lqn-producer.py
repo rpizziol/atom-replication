@@ -36,7 +36,7 @@ s AddressEntry 0.0012 -1            # entry AddressEntry has time demand 0.0012 
 # 3. Export settings
 #! export csv"""
 
-    with open(f"./tandem-files/tandem-qn-c{nClients}-t{nThreads}.lqn", "w") as text_file:
+    with open(f"./tandem-qn-c{nClients}-t{nThreads}.lqn", "w") as text_file:
         text_file.write(s)
 
 
@@ -46,9 +46,4 @@ for nClients in range(100, 1001, 100):
 
 # Produce .lqn files varying number of threads
 for nThreads in range(3, 31, 3):
-    writeLQNFile(1000, nThreads)    
-    
-# Execute DiffLQN in all .lqn files (thus producing all csv files)    
-bashCommand = "for f in *.lqn; do java -jar DiffLQN.jar $f; done"
-process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
-output, error = process.communicate()
+    writeLQNFile(1000, nThreads)
