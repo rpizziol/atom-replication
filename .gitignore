@@ -132,3 +132,4 @@ dmypy.json
 *.jar
 *.csv
 *.lqn
+*.png
