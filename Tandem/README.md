@@ -18,6 +18,6 @@ python diffLQN-tandem-lqn-producer.py
 
 ## Authors
 
-* **Roberto Pizziol** - *Tandem LQNs Project* - [rpizziol](https://github.com/rpizziol/)
+* **Roberto Pizziol** - *Tandem LQN Project* - [rpizziol](https://github.com/rpizziol/)
 
 
