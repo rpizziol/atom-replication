@@ -131,7 +131,4 @@ dmypy.json
 # DiffLQN
 *.jar
 *.png
-
-# Hide csv files accidentally in the wrong folder
-Tandem/DiffLQN/lqns/*.csv
-Tritask/DiffLQN/lqns/*.csv
+*.csv
