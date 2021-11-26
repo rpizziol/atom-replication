@@ -9,12 +9,18 @@ z2 = zeros(10,1);  % Array of throughputs wrt to varying number of clients
 % Vary the number of threads
 for i = 1:length(x1)
     z1(i) = getThroughput(1000, x1(i));
+    fprintf("Step %i\n", i)
 end
+
+disp("Matlab by number of threads done.");
 
 % Vary the number of clients
 for i = 1:length(x2)
     z2(i) = getThroughput(x2(i), 10);
+    fprintf("Step %i\n", i)
 end
+
+disp("Matlab by number of clients done.");
 
 % Througputs obtained by means of DiffLQN
 s2 = zeros(10,1);

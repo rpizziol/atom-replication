@@ -1,14 +1,14 @@
 # Processors declaration, with multiplicity 
 P 0
-p ProcClient f m 200 
+p ProcClient f m 1000 
 p ProcRouter f m 1
 p ProcFrontend f m 1
 -1
 
 # Tasks declaration
 T 0
-t ClientTask r BrowseEntry -1 ProcClient m 200
-t RouterTask n AddressEntry -1 ProcRouter m 10
+t ClientTask r BrowseEntry -1 ProcClient m 1000
+t RouterTask n AddressEntry -1 ProcRouter m 9
 t FrontendTask n HomeEntry CatalogEntry CartsEntry -1 ProcFrontend m 10
 -1
 

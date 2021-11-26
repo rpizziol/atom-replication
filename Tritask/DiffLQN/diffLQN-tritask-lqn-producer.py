@@ -46,14 +46,14 @@ s CartsEntry 0.0051 -1
 #! export csv"""
 
 
-    with open(f"./lqns/tandem-qn-c{nClients}-t{nThreads}.lqn", "w") as text_file:
+    with open(f"./lqns/tritask-qn-c{nClients}-t{nThreads}.lqn", "w") as text_file:
         text_file.write(s)
 
 
 # Produce .lqn files varying number of clients
 for nClients in range(100, 1001, 100):
-    writeLQNFile(nClients, 10)
+   writeLQNFile(nClients, 10)
 
 # Produce .lqn files varying number of threads
-# for nThreads in range(3, 31, 3):
-#    writeLQNFile(1000, nThreads)
+for nThreads in range(3, 31, 3):
+   writeLQNFile(1000, nThreads)
