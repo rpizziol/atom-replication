@@ -1,0 +1,2 @@
+rm ./lqns/*
+rm ./csvs/*

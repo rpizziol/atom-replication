@@ -1,18 +1,18 @@
 # Processors declaration, with multiplicity 
 P 0
-p ProcClient f m 1000 
+p ProcClient f m 500 
 p ProcRouter f m 1
 -1
 
 # Tasks declaration
 T 0
-t ClientTask r BrowseEntry -1 ProcClient m 1000 # 1000 client tasks running on client processors
-t RouterTask n AddressEntry -1 ProcRouter m 9  #   9 server tasks running on server processors
+t ClientTask r BrowseEntry -1 ProcClient m 500   # 500 client tasks running on client processors
+t RouterTask n AddressEntry -1 ProcRouter m 10  #   10 server tasks running on server processors
 -1
 
 # Entries declaration
 E 0
-s BrowseEntry 1 -1     		    # entry BrowseEntry has time demand 1 time units
+s BrowseEntry 1 -1     		        # entry BrowseEntry has time demand 1 time units
 y BrowseEntry AddressEntry 1.0 -1   # entry BrowseEntry makes a synchronous call to AddressEntry 
 s AddressEntry 0.0012 -1            # entry AddressEntry has time demand 0.0012 time units
 -1
