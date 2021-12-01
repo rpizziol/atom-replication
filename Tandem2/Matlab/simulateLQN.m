@@ -1,11 +1,11 @@
 
 %{
-% Simulate the first 3 tasks of the ATOM LQN.
+% Simulate any LQN identified by the following parameters.
 % @param X0     Initial state vector
 % @param S      Number of threads and cores
 % @param P      Routing probabilities
 % @param MU     Service rates
-% @param TF     Tempo fine
+% @param TF     Time frame
 % @param rep    Number of repetitions
 % @param dt     Sampling step
 % @param delta  Context switch rate
