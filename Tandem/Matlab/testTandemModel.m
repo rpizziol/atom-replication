@@ -21,14 +21,22 @@ parfor i = 1:n_steps
     fprintf("Step %i: cli = %5.f, thr = %5.f\n", i, x_clients(i), y_Xbro(i));
 end
 disp("Throughput by number of clients done.");
-    
+
+% --- DiffLQN IMPLEMENTATION ---
+% (Run DiffLQN separately, retreive data from csvs here)
+filename = strcat('../DiffLQN/csvs/max', int2str(x_clients_max), 'steps',...
+    int2str(n_steps), '.csv');
+csvMatrix = readmatrix(filename);
+y_DiffLQN = csvMatrix(:, 2);
+
+% TODO add plot in case DiffLQN version is not available
 % --- PLOT ---
 h = figure;
-plot(x_clients, y_Xbro);
-legend('Matlab', 'Location', 'best');
+plot(x_clients, y_Xbro, x_clients, y_DiffLQN, '--');
+legend('Matlab', 'DiffLQN', 'Location', 'best');
 grid on;
 xlabel('nClients');
 ylabel('throughput');
 ylim([0, x_clients_max]);
 title('Xbro')
-print(h, strcat('./res/Matlab_XbroThroughputByClients', int2str(x_clients_max)), '-dpng','-r400'); 
+print(h, strcat('./res/max', int2str(x_clients_max), 'steps', int2str(n_steps)), '-dpng','-r400'); 
