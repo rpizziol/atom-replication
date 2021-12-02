@@ -3,7 +3,7 @@ import csv
 
 # TODO add this file to the main Python script
 maxClients = 1001
-steps = 10
+steps = 5
 stepSize = (maxClients-1)//steps
 
 # Merge all data in one file
