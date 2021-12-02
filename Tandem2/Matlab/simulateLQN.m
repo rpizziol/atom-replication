@@ -11,6 +11,7 @@
 % @param delta  Context switch rate
 % @param stoich_matrix The stoichiometric matrix
 % @param pfun   The function of the propensities
+% @return X     The average state vector over time (2-dimensional matrix)
 %}
 function X = simulateLQN(X0, S, P, MU, TF, rep, dt, delta, stoich_matrix, pfun)
     import Gillespie.*
@@ -51,4 +52,5 @@ function X = simulateLQN(X0, S, P, MU, TF, rep, dt, delta, stoich_matrix, pfun)
         tsout = resample(tsin, linspace(0, TF, ceil(TF/dt) + 1), 'zoh');
         X(:, :, i) = tsout.Data';
     end
+    X = mean(X,3); % Mediate all repetitions (simulations)
 end
