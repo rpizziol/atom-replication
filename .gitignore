@@ -131,6 +131,7 @@ dmypy.json
 # DiffLQN
 *.jar
 *.png
+*.jpg
 *.csv
 
 # Matlab
