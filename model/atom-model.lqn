@@ -1,9 +1,9 @@
 G
-"roberto.lqn"
-0.01
-10000000
+"atom-model.lqn"
+0.00001
+100
 1
-0.5
+0.999
 -1
 
 # Processors declaration, with multiplicity 
@@ -31,8 +31,8 @@ s e2 1 -1
 s e3 1 -1
 #y BrowseEntry e1 1.0 -1
 #y BrowseEntry e2 1.0 -1
-z e1 e3 1.0 -1
-z e2 e3 1.0 -1
+y e1 e3 1.0 -1
+y e2 e3 1.0 -1
 -1
 
 A Client
