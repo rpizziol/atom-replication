@@ -1,34 +1,32 @@
-import subprocess
-
-def writeLQNFile(nClients):
-    s = f"""G
-"Tandem+"
+G
+"Tandem2"
 0.01
-10000000
+10000
 1
 0.5
 -1    
     
 # Processors declaration, with multiplicity 
 P 0
-p ProcA f m {nClients} 
-p ProcB f m 10
+p Proc0 f m 200
+p ProcA f m 200
+p ProcB f m 1
 -1
 
 # Tasks declaration
 T 0
-t TaskA r EntryA -1 ProcA m {nClients}
+t Task0 r Entry0 -1 Proc0 m 200
+t TaskA n EntryA -1 ProcA m 200
 t TaskB n EntryB1 EntryB2 -1 ProcB m 10
 -1
 
 # Entries declaration
 E 0
-s EntryA 1.0 -1
+s Entry0 1.0 -1
 s EntryB1 0.0012 -1
-s EntryB2 0.0037 -1
-A TaskA source
-y EntryA EntryB1 1.0 -1
-y EntryA EntryB2 1.0 -1
+s EntryB2 0.0021 -1
+A EntryA source
+y Entry0 EntryA 1.0 -1
 -1
 
 # Activities definition
@@ -55,19 +53,7 @@ A TaskA
 #! confidence_percent_error 0.1
 
 # 2. Output settings 
-#! throughput: EntryA EntryB1 EntryB2 -1
+#! throughput: Entry0 -1
 
 # 3. Export settings
-#! export csv"""
-
-    with open(f"./lqns/tandem+-qn-c{nClients}.lqn", "w") as text_file:
-        text_file.write(s)
-
-
-# Produce .lqn files varying number of clients
-for nClients in range(100, 1001, 100):
-    writeLQNFile(nClients)
-
-# Produce .lqn files varying number of threads
-#for nThreads in range(3, 31, 3):
-#    writeLQNFile(1000, nThreads)
+#! export csv

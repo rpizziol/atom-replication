@@ -2,7 +2,7 @@ function X = runTandem2Model(nClients, TF, dt)
     % Number of processor cores for each task
     NC_taskB = 1;
     NT_taskB = 10;
-    % NT_taskA = 10; % Actually infinite, unused
+    % NT_taskA = inf; % Unused
     
     S = [NT_taskB, NC_taskB];
     
