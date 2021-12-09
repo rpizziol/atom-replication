@@ -61,5 +61,5 @@ A Client
 #! throughput: BrowseEntry e1 e2 e3 -1 #
 
 # 3. Export settings
-#! export csv
+#! export matlab
 
