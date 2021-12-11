@@ -1,15 +1,28 @@
 clear
 
-X0=[50,0,0,0,0,0,0,0,0,4,3,11];
-rep=1;
-TF=2000;
-dt=10^-2;
-MU=[1,1,1,1];
+X0=zeros(1,13);
+X0(13)=200;
 
-X = poc(X0,MU, TF, rep, dt);
+MU=zeros(1,13);
+MU(5)=100;
+MU(8)=100;
+MU(11)=100;
+MU(12)=100;
+MU(13)=1;
+NC=[1,1,1];
+NT=[inf,inf,inf];
+%1=Client;
+%2=Router;
+%3=Front_end;
+
+rep=10;
+TF=100;
+dt=10^-3;
+
+X = simple_lqn(X0,MU,NT,NC,TF,rep,dt);
 Xm=mean(X,3);
 
-XCs=cumsum(Xm(1,2:end));
+XCs=cumsum(Xm(end,2:end));
 T=linspace(1,ceil(TF/dt),ceil(TF/dt));
 
 

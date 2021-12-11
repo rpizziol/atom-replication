@@ -53,7 +53,7 @@ if __name__ == '__main__':
     
     
     lqn2crn=LQN_CRN()
-    lqn2crn.getCrn({"task":[cTask,routerTask,feTask]})
+    lqn2crn.getCrn({"task":[cTask,routerTask,feTask],"name":"simple_lqn"})
     
-    print(lqn2crn.names)
-    print(np.matrix(lqn2crn.Jumps))
+    lqn2crn.toMatlab()
+    
