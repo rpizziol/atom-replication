@@ -37,7 +37,12 @@ class lqnsValidator(Validator):
         lqnf.write(model)
         lqnf.close()
         
-        subprocess.check_call(["lqns",self.modelDirPath/"lqn.lqn"])
+        try:
+            subprocess.check_call(["lqsim",self.modelDirPath/"lqn.lqn"])
+        except:
+            subprocess.check_call(["lqns",self.modelDirPath/"lqn.lqn"])
+            
+            
         return self.getRes()
     
     def getRes(self):
