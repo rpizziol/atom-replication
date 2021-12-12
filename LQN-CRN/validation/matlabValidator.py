@@ -30,10 +30,12 @@ class matlabValidator(Validator):
         self.matEng.cd(str(self.modelDirPath.absolute()))
     
     def solveModel(self, X0, MU, NT, NC,dt,TF=None, rep=None):
+        
+        self.matEng.clear
         e=np.infty
         
         #dimensione di un batch
-        K=10
+        K=30
         #numrto di batch
         N=30
         B=[]
