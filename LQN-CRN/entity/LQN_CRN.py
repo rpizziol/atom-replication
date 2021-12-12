@@ -10,6 +10,7 @@ from entity import SynchCall
 import numpy as np
 import json
 from jinja2 import Environment, PackageLoader, select_autoescape
+from pathlib import Path
 
 
 class LQN_CRN():
@@ -203,13 +204,15 @@ class LQN_CRN():
         y = json.dumps(crn)
         print(y)
     
-    def toMatlab(self):
+    def toMatlab(self,outDir=None):
+        if(outDir==None):
+            outDir="../model"
+            
         env = Environment(
             loader=PackageLoader('trasducer', 'templates'),
             autoescape=select_autoescape(['html', 'xml']),
             trim_blocks=False,
-            lstrip_blocks=False
-            )
+            lstrip_blocks=False)
         
         tname=[t.name for t in self.lqn["task"]]
         
@@ -229,6 +232,11 @@ class LQN_CRN():
         mat_tmpl = env.get_template('model-tpl.m')
         model=mat_tmpl.render(task=self.lqn["task"],name=self.lqn["name"],
               names=self.names,props=mprops,jumps=self.Jumps)
-        mfid=open("../model/%s.m"%(self.lqn["name"]),"w+")
+        
+        outd = Path(outDir)
+        outd=outd/self.lqn["name"]
+        outd.mkdir(parents=True, exist_ok=True)
+        
+        mfid=open("%s/lqn.m"%str(outd.absolute()),"w+")
         mfid.write(model)
         mfid.close()

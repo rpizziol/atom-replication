@@ -4,14 +4,7 @@ Created on 8 dic 2021
 @author: emilio
 '''
 
-import numpy as np
-from entity import Activity
-from entity import Entry
-from entity import SynchCall
-from entity import Task
-from entity import LQN_CRN
-
-
+from entity import *
         
 if __name__ == '__main__':
     
