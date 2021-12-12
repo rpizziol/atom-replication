@@ -43,7 +43,7 @@ class matlabValidator(Validator):
             X = self.matEng.lqn(matlab.double(X0),matlab.double(MU),
                           matlab.double(NT),matlab.double(NC),K*(N+1)*dt, 1, dt)
             X=np.array(X)
-            X0=X[:,-1].tolist()
+            X0=int(X[:,-1]).tolist()
             
             if(len(B)>0):
                 B=np.vstack((B,np.array([X[-1,K*n:K*(n+1)].tolist() for n in range(N+1)])))
