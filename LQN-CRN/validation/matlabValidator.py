@@ -39,7 +39,7 @@ class matlabValidator(Validator):
         #numrto di batch
         N=30
         B=[]
-        while(e>0.3*10**-1):
+        while(e>0.5*10**-1):
             X = self.matEng.lqn(matlab.double(X0),matlab.double(MU),
                           matlab.double(NT),matlab.double(NC),K*(N+1)*dt, 1, dt)
             X=np.array(X)

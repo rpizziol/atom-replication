@@ -90,7 +90,7 @@ class LQN_CRN():
                 if(idx == 0):
                     # TBD propensity delle reazioni che si sincronizzano con un thread libero#
                     prop = "X%s_a/(%s)" % (act.parentEntry.name, "+".join(["X%s_a" % (e.name) for e in act.parentEntry.parentTask.entries]))
-                    prop += "*D*min(%s,NT[\"%s\"]-%s)" % ("+".join(["X%s_a" % (e.name) for e in act.parentEntry.parentTask.entries]),
+                    prop += "*D*min(%s,NT[\"%s\"]-(%s))" % ("+".join(["X%s_a" % (e.name) for e in act.parentEntry.parentTask.entries]),
                                            act.parentEntry.parentTask.name,
                                            "+".join(["X%s_%s" % (a.parentEntry.name, a.name) for e in act.parentEntry.parentTask.entries for a in e.getActivities()]))
                 else:
