@@ -84,11 +84,11 @@ if __name__ == '__main__':
     
         e.append(abs(T_mat[-1]-Tclient[-1])*100/Tclient[-1])
     
-    plt.figure()
-    plt.stem(Tclient,linefmt="b", markerfmt="bo",label="lqns")
-    plt.stem(T_mat,linefmt="g", markerfmt="go",label="matlb")
-    plt.legend()
-    plt.show()
+    # plt.figure()
+    # plt.stem(Tclient,linefmt="b", markerfmt="bo",label="lqns")
+    # plt.stem(T_mat,linefmt="g", markerfmt="go",label="matlb")
+    # plt.legend()
+    # plt.show()
     
     print(e)
     print(Tclient)
