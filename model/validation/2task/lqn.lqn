@@ -1,23 +1,23 @@
 G
 "simlple_lqn.lqn"
-0.0001
-1000000
+0.001
+10000
 1
 0.9
 -1
 
 # Processors declaration, with multiplicity 
 P 0
-p ProcClient f m 19 
-p ProcT1 f m 28
-p ProcT2 f m 10 
+p ProcClient f m 258 
+p ProcT1 f m 386
+p ProcT2 f m 296 
 -1
 
 # Tasks declaration
 T 0
-t Client r BrowseEntry -1 ProcClient m 19
-t T1 n e1 -1 ProcT1 m 34
-t T2 n e2 -1 ProcT2 m 14
+t Client r BrowseEntry -1 ProcClient m 258
+t T1 n e1 -1 ProcT1 m 505
+t T2 n e2 -1 ProcT2 m 264
 -1
 
 # Entries declaration

@@ -11,6 +11,7 @@ import scipy.stats as st
 from validation import Validator
 from jinja2 import Environment, PackageLoader, select_autoescape, FileSystemLoader
 import re
+from sys import platform
 
 
 class lqnsValidator(Validator):
@@ -37,10 +38,13 @@ class lqnsValidator(Validator):
         lqnf.write(model)
         lqnf.close()
         
-        try:
+        if platform == "linux" or platform == "linux2" or platform == "win32":
+            # linux
             subprocess.check_call(["lqsim",self.modelDirPath/"lqn.lqn"])
-        except:
+        elif platform == "darwin":
+            # OS X
             subprocess.check_call(["lqns",self.modelDirPath/"lqn.lqn"])
+           
             
             
         return self.getRes()
