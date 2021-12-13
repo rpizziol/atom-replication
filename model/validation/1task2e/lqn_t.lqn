@@ -9,7 +9,7 @@ G
 # Processors declaration, with multiplicity 
 P 0
 p ProcClient f i 
-p ProcT1 s m {{nc[1]}}
+p ProcT1 p m {{nc[1]}}
 -1
 
 # Tasks declaration
