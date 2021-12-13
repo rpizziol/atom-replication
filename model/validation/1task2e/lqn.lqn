@@ -8,7 +8,7 @@ G
 
 # Processors declaration, with multiplicity 
 P 0
-p ProcClient s m 104 
+p ProcClient i m 104 
 p ProcT1 s m 10
 -1
 
