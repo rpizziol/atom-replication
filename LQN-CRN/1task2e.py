@@ -57,14 +57,14 @@ if __name__ == '__main__':
     Tclient=[]
     e=[]
     
-    for i in range(10):
+    for i in range(1):
     
-        X0[-1] = np.random.randint(low=10,high=300)
+        X0[-1] = 104
         MU[2] = 1
         MU[5] = 1
         MU[6] = 1
-        NC[1] = np.random.randint(low=int(X0[-1]/2),high=X0[-1]*2)
-        NT[1] = np.random.randint(low=int(X0[-1]/2),high=X0[-1]*2)
+        NC[1] = 58
+        NT[1] = 119
     
         print(X0[-1],NC[1:],NT[1:])
     
