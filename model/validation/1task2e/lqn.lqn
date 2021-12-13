@@ -8,16 +8,14 @@ G
 
 # Processors declaration, with multiplicity 
 P 0
-p ProcClient f m 36 
-p ProcT1 f m 14
-p ProcT2 f m 96 
+p ProcClient f m 162 
+p ProcT1 f m 255
 -1
 
 # Tasks declaration
 T 0
-t Client r BrowseEntry -1 ProcClient m 36
-t T1 n e1 -1 ProcT1 m 33
-t T2 n e2 -1 ProcT2 m 72
+t Client r BrowseEntry -1 ProcClient m 162
+t T1 n e1 e2 -1 ProcT1 m 275
 -1
 
 # Entries declaration
@@ -26,7 +24,7 @@ s BrowseEntry 1 -1
 s e1 1 -1
 s e2 1 -1
 y BrowseEntry e1 1.0 -1
-y e1 e2 1.0 -1
+y BrowseEntry e2 1.0 -1
 -1
 
 # DiffLQN settings, starting with #! 
