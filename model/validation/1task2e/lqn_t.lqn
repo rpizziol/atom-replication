@@ -8,7 +8,7 @@ G
 
 # Processors declaration, with multiplicity 
 P 0
-p ProcClient i m {{nuser}} 
+p ProcClient f i 
 p ProcT1 s m {{nc[1]}}
 -1
 
