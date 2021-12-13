@@ -8,8 +8,8 @@ G
 
 # Processors declaration, with multiplicity 
 P 0
-p ProcClient f m 104 
-p ProcT1 f m 58
+p ProcClient s m 104 
+p ProcT1 s m 10
 -1
 
 # Tasks declaration
@@ -32,7 +32,7 @@ y BrowseEntry e2 1.0 -1
 
 # 1. Solver settings
 #! v 1.0e5           	# fast rate to approximate instantaneous events
-#! solver ode        	# ODE analysis - solver sim will run simulation
+#! solver sim        	# ODE analysis - solver sim will run simulation
 #! stoptime 1000.0   	# integration time horizon
 #! confidence_level 0.95
 #! confidence_percent_error 0.1
@@ -41,4 +41,4 @@ y BrowseEntry e2 1.0 -1
 #! throughput: BrowseEntry e1 e2 -1 #
 
 # 3. Export settings
-#! export matlab
+#! export csv
