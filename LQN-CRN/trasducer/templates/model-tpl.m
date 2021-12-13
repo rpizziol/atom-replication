@@ -53,5 +53,5 @@ end
 function Rate = propensities_2state(X, p)
     Rate = [{% for p in props %}{{p}};
     		{% endfor %}];
-     Rate(isnan(Rate))=0;
+    Rate(isnan(Rate))=0;
 end

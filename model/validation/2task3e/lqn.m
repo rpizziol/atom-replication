@@ -83,5 +83,5 @@ function Rate = propensities_2state(X, p)
     		X(9)/(X(9))*X(11)/(X(5)+X(8)+X(11))*min(X(11),p.NC(3))*p.MU(11);
     		X(1)/(X(1))*X(12)/(X(12))*min(X(12),p.NC(2))*p.MU(12);
     		];
-     Rate(isnan(Rate))=0;
+    Rate(isnan(Rate))=0;
 end

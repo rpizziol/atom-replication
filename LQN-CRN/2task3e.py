@@ -68,15 +68,16 @@ if __name__ == '__main__':
     Tclient = []
     e = []
     
-    for i in range(2):
+    for i in range(3):
     
         X0[-1] = np.random.randint(low=10, high=300)
-        MU[4] = 1
-        MU[7] = 1
-        MU[10] = 1
-        MU[11] = 1
+        MU[4] = 1 #XHome_e
+        MU[7] = 1 #XCatalog_e
+        MU[10] = 1 #XCart_e
+        MU[11] = 1 #XAddress_e
+        MU[12] = 1 #XBrowse_browse
         NC[0] = -1
-        NC[1] = np.random.randint(low=int(X0[-1] / 3), high=X0[-1] * 3)
+        NC[1] = 1
         NC[2] = np.random.randint(low=int(X0[-1] / 3), high=X0[-1] * 3)
         NT[0] = -1
         NT[1] = np.random.randint(low=int(X0[-1] / 3), high=X0[-1] * 3)
