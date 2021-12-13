@@ -77,7 +77,7 @@ if __name__ == '__main__':
         MU[11] = 1 #XAddress_e
         MU[12] = 1 #XBrowse_browse
         NC[0] = -1
-        NC[1] = 1
+        NC[1] = np.random.randint(low=int(X0[-1] / 3), high=X0[-1] * 3)
         NC[2] = np.random.randint(low=int(X0[-1] / 3), high=X0[-1] * 3)
         NT[0] = -1
         NT[1] = np.random.randint(low=int(X0[-1] / 3), high=X0[-1] * 3)
