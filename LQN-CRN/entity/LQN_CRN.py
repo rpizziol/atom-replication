@@ -82,7 +82,6 @@ class LQN_CRN():
         
             self.Jumps.append(jump)
         
-        
         if(self.genProp):
             # qui stabilisco la propensity di questa reazione
             prop = None
@@ -204,9 +203,9 @@ class LQN_CRN():
         y = json.dumps(crn)
         print(y)
     
-    def toMatlab(self,outDir=None):
-        if(outDir==None):
-            outDir="../model"
+    def toMatlab(self, outDir=None):
+        if(outDir == None):
+            outDir = "../model"
             
         env = Environment(
             loader=PackageLoader('trasducer', 'templates'),
@@ -214,29 +213,29 @@ class LQN_CRN():
             trim_blocks=False,
             lstrip_blocks=False)
         
-        tname=[t.name for t in self.lqn["task"]]
+        tname = [t.name for t in self.lqn["task"]]
         
-        mprops=[]
+        mprops = []
         for p in self.props:
-            np=p
+            np = p
             for tn in tname:
-                np=np.replace("NC[\"%s\"]"%(tn),"p.NC(%d)"%(tname.index(tn)+1))
-                np=np.replace("NT[\"%s\"]"%(tn),"p.NT(%d)"%(tname.index(tn)+1))
-                np=np.replace("D","p.delta")
+                np = np.replace("NC[\"%s\"]" % (tn), "p.NC(%d)" % (tname.index(tn) + 1))
+                np = np.replace("NT[\"%s\"]" % (tn), "p.NT(%d)" % (tname.index(tn) + 1))
+                np = np.replace("D", "p.delta")
             for vname in self.names:
-                np=np.replace("MU[\"%s\"]"%(vname),"p.MU(%d)"%(self.names.index(vname)+1))
+                np = np.replace("MU[\"%s\"]" % (vname), "p.MU(%d)" % (self.names.index(vname) + 1))
             for vname in self.names:
-                np=np.replace(vname,"X(%d)"%(self.names.index(vname)+1))
+                np = np.replace(vname, "X(%d)" % (self.names.index(vname) + 1))
             mprops.append(np)
         
         mat_tmpl = env.get_template('model-tpl.m')
-        model=mat_tmpl.render(task=self.lqn["task"],name=self.lqn["name"],
-              names=self.names,props=mprops,jumps=self.Jumps)
+        model = mat_tmpl.render(task=self.lqn["task"], name=self.lqn["name"],
+              names=self.names, props=mprops, jumps=self.Jumps)
         
         outd = Path(outDir)
-        outd=outd/self.lqn["name"]
+        outd = outd / self.lqn["name"]
         outd.mkdir(parents=True, exist_ok=True)
         
-        mfid=open("%s/lqn.m"%str(outd.absolute()),"w+")
+        mfid = open("%s/lqn.m" % str(outd.absolute()), "w+")
         mfid.write(model)
         mfid.close()
