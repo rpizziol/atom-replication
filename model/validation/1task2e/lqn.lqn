@@ -9,13 +9,13 @@ G
 # Processors declaration, with multiplicity 
 P 0
 p ProcClient f i 
-p ProcT1 f m 201
+p ProcT1 f m 106
 -1
 
 # Tasks declaration
 T 0
-t Client r BrowseEntry -1 ProcClient m 250
-t T1 n e1 e2 -1 ProcT1 m 221
+t Client r BrowseEntry -1 ProcClient m 200
+t T1 n e1 e2 -1 ProcT1 m 173
 -1
 
 # Entries declaration
