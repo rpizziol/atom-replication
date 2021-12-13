@@ -36,10 +36,10 @@ if __name__ == '__main__':
     browse.getActivities().append(SynchCall(dest=Addr2, parentEntry=browse, name="2Address2"))
     browse.getActivities().append(Activity(stime=1.0, parentEntry=browse, name="browse"))
     
-    # lqn2crn = LQN_CRN()
-    # lqn2crn.getCrn({"task":[cTask, Router], "name":"1task2e"})
-    #
-    # lqn2crn.toMatlab(outDir="../model/validation")
+    lqn2crn = LQN_CRN()
+    lqn2crn.getCrn({"task":[cTask, Router], "name":"1task2e"})
+    
+    lqn2crn.toMatlab(outDir="../model/validation")
     
     # validate the model against lqns#
     matV = matlabValidator("../model/validation/1task2e/lqn.m")
@@ -59,12 +59,12 @@ if __name__ == '__main__':
     
     for i in range(1):
     
-        X0[-1] = 104
+        X0[-1] = np.random.randint(low=10,high=300)
         MU[2] = 1
         MU[5] = 1
         MU[6] = 1
-        NC[1] = 119
-        NT[1] = 10
+        NC[1] = np.random.randint(low=10,high=300)
+        NT[1] = np.random.randint(low=10,high=300)
     
         print(X0[-1],NC[1:],NT[1:])
     

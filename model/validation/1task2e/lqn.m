@@ -22,7 +22,7 @@ end
 p.MU = MU; 
 p.NT = NT;
 p.NC = NC;
-p.delta = 10^10; % context switch rate (super fast)
+p.delta = 10^5; % context switch rate (super fast)
 
 %states name
 %X(1)=XBrowse_2Address1;
@@ -42,8 +42,7 @@ p.delta = 10^10; % context switch rate (super fast)
 % Jump matrix
 stoich_matrix=[+1,  +1,  +0,  +0,  +0,  +0,  -1;
                +0,  -1,  +1,  +0,  +0,  +0,  +0;
-               -1,  +0,  -1,  +0,  +0,  +0,  +1;
-               +0,  +0,  +0,  +1,  +1,  +0,  -1;
+               -1,  +0,  -1,  +1,  +1,  +0,  +0;
                +0,  +0,  +0,  +0,  -1,  +1,  +0;
                +0,  +0,  +0,  -1,  +0,  -1,  +1;
                ];
@@ -63,12 +62,11 @@ end
 
 % Propensity rate vector (CTMC)
 function Rate = propensities_2state(X, p)
-    Rate = [0.5*p.MU(7)*X(7);
+    Rate = [p.MU(7)*X(7);
     		X(2)/(X(2)+X(5))*p.delta*min(X(2)+X(5),p.NT(2)-(X(3)+X(6)));
-    		X(1)/(X(1))*X(3)/(X(3)+X(6))*min(X(3),p.NC(2))*p.MU(3);
-            0.5*p.MU(7)*X(7);
+    		X(1)/(X(1))*X(3)/(X(3)+X(6))*min(X(3)+X(6),p.NC(2))*p.MU(3);
     		X(5)/(X(2)+X(5))*p.delta*min(X(2)+X(5),p.NT(2)-(X(3)+X(6)));
-    		X(4)/(X(4))*X(6)/(X(3)+X(6))*min(X(6),p.NC(2))*p.MU(6);
+    		X(4)/(X(4))*X(6)/(X(3)+X(6))*min(X(3)+X(6),p.NC(2))*p.MU(6);
     		];
     Rate(isnan(Rate))=0;
 end

@@ -111,7 +111,7 @@ class LQN_CRN():
                                                                 "+".join(callingAct),
                                                                 rsyncName,
                                                                 "+".join(["X%s_e" % (e.name) for e  in synA.parentEntry.parentTask.entries]),
-                                                                rsyncName,
+                                                                "+".join(["X%s_e" % (e.name) for e  in synA.parentEntry.parentTask.entries]),
                                                                 synA.parentEntry.parentTask.name
                                                                 , rsyncName)
                     
@@ -139,7 +139,7 @@ class LQN_CRN():
                                                                 "+".join(callingAct),
                                                                 rsyncName,
                                                                 "+".join(["X%s_e" % (e.name) for e  in synA.parentEntry.parentTask.entries]),
-                                                                rsyncName,
+                                                                "+".join(["X%s_e" % (e.name) for e  in synA.parentEntry.parentTask.entries]),
                                                                 synA.parentEntry.parentTask.name
                                                                 , rsyncName)
             
