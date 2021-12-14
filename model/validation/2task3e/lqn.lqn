@@ -8,16 +8,16 @@ G
 
 # Processors declaration, with multiplicity 
 P 0
-p ProcClient f m 109 
-p ProcT1 f m 45
-p ProcT2 f m 136 
+p ProcClient f m 76 
+p ProcT1 f m 66
+p ProcT2 f m 218 
 -1
 
 # Tasks declaration
 T 0
-t Client r BrowseEntry -1 ProcClient m 109
-t T1 n e1 -1 ProcT1 m 301
-t T2 n e2 e3 e4 -1 ProcT2 m 99
+t Client r BrowseEntry -1 ProcClient m 76
+t T1 n e1 -1 ProcT1 m 79
+t T2 n e2 e3 e4 -1 ProcT2 m 216
 -1
 
 # Entries declaration

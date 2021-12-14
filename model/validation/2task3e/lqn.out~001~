@@ -5,7 +5,7 @@ Carleton University, Ottawa, Ontario, Canada. K1S 5B6
 
 Invoked as: lt-lqsim ../model/validation/2task3e/lqn.lqn
 Input:  ../model/validation/2task3e/lqn.lqn
-Mon Dec 13 20:55:58 2021
+Tue Dec 14 13:18:39 2021
 
 Comment: simlple_lqn.lqn
 
@@ -13,29 +13,29 @@ Convergence test value: 0
 Number of iterations:   1
 
 Pragma:
-    seed-value=1639428937
+    seed-value=1639487910
 
 Solver: b1efb68c3442 Linux 3.10.0-693.11.1.el7.x86_64
-    User:        0:34:03.000
+    User:        0:14:33.000
     System:      0:00:02.000
-    Elapsed:     0:34:07.000
+    Elapsed:     0:14:35.000
 
 
 
 Processor identifiers and scheduling algorithms:
 
 Processor Name  Type    Copies  Scheduling
-ProcClient      Mult(167) 1     FCFS
-ProcT1          Mult(363) 1     FCFS
-ProcT2          Mult(90)  1     FCFS
+ProcClient      Mult(76)  1     FCFS
+ProcT1          Mult(66)  1     FCFS
+ProcT2          Mult(218) 1     FCFS
 
 
 Task information:
 
 Task Name       Type    Copies  Processor Name  Pri Entry List
-Client          Ref(167)  1     ProcClient      0   BrowseEntry
-T1              Mult(326) 1     ProcT1          0   e1
-T2              Mult(396) 1     ProcT2          0   e2, e3, e4
+Client          Ref(76)   1     ProcClient      0   BrowseEntry
+T1              Mult(79)  1     ProcT1          0   e1
+T2              Mult(216) 1     ProcT2          0   e2, e3, e4
 
 
 Entry execution demands:
@@ -83,18 +83,18 @@ Mean delay for a rendezvous:
 
 Task Name       Source Entry    Target Entry    Phase 1     
 Client          BrowseEntry     e1              0            
-T1              e1              e2              2.41197e-07  
-                e1              e3              2.06349e-07  
-                e1              e4              2.31024e-07  
+T1              e1              e2              0            
+                e1              e3              0            
+                e1              e4              0            
 
 
 Variance of delay for a rendezvous:
 
 Task Name       Source Entry    Target Entry    Phase 1     
 Client          BrowseEntry     e1              0            
-T1              e1              e2              5.94897e-09  
-                e1              e3              5.74609e-09  
-                e1              e4              8.07463e-09  
+T1              e1              e2              0            
+                e1              e3              0            
+                e1              e4              0            
 
 
 Variance of delay for a send-no-reply request:
@@ -105,51 +105,51 @@ Task Name       Source Entry    Target Entry    Phase 1
 Service times:
 
 Task Name       Entry Name      Phase 1     
-Client          BrowseEntry     5.56621     
-T1              e1              4.55905     
-T2              e2              1.18801     
-                e3              1.18881     
-                e4              1.18986     
+Client          BrowseEntry     5.01187     
+T1              e1              4.00984     
+T2              e2              0.999997    
+                e3              1.00067     
+                e4              1.00151     
 
 
 Service time variance (per phase)
 and squared coefficient of variation (over all phases):
 
 Task Name       Entry Name      Phase 1     coeff of var **2
-Client          BrowseEntry     80.0242     2.58287     
-T1              e1              28.1275     1.35327     
-T2              e2              1.00523     0.712238    
-                e3              1.0077      0.713026    
-                e4              1.01179     0.71466     
+Client          BrowseEntry     63.6284     2.5331      
+T1              e1              22.17       1.37884     
+T2              e2              0.999107    0.999113    
+                e3              1.00025     0.99891     
+                e4              1.00085     0.997831    
 
 
 Throughputs and utilizations per phase:
 
 Task Name       Entry Name      Throughput  Phase 1     Total       
-Client          BrowseEntry     29.9969     167         167
-T1              e1              30.04       136.967     136.967
-T2              e2              29.9782     35.615      35.615
-                e3              29.9919     35.6557     35.6557
-                e4              30.0012     35.6979     35.6979
-Total:                          89.9713     106.969     106.969
+Client          BrowseEntry     15.1615     76          76
+T1              e1              15.1731     60.8467     60.8467
+T2              e2              15.1876     15.1879     15.1879
+                e3              15.1936     15.204      15.204
+                e4              15.2279     15.2513     15.2513
+Total:                          45.6091     45.6431     45.6431
 
 
 Utilization and waiting per phase for processor:  ProcClient
 
 Task Name       Pri n   Entry Name      Utilization Phase 1     
-Client          0   167 BrowseEntry     30.0329     0           
+Client          0   76  BrowseEntry     15.1533     0           
 
 
 Utilization and waiting per phase for processor:  ProcT1
 
 Task Name       Pri n   Entry Name      Utilization Phase 1     
-T1              0   326 e1              29.9985     0           
+T1              0   79  e1              15.2035     0           
 
 
 Utilization and waiting per phase for processor:  ProcT2
 
 Task Name       Pri n   Entry Name      Utilization Phase 1     
-T2              0   396 e2              29.9445     0.189152    
-                        e3              29.9863     0.189025    
-                        e4              30.0231     0.18915     
-Task Total:                             89.9539     
+T2              0   216 e2              15.1879     0           
+                        e3              15.204      0           
+                        e4              15.2513     0           
+Task Total:                             45.6431     
