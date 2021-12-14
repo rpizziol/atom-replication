@@ -6,9 +6,11 @@ Created on 8 dic 2021
 
 from entity import *
 from validation import lqnsValidator
+from validation import pyValidator
 from validation import matlabValidator
 import matplotlib.pyplot as plt
 import numpy as np
+from pathlib import Path
         
 if __name__ == '__main__':
     
@@ -50,25 +52,24 @@ if __name__ == '__main__':
     lqn2crn = LQN_CRN()
     lqn2crn.getCrn({"task":[cTask, Router, Front_end], "name":"2task3e"})
     
-    lqn2crn.toMatlab(outDir="../model/validation")
+    lqn2crn.toMatlab(outDir="../model/validation/")  
+    modelPath=Path("../model/validation/2task3e/lqn.m")
     
     # validate the model against lqns#
-    matV = matlabValidator("../model/validation/2task3e/lqn.m")
+    matV = matlabValidator(modelPath)
+    #pyV=pyValidator.pyValidator(str(modelDirPath/"lqn.py"))
     lqnV = lqnsValidator("../model/validation/2task3e/lqn_t.lqn")
     
     X0 = [0 for i in range(13)]
     MU = [0 for i in range(13)]
     NC = [0 for i in range(3)]
     NT = [0 for i in range(3)]
-    rep = 1
-    dt = 10.0 ** -1
-    TF = 3000 * dt
     
     T_mat = []
     Tclient = []
     e = []
     
-    for i in range(10):
+    for i in range(1):
     
         X0[-1] = np.random.randint(low=10, high=300)
         MU[4] = 1 #XHome_e
@@ -85,7 +86,7 @@ if __name__ == '__main__':
     
         print(X0[-1], NC[1:], NT[1:])
     
-        T_mat.append(matV.solveModel(X0, MU, NT, NC, dt))
+        T_mat.append(matV.solveModel(X0, MU, NT, NC))
         T_lqns = lqnV.solveModel(X0=X0[-1], NT=NT, NC=NC)
         for t in T_lqns:
             if(t["task"] == "Client"):

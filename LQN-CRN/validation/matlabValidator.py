@@ -29,7 +29,7 @@ class matlabValidator(Validator):
         self.matEng = matlab.engine.start_matlab()
         self.matEng.cd(str(self.modelDirPath.absolute()))
     
-    def solveModel(self, X0, MU, NT, NC,dt,TF=None, rep=None):
+    def solveModel(self, X0, MU, NT, NC,dt=0.1,TF=None, rep=None):
         
         self.matEng.clear
         e=np.infty

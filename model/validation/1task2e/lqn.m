@@ -53,6 +53,8 @@ pfun = @propensities_2state;
 X = zeros(length(X0), ceil(TF/dt) + 1, rep);
 for i = 1:rep
     [t, x] = directMethod(stoich_matrix, pfun, tspan, X0, p);
+    disp(t(end-3:end))
+    disp(x(end-3:end,:))
     tsin = timeseries(x,t);
     tsout = resample(tsin, linspace(0, TF, ceil(TF/dt)+1), 'zoh');
     X(:, :, i) = tsout.Data';
