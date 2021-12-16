@@ -75,7 +75,8 @@ class LQN_CRN2():
             if("X%s_a" % (act.getParentEntry().name) not in self.names):
                 self.names.append("X%s_a" % (act.getParentEntry().name))
         
-        self.names.append("X%s_%s" % (act.getParentEntry().name, act.name))
+        if("X%s_%s" % (act.getParentEntry().name, act.name) not in self.names):
+            self.names.append("X%s_%s" % (act.getParentEntry().name, act.name))
             
         if(isinstance(act, SynchCall)):
             for a in act.dest.getActivities():
@@ -118,6 +119,15 @@ class LQN_CRN2():
                     frm.append(self.names[i])
         
         print(",".join(frm),",".join(to))
+        
+        syncall=None
+        for f in frm:
+            ename=f.split("_")[0][1:]
+            aname=f.split("_")[1]
+            act = self.findAct(aname, self.lqn["task"][0].getEntries()[0], ename)
+            if(isinstance(act,SynchCall)):
+                syncall=act
+        
         for f in frm:
             act=None
             ename=f.split("_")[0][1:]
@@ -148,9 +158,10 @@ class LQN_CRN2():
                     prop="D*X%s_%s*%f"%(act.getParentEntry().name,act.name,act.probs[act.getActivities().index(act1)])
                 elif(isinstance(act,actBlock)):
                     prop="D*X%s_%s"%(act.getParentEntry().name,act.name)
-                elif(isinstance(act,SynchCall)):
-                    prop=hilite("SynchCall", False, True)
-                    
+                #elif(isinstance(act,SynchCall)):
+                elif(syncall is not None):
+                    #prop=hilite("SynchCall", False, True)
+                    act=syncall
                     J = np.matrix(self.Jumps)
                     #recupero la enty destizaione di questa chimata
                     inIdx = np.where(J[:, self.names.index("X%s_a" % act.dest.name)] == 1)
@@ -185,6 +196,7 @@ class LQN_CRN2():
                                                                 , rsyncName)
                 elif(isinstance(act,entity.Activity)):
                     if(not act.getParentTask().ref):
+                        
                         raise ValueError("Problem with the model, there is an activity that is not part of the client")
                     
                     prop = "MU[\"X%s_%s\"]*X%s_%s" % (act.getParentEntry().name, act.name,
