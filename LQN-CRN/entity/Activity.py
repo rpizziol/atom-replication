@@ -6,7 +6,6 @@ Created on 8 dic 2021
 
 from .Entry import Entry
 import entity
-from future.backports.html import entities
 #from entity import probChoice
 #from entity.probChoice import probChoice
 #from .Entry import actBlock
