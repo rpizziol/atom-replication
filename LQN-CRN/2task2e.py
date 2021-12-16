@@ -33,21 +33,21 @@ if __name__ == '__main__':
     # activity declaration
     
     # Front_end  entries logic#
-    Addr_h.getActivities().append(SynchCall(dest=Home, parentEntry=Addr_h, name="2Home"))
-    Addr_h.getActivities().append(Activity(stime=1.0, parentEntry=Addr_h, name="e"))
-    Addr_c.getActivities().append(SynchCall(dest=Catalog, parentEntry=Addr_c, name="2Catalog"))
-    Addr_c.getActivities().append(Activity(stime=1.0, parentEntry=Addr_c, name="e"))
+    Addr_h.getActivities().append(SynchCall(dest=Home, parent=Addr_h, name="2Home"))
+    Addr_h.getActivities().append(Activity(stime=1.0, parent=Addr_h, name="e"))
+    Addr_c.getActivities().append(SynchCall(dest=Catalog, parent=Addr_c, name="2Catalog"))
+    Addr_c.getActivities().append(Activity(stime=1.0, parent=Addr_c, name="e"))
     
     # Router entries logic#
     Home.getActivities().append(Activity(stime=1.0, parentEntry=Home, name="e"))
     
     # client logic#
-    browse.getActivities().append(SynchCall(dest=Addr_h, parentEntry=browse, name="2Addressh"))
-    browse.getActivities().append(Activity(stime=1.0, parentEntry=browse, name="browse1"))
-    browse.getActivities().append(SynchCall(dest=Addr_c, parentEntry=browse, name="2Addressc"))
-    browse.getActivities().append(Activity(stime=1.0, parentEntry=browse, name="browse"))
+    browse.getActivities().append(SynchCall(dest=Addr_h, parent=browse, name="2Addressh"))
+    browse.getActivities().append(Activity(stime=1.0, parent=browse, name="browse1"))
+    browse.getActivities().append(SynchCall(dest=Addr_c, parent=browse, name="2Addressc"))
+    browse.getActivities().append(Activity(stime=1.0, parent=browse, name="browse"))
     
-    lqn2crn = LQN_CRN()
+    lqn2crn = LQN_CRN2()
     lqn2crn.getCrn({"task":[cTask, Router,Front_end], "name":"2task2e"})
     
     lqn2crn.toMatlab(outDir="../model/validation")

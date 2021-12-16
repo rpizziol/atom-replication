@@ -35,21 +35,21 @@ if __name__ == '__main__':
     # activity declaration
     
     # Router  entries logic#
-    Addr.getActivities().append(SynchCall(dest=Home, parentEntry=Addr, name="2Home"))
-    Addr.getActivities().append(SynchCall(dest=Catlog, parentEntry=Addr, name="2Catalog"))
-    Addr.getActivities().append(SynchCall(dest=Cart, parentEntry=Addr, name="2Cart"))
-    Addr.getActivities().append(Activity(stime=1.0, parentEntry=Addr, name="e")) 
+    Addr.getActivities().append(SynchCall(dest=Home, parent=Addr, name="2Home"))
+    Addr.getActivities().append(SynchCall(dest=Catlog, parent=Addr, name="2Catalog"))
+    Addr.getActivities().append(SynchCall(dest=Cart, parent=Addr, name="2Cart"))
+    Addr.getActivities().append(Activity(stime=1.0, parent=Addr, name="e")) 
     
     # Front_end entries logic#
-    Home.getActivities().append(Activity(stime=1.0, parentEntry=Home, name="e"))
-    Catlog.getActivities().append(Activity(stime=1.0, parentEntry=Catlog, name="e"))
-    Cart.getActivities().append(Activity(stime=1.0, parentEntry=Cart, name="e"))
+    Home.getActivities().append(Activity(stime=1.0, parent=Home, name="e"))
+    Catlog.getActivities().append(Activity(stime=1.0, parent=Catlog, name="e"))
+    Cart.getActivities().append(Activity(stime=1.0, parent=Cart, name="e"))
     
     # client logic#
-    browse.getActivities().append(SynchCall(dest=Addr, parentEntry=browse, name="2Address"))
-    browse.getActivities().append(Activity(stime=1.0, parentEntry=browse, name="browse"))
+    browse.getActivities().append(SynchCall(dest=Addr, parent=browse, name="2Address"))
+    browse.getActivities().append(Activity(stime=1.0, parent=browse, name="browse"))
     
-    lqn2crn = LQN_CRN()
+    lqn2crn = LQN_CRN2()
     lqn2crn.getCrn({"task":[cTask, Router, Front_end], "name":"2task3e"})
     
     lqn2crn.toMatlab(outDir="../model/validation/")  
@@ -69,7 +69,7 @@ if __name__ == '__main__':
     Tclient = []
     e = []
     
-    for i in range(10):
+    for i in range(1):
     
         X0[-1] = np.random.randint(low=10, high=300)
         MU[4] = 1 #XHome_e
