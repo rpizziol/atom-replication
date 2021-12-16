@@ -63,52 +63,53 @@ if __name__ == '__main__':
     
     lqn2crn.toMatlab(outDir="../model/validation")
     
-    # # validate the model against lqns#
-    # matV = matlabValidator("../model/validation/2task/lqn.m")
-    # lqnV = lqnsValidator("../model/validation/2task/lqn_t.lqn")
-    #
-    # X0 = [0 for i in range(7)]
-    # MU = [0 for i in range(7)]
-    # NC = [0 for i in range(7)]
-    # NT = [0 for i in range(7)]
-    # rep = 1
-    # dt = 10.0 ** -1
-    # TF = 3000 * dt
-    #
-    # T_mat=[]
-    # Tclient=[]
-    # e=[]
-    #
-    # for i in range(15):
-    #
-    #     X0[-1] = np.random.randint(low=10,high=300)
-    #     MU[4] = 1
-    #     MU[5] = 1
-    #     MU[6] = 1
-    #     NC[0] = -1
-    #     NC[1] = np.random.randint(low=int(X0[-1]/2),high=X0[-1]*2)
-    #     NC[2] = np.random.randint(low=int(X0[-1]/2),high=X0[-1]*2)
-    #     NT[0] = -1
-    #     NT[1] = np.random.randint(low=int(X0[-1]/2),high=X0[-1]*2)
-    #     NT[2] = np.random.randint(low=int(X0[-1]/2),high=X0[-1]*2)
-    #
-    #     print(X0[-1],NC[1:],NT[1:])
-    #
-    #     T_mat.append(matV.solveModel(X0, MU, NT, NC,dt))
-    #     T_lqns = lqnV.solveModel(X0=X0[-1], NT=NT, NC=NC)
-    #     for t in T_lqns:
-    #         if(t["task"]=="Client"):
-    #             Tclient.append(t["trg"])
-    #             break
-    #
-    #     e.append(abs(T_mat[-1]-Tclient[-1])*100/Tclient[-1])
-    #
-    # plt.figure()
-    # plt.stem(Tclient,linefmt="b", markerfmt="bo",label="lqns")
-    # plt.stem(T_mat,linefmt="g", markerfmt="go",label="matlb")
-    # plt.legend()
-    # plt.savefig("2task_validation.pdf")
-    #
-    # print(e)
-    # print(Tclient)
-    # print(T_mat)
+    # validate the model against lqns#
+    matV = matlabValidator("../model/validation/2task_prob/lqn.m")
+    lqnV = lqnsValidator("../model/validation/2task_prob/lqn_t.lqn")
+    
+    X0 = [0 for i in range(13)]
+    MU = [0 for i in range(13)]
+    NC = [0 for i in range(3)]
+    NT = [0 for i in range(3)]
+    rep = 1
+    dt = 10.0 ** -1
+    TF = 3000 * dt
+    
+    T_mat=[]
+    Tclient=[]
+    e=[]
+    
+    for i in range(5):
+    
+        X0[-1] = np.random.randint(low=10,high=300)
+        MU[6] = 1
+        MU[10] = 1
+        MU[11] = 1
+        MU[12] = 1
+        NC[0] = -1
+        NC[1] = np.random.randint(low=int(X0[-1]/2),high=X0[-1]*2)
+        NC[2] = np.random.randint(low=int(X0[-1]/2),high=X0[-1]*2)
+        NT[0] = -1
+        NT[1] = np.random.randint(low=int(X0[-1]/2),high=X0[-1]*2)
+        NT[2] = np.random.randint(low=int(X0[-1]/2),high=X0[-1]*2)
+    
+        print(X0[-1],NC[1:],NT[1:])
+    
+        T_mat.append(matV.solveModel(X0, MU, NT, NC,dt))
+        T_lqns = lqnV.solveModel(X0=X0[-1], NT=NT, NC=NC)
+        for t in T_lqns:
+            if(t["task"]=="Client"):
+                Tclient.append(t["trg"])
+                break
+        
+        e.append(abs(T_mat[-1]-Tclient[-1])*100/Tclient[-1])
+    
+    plt.figure()
+    plt.stem(Tclient,linefmt="b", markerfmt="bo",label="lqns")
+    plt.stem(T_mat,linefmt="g", markerfmt="go",label="matlb")
+    plt.legend()
+    plt.savefig("2task_prob-validation.pdf")
+    
+    print(e)
+    print(Tclient)
+    print(T_mat)

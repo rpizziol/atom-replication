@@ -67,7 +67,8 @@ class lqnsValidator(Validator):
                     trg=float(info[2])
                     res.append({"task":task,"entry":entry,"trg":trg})
                     line=out.readline()
-                break
+                    #per adesso mi fermo solo al client
+                    break
             
             if not line:
                 break
