@@ -28,15 +28,15 @@ if __name__ == '__main__':
     # activity declaration
     
     # Router  entries logic#
-    Addr1.getActivities().append(Activity(stime=1.0, parentEntry=Addr1, name="e"))
-    Addr2.getActivities().append(Activity(stime=1.0, parentEntry=Addr2, name="e"))
+    Addr1.getActivities().append(Activity(stime=1.0, parent=Addr1, name="e"))
+    Addr2.getActivities().append(Activity(stime=1.0, parent=Addr2, name="e"))
     
     # client logic#
-    browse.getActivities().append(SynchCall(dest=Addr1, parentEntry=browse, name="2Address1"))
-    browse.getActivities().append(SynchCall(dest=Addr2, parentEntry=browse, name="2Address2"))
-    browse.getActivities().append(Activity(stime=1.0, parentEntry=browse, name="browse"))
+    browse.getActivities().append(SynchCall(dest=Addr1, parent=browse, name="2Address1"))
+    browse.getActivities().append(SynchCall(dest=Addr2, parent=browse, name="2Address2"))
+    browse.getActivities().append(Activity(stime=1.0, parent=browse, name="browse"))
     
-    lqn2crn = LQN_CRN()
+    lqn2crn = LQN_CRN2()
     lqn2crn.getCrn({"task":[cTask, Router], "name":"1task2e"})
     
     lqn2crn.toMatlab(outDir="../model/validation")
@@ -57,7 +57,7 @@ if __name__ == '__main__':
     Tclient=[]
     e=[]
     
-    for i in range(15):
+    for i in range(5):
     
         X0[-1] = np.random.randint(low=10,high=300)
         MU[2] = 1

@@ -6,13 +6,17 @@ Created on 8 dic 2021
 
 from .Activity import Activity
 
+
 class Call(Activity):
     
-    dest=None
+    dest = None
 
-    def __init__(self, dest,parentEntry=None,name=None):
-        super().__init__(dest,parentEntry=parentEntry,name=name)
-        self.dest=dest
+    def __init__(self, dest, parent=None, name=None):
+        super().__init__(dest, parent=parent, name=name)
+        self.dest = dest
     
     def getConAct(self):
         raise NotImplementedError 
+    
+    def getActivities(self):
+        return []

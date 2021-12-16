@@ -11,7 +11,7 @@ class AsynchCall(Call):
     classdocs
     '''
 
-    def __init__(self, dest,parentEntry=None):
-        super.__init__(dest,parentEntry)
+    def __init__(self, dest,parent=None):
+        super.__init__(dest,parent)
     
         
