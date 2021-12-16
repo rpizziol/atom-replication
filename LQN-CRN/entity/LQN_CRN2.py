@@ -12,8 +12,6 @@ from jinja2 import Environment, PackageLoader, select_autoescape
 from pathlib import Path
 import sys
 import entity
-from astropy.units import Tu
-from sqlalchemy.dialects import oracle
 
 
 def hilite(string, status, bold):
