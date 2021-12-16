@@ -5,7 +5,7 @@ Carleton University, Ottawa, Ontario, Canada. K1S 5B6
 
 Invoked as: lt-lqsim ../model/validation/2task3e/lqn.lqn
 Input:  ../model/validation/2task3e/lqn.lqn
-Tue Dec 14 13:18:39 2021
+Thu Dec 16 12:47:22 2021
 
 Comment: simlple_lqn.lqn
 
@@ -13,29 +13,29 @@ Convergence test value: 0
 Number of iterations:   1
 
 Pragma:
-    seed-value=1639487910
+    seed-value=1639658805
 
 Solver: b1efb68c3442 Linux 3.10.0-693.11.1.el7.x86_64
-    User:        0:14:33.000
-    System:      0:00:02.000
-    Elapsed:     0:14:35.000
+    User:        1:02:36.000
+    System:      0:00:06.000
+    Elapsed:     1:02:43.000
 
 
 
 Processor identifiers and scheduling algorithms:
 
 Processor Name  Type    Copies  Scheduling
-ProcClient      Mult(76)  1     FCFS
-ProcT1          Mult(66)  1     FCFS
-ProcT2          Mult(218) 1     FCFS
+ProcClient      Mult(246) 1     FCFS
+ProcT1          Mult(663) 1     FCFS
+ProcT2          Mult(216) 1     FCFS
 
 
 Task information:
 
 Task Name       Type    Copies  Processor Name  Pri Entry List
-Client          Ref(76)   1     ProcClient      0   BrowseEntry
-T1              Mult(79)  1     ProcT1          0   e1
-T2              Mult(216) 1     ProcT2          0   e2, e3, e4
+Client          Ref(246)  1     ProcClient      0   BrowseEntry
+T1              Mult(435) 1     ProcT1          0   e1
+T2              Mult(571) 1     ProcT2          0   e2, e3, e4
 
 
 Entry execution demands:
@@ -105,51 +105,51 @@ Task Name       Source Entry    Target Entry    Phase 1
 Service times:
 
 Task Name       Entry Name      Phase 1     
-Client          BrowseEntry     5.01187     
-T1              e1              4.00984     
-T2              e2              0.999997    
-                e3              1.00067     
-                e4              1.00151     
+Client          BrowseEntry     5.00704     
+T1              e1              3.99997     
+T2              e2              1.00057     
+                e3              1.00016     
+                e4              1.00075     
 
 
 Service time variance (per phase)
 and squared coefficient of variation (over all phases):
 
 Task Name       Entry Name      Phase 1     coeff of var **2
-Client          BrowseEntry     63.6284     2.5331      
-T1              e1              22.17       1.37884     
-T2              e2              0.999107    0.999113    
-                e3              1.00025     0.99891     
-                e4              1.00085     0.997831    
+Client          BrowseEntry     63.1454     2.51872     
+T1              e1              21.9804     1.3738      
+T2              e2              1.00444     1.00329     
+                e3              1.00143     1.00111     
+                e4              1.00328     1.00179     
 
 
 Throughputs and utilizations per phase:
 
 Task Name       Entry Name      Throughput  Phase 1     Total       
-Client          BrowseEntry     15.1615     76          76
-T1              e1              15.1731     60.8467     60.8467
-T2              e2              15.1876     15.1879     15.1879
-                e3              15.1936     15.204      15.204
-                e4              15.2279     15.2513     15.2513
-Total:                          45.6091     45.6431     45.6431
+Client          BrowseEntry     49.1223     246         246
+T1              e1              49.2089     196.854     196.854
+T2              e2              49.1807     49.2095     49.2095
+                e3              49.1819     49.1909     49.1909
+                e4              49.1811     49.2188     49.2188
+Total:                          147.544     147.619     147.619
 
 
 Utilization and waiting per phase for processor:  ProcClient
 
 Task Name       Pri n   Entry Name      Utilization Phase 1     
-Client          0   76  BrowseEntry     15.1533     0           
+Client          0   246 BrowseEntry     49.146      0           
 
 
 Utilization and waiting per phase for processor:  ProcT1
 
 Task Name       Pri n   Entry Name      Utilization Phase 1     
-T1              0   79  e1              15.2035     0           
+T1              0   435 e1              49.2347     0           
 
 
 Utilization and waiting per phase for processor:  ProcT2
 
 Task Name       Pri n   Entry Name      Utilization Phase 1     
-T2              0   216 e2              15.1879     0           
-                        e3              15.204      0           
-                        e4              15.2513     0           
-Task Total:                             45.6431     
+T2              0   571 e2              49.2095     0           
+                        e3              49.1909     0           
+                        e4              49.2188     0           
+Task Total:                             147.619     

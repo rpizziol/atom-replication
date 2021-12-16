@@ -8,16 +8,16 @@ G
     
 # Processors declaration, with multiplicity 
 P 0
-p ProcClient f m 212
-p ProcRouter f m 383
-p ProcFrontend f m 358 
+p ProcClient f m 193
+p ProcRouter f m 244
+p ProcFrontend f m 381 
 -1
 
 # Tasks declaration
 T 0
-t Client r Browse -1 ProcClient m 212
-t TaskRouter n Address -1 ProcRouter m 230
-t TaskFrontend n Home1 Home2 -1 ProcFrontend m 109
+t Client r Browse -1 ProcClient m 193
+t TaskRouter n Address -1 ProcRouter m 367
+t TaskFrontend n Home1 Home2 -1 ProcFrontend m 351
 -1
 
 # Entries declaration
