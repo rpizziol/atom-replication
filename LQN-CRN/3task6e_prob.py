@@ -111,22 +111,22 @@ if __name__ == '__main__':
     Tclient = []
     e = []
     
-    for i in range(5):
+    for i in range(1):
     
         X0[-1] = np.random.randint(low=10, high=500)
         
         
     
-        MU[6] = 1.0 / 4.4420  # Home
+        MU[6] = 1.0 / 1  # Home
        
-        MU[16] = 1.0 / 1.0380  # CatQuery
-        MU[17] = 1.0 / 2.2942  # List
-        MU[22] = 1.0 / 6.5688  # Item
+        MU[16] = 1.0 / 1.0  # CatQuery
+        MU[17] = 1.0 / 1.0  # List
+        MU[22] = 1.0 / 1.0  # Item
         
-        MU[23] = 1.0 / 1.1105  # Catalog
-        MU[27] = 1.0 / 9.6215  # Cart
-        MU[28] = 1.0 / 1.2436  # Addres
-        MU[29] = 1.0 / 1.1325  # Browse
+        MU[23] = 1.0 / 1.0  # Catalog
+        MU[27] = 1.0 / 1.0 # Cart
+        MU[28] = 1.0 / 1.0  # Addres
+        MU[29] = 1.0 / 1.0  # Browse
     
         NC[0] = -1
         NC[1] = np.random.randint(low=int(X0[-1] / 2), high=X0[-1] * 2)

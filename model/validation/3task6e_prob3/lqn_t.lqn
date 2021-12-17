@@ -26,12 +26,12 @@ t TaskCatalogDB n CatQuery -1 ProcCatalogDB m {{nt[4]}}
 
 # Entries declaration
 E 0
-s Browse 1.1325 -1
-s Home 4.4420 -1
-s Cart 9.6215 -1
-s List 2.2942 -1
-s Item 6.5688 -1
-s CatQuery 1.0380 -1
+s Browse 1.0 -1
+s Home 1.0 -1
+s Cart 1.0 -1
+s List 1.0 -1
+s Item 1.0 -1
+s CatQuery 1.0 -1
 A Address ActivityAddress
 A Catalog ActivityCatalog
 y Browse Address 1.0 -1
@@ -41,7 +41,7 @@ y Item CatQuery 1.0 -1
 
 # Activities definition
 A TaskRouter
- s ActivityAddress 1.2436
+ s ActivityAddress 1.0
  s ActivityHome 0.00000000001
  s ActivityCatalog 0.00000000001
  s ActivityCart 0.00000000001
@@ -56,7 +56,7 @@ A TaskRouter
 -1
 
 A TaskFrontend
- s ActivityCatalog 1.1105
+ s ActivityCatalog 1.0
  s ActivityList 0.00000000001
  s ActivityItem 0.00000000001
  y ActivityList List 1.0
