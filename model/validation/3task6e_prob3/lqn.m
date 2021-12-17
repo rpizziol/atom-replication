@@ -100,7 +100,7 @@ pfun = @propensities_2state;
  
 X = zeros(length(X0), ceil(TF/dt) + 1, rep);
 for i = 1:rep
-    tic 
+	tic
     [t, x] = directMethod(stoich_matrix, pfun, tspan, X0, p);
     toc
     tic
