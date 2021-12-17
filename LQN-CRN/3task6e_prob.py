@@ -111,7 +111,7 @@ if __name__ == '__main__':
     Tclient = []
     e = []
     
-    for i in range(1):
+    for i in range(10):
     
         X0[-1] = np.random.randint(low=10, high=500)
         
@@ -154,7 +154,7 @@ if __name__ == '__main__':
     plt.stem(Tclient, linefmt="b", markerfmt="bo", label="lqns")
     plt.stem(T_mat, linefmt="g", markerfmt="go", label="matlb")
     plt.legend()
-    plt.savefig("3task6e_prob-validation3.pdf")
+    plt.savefig("3task6e_prob-validation4.pdf")
     
     print(e)
     print(Tclient)
