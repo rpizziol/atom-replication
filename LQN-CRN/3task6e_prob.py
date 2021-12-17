@@ -139,7 +139,7 @@ if __name__ == '__main__':
         NT[3] = np.random.randint(low=int(X0[-1] / 2), high=X0[-1] * 2)
         NT[4] = np.random.randint(low=int(X0[-1] / 2), high=X0[-1] * 2)
     
-        print(X0[-1], NC[1:], NT[1:])
+        print(X0[-1], NC[1:], NT[1:],i)
     
         T_mat.append(matV.solveModel(X0, MU, NT, NC, dt))
         T_lqns = lqnV.solveModel(X0=X0[-1], NT=NT, NC=NC)
