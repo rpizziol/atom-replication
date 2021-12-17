@@ -104,7 +104,7 @@ if __name__ == '__main__':
     NC = [0 for i in range(5)]
     NT = [0 for i in range(5)]
     rep = 1
-    dt = 10.0 ** -1
+    dt = 10.0 ** 0
     TF = 3000 * dt
     
     T_mat = []
