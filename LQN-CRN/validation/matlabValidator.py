@@ -10,6 +10,7 @@ from validation import Validator
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy.stats as st
+import time
 
 
 class matlabValidator(Validator):
@@ -41,8 +42,10 @@ class matlabValidator(Validator):
         B=[]
         while(e>0.5*10**-1):
             
+            strt=time.time()
             X = self.matEng.lqn(matlab.double(X0),matlab.double(MU),
                           matlab.double(NT),matlab.double(NC),K*(N+1)*dt, 1, dt)
+            t1=time.time()-strt
             
             X=np.array(X)
             X0=list(map(int,X[:,-1].tolist()))
@@ -57,6 +60,9 @@ class matlabValidator(Validator):
             e=abs(np.mean(Bm[1:])-CI[0])
             
             print(e)
+            t2=time.time()-strt
+            
+            print("mattime=",t1,"totalt",t2)
         
         return MU[-1]*np.mean(Bm[1:])
         
