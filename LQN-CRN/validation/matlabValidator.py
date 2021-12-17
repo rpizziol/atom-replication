@@ -62,7 +62,7 @@ class matlabValidator(Validator):
             print(e)
             t2=time.time()-strt
             
-            print("mattime=",t1,"totalt",t2)
+            print("mattime=",t1,"total",t2)
         
         return MU[-1]*np.mean(Bm[1:])
         
