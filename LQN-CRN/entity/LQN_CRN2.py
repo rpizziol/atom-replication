@@ -50,16 +50,17 @@ class LQN_CRN2():
     def findAct(self, aname, parent, ename=None):
         a_tgt = None
         for a in parent.getActivities():
-            if((ename == a.getParentEntry().name and a.name == aname) or a.name == aname or (ename == a.getParentEntry().name and aname == "a")):
+            if((ename == a.getParentEntry().name and a.name == aname) or (a.name == aname and ename is None) 
+               or (ename == a.getParentEntry().name and aname == "a")):
                 a_tgt = a
-                break;
             else:
                 if(isinstance(a, Call)):
                     a_tgt = self.findAct(aname, a.dest, ename)
                 else:
                     a_tgt = self.findAct(aname, a, ename)
-                if(a_tgt is not None):
-                    break
+            if(a_tgt is not None):
+                break
+            
         return a_tgt
     
     # mapp ogni activity nell'opportuno stato
@@ -118,7 +119,7 @@ class LQN_CRN2():
                 else:
                     frm.append(self.names[i])
         
-        print(",".join(frm),",".join(to))
+        print(",".join(frm),"->",",".join(to))
         
         syncall=None
         for f in frm:
@@ -127,6 +128,7 @@ class LQN_CRN2():
             act = self.findAct(aname, self.lqn["task"][0].getEntries()[0], ename)
             if(isinstance(act,SynchCall)):
                 syncall=act
+                break
         
         for f in frm:
             act=None
@@ -174,17 +176,20 @@ class LQN_CRN2():
                             if(isinstance(a, SynchCall)):
                                 callingAct.append("X%s_%s" % (a.getParentEntry().name, a.name))
                     
-                    sndName=f
+                    sndName="X%s_%s" %(act.getParentEntry().name,act.name)
                     rsyncName=None
                     synA=None
                     for rsyncName in frm:
-                        print("rsyncName",rsyncName)
                         synA=self.findAct(aname=rsyncName.split("_")[1],parent=self.lqn["task"][0].getEntries()[0],ename=rsyncName.split("_")[0][1:])
                         if(isinstance(synA,entity.SynchCall) or isinstance(synA,entity.probChoice) or 
                            isinstance(synA,entity.actBlock)):
                             continue
                         else:
+                            
                             break
+                    
+                    #print(jump)
+                    #print("cc",rsyncName,synA.getParentTask().name)
                     
                     
                     prop = "%s/(%s)*%s/(%s)*min(%s,NC[\"%s\"])*MU[\"%s\"]" % (sndName,
