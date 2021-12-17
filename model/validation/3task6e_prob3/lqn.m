@@ -100,10 +100,6 @@ pfun = @propensities_2state;
  
 X = zeros(length(X0), ceil(TF/dt) + 1, rep);
 for i = 1:rep
-<<<<<<< HEAD
-	tic
-=======
->>>>>>> 652cf26e2d8e79d904d6023f275ad13c6be01328
     [t, x] = directMethod(stoich_matrix, pfun, tspan, X0, p);
     tsin = timeseries(x,t);
     tsout = resample(tsin, linspace(0, TF, ceil(TF/dt)+1), 'zoh');
