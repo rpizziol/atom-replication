@@ -26,7 +26,6 @@ t TaskCatalogSvc n List Item -1 ProcCatalogSvc m {{nt[3]}}
 E 0
 s Browse 1.1325 -1
 s Home 4.4420 -1
-#s Catalog 1.1105 -1
 s Cart 9.6215 -1
 s List 1.0 -1
 s Item 1.0 -1

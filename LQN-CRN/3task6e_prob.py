@@ -111,7 +111,7 @@ if __name__ == '__main__':
     Tclient = []
     e = []
     
-    for i in range(30):
+    for i in range(1):
     
         X0[-1] = np.random.randint(low=10, high=500)
         
