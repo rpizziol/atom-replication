@@ -134,9 +134,8 @@ if __name__ == '__main__':
     
     for i in range(1):
     
-        #X0[-1] = np.random.randint(low=10, high=300)
+        X0[-1] = np.random.randint(low=10, high=300)
         
-        X0[-1]=10
     
         MU[6] = 1.0 / 1  # Home
         names[6] = "Home"
