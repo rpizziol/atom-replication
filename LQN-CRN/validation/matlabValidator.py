@@ -30,50 +30,51 @@ class matlabValidator(Validator):
         self.matEng = matlab.engine.start_matlab()
         self.matEng.cd(str(self.modelDirPath.absolute()))
     
-    def solveModel(self, X0, MU, NT, NC,dt=1,TF=None, rep=None):
+    def solveModel(self, X0, MU, NT, NC, dt=1, Names=None, TF=None, rep=None,):
         
         self.matEng.clear
-        e=np.infty
+        e = np.infty
         
-        tIdx=np.where(np.array(MU)>0)[0]
-        
-        #dimensione di un batch
-        K=30
-        #numrto di batch
-        N=30
-        B=None
-        while(e>0.5*10**-1):
+        tIdx = np.where(np.array(Names)!=None)[0]
+    
+        # dimensione di un batch
+        K = 30
+        # numrto di batch
+        N = 30
+        B = None
+        while(e > 0.5 * 10 ** -1):
             
-            X = self.matEng.lqn(matlab.double(X0),matlab.double(MU),
-                          matlab.double(NT),matlab.double(NC),K*(N+1)*dt, 1, dt)
-            X=np.array(X)
-            X0=X[:,-1].tolist()
+            X = self.matEng.lqn(matlab.double(X0), matlab.double(MU),
+                          matlab.double(NT), matlab.double(NC), K * (N + 1) * dt, 1, dt)
+            X = np.array(X)
+            X0 = X[:, -1].tolist()
             
-            if B is None:    
-                B=[[] for cmp in range(X.shape[0])]
+            if B is None: 
+                B = [[] for cmp in range(X.shape[0])]
             
             for cmp in range(X.shape[0]):
-                if(len(B[cmp])>0):
-                    B[cmp]=np.vstack((B[cmp],np.array([X[cmp,K*n:K*(n+1)].tolist() for n in range(N+1)])))
+                if(len(B[cmp]) > 0):
+                    B[cmp] = np.vstack((B[cmp], np.array([X[cmp, K * n:K * (n + 1)].tolist() for n in range(N + 1)])))
                 else:
-                    B[cmp]=np.array([X[cmp,K*n:K*(n+1)].tolist() for n in range(N+1)])
-            
+                    B[cmp] = np.array([X[cmp, K * n:K * (n + 1)].tolist() for n in range(N + 1)])
 
-            Bm2=np.mean(B,axis=2)
-            #Bm=np.mean(B[-1],axis=1,keepdims=True)
+            Bm2 = np.mean(B, axis=2)
+            # Bm=np.mean(B[-1],axis=1,keepdims=True)
             
             # CI=st.t.interval(0.95, len(Bm[1:])-1, loc=np.mean(Bm[1:]), scale=st.sem(Bm[1:]))
             # e=abs(np.mean(Bm[1:])-CI[0])
             
-            CI=st.t.interval(0.95, len(Bm2[-1,1:])-1, loc=np.mean(Bm2[-1,1:]), scale=st.sem(Bm2[-1,1:]))
-            e=abs(np.mean(Bm2[-1,1:])-CI[0])
+            CI = st.t.interval(0.95, len(Bm2[-1, 1:]) - 1, loc=np.mean(Bm2[-1, 1:]), scale=st.sem(Bm2[-1, 1:]))
+            e = abs(np.mean(Bm2[-1, 1:]) - CI[0])
             
             print(e)
             
-        print([MU[idx]*np.mean(Bm2[idx,1:]) for idx in tIdx])
+        #print([MU[idx] * np.mean(Bm2[idx, 1:]) for idx in tIdx])
+        res={}
+        for idx in tIdx:
+            res[Names[idx]]=MU[idx] * np.mean(Bm2[idx, 1:])
         
-        
-        return MU[-1]*np.mean(Bm2[-1,1:])
+        return res
         
     def getResult(self):
         pass
@@ -88,7 +89,7 @@ if __name__ == '__main__':
     NT = [0 for i in range(2)]
     rep = 1
     dt = 10.0 ** -1
-    TF = 300*dt
+    TF = 300 * dt
     
     X0[3] = 100
     MU[2] = 1
@@ -98,5 +99,5 @@ if __name__ == '__main__':
     NT[0] = -1
     NT[1] = 15
     
-    T=mv.solveModel(X0, MU, NT, NC, dt)
+    T = mv.solveModel(X0, MU, NT, NC, dt)
     print(T)

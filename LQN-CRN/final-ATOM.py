@@ -53,11 +53,11 @@ if __name__ == '__main__':
     CartSvc.addEntry(Get)
     CartSvc.addEntry(Add)
     CartSvc.addEntry(Delete)
-    #CartDB.addEntry(CartQuery)
+    # CartDB.addEntry(CartQuery)
     
     # activity declaration
     
-    #CartSvcLogic
+    # CartSvcLogic
     Get.getActivities().append(Activity(stime=1.0, parent=Get, name="e"))
     Add.getActivities().append(Activity(stime=1.0, parent=Add, name="e"))
     Delete.getActivities().append(Activity(stime=1.0, parent=Delete, name="e"))
@@ -102,9 +102,9 @@ if __name__ == '__main__':
     Catalog.getActivities().append(choiceCatalog)
     Catalog.getActivities().append(Activity(stime=1.0, parent=Catalog, name="e"))
     
-    Cart.getActivities().append(SynchCall(dest=Get,parent=Cart,name="2Get"))
-    Cart.getActivities().append(SynchCall(dest=Add,parent=Cart,name="2Add"))
-    Cart.getActivities().append(SynchCall(dest=Delete,parent=Cart,name="2Rmv"))
+    Cart.getActivities().append(SynchCall(dest=Get, parent=Cart, name="2Get"))
+    Cart.getActivities().append(SynchCall(dest=Add, parent=Cart, name="2Add"))
+    Cart.getActivities().append(SynchCall(dest=Delete, parent=Cart, name="2Rmv"))
     Cart.getActivities().append(Activity(stime=1.0, parent=Cart, name="e"))
     
     # client logic#
@@ -112,7 +112,7 @@ if __name__ == '__main__':
     browse.getActivities().append(Activity(stime=1.0, parent=browse, name="browse"))
     
     lqn2crn = LQN_CRN2()
-    lqn2crn.getCrn({"task":[cTask, Router, Front_end, CatalogSvc, CatalogDB,CartSvc], "name":"atom_final"})
+    lqn2crn.getCrn({"task":[cTask, Router, Front_end, CatalogSvc, CatalogDB, CartSvc], "name":"atom_final"})
     
     lqn2crn.toMatlab(outDir="../model/validation")
     
@@ -124,33 +124,44 @@ if __name__ == '__main__':
     MU = [0 for i in range(39)]
     NC = [0 for i in range(6)]
     NT = [0 for i in range(6)]
+    names = [None] * 39
     rep = 1
     dt = 10.0 ** -1
     TF = 3000 * dt
     
-    T_mat = []
     Tclient = []
     e = []
     
     for i in range(1):
     
-        X0[-1] = np.random.randint(low=10, high=300)
-    
+        #X0[-1] = np.random.randint(low=10, high=300)
+        
+        X0[-1]=10
     
         MU[6] = 1.0 / 1  # Home
+        names[6] = "Home"
     
         MU[16] = 1.0 / 1.0  # CatQuery
+        names[16] = "CatQuery"
         MU[17] = 1.0 / 1.0  # List
+        names[17] = "List"
         MU[22] = 1.0 / 1.0  # Item
+        names[22] = "Item"
     
         MU[23] = 1.0 / 1.0  # Catalog
+        names[23]= "Catalog"
         MU[29] = 1.0 / 1.0  # Get
+        names[29]= "Get"
         MU[32] = 1.0 / 1.0  # Add
+        names[32]= "Add"
         MU[35] = 1.0 / 1.0  # Delete
+        names[35]= "Del"
         MU[36] = 1.0 / 1.0  # Cart
+        names[36]= "Cart"
         MU[37] = 1.0 / 1.0  # Address
+        names[37]= "Address"
         MU[38] = 1.0 / 1.0  # Browse
-        
+        names[38]= "Browse"
     
         NC[0] = -1
         NC[1] = np.random.randint(low=int(X0[-1] / 2), high=X0[-1] * 2)
@@ -165,23 +176,25 @@ if __name__ == '__main__':
         NT[4] = np.random.randint(low=int(X0[-1] / 2), high=X0[-1] * 2)
         NT[5] = np.random.randint(low=int(X0[-1] / 2), high=X0[-1] * 2)
     
-        print(X0[-1], NC[1:], NT[1:],i)
+        print(X0[-1], NC[1:], NT[1:], i)
     
-        T_mat.append(matV.solveModel(X0, MU, NT, NC, dt))
-        T_lqns = lqnV.solveModel(X0=X0[-1], NT=NT, NC=NC)
-        for t in T_lqns:
-            if(t["task"] == "Client"):
-                Tclient.append(t["trg"])
-                break
-    
-        e.append(abs(T_mat[-1] - Tclient[-1]) * 100 / Tclient[-1])
+        T_mat=matV.solveModel(X0, MU, NT, NC, dt,Names=names)
+        T_lqns = lqnV.solveModel(X0=X0[-1], NT=NT, NC=NC,Names=names)
+        for ent in names:
+            if(ent is not None):
+                e.append(abs(T_lqns[ent]-T_mat[ent]) * 100 /T_lqns[ent])
+    #
+    # plt.figure()
+    # plt.stem(Tclient, linefmt="b", markerfmt="bo", label="lqns")
+    # plt.stem(T_mat, linefmt="g", markerfmt="go", label="matlb")
+    # plt.legend()
+    # plt.savefig("Atom_final-validation.pdf")
     
     plt.figure()
-    plt.stem(Tclient, linefmt="b", markerfmt="bo", label="lqns")
-    plt.stem(T_mat, linefmt="g", markerfmt="go", label="matlb")
-    plt.legend()
+    plt.boxplot(e)
+    plt.ylabel("Relative Error(%)")
     plt.savefig("Atom_final-validation.pdf")
-    
-    print(e)
-    print(Tclient)
-    print(T_mat)
+    #
+    # print(e)
+    # print(Tclient)
+    # print(T_mat)
