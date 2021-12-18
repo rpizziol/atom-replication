@@ -193,7 +193,7 @@ if __name__ == '__main__':
     plt.boxplot(e)
     plt.ylabel("Relative Error(%)")
     plt.savefig("Atom_final-validation.pdf")
-    #
-    # print(e)
+    
+    print(e)
     # print(Tclient)
     # print(T_mat)
