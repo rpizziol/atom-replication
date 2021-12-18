@@ -24,8 +24,15 @@ if __name__ == '__main__':
     Front_end = Task(name="Front_end")
     CatalogSvc = Task(name="CatalogSvc")
     CatalogDB = Task(name="CatalogStorage")
+    CartSvc = Task(name="CartSvc")
+    CartDB = Task(name="CartStorage")
     
     # entries declaration
+    
+    CartQuery = Entry("CartQuery")
+    Get = Entry("Get")
+    Add = Entry("Add")
+    Delete = Entry("Remove")
     CatQuery = Entry("CatQuery")
     List = Entry("List")
     Item = Entry("Item")
@@ -43,8 +50,17 @@ if __name__ == '__main__':
     CatalogSvc.addEntry(List)
     CatalogSvc.addEntry(Item)
     CatalogDB.addEntry(CatQuery)
+    CartSvc.addEntry(Get)
+    CartSvc.addEntry(Add)
+    CartSvc.addEntry(Delete)
+    #CartDB.addEntry(CartQuery)
     
     # activity declaration
+    
+    #CartSvcLogic
+    Get.getActivities().append(Activity(stime=1.0, parent=Get, name="e"))
+    Add.getActivities().append(Activity(stime=1.0, parent=Add, name="e"))
+    Delete.getActivities().append(Activity(stime=1.0, parent=Delete, name="e"))
     
     # CatalogDBLogic
     CatQuery.getActivities().append(Activity(stime=1.0, parent=CatQuery, name="e"))
@@ -82,8 +98,13 @@ if __name__ == '__main__':
     choiceCatalog.addBlock(CatBlk2, 1.0 / 2)
     
     Home.getActivities().append(Activity(stime=1.0, parent=Home, name="e"))
+    
     Catalog.getActivities().append(choiceCatalog)
     Catalog.getActivities().append(Activity(stime=1.0, parent=Catalog, name="e"))
+    
+    Cart.getActivities().append(SynchCall(dest=Get,parent=Cart,name="2Get"))
+    Cart.getActivities().append(SynchCall(dest=Add,parent=Cart,name="2Add"))
+    Cart.getActivities().append(SynchCall(dest=Delete,parent=Cart,name="2Rmv"))
     Cart.getActivities().append(Activity(stime=1.0, parent=Cart, name="e"))
     
     # client logic#
@@ -91,18 +112,18 @@ if __name__ == '__main__':
     browse.getActivities().append(Activity(stime=1.0, parent=browse, name="browse"))
     
     lqn2crn = LQN_CRN2()
-    lqn2crn.getCrn({"task":[cTask, Router, Front_end, CatalogSvc, CatalogDB], "name":"3task6e_prob3"})
+    lqn2crn.getCrn({"task":[cTask, Router, Front_end, CatalogSvc, CatalogDB,CartSvc], "name":"atom_final"})
     
     lqn2crn.toMatlab(outDir="../model/validation")
     
     # validate the model against lqns#
-    matV = matlabValidator("../model/validation/3task6e_prob3/lqn.m")
-    lqnV = lqnsValidator("../model/validation/3task6e_prob3/lqn_t.lqn")
+    matV = matlabValidator("../model/validation/atom_final/lqn.m")
+    lqnV = lqnsValidator("../model/validation/atom_final/lqn_t.lqn")
     
-    X0 = [0 for i in range(30)]
-    MU = [0 for i in range(30)]
-    NC = [0 for i in range(5)]
-    NT = [0 for i in range(5)]
+    X0 = [0 for i in range(39)]
+    MU = [0 for i in range(39)]
+    NC = [0 for i in range(6)]
+    NT = [0 for i in range(6)]
     rep = 1
     dt = 10.0 ** -1
     TF = 3000 * dt
@@ -114,30 +135,35 @@ if __name__ == '__main__':
     for i in range(1):
     
         X0[-1] = np.random.randint(low=10, high=300)
-        
-        
+    
     
         MU[6] = 1.0 / 1  # Home
-       
+    
         MU[16] = 1.0 / 1.0  # CatQuery
         MU[17] = 1.0 / 1.0  # List
         MU[22] = 1.0 / 1.0  # Item
-        
+    
         MU[23] = 1.0 / 1.0  # Catalog
-        MU[27] = 1.0 / 1.0 # Cart
-        MU[28] = 1.0 / 1.0  # Addres
-        MU[29] = 1.0 / 1.0  # Browse
+        MU[29] = 1.0 / 1.0  # Get
+        MU[32] = 1.0 / 1.0  # Add
+        MU[35] = 1.0 / 1.0  # Delete
+        MU[36] = 1.0 / 1.0  # Cart
+        MU[37] = 1.0 / 1.0  # Address
+        MU[38] = 1.0 / 1.0  # Browse
+        
     
         NC[0] = -1
         NC[1] = np.random.randint(low=int(X0[-1] / 2), high=X0[-1] * 2)
         NC[2] = np.random.randint(low=int(X0[-1] / 2), high=X0[-1] * 2)
         NC[3] = np.random.randint(low=int(X0[-1] / 2), high=X0[-1] * 2)
         NC[4] = np.random.randint(low=int(X0[-1] / 2), high=X0[-1] * 2)
+        NC[5] = np.random.randint(low=int(X0[-1] / 2), high=X0[-1] * 2)
         NT[0] = -1
         NT[1] = np.random.randint(low=int(X0[-1] / 2), high=X0[-1] * 2)
         NT[2] = np.random.randint(low=int(X0[-1] / 2), high=X0[-1] * 2)
         NT[3] = np.random.randint(low=int(X0[-1] / 2), high=X0[-1] * 2)
         NT[4] = np.random.randint(low=int(X0[-1] / 2), high=X0[-1] * 2)
+        NT[5] = np.random.randint(low=int(X0[-1] / 2), high=X0[-1] * 2)
     
         print(X0[-1], NC[1:], NT[1:],i)
     
@@ -154,7 +180,7 @@ if __name__ == '__main__':
     plt.stem(Tclient, linefmt="b", markerfmt="bo", label="lqns")
     plt.stem(T_mat, linefmt="g", markerfmt="go", label="matlb")
     plt.legend()
-    plt.savefig("3task6e_prob-validation4.pdf")
+    plt.savefig("Atom_final-validation.pdf")
     
     print(e)
     print(Tclient)

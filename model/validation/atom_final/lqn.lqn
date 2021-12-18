@@ -8,25 +8,30 @@ G
 
 # Processors declaration, with multiplicity
 P 0
-p ProcClient f m 273
-p ProcRouter f m 1 r 2
-p ProcFrontend f m 412
-p ProcCatalogSvc f m 185
-p ProcCatalogDB f m 352
+p ProcClient f m 297
+p ProcRouter f m 588
+p ProcFrontend f m 230
+p ProcCatalogSvc f m 348
+p ProcCatalogDB f m 499
+p ProcCartSvc f m 484
 -1
 
 # Tasks declaration
 T 0
-t Client r Browse -1 ProcClient m 273
-t TaskRouter n Address -1 ProcRouter m 459 r 2
-t TaskFrontend n Home Catalog Cart -1 ProcFrontend m 333
-t TaskCatalogSvc n List Item -1 ProcCatalogSvc m 137
-t TaskCatalogDB n CatQuery -1 ProcCatalogDB m 242
+t Client r Browse -1 ProcClient m 297
+t TaskRouter n Address -1 ProcRouter m 323
+t TaskFrontend n Home Catalog Cart -1 ProcFrontend m 365
+t TaskCatalogSvc n List Item -1 ProcCatalogSvc m 255
+t TaskCatalogDB n CatQuery -1 ProcCatalogDB m 436
+t TaskCartSvc n Get Add Del -1 ProcCartSvc m 324
 -1
 
 # Entries declaration
 E 0
 s Browse 1.0 -1
+s Get 1.0 -1
+s Add 1.0 -1
+s Del 1.0 -1
 s Home 1.0 -1
 s Cart 1.0 -1
 s List 1.0 -1
@@ -37,6 +42,9 @@ A Catalog ActivityCatalog
 y Browse Address 1.0 -1
 y List CatQuery 1.0 -1
 y Item CatQuery 1.0 -1
+y Cart Get 1.0 -1
+y Cart Add 1.0 -1
+y Cart Del 1.0 -1
 -1
 
 # Activities definition
@@ -78,7 +86,7 @@ A TaskFrontend
 #! confidence_percent_error 0.2
 
 # 2. Output settings
-#! throughput: EntryBrowse -1
+#! throughput: Browse -1
 
 # 3. Export settings
-#! export csv
+#! export matlab

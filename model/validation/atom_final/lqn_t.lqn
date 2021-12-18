@@ -8,25 +8,30 @@ G
 
 # Processors declaration, with multiplicity
 P 0
-p ProcClient f m 273
-p ProcRouter f m 1 r 2
-p ProcFrontend f m 412
-p ProcCatalogSvc f m 185
-p ProcCatalogDB f m 352
+p ProcClient f m {{nuser}}
+p ProcRouter f m {{nc[1]}}
+p ProcFrontend f m {{nc[2]}}
+p ProcCatalogSvc f m {{nc[3]}}
+p ProcCatalogDB f m {{nc[4]}}
+p ProcCartSvc f m {{nc[5]}}
 -1
 
 # Tasks declaration
 T 0
-t Client r Browse -1 ProcClient m 273
-t TaskRouter n Address -1 ProcRouter m 459 r 2
-t TaskFrontend n Home Catalog Cart -1 ProcFrontend m 333
-t TaskCatalogSvc n List Item -1 ProcCatalogSvc m 137
-t TaskCatalogDB n CatQuery -1 ProcCatalogDB m 242
+t Client r Browse -1 ProcClient m {{nuser}}
+t TaskRouter n Address -1 ProcRouter m {{nt[1]}}
+t TaskFrontend n Home Catalog Cart -1 ProcFrontend m {{nt[2]}}
+t TaskCatalogSvc n List Item -1 ProcCatalogSvc m {{nt[3]}}
+t TaskCatalogDB n CatQuery -1 ProcCatalogDB m {{nt[4]}}
+t TaskCartSvc n Get Add Del -1 ProcCartSvc m {{nt[5]}}
 -1
 
 # Entries declaration
 E 0
 s Browse 1.0 -1
+s Get 1.0 -1
+s Add 1.0 -1
+s Del 1.0 -1
 s Home 1.0 -1
 s Cart 1.0 -1
 s List 1.0 -1
@@ -37,6 +42,9 @@ A Catalog ActivityCatalog
 y Browse Address 1.0 -1
 y List CatQuery 1.0 -1
 y Item CatQuery 1.0 -1
+y Cart Get 1.0 -1
+y Cart Add 1.0 -1
+y Cart Del 1.0 -1
 -1
 
 # Activities definition
