@@ -35,6 +35,8 @@ class matlabValidator(Validator):
         self.matEng.clear
         e=np.infty
         
+        tIdx=np.where(np.array(MU)>0)[0]
+        
         #dimensione di un batch
         K=30
         #numrto di batch
@@ -42,7 +44,6 @@ class matlabValidator(Validator):
         B=None
         while(e>0.5*10**-1):
             
-            strt=time.time()
             X = self.matEng.lqn(matlab.double(X0),matlab.double(MU),
                           matlab.double(NT),matlab.double(NC),K*(N+1)*dt, 1, dt)
             X=np.array(X)
@@ -57,16 +58,19 @@ class matlabValidator(Validator):
                 else:
                     B[cmp]=np.array([X[cmp,K*n:K*(n+1)].tolist() for n in range(N+1)])
             
+
+            Bm2=np.mean(B,axis=2)
+            #Bm=np.mean(B[-1],axis=1,keepdims=True)
             
-                
-            Bm=np.mean(B[-1],axis=1,keepdims=True)
-            CI=st.t.interval(0.95, len(Bm[1:])-1, loc=np.mean(Bm[1:]), scale=st.sem(Bm[1:]))
-            e=abs(np.mean(Bm[1:])-CI[0])
+            # CI=st.t.interval(0.95, len(Bm[1:])-1, loc=np.mean(Bm[1:]), scale=st.sem(Bm[1:]))
+            # e=abs(np.mean(Bm[1:])-CI[0])
+            
+            CI=st.t.interval(0.95, len(Bm2[-1,1:])-1, loc=np.mean(Bm2[-1,1:]), scale=st.sem(Bm2[-1,1:]))
+            e=abs(np.mean(Bm2[-1,1:])-CI[0])
             
             print(e)
-            t2=time.time()-strt
         
-        return MU[-1]*np.mean(Bm[1:])
+        return MU[-1]*np.mean(Bm2[-1,1:])
         
     def getResult(self):
         pass

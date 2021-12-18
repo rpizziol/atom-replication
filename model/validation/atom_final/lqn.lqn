@@ -8,40 +8,22 @@ G
 
 # Processors declaration, with multiplicity
 P 0
-<<<<<<< HEAD
-p ProcClient f m 282
-p ProcRouter f m 492
-p ProcFrontend f m 357
-p ProcCatalogSvc f m 258
-p ProcCatalogDB f m 274
-p ProcCartSvc f m 307
-=======
-p ProcClient f m 111
-p ProcRouter f m 105
-p ProcFrontend f m 205
-p ProcCatalogSvc f m 160
-p ProcCatalogDB f m 124
-p ProcCartSvc f m 96
->>>>>>> bb20c81a454afc78418f1d9d2b1c24ad26d593a8
+p ProcClient f m 144
+p ProcRouter f m 231
+p ProcFrontend f m 217
+p ProcCatalogSvc f m 133
+p ProcCatalogDB f m 95
+p ProcCartSvc f m 183
 -1
 
 # Tasks declaration
 T 0
-<<<<<<< HEAD
-t Client r Browse -1 ProcClient m 282
-t TaskRouter n Address -1 ProcRouter m 218
-t TaskFrontend n Home Catalog Cart -1 ProcFrontend m 176
-t TaskCatalogSvc n List Item -1 ProcCatalogSvc m 401
-t TaskCatalogDB n CatQuery -1 ProcCatalogDB m 425
-t TaskCartSvc n Get Add Del -1 ProcCartSvc m 246
-=======
-t Client r Browse -1 ProcClient m 111
-t TaskRouter n Address -1 ProcRouter m 185
-t TaskFrontend n Home Catalog Cart -1 ProcFrontend m 110
-t TaskCatalogSvc n List Item -1 ProcCatalogSvc m 196
-t TaskCatalogDB n CatQuery -1 ProcCatalogDB m 159
-t TaskCartSvc n Get Add Del -1 ProcCartSvc m 75
->>>>>>> bb20c81a454afc78418f1d9d2b1c24ad26d593a8
+t Client r Browse -1 ProcClient m 144
+t TaskRouter n Address -1 ProcRouter m 255
+t TaskFrontend n Home Catalog Cart -1 ProcFrontend m 199
+t TaskCatalogSvc n List Item -1 ProcCatalogSvc m 105
+t TaskCatalogDB n CatQuery -1 ProcCatalogDB m 135
+t TaskCartSvc n Get Add Del -1 ProcCartSvc m 240
 -1
 
 # Entries declaration
