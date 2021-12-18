@@ -39,23 +39,27 @@ class matlabValidator(Validator):
         K=30
         #numrto di batch
         N=30
-        B=[]
+        B=None
         while(e>0.5*10**-1):
             
             strt=time.time()
             X = self.matEng.lqn(matlab.double(X0),matlab.double(MU),
                           matlab.double(NT),matlab.double(NC),K*(N+1)*dt, 1, dt)
-            t1=time.time()-strt
-            
             X=np.array(X)
-            X0=list(map(int,X[:,-1].tolist()))
+            X0=X[:,-1].tolist()
             
-            if(len(B)>0):
-                B=np.vstack((B,np.array([X[-1,K*n:K*(n+1)].tolist() for n in range(N+1)])))
-            else:
-                B=np.array([X[-1,K*n:K*(n+1)].tolist() for n in range(N+1)])
+            if B is None:    
+                B=[[] for cmp in range(X.shape[0])]
+            
+            for cmp in range(X.shape[0]):
+                if(len(B[cmp])>0):
+                    B[cmp]=np.vstack((B[cmp],np.array([X[cmp,K*n:K*(n+1)].tolist() for n in range(N+1)])))
+                else:
+                    B[cmp]=np.array([X[cmp,K*n:K*(n+1)].tolist() for n in range(N+1)])
+            
+            
                 
-            Bm=np.mean(B,axis=1,keepdims=True)
+            Bm=np.mean(B[-1],axis=1,keepdims=True)
             CI=st.t.interval(0.95, len(Bm[1:])-1, loc=np.mean(Bm[1:]), scale=st.sem(Bm[1:]))
             e=abs(np.mean(Bm[1:])-CI[0])
             
