@@ -70,7 +70,7 @@ class matlabValidator(Validator):
             
             print(e)
             
-        print([MU[idx]*np.mean(Bm2[idx,1:]) for idx in tIdx[0]])
+        print([MU[idx]*np.mean(Bm2[idx,1:]) for idx in tIdx])
         
         
         return MU[-1]*np.mean(Bm2[-1,1:])
