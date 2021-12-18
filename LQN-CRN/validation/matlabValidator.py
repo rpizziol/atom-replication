@@ -69,6 +69,9 @@ class matlabValidator(Validator):
             e=abs(np.mean(Bm2[-1,1:])-CI[0])
             
             print(e)
+            
+        print([MU[idx]*np.mean(Bm2[idx,1:]) for idx in tIdx[0]])
+        
         
         return MU[-1]*np.mean(Bm2[-1,1:])
         
