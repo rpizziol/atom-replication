@@ -8,24 +8,24 @@ G
 
 # Processors declaration, with multiplicity
 P 0
-p ProcClient f m 162
-p ProcRouter f m 151
-p ProcFrontend f m 295
-p ProcCatalogSvc f m 164
-p ProcCatalogDB f m 181
-p ProcCartSvc f m 285
-p ProcCartDB f m 195
+p ProcClient f m 129
+p ProcRouter f m 229
+p ProcFrontend f m 201
+p ProcCatalogSvc f m 112
+p ProcCatalogDB f m 102
+p ProcCartSvc f m 82
+p ProcCartDB f m 87
 -1
 
 # Tasks declaration
 T 0
-t Client r Browse -1 ProcClient m 162
-t TaskRouter n Address -1 ProcRouter m 111
-t TaskFrontend n Home Catalog Cart -1 ProcFrontend m 140
-t TaskCatalogSvc n List Item -1 ProcCatalogSvc m 321
-t TaskCatalogDB n CatQuery -1 ProcCatalogDB m 252
-t TaskCartSvc n Get Add Del -1 ProcCartSvc m 213
-t TaskCartDB n CartQuery -1 ProcCartDB m 304
+t Client r Browse -1 ProcClient m 129
+t TaskRouter n Address -1 ProcRouter m 221
+t TaskFrontend n Home Catalog Cart -1 ProcFrontend m 191
+t TaskCatalogSvc n List Item -1 ProcCatalogSvc m 187
+t TaskCatalogDB n CatQuery -1 ProcCatalogDB m 243
+t TaskCartSvc n Get Add Del -1 ProcCartSvc m 136
+t TaskCartDB n CartQuery -1 ProcCartDB m 205
 -1
 
 # Entries declaration
