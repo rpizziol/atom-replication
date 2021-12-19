@@ -55,13 +55,17 @@ if __name__ == '__main__':
     CartSvc.addEntry(Get)
     CartSvc.addEntry(Add)
     CartSvc.addEntry(Delete)
-    # CartDB.addEntry(CartQuery)
+    CartDB.addEntry(CartQuery)
     
     # activity declaration
+    CartQuery.getActivities().append(Activity(stime=1.0, parent=CartQuery, name="e"))
     
     # CartSvcLogic
+    Get.getActivities().append(SynchCall(dest=CartQuery, parent=Get, name="2CartQryGet"))
     Get.getActivities().append(Activity(stime=1.0, parent=Get, name="e"))
+    Add.getActivities().append(SynchCall(dest=CartQuery, parent=Add, name="2CartQryAdd"))
     Add.getActivities().append(Activity(stime=1.0, parent=Add, name="e"))
+    Delete.getActivities().append(SynchCall(dest=CartQuery, parent=Delete, name="2CartQryRmv"))
     Delete.getActivities().append(Activity(stime=1.0, parent=Delete, name="e"))
     
     # CatalogDBLogic
@@ -115,7 +119,7 @@ if __name__ == '__main__':
     
     lqn2crn = LQN_CRN2()
     mname="atom_final"
-    lqn2crn.getCrn({"task":[cTask, Router, Front_end, CatalogSvc, CatalogDB, CartSvc], "name":mname})
+    lqn2crn.getCrn({"task":[cTask, Router, Front_end, CatalogSvc, CatalogDB, CartSvc,CartDB], "name":mname})
     
     lqn2crn.toMatlab(outDir="../model/validation")
     
@@ -123,11 +127,11 @@ if __name__ == '__main__':
     matV = matlabValidator("../model/validation/%s/lqn.m"%(mname))
     lqnV = lqnsValidator("../model/validation/%s/lqn_t.lqn"%(mname))
     
-    X0 = [0 for i in range(39)]
-    MU = [0 for i in range(39)]
-    NC = [0 for i in range(6)]
-    NT = [0 for i in range(6)]
-    names = [None] * 39
+    X0 = [0 for i in range(44)]
+    MU = [0 for i in range(44)]
+    NC = [0 for i in range(7)]
+    NT = [0 for i in range(7)]
+    names = [None] * 44
     rep = 1
     dt = 10.0 ** -1
     TF = 3000 * dt
@@ -137,10 +141,19 @@ if __name__ == '__main__':
     mat_v=[]
     lqsim_v=[]
     
-    for i in range(20):
+    for i in range(1):
+        
+        
+        # %X(32)=XCartQuery_e;
+        # %X(33)=XGet_e;
+        # %X(37)=XAdd_e;
+        # %X(41)=XRemove_e;
+        # %X(42)=XCart_e;
+        # %X(43)=XAddress_e;
+        # %X(44)=XBrowse_browse;
     
         X0[-1] = np.random.randint(low=100, high=400)
-        
+    
     
         MU[6] = 1.0 / 0.1  # Home
         names[6] = "Home"
@@ -154,18 +167,22 @@ if __name__ == '__main__':
     
         MU[23] = 1.0 / 0.1  # Catalog
         names[23]= "Catalog"
-        MU[29] = 1.0 / 0.1  # Get
-        names[29]= "Get"
-        MU[32] = 1.0 / 0.1  # Add
-        names[32]= "Add"
-        MU[35] = 1.0 / 0.1  # Delete
-        names[35]= "Del"
-        MU[36] = 1.0 / 0.1  # Cart
-        names[36]= "Cart"
-        MU[37] = 1.0 / 0.1  # Address
-        names[37]= "Address"
-        MU[38] = 1.0 / 0.1  # Browse
-        names[38]= "Browse"
+        
+        MU[31] = 1.0 / 0.1  # CartQuery
+        names[31]= "CartQuery"
+
+        MU[32] = 1.0 / 0.1  # Get
+        names[32]= "Get"
+        MU[36] = 1.0 / 0.1  # Add
+        names[36]= "Add"
+        MU[40] = 1.0 / 0.1  # Delete
+        names[40]= "Del"
+        MU[41] = 1.0 / 0.1  # Cart
+        names[41]= "Cart"
+        MU[42] = 1.0 / 0.1  # Address
+        names[42]= "Address"
+        MU[43] = 1.0 / 0.1  # Browse
+        names[43]= "Browse"
     
         NC[0] = -1
         NC[1] = np.random.randint(low=int(X0[-1] / 2), high=X0[-1] * 2)
@@ -173,12 +190,14 @@ if __name__ == '__main__':
         NC[3] = np.random.randint(low=int(X0[-1] / 2), high=X0[-1] * 2)
         NC[4] = np.random.randint(low=int(X0[-1] / 2), high=X0[-1] * 2)
         NC[5] = np.random.randint(low=int(X0[-1] / 2), high=X0[-1] * 2)
+        NC[6] = np.random.randint(low=int(X0[-1] / 2), high=X0[-1] * 2)
         NT[0] = -1
         NT[1] = np.random.randint(low=int(X0[-1] / 2), high=X0[-1] * 2)
         NT[2] = np.random.randint(low=int(X0[-1] / 2), high=X0[-1] * 2)
         NT[3] = np.random.randint(low=int(X0[-1] / 2), high=X0[-1] * 2)
         NT[4] = np.random.randint(low=int(X0[-1] / 2), high=X0[-1] * 2)
         NT[5] = np.random.randint(low=int(X0[-1] / 2), high=X0[-1] * 2)
+        NT[6] = np.random.randint(low=int(X0[-1] / 2), high=X0[-1] * 2)
     
         print(X0[-1], NC[1:], NT[1:], i)
     
@@ -188,11 +207,11 @@ if __name__ == '__main__':
             if(ent is not None):
                 print(ent,T_lqns[ent],T_mat[ent])
                 e.append(abs(T_lqns[ent]-T_mat[ent]) * 100 /T_lqns[ent])
-        
+    
         mat_v.append(T_mat)
         lqsim_v.append(T_lqns)
-                
-                
+    
+    
     Path("vdata/%s/"%(mname)).mkdir( parents=True, exist_ok=True )
     sp.savemat("vdata/%s/"%(mname),{"mat":mat_v,"lqsim":lqsim_v})
     #

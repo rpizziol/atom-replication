@@ -14,6 +14,7 @@ p ProcFrontend f m {{nc[2]}}
 p ProcCatalogSvc f m {{nc[3]}}
 p ProcCatalogDB f m {{nc[4]}}
 p ProcCartSvc f m {{nc[5]}}
+p ProcCartDB f m {{nc[6]}}
 -1
 
 # Tasks declaration
@@ -24,6 +25,7 @@ t TaskFrontend n Home Catalog Cart -1 ProcFrontend m {{nt[2]}}
 t TaskCatalogSvc n List Item -1 ProcCatalogSvc m {{nt[3]}}
 t TaskCatalogDB n CatQuery -1 ProcCatalogDB m {{nt[4]}}
 t TaskCartSvc n Get Add Del -1 ProcCartSvc m {{nt[5]}}
+t TaskCartDB n CartQuery -1 ProcCartDB m {{nt[6]}}
 -1
 
 # Entries declaration
@@ -37,6 +39,7 @@ s Cart 0.1 -1
 s List 0.1 -1
 s Item 0.1 -1
 s CatQuery 0.1 -1
+s CartQuery 0.1 -1
 A Address ActivityAddress
 A Catalog ActivityCatalog
 y Browse Address 1.0 -1
@@ -45,6 +48,9 @@ y Item CatQuery 1.0 -1
 y Cart Get 1.0 -1
 y Cart Add 1.0 -1
 y Cart Del 1.0 -1
+y Get CartQuery 1.0 -1
+y Add CartQuery 1.0 -1
+y Del CartQuery 1.0 -1
 -1
 
 # Activities definition
