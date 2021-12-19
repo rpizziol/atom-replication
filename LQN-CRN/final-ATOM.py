@@ -142,29 +142,29 @@ if __name__ == '__main__':
         X0[-1] = np.random.randint(low=100, high=300)
         
     
-        MU[6] = 1.0 / 1  # Home
+        MU[6] = 1.0 / 0.01  # Home
         names[6] = "Home"
     
-        MU[16] = 1.0 / 1.0  # CatQuery
+        MU[16] = 1.0 / 0.01  # CatQuery
         names[16] = "CatQuery"
-        MU[17] = 1.0 / 1.0  # List
+        MU[17] = 1.0 / 0.01  # List
         names[17] = "List"
-        MU[22] = 1.0 / 1.0  # Item
+        MU[22] = 1.0 / 0.01  # Item
         names[22] = "Item"
     
-        MU[23] = 1.0 / 1.0  # Catalog
+        MU[23] = 1.0 / 0.01  # Catalog
         names[23]= "Catalog"
-        MU[29] = 1.0 / 1.0  # Get
+        MU[29] = 1.0 / 0.01  # Get
         names[29]= "Get"
-        MU[32] = 1.0 / 1.0  # Add
+        MU[32] = 1.0 / 0.01  # Add
         names[32]= "Add"
-        MU[35] = 1.0 / 1.0  # Delete
+        MU[35] = 1.0 / 0.01  # Delete
         names[35]= "Del"
-        MU[36] = 1.0 / 1.0  # Cart
+        MU[36] = 1.0 / 0.01  # Cart
         names[36]= "Cart"
-        MU[37] = 1.0 / 1.0  # Address
+        MU[37] = 1.0 / 0.01  # Address
         names[37]= "Address"
-        MU[38] = 1.0 / 1.0  # Browse
+        MU[38] = 1.0 / 0.01  # Browse
         names[38]= "Browse"
     
         NC[0] = -1
