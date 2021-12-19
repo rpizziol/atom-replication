@@ -141,7 +141,7 @@ if __name__ == '__main__':
     mat_v=[]
     lqsim_v=[]
     
-    for i in range(1):
+    for i in range(10):
         
         
         # %X(32)=XCartQuery_e;
