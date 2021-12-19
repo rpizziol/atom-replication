@@ -132,9 +132,9 @@ if __name__ == '__main__':
     Tclient = []
     e = []
     
-    for i in range(20):
+    for i in range(10):
     
-        X0[-1] = np.random.randint(low=10, high=300)
+        X0[-1] = np.random.randint(low=100, high=300)
         
     
         MU[6] = 1.0 / 1  # Home
