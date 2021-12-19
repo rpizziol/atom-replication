@@ -137,9 +137,9 @@ if __name__ == '__main__':
     mat_v=[]
     lqsim_v=[]
     
-    for i in range(1):
+    for i in range(20):
     
-        X0[-1] = np.random.randint(low=100, high=300)
+        X0[-1] = np.random.randint(low=100, high=400)
         
     
         MU[6] = 1.0 / 0.1  # Home
