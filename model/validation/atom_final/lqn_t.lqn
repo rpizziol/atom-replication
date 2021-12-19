@@ -28,15 +28,15 @@ t TaskCartSvc n Get Add Del -1 ProcCartSvc m {{nt[5]}}
 
 # Entries declaration
 E 0
-s Browse 0.01 -1
-s Get 0.01 -1
-s Add 0.01 -1
-s Del 0.01 -1
-s Home 0.01 -1
-s Cart 0.01 -1
-s List 0.01 -1
-s Item 0.01 -1
-s CatQuery 0.01 -1
+s Browse 0.1 -1
+s Get 0.1 -1
+s Add 0.1 -1
+s Del 0.1 -1
+s Home 0.1 -1
+s Cart 0.1 -1
+s List 0.1 -1
+s Item 0.1 -1
+s CatQuery 0.1 -1
 A Address ActivityAddress
 A Catalog ActivityCatalog
 y Browse Address 1.0 -1
@@ -49,7 +49,7 @@ y Cart Del 1.0 -1
 
 # Activities definition
 A TaskRouter
- s ActivityAddress 0.01
+ s ActivityAddress 0.1
  s ActivityHome 0.00000000001
  s ActivityCatalog 0.00000000001
  s ActivityCart 0.00000000001
@@ -64,7 +64,7 @@ A TaskRouter
 -1
 
 A TaskFrontend
- s ActivityCatalog 0.01
+ s ActivityCatalog 0.1
  s ActivityList 0.00000000001
  s ActivityItem 0.00000000001
  y ActivityList List 1.0
