@@ -77,7 +77,11 @@ class lqnsValidator(Validator):
 
     def getResXml(self,Names):
         res={}
-        tree = ET.parse(self.modelDirPath / "lqn.lqxo")
+        if((self.modelDirPath / "lqn.lqxo~001~").exists()):
+            tree = ET.parse(self.modelDirPath / "lqn.lqxo~001~")
+        else:
+            tree = ET.parse(self.modelDirPath / "lqn.lqxo")
+            
         root = tree.getroot()
         for item in root.findall('./processor//entry'):
             res_entry=item.find("result-entry")
