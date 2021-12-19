@@ -15,6 +15,7 @@ from validation import lqnsValidator
 from validation import matlabValidator
 import matplotlib.pyplot as plt
 import numpy as np
+import scipy.io as sp
         
 if __name__ == '__main__':
     
@@ -112,13 +113,14 @@ if __name__ == '__main__':
     browse.getActivities().append(Activity(stime=1.0, parent=browse, name="browse"))
     
     lqn2crn = LQN_CRN2()
-    lqn2crn.getCrn({"task":[cTask, Router, Front_end, CatalogSvc, CatalogDB, CartSvc], "name":"atom_final"})
+    mname="atom_final"
+    lqn2crn.getCrn({"task":[cTask, Router, Front_end, CatalogSvc, CatalogDB, CartSvc], "name":mname})
     
     lqn2crn.toMatlab(outDir="../model/validation")
     
     # validate the model against lqns#
-    matV = matlabValidator("../model/validation/atom_final/lqn.m")
-    lqnV = lqnsValidator("../model/validation/atom_final/lqn_t.lqn")
+    matV = matlabValidator("../model/validation/%s/lqn.m"%(mname))
+    lqnV = lqnsValidator("../model/validation/%s/lqn_t.lqn"%(mname))
     
     X0 = [0 for i in range(39)]
     MU = [0 for i in range(39)]
@@ -131,8 +133,10 @@ if __name__ == '__main__':
     
     Tclient = []
     e = []
+    mat_v=[]
+    lqsim_v=[]
     
-    for i in range(10):
+    for i in range(1):
     
         X0[-1] = np.random.randint(low=100, high=300)
         
@@ -181,7 +185,15 @@ if __name__ == '__main__':
         T_lqns = lqnV.solveModel(X0=X0[-1], NT=NT, NC=NC,Names=names)
         for ent in names:
             if(ent is not None):
+                print(ent,T_lqns[ent],T_mat[ent])
                 e.append(abs(T_lqns[ent]-T_mat[ent]) * 100 /T_lqns[ent])
+        
+        mat_v.append(T_mat)
+        lqsim_v.append(T_lqns)
+                
+                
+    Path("vdata/%s/"%(mname)).mkdir( parents=True, exist_ok=True )
+    sp.savemat("vdata/%s/"%(mname),{"mat":mat_v,"lqsim":lqsim_v})
     #
     # plt.figure()
     # plt.stem(Tclient, linefmt="b", markerfmt="bo", label="lqns")
