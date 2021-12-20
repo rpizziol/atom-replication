@@ -1,0 +1,46 @@
+G
+"simlple_lqn.lqn"
+0.01
+1000000
+1
+0.9
+-1
+
+# Processors declaration, with multiplicity 
+P 0
+p ProcClient f m 245 
+p ProcT1 f m 63
+p ProcT2 f m 85 
+-1
+
+# Tasks declaration
+T 0
+t Client r Browse -1 ProcClient m 245
+t T1 n Address -1 ProcT1 m 132
+t T2 n Home -1 ProcT2 m 442
+-1
+
+# Entries declaration
+E 0
+s Browse 1 -1
+s Address 1 -1
+s Home 1 -1
+y Browse Address 1.0 -1
+y Address Home 1.0 -1
+-1
+
+# DiffLQN settings, starting with #! 
+# These will be ignored by LQNS
+
+# 1. Solver settings
+#! v 1.0e5           	# fast rate to approximate instantaneous events
+#! solver ode        	# ODE analysis - solver sim will run simulation
+#! stoptime 1000.0   	# integration time horizon
+#! confidence_level 0.95
+#! confidence_percent_error 0.1
+
+# 2. Output settings 
+#! throughput: BrowseEntry e1 e2 e3 -1 #
+
+# 3. Export settings
+#! export matlab

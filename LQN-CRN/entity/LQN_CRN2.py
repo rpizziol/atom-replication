@@ -12,6 +12,9 @@ from jinja2 import Environment, PackageLoader, select_autoescape
 from pathlib import Path
 import sys
 import entity
+import os
+
+script_dir = Path(os.path.realpath(__file__))/".."/".."
 
 
 def hilite(string, status, bold):
@@ -361,4 +364,45 @@ class LQN_CRN2():
         
         mfid = open("%s/__init__.py" % str(outd.absolute()), "w+")
         mfid.write("from .lqn import *\n")
+        mfid.close()
+        
+    def toCasadiCtrl(self, outDir=None):
+        if(outDir == None):
+            outDir = "."
+            
+        env = Environment(
+            loader=PackageLoader('trasducer', 'templates'),
+            autoescape=select_autoescape(['html', 'xml']),
+            trim_blocks=False,
+            lstrip_blocks=False)
+        
+        tname = [t.name for t in self.lqn["task"]]
+        
+        mprops = []
+        for p in self.props:
+            np = p
+            for tn in tname:
+                np = np.replace("NC[\"%s\"]" % (tn), "p[\"NC\"][0,%d]" % (tname.index(tn)))
+                np = np.replace("NT[\"%s\"]" % (tn), "p[\"NT\"][0,%d]" % (tname.index(tn)))
+                np = np.replace("min(", "np.minimum(")
+                np = np.replace("D", "p[\"delta\"]")
+            for vname in self.names:
+                np = np.replace("MU[\"%s\"]" % (vname), "p[\"MU\"][0,%d]" % (self.names.index(vname)))
+            for vname in self.names:
+                np = np.replace(vname, "X[%d]" % (self.names.index(vname)))
+            mprops.append(np)
+        
+        mat_tmpl = env.get_template('casadiCtrl-tpl.py')
+        model = mat_tmpl.render(task=self.lqn["task"], name=self.lqn["name"],
+              names=self.names, props=mprops, jumps=self.Jumps)
+        
+        outd = Path(outDir)
+        outd = outd / self.lqn["name"]
+        outd.mkdir(parents=True, exist_ok=True)
+        mfid = open("%s/lqnCtrl.py" % str(outd.absolute()), "w+")
+        mfid.write(model)
+        mfid.close()
+        
+        mfid = open("%s/__init__.py" % str(outd.absolute()), "w+")
+        mfid.write("from .lqnCtrl import *\n")
         mfid.close()
