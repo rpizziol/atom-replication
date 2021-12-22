@@ -5,9 +5,8 @@ function updateReplication(r)
     fclose(fid);
     %% Updat the string 'f'
     for i = 1:size(r, 2)
-        % Find and replace {{ri}} with the value r(i) TODO replace abs and
-        % max (to ensure 0 is not an option)
-        f = strrep(f, strcat('{{r', int2str(i), '}}'), int2str(max(1, abs(r(i)))));
+        % Find and replace {{ri}} with the value r(i)
+        f = strrep(f, strcat('{{r', int2str(i), '}}'), int2str(r(i)));
     end
     %% Write the lqn output file
     fid = fopen('atom-4-temp.lqn', 'w');

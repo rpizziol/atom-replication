@@ -33,4 +33,4 @@ end
 %% Calculate value of the objective function
 Cmax = sum(Q.*s_ub);
 
-bestValues = evolutionaryGaSolution(st, N, M, psi, Cmax, tau1, tau2);
+bestValues = evolutionaryGaSolution(st, N, M, psi, Cmax, tau1, tau2, Q);
