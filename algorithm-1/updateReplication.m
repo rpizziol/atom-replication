@@ -1,6 +1,6 @@
-function updateReplication(r, modelName)
+function updateReplication(r, model)
     %% Open the lqn template file
-    fid = fopen(strcat(modelName, '.lqn'), 'r');
+    fid = fopen('atom.lqn', 'r');
     f = fread(fid);
     fclose(fid);
     %% Updat the string 'f'
@@ -9,7 +9,7 @@ function updateReplication(r, modelName)
         f = strrep(f, strcat('{{r', int2str(i), '}}'), int2str(r(i)));
     end
     %% Write the lqn output file
-    fid = fopen(strcat(modelName, '-temp.lqn'), 'w');
+    fid = fopen(strcat(model, '-temp.lqn'), 'w');
     fprintf(fid, '%s', f);
     fclose(fid);
 end
