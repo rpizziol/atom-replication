@@ -1,7 +1,7 @@
-function [rConfigs, sConfigs] = generateInitialConfig(Q, s_lb, s_ub, N, K)
+function configs = generateInitialConfig(Q, s_lb, s_ub, N, K)
     % Configurations' sets
-    rConfigs = zeros(K, N);
-    sConfigs = zeros(K, N);
+    configs.r = zeros(K, N);
+    configs.s = zeros(K, N);
 
     rt = zeros(1, N); % Number of replicas for each microservice
     st = zeros(1, N); % CPU share for each microservice
@@ -13,8 +13,8 @@ function [rConfigs, sConfigs] = generateInitialConfig(Q, s_lb, s_ub, N, K)
             st(i) = randi([s_lb(i) s_ub(i)])/1000;
         end
         % Update the configurations' sets
-        rConfigs(j, :) = rt;
-        sConfigs(j, :) = st;
+        configs.r(j, :) = rt;
+        configs.s(j, :) = st;
     end
 end
 

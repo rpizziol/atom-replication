@@ -9,13 +9,12 @@ function [x,fval,exitflag,output,population,score] = evolutionaryGaSolution(st, 
     options = optimoptions(options,'PopulationSize', 20);
     options = optimoptions(options,'MaxGenerations', 10);
     %options = optimoptions(options,'FitnessLimit', -0.5);
-    % TODO time limit 2.5 minutes
     options = optimoptions(options,'MutationFcn', {  @mutationuniform 0.1 });
     options = optimoptions(options,'Display', 'off');
     options = optimoptions(options,'PlotFcn', { @gaplotbestfun });
     
     intcon = 1:N;       % All values are integers
-    lb = ones(1,4);    % Lower bound
+    lb = ones(1,N);    % Lower bound
     ub = Q;
 
     %% Run genetic algorithm
