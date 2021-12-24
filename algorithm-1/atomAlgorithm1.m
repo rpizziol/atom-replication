@@ -1,6 +1,8 @@
 clear
 rng('shuffle')
 
+modelName = 'atom-4';
+
 %% Define parameters
 N = 4; % Number of microservices (tasks)
 M = 3;  % Number of classes (max entries)
@@ -33,4 +35,6 @@ end
 %% Calculate value of the objective function
 Cmax = sum(Q.*s_ub);
 
-bestValues = evolutionaryGaSolution(st, N, M, psi, Cmax, tau1, tau2, Q);
+tic
+bestValues = evolutionaryGaSolution(st, N, M, psi, Cmax, tau1, tau2, Q, modelName);
+toc

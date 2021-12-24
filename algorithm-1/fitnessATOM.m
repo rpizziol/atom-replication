@@ -1,4 +1,4 @@
-function value = fitnessATOM(rt, st, N, M, psi, Cmax, tau1, tau2)    
+function value = fitnessATOM(rt, st, N, M, psi, Cmax, tau1, tau2, modelName)    
     %% Calculate total allocated CPU capacity (to minimize)
     Ct = sum(rt.*st); 
     Chat = Ct / Cmax; % Normalized Ct
@@ -7,14 +7,14 @@ function value = fitnessATOM(rt, st, N, M, psi, Cmax, tau1, tau2)
     % Xt = Number of transactions per unit time for a give period t and a
     % particular class j of microservice i (TODO calculate with LQNS)
     
-    updateReplication(rt);
+    updateReplication(rt, modelName);
     % updateCalls(rt); % TODO implement this method
     % updateHostDemand(st); % TODO implement this method
     
     system('./LQN-exec.sh'); % solve model
 
     Xt = zeros(N, M);
-    m = readmatrix("atom-4-temp.csv");
+    m = readmatrix(strcat(modelName, '-temp.csv'));
     Xt(1,1) = m(1,4); % EntryBrowse
     Xt(2,1) = m(2,4); % EntryAddress
     % EntryHome EntryCatalog EntryCarts

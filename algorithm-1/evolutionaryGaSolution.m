@@ -1,14 +1,15 @@
-function [x,fval,exitflag,output,population,score] = evolutionaryGaSolution(st, N, M, psi, Cmax, tau1, tau2, Q)
+function [x,fval,exitflag,output,population,score] = evolutionaryGaSolution(st, N, M, psi, Cmax, tau1, tau2, Q, modelName)
     % x is the vector rt
-    f = @(x)fitnessATOM(x, st, N, M, psi, Cmax, tau1, tau2);
+    f = @(x)fitnessATOM(x, st, N, M, psi, Cmax, tau1, tau2, modelName);
     
     % Load default settings
     options = optimoptions('ga');
     %% Modify options setting
     options = optimoptions(options,'PopulationType', 'doubleVector'); % 'doubleVector' is the default
-    options = optimoptions(options,'PopulationSize', 10);
+    options = optimoptions(options,'PopulationSize', 20);
     options = optimoptions(options,'MaxGenerations', 10);
     %options = optimoptions(options,'FitnessLimit', -0.5);
+    % TODO time limit 2.5 minutes
     options = optimoptions(options,'MutationFcn', {  @mutationuniform 0.1 });
     options = optimoptions(options,'Display', 'off');
     options = optimoptions(options,'PlotFcn', { @gaplotbestfun });

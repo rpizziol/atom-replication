@@ -17,9 +17,9 @@ p ProcCatalogSvc f m 10
 # Tasks declaration
 T 0
 t TaskClient r EntryBrowse -1 ProcClient m 1000
-t TaskRouter n EntryAddress -1 ProcRouter m 10
-t TaskFrontend n EntryHome EntryCatalog EntryCarts -1 ProcFrontend m 7
-t TaskCatalogSvc n EntryList EntryItem -1 ProcCatalogSvc m 3
+t TaskRouter n EntryAddress -1 ProcRouter m 5
+t TaskFrontend n EntryHome EntryCatalog EntryCarts -1 ProcFrontend m 4
+t TaskCatalogSvc n EntryList EntryItem -1 ProcCatalogSvc m 7
 -1
 
 # Entries declaration
