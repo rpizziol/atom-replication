@@ -3,7 +3,7 @@ rng('shuffle')
 
 %% Input of algorithm 1
 modelName = 'atom';
-timeLimit = 10; % Time limit in seconds
+timeLimit = 120; % Time limit in seconds
 tolerance = 0.6; % TODO
 
 %% Define parameters
@@ -31,6 +31,10 @@ K = 5; % Number of solution candidates in the initial configuration
 %% Calculate value of the objective function
 Cmax = sum(Q.*s_ub);
 
+% Set of solution candidates
+G.r = ones(0,N);
+G.s = ones(0,N);
+G.f = ones(0,1);
 
 tic
 while toc < timeLimit
@@ -38,7 +42,7 @@ while toc < timeLimit
     currentCandidates.r = ones(0,N);
     currentCandidates.s = ones(0,N);
     currentCandidates.f = ones(0,1);
-    
+
     for i = 1:size(rConfigs, 1)
         model = strcat(modelName, '-', int2str(i));
         updateReplication(rConfigs(i), model);
@@ -53,9 +57,11 @@ while toc < timeLimit
             currentCandidates.f(end+1) = fvals(i);
         end
     end
-    % [rConfigs, sConfigs] = generateConfig() % TODO
-    % TODO add G
-    %G 
+    %[rConfigs, sConfigs] = generateConfig(currentCandidates); % TODO
+    % Update the set of solution candidates
+    G.r = [G.r; currentCandidates.r];
+    G.s = [G.s; currentCandidates.s];
+    G.f = [G.f, currentCandidates.f];
 end
 
 % tic
