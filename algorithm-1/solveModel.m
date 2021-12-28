@@ -3,10 +3,10 @@ function [fval, c] = solveModel(model, N, M, psi, tau1, tau2, Cmax, rt, st)
     Ct = sum(rt.*st); 
     Chat = Ct / Cmax; % Normalized Ct
 
-    system("java -jar DiffLQN.jar " + model + "-temp.lqn");
+    system("cd LQNFiles; java -jar DiffLQN.jar " + model + "-temp.lqn");
 
     Xt = zeros(N, M);
-    m = readmatrix(strcat(model, '-temp.csv'));
+    m = readmatrix(strcat('./LQNFiles/', model, '-temp.csv'));
     Xt(1,1) = m(1,4); % EntryBrowse
     Xt(2,1) = m(2,4); % EntryAddress
     % EntryHome EntryCatalog EntryCarts

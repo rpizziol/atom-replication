@@ -1,15 +1,16 @@
 clear
 rng('shuffle')
 
-%% Input of algorithm 1
+%% Inputs of algorithm 1
 modelName = 'atom';
 timeLimit = 120; % Time limit in seconds
 tolerance = 0.6; % TODO
 
-%% Define parameters
+%% Model parameters
 N = 4; % Number of microservices (tasks)
 M = 3;  % Number of classes (max entries)
 
+%% Algorithm 1 parameters
 % Weights of transactions
 psi = rand(N, M);
 
@@ -64,6 +65,47 @@ while toc < timeLimit
     G.f = [G.f, currentCandidates.f];
 end
 
-% tic
-% bestValues = evolutionaryGaSolution(configs.s(1,:), N, M, psi, Cmax, tau1, tau2, Q, modelName);
-% toc
+%% Scaling planner
+
+% Check whether a microservice was allocated less CPU share in the previous
+% monitoring window. If so, replace the current conﬁguration for that
+% microservice with the previous one. If this change does not affect the
+% TPS signiﬁcantly the previous conﬁguration is chosen for that
+% microservice, otherwise the current conﬁguration is kept.
+
+% G = firstFix(G); TODO
+
+
+% Secondly, to increase the TPS, ATOM reduces the number of replicas while
+% increasing the CPU share of each replica, keeping the total CPU share
+% same. It then checks again whether the TPS is affected signiﬁcantly and
+% if not, it keeps the modiﬁed conﬁguration. This improves the TPS since
+% reducing the number of replicas also reduces the parallelization
+% overhead.
+
+
+% G = secondFix(G); TODO 
+
+% After that, the planner creates the scaling conﬁgurations from the best
+% solution candidate, which are executed by the scaling executor.
+
+[~, maxIndex] = max(G.f);
+bestConf.r = G.r(maxIndex, :);
+bestConf.s = G.s(maxIndex, :);
+
+% Display the best configuration
+disp('+++ BEST CONFIGURATION +++');
+disp(' r = ');
+disp(bestConf.r);
+disp(' s = ');
+disp(bestConf.s);
+
+
+
+
+
+
+
+
+
+
