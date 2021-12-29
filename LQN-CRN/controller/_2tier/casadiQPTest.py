@@ -42,9 +42,9 @@ obj+=x1
 qp = {'x':vertcat(*x), 'f':obj, 'g':vertcat(*g)}
 
 # Solve with IPOPT
-#solver = qpsol('solver', 'qpoases', qp, {'sparse':True})
+solver = qpsol('solver', 'qpoases', qp, {'sparse':False})
 #solver = qpsol('solver', 'gurobi', qp)
-solver = nlpsol('solver', 'ipopt', qp)
+#solver = nlpsol('solver', 'ipopt', qp)
 
 # Get the optimal solution
 sol = solver(lbx=lbx, ubx=ubx, lbg=lbg, ubg=ubg)
