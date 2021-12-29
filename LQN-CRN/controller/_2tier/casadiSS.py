@@ -23,7 +23,7 @@
 #
 from casadi import *
 
-T = 5 # Time horizon
+T = 2 # Time horizon
 N = 50 # number of control intervals
 
 MU=[1,1000,1000]
@@ -44,7 +44,7 @@ xdot = vertcat(-MU[0]*x0+MU[2]*casadi.fmin(x2,u2),
                 )
 
 # Objective term
-L = 0*(x0-100)**2+(MU[2]*casadi.fmin(x2,u2)-100)**2+(MU[1]*casadi.fmin(x1,u1)-100)**2
+L = (x0-100)**2+(MU[2]*casadi.fmin(x2,u2)-100)**2+(MU[1]*casadi.fmin(x1,u1)-100)**2
 
 # Formulate discrete time dynamics
 if True:
@@ -99,7 +99,7 @@ for k in range(N):
     w   += [Uk]
     lbw += [0]*2
     ubw += [200]*2
-    w0  += [0]*2
+    w0  += [1]*2
 
     # Integrate till the end of the interval
     Fk = F(x0=Xk, p=Uk)
