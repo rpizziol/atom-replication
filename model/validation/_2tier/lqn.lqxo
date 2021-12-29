@@ -1,54 +1,54 @@
 <?xml version="1.0"?>
 <!-- lqns -xml -->
 <lqn-model name="../model/validation/_2tier/lqn" description="lqns 5.7 solution for model from: ../model/validation/_2tier/lqn.lqn." xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="/usr/local/share/lqns/lqn.xsd">
-   <solver-params comment="simlple_lqn.lqn" conv_val="0.01" it_limit="1e+06" underrelax_coeff="0.9" print_int="1">
-      <result-general valid="NO" conv-val="0.00595836" iterations="7" platform-info="mpbwalt.home Darwin 21.1.0" user-cpu-time="00:00:00.00" system-cpu-time="00:00:00.00" elapsed-time="00:00:00.00">
-         <mva-info submodels="3" core="21" step="2567" step-squared="985581" wait="2.95629e+06" wait-squared="1.45283e+12" faults="6"/>
+   <solver-params comment="simlple_lqn.lqn" conv_val="0.01" it_limit="10000" underrelax_coeff="0.9" print_int="1">
+      <result-general valid="YES" conv-val="0.00531592" iterations="8" platform-info="mpbwalt.home Darwin 21.1.0" user-cpu-time="00:00:00.00" system-cpu-time="00:00:00.00" elapsed-time="00:00:00.00">
+         <mva-info submodels="3" core="24" step="240" step-squared="2774" wait="6785" wait-squared="2.73925e+06" faults="0"/>
       </result-general>
    </solver-params>
-   <processor name="ProcClient" scheduling="fcfs" multiplicity="257" speed-factor="1">
-      <result-processor utilization="5.99614"/>
-      <task name="Client" scheduling="ref" multiplicity="257" queue-length="0">
-         <result-task throughput="5.99614" utilization="256.999" phase1-utilization="256.999" proc-utilization="5.99614"/>
+   <processor name="ProcClient" scheduling="fcfs" multiplicity="251" speed-factor="1">
+      <result-processor utilization="1.03225"/>
+      <task name="Client" scheduling="ref" multiplicity="251" queue-length="0">
+         <result-task throughput="1.03225" utilization="251.002" phase1-utilization="251.002" proc-utilization="1.03225"/>
          <entry name="Browse" type="PH1PH2">
-            <result-entry utilization="256.999" throughput="5.99614" squared-coeff-variation="4.26303" proc-utilization="5.99614" throughput-bound="85.6667"/>
+            <result-entry utilization="251.002" throughput="1.03225" squared-coeff-variation="2.96783" proc-utilization="1.03225" throughput-bound="83.6667"/>
             <entry-phase-activities>
                <activity name="Browse_ph1" phase="1" host-demand-mean="1">
-                  <result-activity proc-waiting="0" service-time="42.8608" service-time-variance="7831.4" utilization="256.999"/>
+                  <result-activity proc-waiting="0" service-time="243.161" service-time-variance="175480" utilization="251.002"/>
                   <synch-call dest="Address" calls-mean="1">
-                     <result-call waiting="0.0234235" waiting-variance="0"/>
+                     <result-call waiting="240.222" waiting-variance="0"/>
                   </synch-call>
                </activity>
             </entry-phase-activities>
          </entry>
       </task>
    </processor>
-   <processor name="ProcT1" scheduling="fcfs" multiplicity="331" speed-factor="1">
-      <result-processor utilization="5.99614"/>
-      <task name="T1" scheduling="fcfs" multiplicity="479" queue-length="0">
-         <result-task throughput="5.99614" utilization="250.866" phase1-utilization="250.866" proc-utilization="5.99614"/>
+   <processor name="ProcT1" scheduling="fcfs" multiplicity="102" speed-factor="1">
+      <result-processor utilization="1.03225"/>
+      <task name="T1" scheduling="fcfs" multiplicity="2" queue-length="0">
+         <result-task throughput="1.03225" utilization="1.99992" phase1-utilization="1.99992" proc-utilization="1.03225"/>
          <entry name="Address" type="PH1PH2">
-            <result-entry utilization="250.866" throughput="5.99614" squared-coeff-variation="2.42325" proc-utilization="5.99614" throughput-bound="239.5"/>
+            <result-entry utilization="1.99992" throughput="1.03225" squared-coeff-variation="1.52458" proc-utilization="1.03225" throughput-bound="1"/>
             <entry-phase-activities>
                <activity name="Address_ph1" phase="1" host-demand-mean="1">
-                  <result-activity proc-waiting="0" service-time="41.838" service-time-variance="4241.7" utilization="250.866"/>
+                  <result-activity proc-waiting="0" service-time="1.93744" service-time-variance="5.7228" utilization="1.99992"/>
                   <synch-call dest="Home" calls-mean="1">
-                     <result-call waiting="23.729" waiting-variance="0"/>
+                     <result-call waiting="0" waiting-variance="0"/>
                   </synch-call>
                </activity>
             </entry-phase-activities>
          </entry>
       </task>
    </processor>
-   <processor name="ProcT2" scheduling="fcfs" multiplicity="6" speed-factor="1">
-      <result-processor utilization="5.99633"/>
-      <task name="T2" scheduling="fcfs" multiplicity="116" queue-length="0">
-         <result-task throughput="5.99633" utilization="102.591" phase1-utilization="102.591" proc-utilization="5.99633"/>
+   <processor name="ProcT2" scheduling="fcfs" multiplicity="274" speed-factor="1">
+      <result-processor utilization="1.03225"/>
+      <task name="T2" scheduling="fcfs" multiplicity="322" queue-length="0">
+         <result-task throughput="1.03225" utilization="1.03219" phase1-utilization="1.03219" proc-utilization="1.03225"/>
          <entry name="Home" type="PH1PH2">
-            <result-entry utilization="102.591" throughput="5.99633" squared-coeff-variation="0.889934" proc-utilization="5.99633" throughput-bound="116"/>
+            <result-entry utilization="1.03219" throughput="1.03225" squared-coeff-variation="1.00012" proc-utilization="1.03225" throughput-bound="322"/>
             <entry-phase-activities>
                <activity name="Home_ph1" phase="1" host-demand-mean="1">
-                  <result-activity proc-waiting="16.1089" service-time="17.1089" service-time-variance="260.497" utilization="102.591"/>
+                  <result-activity proc-waiting="0" service-time="0.999939" service-time-variance="1" utilization="1.03219"/>
                </activity>
             </entry-phase-activities>
          </entry>

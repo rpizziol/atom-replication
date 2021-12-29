@@ -306,11 +306,11 @@ class LQN_CRN2():
             for tn in tname:
                 np = np.replace("NC[\"%s\"]" % (tn), "p.NC(%d)" % (tname.index(tn) + 1))
                 np = np.replace("NT[\"%s\"]" % (tn), "p.NT(%d)" % (tname.index(tn) + 1))
-                np = np.replace("D", "p.delta")
             for vname in self.names:
                 np = np.replace("MU[\"%s\"]" % (vname), "p.MU(%d)" % (self.names.index(vname) + 1))
             for vname in self.names:
                 np = np.replace(vname, "X(%d)" % (self.names.index(vname) + 1))
+            np = np.replace("D", "p.delta")
             mprops.append(np)
         
         mat_tmpl = env.get_template('model-tpl.m')
@@ -382,14 +382,17 @@ class LQN_CRN2():
         for p in self.props:
             np = p
             for tn in tname:
-                np = np.replace("NC[\"%s\"]" % (tn), "p[\"NC\"][0,%d]" % (tname.index(tn)))
-                np = np.replace("NT[\"%s\"]" % (tn), "p[\"NT\"][0,%d]" % (tname.index(tn)))
-                np = np.replace("min(", "np.minimum(")
-                np = np.replace("D", "p[\"delta\"]")
+                np = np.replace("NC[\"%s\"]" % (tn), "NC[0,%d]" % (tname.index(tn)))
+                np = np.replace("NT[\"%s\"]" % (tn), "NT[0,%d]" % (tname.index(tn)))
             for vname in self.names:
-                np = np.replace("MU[\"%s\"]" % (vname), "p[\"MU\"][0,%d]" % (self.names.index(vname)))
+                np = np.replace("MU[\"%s\"]" % (vname), "MU[0,%d]" % (self.names.index(vname)))
             for vname in self.names:
                 np = np.replace(vname, "X[%d]" % (self.names.index(vname)))
+            np = np.replace("*min(", "*casadi.fmin(")
+            if("D" in np):
+                np = np.replace("D", "F*delta")
+            else:
+                np="(1-F)*%s"%(np)
             mprops.append(np)
         
         mat_tmpl = env.get_template('casadiCtrl-tpl.py')
