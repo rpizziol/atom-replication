@@ -36,7 +36,7 @@ g.append(x1-x2*x3)
 lbg.append(0)
 ubg.append(0)
 
-obj+=x1
+obj+=-x1
 
 # Formulate QP
 qp = {'x':vertcat(*x), 'f':obj, 'g':vertcat(*g)}
