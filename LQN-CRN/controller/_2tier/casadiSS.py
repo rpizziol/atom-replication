@@ -51,7 +51,7 @@ if True:
     # CVODES from the SUNDIALS suite
     dae = {'x':x, 'p':u, 'ode':xdot, 'quad':L}
     opts = {'tf':T/N}
-    F = integrator('F', 'rk', dae, opts)
+    F = integrator('F', 'idas', dae, opts)
 else:
     # Fixed step Runge-Kutta 4 integrator
     M = 4 # RK4 steps per interval
@@ -120,8 +120,8 @@ for k in range(N):
 
 # Create an NLP solver
 prob = {'f': J, 'x': vertcat(*w), 'g': vertcat(*g)}
-solver = nlpsol('solver', 'ipopt', prob);
-#solver=qpsol('solver', "qpoases", prob)
+#solver = nlpsol('solver', 'ipopt', prob);
+solver=qpsol('solver', "qpoases", prob)
 
 # Solve the NLP
 sol = solver(x0=w0, lbx=lbw, ubx=ubw, lbg=lbg, ubg=ubg)
