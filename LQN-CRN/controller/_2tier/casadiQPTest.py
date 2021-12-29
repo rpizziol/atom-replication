@@ -30,7 +30,7 @@ x3 = SX.sym("x3")
 
 x += [x1,x2,x3]
 lbx += [-inf, 2,0]
-ubx += [inf, 2,0]
+ubx += [inf, 2,10]
 
 g.append(x1-x2*x3)
 lbg.append(0)
