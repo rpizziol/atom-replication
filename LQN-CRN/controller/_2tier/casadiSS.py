@@ -24,7 +24,7 @@
 from casadi import *
 
 T = 5 # Time horizon
-N = 10 # number of control intervals
+N = 50 # number of control intervals
 
 MU=[1,1000,1000]
 
@@ -146,4 +146,6 @@ plt.step(tgrid, vertcat(DM.nan(1), u2_opt), '-.')
 plt.xlabel('t')
 plt.legend(['x0','x1','x2','u1','u2'])
 plt.grid()
-plt.show()
+
+#plt.show()
+plt.savefig("casadiSS.pdf")
