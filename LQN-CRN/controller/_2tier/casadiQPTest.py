@@ -36,7 +36,7 @@ g.append(x1-casadi.fmin(x2,x3))
 lbg.append(0)
 ubg.append(0)
 
-obj+=x
+obj+=x1
 
 # Formulate QP
 qp = {'x':vertcat(*x), 'f':obj, 'g':vertcat(*g)}
