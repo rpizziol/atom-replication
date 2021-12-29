@@ -51,7 +51,7 @@ if True:
     # CVODES from the SUNDIALS suite
     dae = {'x':x, 'p':u, 'ode':xdot, 'quad':L}
     opts = {'tf':T/N}
-    F = integrator('F', 'cvodes', dae, opts)
+    F = integrator('F', 'rk', dae, opts)
 else:
     # Fixed step Runge-Kutta 4 integrator
     M = 4 # RK4 steps per interval
@@ -99,7 +99,7 @@ for k in range(N):
     w   += [Uk]
     lbw += [0]*2
     ubw += [200]*2
-    w0  += [1]*2
+    w0  += [0]*2
 
     # Integrate till the end of the interval
     Fk = F(x0=Xk, p=Uk)
@@ -120,7 +120,7 @@ for k in range(N):
 
 # Create an NLP solver
 prob = {'f': J, 'x': vertcat(*w), 'g': vertcat(*g)}
-solver = nlpsol('solver', 'ipopt', prob)
+solver = nlpsol('solver', 'ipopt',prob,{'ipopt':{'max_iter':10, 'linear_solver':'pardiso'},'verbose':True})
 
 # Solve the NLP
 sol = solver(x0=w0, lbx=lbw, ubx=ubw, lbg=lbg, ubg=ubg)
@@ -146,5 +146,5 @@ plt.xlabel('t')
 plt.legend(['x0','x1','x2','u1','u2'])
 plt.grid()
 
-#plt.show()
-plt.savefig("casadiSS.pdf")
+plt.show()
+#plt.savefig("casadiSS.pdf")
