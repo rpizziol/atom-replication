@@ -51,7 +51,7 @@ if True:
     # CVODES from the SUNDIALS suite
     dae = {'x':x, 'p':u, 'ode':xdot, 'quad':L}
     opts = {'tf':T/N}
-    F = integrator('F', 'cvsode', dae, opts)
+    F = integrator('F', 'cvodes', dae, opts)
 else:
     # Fixed step Runge-Kutta 4 integrator
     M = 4 # RK4 steps per interval
