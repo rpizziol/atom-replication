@@ -32,7 +32,7 @@ x += [x1,x2,x3]
 lbx += [-inf, 2,0]
 ubx += [inf, 2,0]
 
-g.append(x1-casadi.fmin(x2,x3))
+g.append(x1-casadi.fmax(x2,x3))
 lbg.append(0)
 ubg.append(0)
 
