@@ -23,8 +23,8 @@
 #
 from casadi import *
 
-T = 2 # Time horizon
-N = 50 # number of control intervals
+T = 5 # Time horizon
+N = 125 # number of control intervals
 
 MU=[1,1000,1000]
 
@@ -88,9 +88,9 @@ ubg = []
 # "Lift" initial conditions
 Xk = MX.sym('X0', 3)
 w += [Xk]
-lbw += [500, 0,0]
-ubw += [500, 0,0]
-w0 += [500, 0,0]
+lbw += [200, 200,100]
+ubw += [200, 200,100]
+w0 += [200, 200,100]
 
 # Formulate the NLP
 for k in range(N):
@@ -120,7 +120,7 @@ for k in range(N):
 
 # Create an NLP solver
 prob = {'f': J, 'x': vertcat(*w), 'g': vertcat(*g)}
-solver = nlpsol('solver', 'ipopt',prob,{'ipopt':{'max_iter':10, 'linear_solver':'pardiso'},'verbose':True})
+solver = nlpsol('solver', 'ipopt',prob,{'ipopt':{'max_iter':100},'verbose':False})
 
 # Solve the NLP
 sol = solver(x0=w0, lbx=lbw, ubx=ubw, lbg=lbg, ubg=ubg)
