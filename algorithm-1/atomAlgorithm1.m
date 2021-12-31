@@ -3,11 +3,11 @@ rng('shuffle')
 
 %% Global parameters
 % Total time limit (in seconds)
-maxTimeLimit = 10*60; % default: 40 minutes
+maxTimeLimit = 5*60; % default: 40 minutes
 
 % Model parameters
-N = 4; % Number of microservices (tasks)
-M = 3; % Number of classes (max entries)
+model.N = 4; % Number of microservices (tasks)
+model.M = 3; % Number of classes (max entries)
 
 % Inputs of algorithm 1
 modelName = 'atom';
@@ -15,45 +15,54 @@ timeLimit = 120; % Time limit (in seconds)
 tolerance = 0.6; % TODO
 
 % Algorithm 1 parameters
-psi = rand(N, M); % Weights of transactions
+psi = rand(model.N, model.M); % Weights of transactions
 tau1 = 0.5; % Objective function weight 1
 tau2 = 0.5; % Objective function weight 2
 
 % Constraints for r and s
-Q = randi([2, 10], 1, N); % Max number of replicas for each microservice
+Q = randi([2, 10], 1, model.N); % Max number of replicas for each microservice
 % CPU share for each replica of each microservice for the time interval t
-s_lb = randi([0, 200], 1, N); % Lower bound (0 - 0.2) * 1000
-s_ub = randi([800, 1000], 1, N); % Upper bound (0.8 - 1.0) * 1000
+s_lb = randi([0, 200], 1, model.N); % Lower bound (0 - 0.2) * 1000
+s_ub = randi([800, 1000], 1, model.N); % Upper bound (0.8 - 1.0) * 1000
 
+disp('Global parameters set.');
 beginning = tic();
+stepCounter = 0;
+
+TPSs = [];
+times = [];
+
 while toc(beginning) <= maxTimeLimit
+    stepCounter = stepCounter + 1;
     % Algorithm 1 execution
     % Generate initial config set
-    configs = generateInitialConfig(Q, s_lb, s_ub, N, 20);
+    configs = generateInitialConfig(Q, s_lb, s_ub, model.N, 20);
     
     % Initialize set of solution candidates (G)
-    G.r = ones(0,N);
-    G.s = ones(0,N);
+    G.r = ones(0,model.N);
+    G.s = ones(0,model.N);
     G.f = ones(0,1);
     
     startLoop = tic();
+    fprintf('Loop nr. %d\n', stepCounter);
     while toc(startLoop) <= timeLimit
         K = size(configs.r,1); % Size of the current loop
     
         % Initialize set of current loop solution candidates
-        currentCandidates.r = ones(0,N);
-        currentCandidates.s = ones(0,N);
+        currentCandidates.r = ones(0,model.N);
+        currentCandidates.s = ones(0,model.N);
         currentCandidates.f = ones(0,1);
     
         configs.f = zeros(1, K);
     
         for i = 1:K
+            fprintf('.'); % TODO remove this
             configuratedModel = strcat(modelName, '-', int2str(i));
             updateReplication(configs.r(i, :), configuratedModel);
             % updateCalls(configs.r(i), model); % TODO
             % updateHostDemand(configs.s(i), model); % TODO
             Cmax = sum(Q.*s_ub);
-            [configs.f(i), c] = solveModel(configuratedModel, N, M, psi,...
+            [configs.f(i), c] = solveModel(configuratedModel, model.N, model.M, psi,...
                 tau1, tau2, Cmax, configs.r(i, :), configs.s(i, :));
             if c <= tolerance
                 % Add configuration to configuration candidates
@@ -62,7 +71,8 @@ while toc(beginning) <= maxTimeLimit
                 currentCandidates.f(end+1) = configs.f(i);
             end
         end
-        configs = generateConfig(currentCandidates, N, Q, s_lb, s_ub);
+        fprintf('\n'); % TODO remove this
+        configs = generateConfig(currentCandidates, model.N, Q, s_lb, s_ub);
         % Update the set of solution candidates
         G.r = [G.r; currentCandidates.r];
         G.s = [G.s; currentCandidates.s];
@@ -98,20 +108,13 @@ while toc(beginning) <= maxTimeLimit
                         G.r(i, :) = tempConf.r;
                         % Create temp lqn file
                         updateReplication(G.r(i, :), "test");
-                        [G.f(i), ~] = solveModel("test", N, M, psi, tau1,...
+                        [G.f(i), ~] = solveModel("test", model.N, model.M, psi, tau1,...
                             tau2, Cmax, G.r(i, :), G.s(i, :));
                     end
-    
                 end
             end
         end
     
-    % Secondly, to increase the TPS, ATOM reduces the number of replicas while
-    % increasing the CPU share of each replica, keeping the total CPU share
-    % same. It then checks again whether the TPS is affected signiﬁcantly and
-    % if not, it keeps the modiﬁed conﬁguration. This improves the TPS since
-    % reducing the number of replicas also reduces the parallelization
-    % overhead.
         % Second update: replicas reduction
         for i = 1:size(G.r,1)
             % Copy the new configuration
@@ -132,7 +135,7 @@ while toc(beginning) <= maxTimeLimit
                         G.s(i, :) = tempConf.s;
                         G.r(i, :) = tempConf.r;
                         updateReplication(G.r(i, :), "test");
-                        [G.f(i), ~] = solveModel("test", N, M, psi, tau1,...
+                        [G.f(i), ~] = solveModel("test", model.N, model.M, psi, tau1,...
                             tau2, Cmax, G.r(i, :), G.s(i, :));
                     end
                 end
@@ -140,20 +143,29 @@ while toc(beginning) <= maxTimeLimit
         end
     end
 
-    % After that, the planner creates the scaling conﬁgurations from the best
-    % solution candidate, which are executed by the scaling executor.
-    
+    % After that, the planner creates the scaling conﬁgurations from the
+    % best solution candidate, which are executed by the scaling executor.
     [~, maxIndex] = max(G.f);
     bestConf.r = G.r(maxIndex, :);
     bestConf.s = G.s(maxIndex, :);
+    bestConf.tps = calculateTPS(bestConf.r);
     
     % Display the best configuration
     disp('+++ BEST CONFIGURATION +++');
-    disp(' r = ');
-    disp(bestConf.r);
-    disp(' s = ');
-    disp(bestConf.s);
+    fprintf(' r = [%i, %i, %i, %i]\n', bestConf.r.');
+    fprintf(' s = [%4.2f, %4.2f, %4.2f, %4.2f]\n', bestConf.s.');
+    fprintf(' TPS =  %4.2f\n', bestConf.tps);
+    TPSs = [TPSs; bestConf.tps];
+    times = [times; toc(beginning)];
 end
+plot(times, TPSs);
+
+% TODO plot TPS variation
+
+% Genetic alg
+% Model ATOM
+% Add bestConf iniziale (per N = 500 browsing workload)
+% plots (N = 500 -> 1000)
 
 
 
