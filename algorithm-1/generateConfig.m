@@ -1,6 +1,6 @@
-function configs = generateConfig(currentCandidates, N, Q, s_lb, s_ub)
+function configs = generateConfig(currentCandidates, N, constraints)
 
-    configs = generateInitialConfig(Q, s_lb, s_ub, N, size(currentCandidates, 1));
+    configs = generateInitialConfig(constraints, N, size(currentCandidates.r, 1));
 
     % f = @(x)fitnessATOM(x, st, N, M, psi, Cmax, tau1, tau2, modelName);
 %     % Load default settings

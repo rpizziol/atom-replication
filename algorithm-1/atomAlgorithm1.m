@@ -5,25 +5,25 @@ rng('shuffle')
 % Total time limit (in seconds)
 maxTimeLimit = 5*60; % default: 40 minutes
 
+% Inputs of algorithm 1
 % Model parameters
 model.N = 4; % Number of microservices (tasks)
 model.M = 3; % Number of classes (max entries)
+model.name = 'atom';
 
-% Inputs of algorithm 1
-modelName = 'atom';
 timeLimit = 120; % Time limit (in seconds)
 tolerance = 0.6; % TODO
 
 % Algorithm 1 parameters
-psi = rand(model.N, model.M); % Weights of transactions
-tau1 = 0.5; % Objective function weight 1
-tau2 = 0.5; % Objective function weight 2
+params.psi = rand(model.N, model.M); % Weights of transactions
+params.tau1 = 0.5; % Objective function weight 1
+params.tau2 = 0.5; % Objective function weight 2
 
 % Constraints for r and s
-Q = randi([2, 10], 1, model.N); % Max number of replicas for each microservice
+constraints.Q = randi([2, 10], 1, model.N); % Max number of replicas for each microservice
 % CPU share for each replica of each microservice for the time interval t
-s_lb = randi([0, 200], 1, model.N); % Lower bound (0 - 0.2) * 1000
-s_ub = randi([800, 1000], 1, model.N); % Upper bound (0.8 - 1.0) * 1000
+constraints.s_lb = randi([0, 200], 1, model.N); % Lower bound (0 - 0.2) * 1000
+constraints.s_ub = randi([800, 1000], 1, model.N); % Upper bound (0.8 - 1.0) * 1000
 
 disp('Global parameters set.');
 beginning = tic();
@@ -36,7 +36,7 @@ while toc(beginning) <= maxTimeLimit
     stepCounter = stepCounter + 1;
     % Algorithm 1 execution
     % Generate initial config set
-    configs = generateInitialConfig(Q, s_lb, s_ub, model.N, 20);
+    configs = generateInitialConfig(constraints, model.N, 5);
     
     % Initialize set of solution candidates (G)
     G.r = ones(0,model.N);
@@ -44,9 +44,10 @@ while toc(beginning) <= maxTimeLimit
     G.f = ones(0,1);
     
     startLoop = tic();
-    fprintf('Loop nr. %d\n', stepCounter);
-    while toc(startLoop) <= timeLimit
-        K = size(configs.r,1); % Size of the current loop
+    fprintf('\n--- LOOP nr. %d ---\n', stepCounter);
+    while toc(startLoop) <= timeLimit && ~isempty(configs.r)
+        K = size(configs.r, 1); % Size of the current loop
+        fprintf("K = %d\n", K);
     
         % Initialize set of current loop solution candidates
         currentCandidates.r = ones(0,model.N);
@@ -56,14 +57,14 @@ while toc(beginning) <= maxTimeLimit
         configs.f = zeros(1, K);
     
         for i = 1:K
-            fprintf('.'); % TODO remove this
-            configuratedModel = strcat(modelName, '-', int2str(i));
+            fprintf('%d ', i); % TODO remove this
+            configuratedModel = strcat(model.name, '-', int2str(i));
             updateReplication(configs.r(i, :), configuratedModel);
             % updateCalls(configs.r(i), model); % TODO
             % updateHostDemand(configs.s(i), model); % TODO
-            Cmax = sum(Q.*s_ub);
-            [configs.f(i), c] = solveModel(configuratedModel, model.N, model.M, psi,...
-                tau1, tau2, Cmax, configs.r(i, :), configs.s(i, :));
+            Cmax = sum(constraints.Q.*constraints.s_ub);
+            [configs.f(i), c] = solveModel(configuratedModel, model.N,...
+                model.M, params, Cmax, configs.r(i, :), configs.s(i, :));
             if c <= tolerance
                 % Add configuration to configuration candidates
                 currentCandidates.r(end+1, :) = configs.r(i, :);
@@ -72,7 +73,7 @@ while toc(beginning) <= maxTimeLimit
             end
         end
         fprintf('\n'); % TODO remove this
-        configs = generateConfig(currentCandidates, model.N, Q, s_lb, s_ub);
+        configs = generateConfig(currentCandidates, model.N, constraints);
         % Update the set of solution candidates
         G.r = [G.r; currentCandidates.r];
         G.s = [G.s; currentCandidates.s];
@@ -86,7 +87,9 @@ while toc(beginning) <= maxTimeLimit
     % Since in the first loop bestConf is unknown, skip these steps
     if exist('bestConf', 'var')
         % First update: CPU share minimization
+        fprintf('CPU share minimization. Updating G...\n');
         for i = 1:size(G.r,1)
+            fprintf('%d ', i);
             % Copy the new configuration
             tempConf.s = G.s(i, :);
             tempConf.r = G.r(i, :);
@@ -108,15 +111,18 @@ while toc(beginning) <= maxTimeLimit
                         G.r(i, :) = tempConf.r;
                         % Create temp lqn file
                         updateReplication(G.r(i, :), "test");
-                        [G.f(i), ~] = solveModel("test", model.N, model.M, psi, tau1,...
-                            tau2, Cmax, G.r(i, :), G.s(i, :));
+                        [G.f(i), ~] = solveModel("test", model.N, model.M,...
+                            params, Cmax, G.r(i, :), G.s(i, :));
                     end
                 end
             end
         end
-    
+        fprintf('\n');
+
         % Second update: replicas reduction
+        fprintf('Replicas reduction. Updating G...\n');
         for i = 1:size(G.r,1)
+            fprintf('%d ', i);
             % Copy the new configuration
             tempConf.s = G.s(i, :);
             tempConf.r = G.r(i, :);
@@ -135,12 +141,13 @@ while toc(beginning) <= maxTimeLimit
                         G.s(i, :) = tempConf.s;
                         G.r(i, :) = tempConf.r;
                         updateReplication(G.r(i, :), "test");
-                        [G.f(i), ~] = solveModel("test", model.N, model.M, psi, tau1,...
-                            tau2, Cmax, G.r(i, :), G.s(i, :));
+                        [G.f(i), ~] = solveModel("test", model.N, model.M,...
+                            params, Cmax, G.r(i, :), G.s(i, :));
                     end
                 end
             end
         end
+        fprintf('\n');
     end
 
     % After that, the planner creates the scaling conﬁgurations from the
@@ -151,14 +158,14 @@ while toc(beginning) <= maxTimeLimit
     bestConf.tps = calculateTPS(bestConf.r);
     
     % Display the best configuration
-    disp('+++ BEST CONFIGURATION +++');
+    fprintf('Best Configuration of Loop %d is:\n', stepCounter);
     fprintf(' r = [%i, %i, %i, %i]\n', bestConf.r.');
     fprintf(' s = [%4.2f, %4.2f, %4.2f, %4.2f]\n', bestConf.s.');
     fprintf(' TPS =  %4.2f\n', bestConf.tps);
     TPSs = [TPSs; bestConf.tps];
     times = [times; toc(beginning)];
 end
-plot(times, TPSs);
+plot(times/60, TPSs);
 
 % TODO plot TPS variation
 

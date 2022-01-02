@@ -1,4 +1,4 @@
-function [fval, c] = solveModel(modelName, N, M, psi, tau1, tau2, Cmax, rt, st)
+function [fval, c] = solveModel(modelName, N, M, params, Cmax, rt, st)
     %% Calculate total allocated CPU capacity (to minimize)
     Ct = sum(rt.*st); 
     Chat = Ct / Cmax; % Normalized Ct
@@ -19,12 +19,12 @@ function [fval, c] = solveModel(modelName, N, M, psi, tau1, tau2, Cmax, rt, st)
         Xt(4,2) = m(7,4);
     
         %% Calculate revenue (to maximize)
-        Bt = sum(sum(psi.*Xt));
-        Bmax = sum(sum(psi.*repmat(500, N, M))); % TODO update max value (500?)
+        Bt = sum(sum(params.psi.*Xt));
+        Bmax = sum(sum(params.psi.*repmat(500, N, M))); % TODO update max value (500?)
         Bhat = Bt / Bmax; % Normalized Bt
     
         %% Calculate objective function
-        fval = (tau1 * Bhat - tau2 * Chat);
+        fval = (params.tau1 * Bhat - params.tau2 * Chat);
     
         c = rand(); % TODO calculate c
     end
