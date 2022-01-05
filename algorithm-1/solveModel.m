@@ -3,11 +3,11 @@ function [fval, c] = solveModel(modelName, N, M, params, Cmax, rt, st)
     Ct = sum(rt.*st); 
     Chat = Ct / Cmax; % Normalized Ct
 
-    [status, ~] = system("cd LQNFiles; java -jar DiffLQN.jar " + modelName + "-temp.lqn");
+    [status, ~] = system("cd LQNFiles; java -jar DiffLQN.jar " + modelName + ".lqn");
 
     if status == 0 % no error
         Xt = zeros(N, M);
-        m = readmatrix(strcat('./LQNFiles/', modelName, '-temp.csv'));
+        m = readmatrix(strcat('./LQNFiles/', modelName, '.csv'));
         Xt(1,1) = m(1,4); % EntryBrowse
         Xt(2,1) = m(2,4); % EntryAddress
         % EntryHome EntryCatalog EntryCarts
