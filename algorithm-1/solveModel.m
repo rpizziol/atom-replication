@@ -1,6 +1,6 @@
-function [fval, c] = solveModel(modelName, N, M, params, Cmax, rt, st)
+function [fval, c] = solveModel(modelName, N, M, params, Cmax, r, s)
     %% Calculate total allocated CPU capacity (to minimize)
-    Ct = sum(rt.*st); 
+    Ct = sum(r.*s); 
     Chat = Ct / Cmax; % Normalized Ct
 
     [status, ~] = system("cd LQNFiles; java -jar DiffLQN.jar " + modelName + ".lqn");

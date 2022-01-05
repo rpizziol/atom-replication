@@ -16,13 +16,13 @@ sourcename = 'atom';
 model.name = configureModel(sourcename, nuser, nc);
 
 timeLimit = 120; % Time limit (in seconds)
-tolerance = 0.6; % TODO
+tolerance = 0.95; % TODO
 
 % Algorithm 1 parameters
 params.psi = rand(model.N, model.M); % Weights of transactions
 params.tau1 = 0.5; % Objective function weight 1
 params.tau2 = 0.5; % Objective function weight 2
-popSize = 15; % Starting population size of the genetic algorithm
+popSize = 10; % Starting population size of the genetic algorithm
 
 % Constraints for r and s
 constraints.Q = randi([2, 10], 1, model.N); % Max number of replicas for each microservice
@@ -101,7 +101,7 @@ while toc(beginning) <= maxTimeLimit
             end
         end
         fprintf('\n'); % TODO remove this
-        configs = generateConfig(currentCandidates, model.N, constraints);
+        configs = generateConfig(currentCandidates, model, constraints, params, Cmax);
         % Update the set of solution candidates
         G.r = [G.r; currentCandidates.r];
         G.s = [G.s; currentCandidates.s];
