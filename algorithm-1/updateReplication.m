@@ -4,7 +4,7 @@ function updateReplication(sourcemodel, outmodel, r)
 
     for i = 1:size(r, 2)
         % Find and replace {{nt[i]}} with the value r(i)
-        old_t = strcat('{{nt[', int2str(i), ']}}');
+        old_t = strcat('{{nr[', int2str(i), ']}}');
         new_t = int2str(r(i));
         f = strrep(f, old_t, new_t);        
     end

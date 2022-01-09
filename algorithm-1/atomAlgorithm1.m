@@ -7,19 +7,42 @@ maxTimeLimit = 40*60; % default: 40 minutes
 
 % Inputs of algorithm 1
 % Model parameters
-nuser = 500; % Total number of users
-nc = [10, 3, 3]; % Number of cores for each task (without first one)
+nuser = 500; % Starting total number of users
+
+% atom.lqn
+% sourcename = 'atom';
+% nc = [10, 3, 3]; % Number of cores for each task (without first one)
+% model.N = 4; % Number of microservices (tasks)
+% model.M = 3; % Number of classes (max entries)
+
+% lqn_t.lqn
+% sourcename = 'lqn_t';
+% nc = [10, 3, 3, 2, 4, 2]; % Number of cores for each task (without first one)
+% model.N = 6; % Number of microservices (tasks)
+% model.M = 3; % Number of classes (max entries)
+
+
+% atom4-rep.lqn
+sourcename = 'atom4-rep';
+nc = [1, 2, 3]; % Number of cores for each task (without first one)
+nt = [3000, 10, 10, 7]; % Number of threads for each task (including Client)
 model.N = 4; % Number of microservices (tasks)
 model.M = 3; % Number of classes (max entries)
-sourcename = 'atom';
+
+% Create .lqn file with nuser, nc and nt
+model.name = configureModel(sourcename, nuser, nc, nt);
+
+
 % Create .lqn file with nuser and nc
-model.name = configureModel(sourcename, nuser, nc);
+% model.name = configureModel(sourcename, nuser, nc);
 
 timeLimit = 120; % Time limit (in seconds)
 tolerance = 0.95; % TODO
 
 % Algorithm 1 parameters
-params.psi = rand(model.N, model.M); % Weights of transactions
+%params.psi = rand(model.N, model.M); % Weights of transactions
+params.psi = zeros(model.N, model.M); % Weights of transactions
+params.psi(1,1) = 1;
 params.tau1 = 0.5; % Objective function weight 1
 params.tau2 = 0.5; % Objective function weight 2
 popSize = 10; % Starting population size of the genetic algorithm
@@ -40,8 +63,16 @@ times = [];
 
 disp('Parameters set.');
 
+% % atom.lqn
+% bestConf.r = [3, 3, 1, 1];
+% bestConf.s = [0.21, 0.96, 0.94, 0.65];
+
+% % lqn_t.lqn
+% bestConf.r = [3, 3, 1, 1, 2, 1];
+% bestConf.s = [0.21, 0.96, 0.94, 0.65, 0.71, 0.87];
+
 % Initial best configuration (TODO obtain somehow)
-bestConf.r = [3, 3, 1, 1];
+bestConf.r = [1, 1, 2, 3];
 bestConf.s = [0.21, 0.96, 0.94, 0.65];
 bestConf.tps = calculateTPS(model.name, bestConf.r);
 
@@ -51,14 +82,14 @@ while toc(beginning) <= maxTimeLimit
     if window == 1 && toc(beginning)/60 > 5
         % Change N = 3000 concurrent users
         nuser = 3000;
-        model.name = configureModel(sourcename, nuser, nc);
+        model.name = configureModel(sourcename, nuser, nc, nt);
         window = 2;
     end
 
     if window == 2 && toc(beginning)/60 > 25
         % Change N = 500 concurrent users
         nuser = 500;
-        model.name = configureModel(sourcename, nuser, nc);
+        model.name = configureModel(sourcename, nuser, nc, nt);
     end
 
     stepCounter = stepCounter + 1;
@@ -191,11 +222,6 @@ while toc(beginning) <= maxTimeLimit
     times = [times; toc(beginning)];
 end
 plot(times/60, TPSs);
-
-
-% Genetic alg
-% Model ATOM
-% plots (N = 500 -> 1000)
 
 
 

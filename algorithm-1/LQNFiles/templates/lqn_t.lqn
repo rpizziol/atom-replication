@@ -92,7 +92,7 @@ A TaskFrontend
 #! confidence_percent_error 0.2
 
 # 2. Output settings
-#! throughput: EntryBrowse -1
+#! throughput: Browse Address Home Catalog Cart List Item CatQuery Get Add Del CartQuery -1
 
 # 3. Export settings
 #! export csv
