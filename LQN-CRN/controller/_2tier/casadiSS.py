@@ -23,8 +23,8 @@
 #
 from casadi import *
 
-T = 5 # Time horizon
-N = 125 # number of control intervals
+T = 0.001 # Time horizon
+N = 3 # number of control intervals
 
 MU=[1,1000,1000]
 
@@ -37,6 +37,9 @@ u1 = MX.sym('u1')
 u2 = MX.sym('u2')
 u =  vertcat(u1,u2)
 
+#mmin = Function('mmin', [x1, x2], [-(-x1-x2+((-x1+x2)**2+10**-40)**(1.0/2))/2],['x1','x2'],['y'])
+#print(mmin(x1,x2))
+
 # Model equations
 xdot = vertcat(-MU[0]*x0+MU[2]*casadi.fmin(x2,u2),
                 MU[0]*x0-MU[1]*casadi.fmin(x1,u1),
@@ -44,7 +47,7 @@ xdot = vertcat(-MU[0]*x0+MU[2]*casadi.fmin(x2,u2),
                 )
 
 # Objective term
-L = (x0-100)**2+(MU[2]*casadi.fmin(x2,u2)-100)**2+(MU[1]*casadi.fmin(x1,u1)-100)**2
+L = (x0-10)**2
 
 # Formulate discrete time dynamics
 if True:
@@ -88,9 +91,9 @@ ubg = []
 # "Lift" initial conditions
 Xk = MX.sym('X0', 3)
 w += [Xk]
-lbw += [200, 200,100]
-ubw += [200, 200,100]
-w0 += [200, 200,100]
+lbw += [200, 0,0]
+ubw += [200, 0,0]
+w0 += [200, 0,0]
 
 # Formulate the NLP
 for k in range(N):
@@ -98,7 +101,7 @@ for k in range(N):
     Uk = MX.sym('U_' + str(k),2)
     w   += [Uk]
     lbw += [0]*2
-    ubw += [200]*2
+    ubw += [inf]*2
     w0  += [0]*2
 
     # Integrate till the end of the interval
@@ -110,7 +113,7 @@ for k in range(N):
     Xk = MX.sym('X_' + str(k+1), 3)
     w   += [Xk]
     lbw += [0, 0,0]
-    ubw += [  inf,  inf,inf]
+    ubw += [  200,  200,200]
     w0  += [0, 0,0]
 
     # Add equality constraint
@@ -120,7 +123,7 @@ for k in range(N):
 
 # Create an NLP solver
 prob = {'f': J, 'x': vertcat(*w), 'g': vertcat(*g)}
-solver = nlpsol('solver', 'ipopt',prob,{'ipopt':{'max_iter':100},'verbose':False})
+solver = nlpsol('solver', 'ipopt',prob,{'ipopt':{'max_iter':10000},'verbose':False})
 
 # Solve the NLP
 sol = solver(x0=w0, lbx=lbw, ubx=ubw, lbg=lbg, ubg=ubg)

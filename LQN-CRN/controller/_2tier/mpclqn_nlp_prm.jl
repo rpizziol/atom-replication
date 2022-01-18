@@ -1,4 +1,4 @@
-using JuMP,AmplNLWriter, Bonmin_jll,NLopt,Ipopt,CPLEX,MATLAB,Plots,Statistics,ProgressBars
+using JuMP,AmplNLWriter,ParameterJuMP,Bonmin_jll,NLopt,Ipopt,CPLEX,MATLAB,Plots,Statistics,ProgressBars
 
 function N(t,mod,period,shift)
     return sin(t/(period/(2*pi)))*mod+shift
@@ -8,21 +8,6 @@ function rate(T,h)
     return [T[1,h],
             T[2,h],
             T[3,h]]
-end
-
-function min_int(X,model)
-    if(length(X)!=2)
-        error("supperted only two sided minimum")
-    end
-    d=@variable(model,binary = true)
-    dmin=@variable(model)
-    @constraints(model, begin
-           dmin<=X[1]
-           dmin<=X[2]
-           dmin>=X[1]-20000*(d)
-           dmin>=X[2]-20000*(1-d)
-    end)
-    return dmin
 end
 
 
@@ -39,8 +24,8 @@ end
 
 
 #min_(x,y)=(1.0/alfa)*log(exp(alfa*x)+exp(alfa*y))
-min_(x)=1.0/2*(x-((x)^2+10^-40)^(1.0/2))
-#min_(x,y)=-(-x-y+((-x+y)^2+10^-20)^(1.0/2))/2
+#min_(x)=1.0/2*(x-((x)^2+10^-40)^(1.0/2))
+min_(x,y)=-(-x-y+((-x+y)^2+10^-40)^(1.0/2))/2.0
 #min_(x)=-(-x+((x)^2+10^-20)^(1.0/2))/2.0
 #min_(x)=(x*exp(alfa*x))/(exp(alfa*x)+1)
 
@@ -48,10 +33,10 @@ min_(x)=1.0/2*(x-((x)^2+10^-40)^(1.0/2))
 #max_(x,y)=(x^11+y^11)^(1/11)
 
 alfa=1.0
-dt=10^-3
-H=10
+dt=10^-2
+H=1
 MU=[-1,-1,-1,0,1.0/(2.1*10^-3),1.0/(1.2*10^-3),1.0/7]
-X0=[0,0,0,0,0,0,ceil(N(rand(1:(20*30)),1500,(20*30),1500))]
+X0=[0,0,0,0,0,0,ceil(N(1,1500,(20*30),1500))]
 tgt=alfa*(1-(MU[end]/sum(MU[MU.>0])))*X0[end]
 tgtStory=[tgt]
 XSode=nothing
@@ -61,13 +46,14 @@ XSode=nothing
 #set_optimizer_attribute(model, "bonmin.nlp_log_level", 0)
 
 model = Model(Ipopt.Optimizer)
-register(model, :min_, 1, min_, autodiff=true)
+register(model, :min_, 2, min_, autodiff=true)
 set_optimizer_attribute(model, "linear_solver", "pardiso")
 #set_optimizer_attribute(model, "acceptable_iter", 1)
-set_optimizer_attribute(model, "tol", 10^-5)
+#set_optimizer_attribute(model, "tol", 10^-5)
 set_optimizer_attribute(model, "hessian_approximation", "limited-memory")
 #set_optimizer_attribute(model, "max_iter", 100)
 #set_optimizer_attribute(model, "max_cpu_time", 1.)
+#set_optimizer_attribute(model, "check_derivatives_for_naninf", "no")
 set_optimizer_attribute(model, "print_level", 0)
 
 #model = Model(NLopt.Optimizer)
@@ -81,21 +67,25 @@ set_optimizer_attribute(model, "print_level", 0)
 #set_optimizer_attribute(model, "CPXPARAM_ParamDisplay",  false)
 
 @variable(model,X[i=1:7,j=0:H]>=0)
+@variable(model,X0p[i = 1:7] == 0, Param())
+@variable(model,tgtp == tgt, Param())
 @variable(model,T[i=1:size(jump,1),j=0:H]>=0)
 @variable(model,E_abs[i=0:H]>=0)
 @variable(model,NC[i=1:2]>=0)
 #@variable(model,NT[i=1:2]>=0)
 
-@constraint(model,NC.<=5000)
-@constraint(model,X0c[i=1:7],X[i,0]==0)
+@constraint(model,[i=1:7],X[i,0]==X0p[i])
+
+#@constraint(model,NC.<=5000)
+#@constraint(model,X0c[i=1:7],X[i,0]==0)
 
 for h=0:H
     @constraint(model,T[1,h]==MU[7]*X[7,h])
     # @constraint(model,T[2,h]==delta*X[2,h])
     # @constraint(model,T[3,h]==delta*X[4,h])
 
-    @NLconstraint(model,T[2,h]==(X[5,h]+10^-20)/(X[5,h]+10^-20)*(min_(NC[2]-X[5,h])+X[5,h])*MU[5])
-    @NLconstraint(model,T[3,h]==(X[6,h]+10^-20)/(X[6,h]+10^-20)*(min_(NC[1]-X[6,h])+X[6,h])*MU[6])
+    @NLconstraint(model,T[2,h]==(X[5,h]+10^-20)/(X[5,h]+10^-20)*(min_(NC[2],X[5,h]))*MU[5])
+    @NLconstraint(model,T[3,h]==(X[6,h]+10^-20)/(X[6,h]+10^-20)*(min_(NC[1],X[6,h]))*MU[6])
 
     #@constraint(model,T[2,h]==min_int([NC[2],X[5,h]],model)*MU[5])
     #@constraint(model,T[3,h]==min_int([NC[1],X[6,h]],model)*MU[6])
@@ -138,8 +128,8 @@ end
 #     end)
 # end
 
-@constraint(model,E_abs1[h=0:H],E_abs[h]-X[7,h]>=-tgt)
-@constraint(model,E_abs2[h=0:H],E_abs[h]+X[7,h]>=tgt)
+@constraint(model,E_abs1[h=0:H],E_abs[h]-X[7,h]>=-tgtp)
+@constraint(model,E_abs2[h=0:H],E_abs[h]+X[7,h]>=tgtp)
 
 @constraint(model,nc1[h=0:H],NC[1]<=X[6,h])
 @constraint(model,nc2[h=0:H],NC[2]<=X[5,h])
@@ -147,9 +137,9 @@ end
 #@objective(model,Min,sum(E_abs)+0.000001*sum(NC/500))
 #@NLobjective(model,Min,sum((T[1,h]-tgt)^2 for h=0:H)+0.0000001*sum(NC[i] for i=1:2)/500)
 
-dt_sim=5.
+dt_sim=10.
 nrep=1
-tstep=10
+tstep=500
 XS=zeros(tstep+1,7,nrep)
 optNC=zeros(tstep,3,nrep)
 stimes=zeros(nrep*(tstep+1))
@@ -167,12 +157,8 @@ for b=1:nrep
 
         for k=1:7
             #println(k," ",x0[k])
-            set_normalized_rhs(X0c[k],x0[k])
-        end
-
-        if(i>1)
-            set_start_value(NC[1], 1)
-            set_start_value(NC[2], 1)
+            #set_normalized_rhs(X0c[k],x0[k])
+            set_value(X0p[k],x0[k])
         end
 
         # if(i>1)
@@ -228,15 +214,17 @@ for b=1:nrep
                 Ie += (tgt - XS[i,end,b])
             end
 
-            if(mod(i,10)==0)
+            if(mod(i,3)==0)
                 #global x0[end]=ceil(N(i,1500,(40*60),1500))
+                global X0=zeros(1,7)
                 global X0[end]=ceil(N(i,1500,(20*30),1500))
                 global XS[i+1,end,b]=ceil(N(i,1500,(20*30),1500))
 
-                global tgt=alfa*(1-(MU[end]/sum(MU[MU.>0])))*sum(X0[[5,6,7]])
+                global tgt=round(alfa*(1-(MU[end]/sum(MU[MU.>0])))*sum(X0[[5,6,7]]),digits=4)
                 for h=0:H
-                    set_normalized_rhs(E_abs1[h],-tgt)
-                    set_normalized_rhs(E_abs2[h],tgt)
+                    #set_normalized_rhs(E_abs1[h],-tgt)
+                    #set_normalized_rhs(E_abs2[h],tgt)
+                    set_value(tgtp,tgt)
                     #JuMP.delete(model,E_abs1[h])
                     #JuMP.delete(model,E_abs2[h])
                 end

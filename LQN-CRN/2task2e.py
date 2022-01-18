@@ -14,59 +14,77 @@ if __name__ == '__main__':
     
     # task declaration
     cTask = Task(name="Client", ref=True)
-    Router = Task(name="Router")
-    Front_end = Task(name="Front_end")
+    TCristo = Task(name="TCristo")
+    T1 = Task(name="T1")
+    T2 = Task(name="T2")
+    T3 = Task(name="T3")
     
     # entries declaration
-    Catalog = Entry("Catalog")
-    Home = Entry("Home")
-    Addr_h = Entry("AddressH")
-    Addr_c = Entry("AddressC")
     browse = Entry("Browse")
+    ECristo=Entry("ECristo")
+    E1 = Entry("E1")
+    E2 = Entry("E2")
+    E3 = Entry("E3")
     
     cTask.addEntry(browse)
-    Router.addEntry(Addr_h)
-    Router.addEntry(Addr_c)
-    Front_end.addEntry(Home)
-    Front_end.addEntry(Catalog)
+    TCristo.addEntry(ECristo)
+    T1.addEntry(E1)
+    T2.addEntry(E2)
+    T3.addEntry(E3)
     
     # activity declaration
     
     # Front_end  entries logic#
-    Addr_h.getActivities().append(SynchCall(dest=Home, parent=Addr_h, name="2Home"))
-    Addr_h.getActivities().append(Activity(stime=1.0, parent=Addr_h, name="e"))
-    Addr_c.getActivities().append(SynchCall(dest=Catalog, parent=Addr_c, name="2Catalog"))
-    Addr_c.getActivities().append(Activity(stime=1.0, parent=Addr_c, name="e"))
+    E3.getActivities().append(Activity(stime=1.0, parent=E3, name="e"))
     
-    # Router entries logic#
-    Home.getActivities().append(Activity(stime=1.0, parentEntry=Home, name="e"))
+    E2.getActivities().append(SynchCall(dest=E3, parent=E2, name="E2ToE3"))
+    E2.getActivities().append(Activity(stime=1.0, parent=E2, name="e"))
+    
+    E1.getActivities().append(SynchCall(dest=E3, parent=E1, name="E1ToE3"))
+    E1.getActivities().append(Activity(stime=1.0, parent=E1, name="e"))
+    
+    
+    choiceCristo=probChoice(parent=ECristo, name="Choice")
+
+    blkE1=actBlock(parent=choiceCristo, name="BlkE1")
+    blkE1.activities.append(SynchCall(dest=E1, parent=blkE1, name="2E1"))
+    
+    blkE2=actBlock(parent=choiceCristo, name="BlkE2")
+    blkE2.activities.append(SynchCall(dest=E2, parent=blkE2, name="2E2"))
+    
+    choiceCristo.addBlock(blkE1,1.0/2)
+    choiceCristo.addBlock(blkE2,1.0/2)
+    
+    ECristo.getActivities().append(choiceCristo)
+    ECristo.getActivities().append(Activity(stime=1.0, parent=ECristo, name="e"))
+    
     
     # client logic#
-    browse.getActivities().append(SynchCall(dest=Addr_h, parent=browse, name="2Addressh"))
-    browse.getActivities().append(Activity(stime=1.0, parent=browse, name="browse1"))
-    browse.getActivities().append(SynchCall(dest=Addr_c, parent=browse, name="2Addressc"))
+    
+    browse.getActivities().append(SynchCall(dest=ECristo, parent=browse, name="2ECristo"))
     browse.getActivities().append(Activity(stime=1.0, parent=browse, name="browse"))
     
     lqn2crn = LQN_CRN2()
-    lqn2crn.getCrn({"task":[cTask, Router,Front_end], "name":"2task2e"})
+    lqn2crn.getCrn({"task":[cTask,TCristo,T1,T2,T3], "name":"2task2e"})
     
     lqn2crn.toMatlab(outDir="../model/validation")
+    lqn2crn.toJuliaCtrl(outDir="./controller/julia")
     
     # validate the model against lqns#
-    matV = matlabValidator("../model/validation/2task2e/lqn.m")
-    lqnV = lqnsValidator("../model/validation/2task2e/lqn_t.lqn")
+    # matV = matlabValidator("../model/validation/2task2e/lqn.m")
+    # lqnV = lqnsValidator("../model/validation/2task2e/lqn_t.lqn")
     
-    X0 = [0 for i in range(7)]
-    MU = [0 for i in range(7)]
-    NC = [0 for i in range(7)]
-    NT = [0 for i in range(7)]
-    rep = 1
-    dt = 10.0 ** -1
-    TF = 3000 * dt
-    
-    T_mat=[]
-    Tclient=[]
-    e=[]
+    # X0 = [0 for i in range(7)]
+    # MU = [0 for i in range(7)]
+    # NC = [0 for i in range(7)]
+    # NT = [0 for i in range(7)]
+    # rep = 1
+    # dt = 10.0 ** -1
+    # TF = 3000 * dt
+    #
+    # T_mat=[]
+    # Tclient=[]
+    # e=[]
     
     # for i in range(1):
     #

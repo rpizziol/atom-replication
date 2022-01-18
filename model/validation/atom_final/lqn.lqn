@@ -1,45 +1,45 @@
 G
 "ATOM-3"
 0.01
-10000
+100000
 1
 0.5
 -1
 
 # Processors declaration, with multiplicity
 P 0
-p ProcClient f m 315
-p ProcRouter f m 518
-p ProcFrontend f m 424
-p ProcCatalogSvc f m 381
-p ProcCatalogDB f m 557
-p ProcCartSvc f m 491
-p ProcCartDB f m 219
+p ProcClient f m 3000
+p ProcRouter f m 3000
+p ProcFrontend f m 2
+p ProcCatalogSvc f m 3000
+p ProcCatalogDB f m 3000
+p ProcCartSvc f m 3000
+p ProcCartDB f m 3000
 -1
 
 # Tasks declaration
 T 0
-t Client r Browse -1 ProcClient m 315
-t TaskRouter n Address -1 ProcRouter m 395
-t TaskFrontend n Home Catalog Cart -1 ProcFrontend m 474
-t TaskCatalogSvc n List Item -1 ProcCatalogSvc m 222
-t TaskCatalogDB n CatQuery -1 ProcCatalogDB m 604
-t TaskCartSvc n Get Add Del -1 ProcCartSvc m 238
-t TaskCartDB n CartQuery -1 ProcCartDB m 421
+t Client r Browse -1 ProcClient m 3000
+t TaskRouter n Address -1 ProcRouter m 3000
+t TaskFrontend n Home Catalog Cart -1 ProcFrontend m 3000
+t TaskCatalogSvc n List Item -1 ProcCatalogSvc m 3000
+t TaskCatalogDB n CatQuery -1 ProcCatalogDB m 3000
+t TaskCartSvc n Get Add Del -1 ProcCartSvc m 3000
+t TaskCartDB n CartQuery -1 ProcCartDB m 3000
 -1
 
 # Entries declaration
 E 0
-s Browse 0.1 -1
-s Get 0.1 -1
-s Add 0.1 -1
-s Del 0.1 -1
-s Home 0.1 -1
-s Cart 0.1 -1
-s List 0.1 -1
-s Item 0.1 -1
-s CatQuery 0.1 -1
-s CartQuery 0.1 -1
+s Browse 7 -1
+s Get 0.0048 -1
+s Add 0.0174 -1
+s Del 0.0056 -1
+s Home 0.0021 -1
+s Cart 0.0051 -1
+s List 0.0022 -1
+s Item 0.0019 -1
+s CatQuery 0.0013 -1
+s CartQuery 0.0022 -1
 A Address ActivityAddress
 A Catalog ActivityCatalog
 y Browse Address 1.0 -1
@@ -55,7 +55,7 @@ y Del CartQuery 1.0 -1
 
 # Activities definition
 A TaskRouter
- s ActivityAddress 0.1
+ s ActivityAddress 0.0012
  s ActivityHome 0.00000000001
  s ActivityCatalog 0.00000000001
  s ActivityCart 0.00000000001
@@ -70,7 +70,7 @@ A TaskRouter
 -1
 
 A TaskFrontend
- s ActivityCatalog 0.1
+ s ActivityCatalog 0.0037
  s ActivityList 0.00000000001
  s ActivityItem 0.00000000001
  y ActivityList List 1.0
