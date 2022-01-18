@@ -57,7 +57,7 @@ end
 # ∇²f(x::Float64) = 2.0
 #register(model, :foo, 1, f, ∇f, ∇²f)
 
-#min_(x,y)=-(-x-y+((-x+y)^2+10^-100)^(1.0/2))/2.0
+min_(x,y)=-(-x-y+((-x+y)^2+10^-100)^(1.0/2))/2.0
 register(model, :min_, 2, min_, autodiff=true)
 
 @variable(model,T[i=1:size(jump,1)]>=0)
