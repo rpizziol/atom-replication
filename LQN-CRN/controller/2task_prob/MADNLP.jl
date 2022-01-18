@@ -1,4 +1,4 @@
-using Ipopt,MadNLP,Plots,MadNLPMumps,JuMP,MAT,ProgressBars,ParameterJuMP
+using Ipopt,MadNLP,Plots,MadNLPMumps,JuMP,MAT,ProgressBars,ParameterJuMP,MATLAB
 
 #model = Model(()->MadNLP.Optimizer(linear_solver=MadNLPMumps))
 model = Model(Ipopt.Optimizer)
