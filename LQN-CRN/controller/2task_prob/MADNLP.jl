@@ -125,9 +125,11 @@ for i in ProgressBar(1:tstep)
     set_start_value(NC[3],0)
     set_start_value(NC[4],0)
 
-    set_value(C,3000)
+    w=rand(1000:3000)
 
-    global tgt=round(alfa*0.991*3000,digits=4)
+    set_value(C,w)
+
+    global tgt=round(alfa*0.991*w,digits=4)
     @NLobjective(model,Min,(X[end]-tgt)^2+0.00001*sum(NC[i] for i=1:size(NC,1)))
     push!(stimes,@elapsed JuMP.optimize!(model))
     status=termination_status(model)
