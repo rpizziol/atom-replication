@@ -2,53 +2,53 @@
 <!-- lqns -xml -->
 <lqn-model name="../model/validation/_2tier/lqn" description="lqns 5.7 solution for model from: ../model/validation/_2tier/lqn.lqn." xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="/usr/local/share/lqns/lqn.xsd">
    <solver-params comment="simlple_lqn.lqn" conv_val="0.01" it_limit="1e+06" underrelax_coeff="0.9" print_int="1">
-      <result-general valid="YES" conv-val="0.0054043" iterations="6" platform-info="mpbwalt.home Darwin 21.1.0" user-cpu-time="00:00:00.00" system-cpu-time="00:00:00.00" elapsed-time="00:00:00.00">
-         <mva-info submodels="3" core="18" step="164" step-squared="1738" wait="5064" wait-squared="2.37721e+06" faults="0"/>
+      <result-general valid="NO" conv-val="0.00595836" iterations="7" platform-info="mpbwalt.home Darwin 21.1.0" user-cpu-time="00:00:00.00" system-cpu-time="00:00:00.00" elapsed-time="00:00:00.00">
+         <mva-info submodels="3" core="21" step="2567" step-squared="985581" wait="2.95629e+06" wait-squared="1.45283e+12" faults="6"/>
       </result-general>
    </solver-params>
-   <processor name="ProcClient" scheduling="fcfs" multiplicity="58" speed-factor="1">
-      <result-processor utilization="1.0322"/>
-      <task name="Client" scheduling="ref" multiplicity="58" queue-length="0">
-         <result-task throughput="1.0322" utilization="58.0021" phase1-utilization="58.0021" proc-utilization="1.0322"/>
+   <processor name="ProcClient" scheduling="fcfs" multiplicity="257" speed-factor="1">
+      <result-processor utilization="5.99614"/>
+      <task name="Client" scheduling="ref" multiplicity="257" queue-length="0">
+         <result-task throughput="5.99614" utilization="256.999" phase1-utilization="256.999" proc-utilization="5.99614"/>
          <entry name="Browse" type="PH1PH2">
-            <result-entry utilization="58.0021" throughput="1.0322" squared-coeff-variation="4.74739" proc-utilization="1.0322" throughput-bound="19.3333"/>
+            <result-entry utilization="256.999" throughput="5.99614" squared-coeff-variation="4.26303" proc-utilization="5.99614" throughput-bound="85.6667"/>
             <entry-phase-activities>
                <activity name="Browse_ph1" phase="1" host-demand-mean="1">
-                  <result-activity proc-waiting="0" service-time="56.1925" service-time-variance="14990.3" utilization="58.0021"/>
+                  <result-activity proc-waiting="0" service-time="42.8608" service-time-variance="7831.4" utilization="256.999"/>
                   <synch-call dest="Address" calls-mean="1">
-                     <result-call waiting="0.0918921" waiting-variance="0"/>
+                     <result-call waiting="0.0234235" waiting-variance="0"/>
                   </synch-call>
                </activity>
             </entry-phase-activities>
          </entry>
       </task>
    </processor>
-   <processor name="ProcT1" scheduling="fcfs" multiplicity="43" speed-factor="1">
-      <result-processor utilization="1.0322"/>
-      <task name="T1" scheduling="fcfs" multiplicity="84" queue-length="0">
-         <result-task throughput="1.0322" utilization="56.874" phase1-utilization="56.874" proc-utilization="1.0322"/>
+   <processor name="ProcT1" scheduling="fcfs" multiplicity="331" speed-factor="1">
+      <result-processor utilization="5.99614"/>
+      <task name="T1" scheduling="fcfs" multiplicity="479" queue-length="0">
+         <result-task throughput="5.99614" utilization="250.866" phase1-utilization="250.866" proc-utilization="5.99614"/>
          <entry name="Address" type="PH1PH2">
-            <result-entry utilization="56.874" throughput="1.0322" squared-coeff-variation="2.89419" proc-utilization="1.0322" throughput-bound="42"/>
+            <result-entry utilization="250.866" throughput="5.99614" squared-coeff-variation="2.42325" proc-utilization="5.99614" throughput-bound="239.5"/>
             <entry-phase-activities>
                <activity name="Address_ph1" phase="1" host-demand-mean="1">
-                  <result-activity proc-waiting="0" service-time="55.0995" service-time-variance="8786.63" utilization="56.874"/>
+                  <result-activity proc-waiting="0" service-time="41.838" service-time-variance="4241.7" utilization="250.866"/>
                   <synch-call dest="Home" calls-mean="1">
-                     <result-call waiting="53.131" waiting-variance="0"/>
+                     <result-call waiting="23.729" waiting-variance="0"/>
                   </synch-call>
                </activity>
             </entry-phase-activities>
          </entry>
       </task>
    </processor>
-   <processor name="ProcT2" scheduling="fcfs" multiplicity="29" speed-factor="1">
-      <result-processor utilization="1.03225"/>
-      <task name="T2" scheduling="fcfs" queue-length="0">
-         <result-task throughput="1.03225" utilization="0.999991" phase1-utilization="0.999991" proc-utilization="1.03225"/>
+   <processor name="ProcT2" scheduling="fcfs" multiplicity="6" speed-factor="1">
+      <result-processor utilization="5.99633"/>
+      <task name="T2" scheduling="fcfs" multiplicity="116" queue-length="0">
+         <result-task throughput="5.99633" utilization="102.591" phase1-utilization="102.591" proc-utilization="5.99633"/>
          <entry name="Home" type="PH1PH2">
-            <result-entry utilization="0.999991" throughput="1.03225" squared-coeff-variation="1.06556" proc-utilization="1.03225" throughput-bound="1"/>
+            <result-entry utilization="102.591" throughput="5.99633" squared-coeff-variation="0.889934" proc-utilization="5.99633" throughput-bound="116"/>
             <entry-phase-activities>
                <activity name="Home_ph1" phase="1" host-demand-mean="1">
-                  <result-activity proc-waiting="0" service-time="0.96875" service-time-variance="1" utilization="0.999991"/>
+                  <result-activity proc-waiting="16.1089" service-time="17.1089" service-time-variance="260.497" utilization="102.591"/>
                </activity>
             </entry-phase-activities>
          </entry>
