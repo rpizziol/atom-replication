@@ -109,7 +109,7 @@ alfa=1
 
 dt_sim=60.
 nrep=1
-tstep=1
+tstep=10
 XS=zeros(tstep+1,size(jump,2))
 XS[1,:]=zeros(1,size(jump,2))
 XS[1,end]=3000
