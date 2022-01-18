@@ -1,0 +1,98 @@
+G
+"ATOM-3"
+0.01
+10000
+1
+0.5
+-1
+
+# Processors declaration, with multiplicity
+P 0
+p ProcClient f m {{nuser}}
+p ProcRouter f m {{nc[1]}}
+p ProcFrontend f m {{nc[2]}}
+p ProcCatalogSvc f m {{nc[3]}}
+p ProcCatalogDB f m {{nc[4]}}
+p ProcCartSvc f m {{nc[5]}}
+p ProcCartDB f m {{nc[6]}}
+-1
+
+# Tasks declaration
+T 0
+t Client r Browse -1 ProcClient m {{nuser}}
+t TaskRouter n Address -1 ProcRouter m {{nt[1]}}
+t TaskFrontend n Home Catalog Cart -1 ProcFrontend m {{nt[2]}}
+t TaskCatalogSvc n List Item -1 ProcCatalogSvc m {{nt[3]}}
+t TaskCatalogDB n CatQuery -1 ProcCatalogDB m {{nt[4]}}
+t TaskCartSvc n Get Add Del -1 ProcCartSvc m {{nt[5]}}
+t TaskCartDB n CartQuery -1 ProcCartDB m {{nt[6]}}
+-1
+
+# Entries declaration
+E 0
+s Browse 0.1 -1
+s Get 0.1 -1
+s Add 0.1 -1
+s Del 0.1 -1
+s Home 0.1 -1
+s Cart 0.1 -1
+s List 0.1 -1
+s Item 0.1 -1
+s CatQuery 0.1 -1
+s CartQuery 0.1 -1
+A Address ActivityAddress
+A Catalog ActivityCatalog
+y Browse Address 1.0 -1
+y List CatQuery 1.0 -1
+y Item CatQuery 1.0 -1
+y Cart Get 1.0 -1
+y Cart Add 1.0 -1
+y Cart Del 1.0 -1
+y Get CartQuery 1.0 -1
+y Add CartQuery 1.0 -1
+y Del CartQuery 1.0 -1
+-1
+
+# Activities definition
+A TaskRouter
+ s ActivityAddress 0.1
+ s ActivityHome 0.00000000001
+ s ActivityCatalog 0.00000000001
+ s ActivityCart 0.00000000001
+ y ActivityHome Home 1.0
+ y ActivityCatalog Catalog 1.0
+ y ActivityCart Cart 1.0
+:
+ ActivityAddress -> (0.333) ActivityHome + (0.333) ActivityCatalog + (0.334) ActivityCart;
+ ActivityHome[Address];
+ ActivityCatalog[Address];
+ ActivityCart[Address]
+-1
+
+A TaskFrontend
+ s ActivityCatalog 0.1
+ s ActivityList 0.00000000001
+ s ActivityItem 0.00000000001
+ y ActivityList List 1.0
+ y ActivityItem Item 1.0
+:
+ ActivityCatalog -> (0.5) ActivityList + (0.5) ActivityItem;
+ ActivityList[Catalog];
+ ActivityItem[Catalog]
+-1
+
+# DiffLQN settings, starting with #!
+# These will be ignored by LQNS
+
+# 1. Solver settings
+#! v 1.0e5             # fast rate to approximate instantaneous events
+#! solver sim          # ODE analysis - solver sim will run simulation
+#! stoptime 1000.0     # integration time horizon
+#! confidence_level 0.95
+#! confidence_percent_error 0.2
+
+# 2. Output settings
+#! throughput: Browse Address Home Catalog Cart List Item CatQuery Get Add Del CartQuery -1
+
+# 3. Export settings
+#! export csv

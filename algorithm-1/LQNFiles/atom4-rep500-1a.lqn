@@ -1,0 +1,100 @@
+G
+"ATOM-4"
+0.01
+10000
+1
+0.5
+-1    
+    
+# Processors declaration, with multiplicity 
+P 0
+p ProcClient f m 500
+p ProcRouter f m 1
+p ProcFrontend f m 2
+p ProcCatalogSvc f m 3
+-1
+
+# Tasks declaration
+T 0
+t TaskClient r
+  EntryBrowse -1
+  ProcClient m 500
+  r 4
+t TaskRouter n
+  EntryAddress -1
+  ProcRouter m 10
+  r 2
+  o TaskRouter TaskFrontend 3
+t TaskFrontend n
+  EntryHome EntryCatalog EntryCarts -1
+  ProcFrontend m 10
+  r 3
+  i TaskRouter TaskFrontend 3
+  o TaksFrontend TaskCatalogSvc 1
+t TaskCatalogSvc n
+  EntryList EntryItem -1
+  ProcCatalogSvc m 7
+  r 1
+  i TaksFrontend TaskCatalogSvc 1
+-1
+
+# Entries declaration
+E 0
+# -- TaskClient
+s EntryBrowse 1.0 -1
+# -- TaskRouter
+A EntryAddress ActivityAddress
+# -- TaskFrontend 
+s EntryHome 0.0219 -1 # 0.0021
+A EntryCatalog ActivityCatalog2
+s EntryCarts 0.0075 -1 # 0.0051
+# -- TaskCatalogSvc
+s EntryList 0.0138 -1 # 0.0022
+s EntryItem 0.0030 -1 # 0.0019
+# -- Calls
+y EntryBrowse EntryAddress 1.0 -1
+-1
+
+# Activities definition
+A TaskRouter
+ s ActivityAddress {{sr[5]}}
+ s ActivityHome 0.00000001
+ s ActivityCatalog 0.00000001
+ s ActivityCarts 0.00000001
+ y ActivityHome EntryHome 1.0
+ y ActivityCatalog EntryCatalog 1.0
+ y ActivityCarts EntryCarts 1.0
+:
+ ActivityAddress -> (0.33)ActivityHome + (0.33)ActivityCatalog + (0.34)ActivityCarts;
+ ActivityHome[EntryAddress];
+ ActivityCatalog[EntryAddress];
+ ActivityCarts[EntryAddress]
+-1
+
+A TaskFrontend
+ s ActivityCatalog2 0.01
+ s ActivityList 0.01
+ s ActivityItem 0.01
+ y ActivityList EntryList 1.0
+ y ActivityItem EntryItem 1.0
+:
+ ActivityCatalog2 -> (0.5)ActivityList + (0.5)ActivityItem;
+ ActivityList[EntryCatalog];
+ ActivityItem[EntryCatalog]
+-1
+
+# DiffLQN settings, starting with #! 
+# These will be ignored by LQNS
+
+# 1. Solver settings
+#! v 1.0e5             # fast rate to approximate instantaneous events
+#! solver ode          # ODE analysis - solver sim will run simulation
+#! stoptime 1000.0     # integration time horizon
+#! confidence_level 0.95
+#! confidence_percent_error 0.2
+
+# 2. Output settings 
+#! throughput: EntryBrowse EntryAddress EntryHome EntryCatalog EntryCarts EntryList EntryItem -1
+
+# 3. Export settings
+#! export csv

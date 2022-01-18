@@ -26,16 +26,16 @@ class matlabValidator(Validator):
         if(self.modelFilePath.exists()):
             self.modelDirPath = self.modelFilePath.parents[0]
         else:
-            raise ValueError("File %s not found" % (modelPathStr))
+            raise ValueError("File %s not found" % (modelPathStr)) 
         self.matEng = matlab.engine.start_matlab()
         self.matEng.cd(str(self.modelDirPath.absolute()))
     
-    def solveModel(self, X0, MU, NT, NC, dt=1, Names=None, TF=None, rep=None,):
+    def solveModel(self, X0, MU, NT, NC, dt=0.1, Names=None, TF=None, rep=None,):
         
         self.matEng.clear
         e = np.infty
         
-        tIdx = np.where(np.array(Names)!=None)[0]
+        tIdx = np.where(np.array(Names) != None)[0]
     
         # dimensione di un batch
         K = 30
@@ -69,13 +69,21 @@ class matlabValidator(Validator):
             
             print(e)
             
-        #print([MU[idx] * np.mean(Bm2[idx, 1:]) for idx in tIdx])
-        res={}
+        # print([MU[idx] * np.mean(Bm2[idx, 1:]) for idx in tIdx])
+        res = {}
         for idx in tIdx:
-            res[Names[idx]]=MU[idx] * np.mean(Bm2[idx, 1:])
+            # questa cosa e vera solo per la think station, per le altre entry mi dovrei riportare il numero di core e riscalare il tutto
+            # anche in funzione delle altre entry che usano la stessa CPU
+            res[Names[idx]] = MU[idx] * np.mean(Bm2[idx, 1:])
         
         return res
-        
+    
+    def solveModelIt(self, X0, MU, NT, NC, dt=0.1, Names=None, TF=None, rep=None): 
+        X = self.matEng.lqn(matlab.double(X0), matlab.double(MU),
+                          matlab.double(NT), matlab.double(NC), TF, rep, dt)
+        X = np.array(X)
+        return X
+    
     def getResult(self):
         pass
     
