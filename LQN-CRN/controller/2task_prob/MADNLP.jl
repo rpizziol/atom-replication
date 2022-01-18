@@ -90,18 +90,18 @@ register(model, :min_, 2, min_, autodiff=true)
 @constraint(model,T[15]==MU[end]*X[end]*(1.0/9))
 
 #-----response time constraints
-@constraint(model,X[15]<=1.1*MU[15]*T[1])
-@constraint(model,X[19]<=1.1*MU[19]*T[2])
-
-@constraint(model,X[28]<=1.1*MU[28]*T[3])
-@constraint(model,X[32]<=1.1*MU[32]*T[4])
-@constraint(model,X[36]<=1.1*MU[36]*T[5])
-
-@constraint(model,X[7]<=1.1*MU[7]*T[6])
-@constraint(model,X[20]<=1.1*MU[20]*T[7])
-@constraint(model,X[37]<=1.1*MU[37]*T[8])
-
-@constraint(model,X[38]<=1.1*MU[38]*T[9])
+# @constraint(model,X[15]<=1.1*MU[15]*T[1])
+# @constraint(model,X[19]<=1.1*MU[19]*T[2])
+#
+# @constraint(model,X[28]<=1.1*MU[28]*T[3])
+# @constraint(model,X[32]<=1.1*MU[32]*T[4])
+# @constraint(model,X[36]<=1.1*MU[36]*T[5])
+#
+# @constraint(model,X[7]<=1.1*MU[7]*T[6])
+# @constraint(model,X[20]<=1.1*MU[20]*T[7])
+# @constraint(model,X[37]<=1.1*MU[37]*T[8])
+#
+# @constraint(model,X[38]<=1.1*MU[38]*T[9])
 
 #--------------
 
