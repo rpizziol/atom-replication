@@ -141,7 +141,7 @@ for i in ProgressBar(1:tstep)
     end
 
     #println("simulating")
-    mat"cd(\"/Users/emilio/git/atom-replication/model/validation/2task_prob\")"
+    #mat"cd(\"/Users/emilio/git/atom-replication/model/validation/2task_prob\")"
     #mat"Xsim=lqn($XS($i,:,$b),$MU,[inf,inf,inf,inf],[inf,inf,inf,1.5],$dt_sim,1,$dt_sim);"
     mat"Xsim=lqn($XS($i,:),$MU,[inf,inf,inf,inf,inf],$optNC($i,:),$dt_sim,1,$dt_sim);"
     @mget Xsim
