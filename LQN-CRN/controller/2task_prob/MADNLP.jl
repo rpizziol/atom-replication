@@ -109,7 +109,7 @@ alfa=1
 
 dt_sim=60.
 nrep=1
-tstep=30
+tstep=1
 XS=zeros(tstep+1,size(jump,2))
 XS[1,:]=zeros(1,size(jump,2))
 XS[1,end]=3000
@@ -150,9 +150,9 @@ for i in ProgressBar(1:tstep)
     # global Ie += (tgt - XS[i+1,end])
 end
 
-closeall()
-hline([tgt],label = "Target",reuse=false,legend=:bottomright)
-plot!(t,XS[:,end],label = "Controlled-simulation",legend=:bottomright)
-xlabel!("Time(s)")
-ylabel!("QueueLength")
-ylims!((0.0,maximum(XS)))
+# closeall()
+# hline([tgt],label = "Target",reuse=false,legend=:bottomright)
+# plot!(t,XS[:,end],label = "Controlled-simulation",legend=:bottomright)
+# xlabel!("Time(s)")
+# ylabel!("QueueLength")
+# ylims!((0.0,maximum(XS)))
