@@ -5,7 +5,11 @@ function updateModel(sourcepath, outpath, key, values)
     for i = 1:size(values, 2)
         % Find and replace {{key[i]}} with the value values(i)
         placeholder = strcat('{{', key, '[', int2str(i), ']}}');
-        value = sprintf('%.6f', values(i));
+        if (floor(values(i)) == ceil(values(i)))
+            value = int2str(values(i));
+        else
+            value = sprintf('%.4f', values(i));
+        end
         f = strrep(f, placeholder, value);        
     end
     %% Write the lqn output file

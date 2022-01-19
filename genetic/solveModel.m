@@ -1,6 +1,6 @@
 function fval = solveModel(modelName, model, params, Cmax, r, s)
     %% Calculate total allocated CPU capacity (to minimize)
-    Ct = sum(r.*s); 
+    Ct = sum(s);  %sum(r.*s); 
     Chat = Ct / Cmax; % Normalized Ct
 
     [status, ~] = system("cd out; java -jar DiffLQN.jar " + modelName + ".lqn");
@@ -18,7 +18,7 @@ function fval = solveModel(modelName, model, params, Cmax, r, s)
     
         %% Calculate revenue (to maximize)
         Bt = sum(sum(params.psi.*Xt));
-        Bmax = sum(sum(params.psi.*repmat(500, model.N, model.M))); % TODO update max value (500?)
+        Bmax = sum(sum(params.psi.*repmat(428.5714, model.N, model.M))); % nuser (3000) / 7 (think time)
         Bhat = Bt / Bmax; % Normalized Bt
     
         %% Calculate objective function
