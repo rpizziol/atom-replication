@@ -9,48 +9,46 @@ G
 # Processors declaration, with multiplicity
 P 0
 p ProcClient f m 3000
-p ProcRouter f m 3000
-p ProcFrontend f m 2
-p ProcCatalogSvc f m 3000
-p ProcCatalogDB f m 3000
-p ProcCartSvc f m 3000
-p ProcCartDB f m 3000
+p ProcRouter f m 16
+p ProcFrontend f m 8
+p ProcCatalogSvc f m 4
+#p ProcCatalogDB f m 3000
+p ProcCartSvc f m 4
+#p ProcCartDB f m 3000
 -1
 
 # Tasks declaration
 T 0
 t Client r Browse -1 ProcClient m 3000
-t TaskRouter n Address -1 ProcRouter m 3000
-t TaskFrontend n Home Catalog Cart -1 ProcFrontend m 3000
-t TaskCatalogSvc n List Item -1 ProcCatalogSvc m 3000
-t TaskCatalogDB n CatQuery -1 ProcCatalogDB m 3000
-t TaskCartSvc n Get Add Del -1 ProcCartSvc m 3000
-t TaskCartDB n CartQuery -1 ProcCartDB m 3000
+t TaskRouter n Address -1 ProcRouter m 16
+t TaskFrontend n Home Catalog Cart -1 ProcFrontend m 8
+t TaskCatalogSvc n List Item -1 ProcCatalogSvc m 4
+#t TaskCatalogDB n CatQuery -1 ProcCatalogDB m 3000
+t TaskCartSvc n Get Add Del -1 ProcCartSvc m 4
+#t TaskCartDB n CartQuery -1 ProcCartDB m 3000
 -1
 
 # Entries declaration
 E 0
+
 s Browse 7 -1
 s Get 0.0048 -1
 s Add 0.0174 -1
 s Del 0.0056 -1
 s Home 0.0021 -1
-s Cart 0.0051 -1
+#s Cart 0.0051 -1
 s List 0.0022 -1
 s Item 0.0019 -1
-s CatQuery 0.0013 -1
-s CartQuery 0.0022 -1
+
+
+
 A Address ActivityAddress
 A Catalog ActivityCatalog
+A Cart ActivityCart
+
 y Browse Address 1.0 -1
-y List CatQuery 1.0 -1
-y Item CatQuery 1.0 -1
-y Cart Get 1.0 -1
-y Cart Add 1.0 -1
-y Cart Del 1.0 -1
-y Get CartQuery 1.0 -1
-y Add CartQuery 1.0 -1
-y Del CartQuery 1.0 -1
+
+
 -1
 
 # Activities definition
@@ -75,10 +73,23 @@ A TaskFrontend
  s ActivityItem 0.00000000001
  y ActivityList List 1.0
  y ActivityItem Item 1.0
+
+ s ActivityCart 0.0051
+ s ActivityGet 0.00000000001
+ s ActivityAdd 0.00000000001
+ s ActivityDel 0.00000000001
+ y ActivityGet Get 1.0
+ y ActivityAdd Add 1.0
+ y ActivityDel Del 1.0
+
 :
  ActivityCatalog -> (0.5) ActivityList + (0.5) ActivityItem;
  ActivityList[Catalog];
- ActivityItem[Catalog]
+ ActivityItem[Catalog];
+ ActivityCart -> (0.333) ActivityGet + (0.333) ActivityAdd +(0.334) ActivityDel;
+ ActivityGet[Cart];
+ ActivityAdd[Cart];
+ ActivityDel[Cart]
 -1
 
 # DiffLQN settings, starting with #!

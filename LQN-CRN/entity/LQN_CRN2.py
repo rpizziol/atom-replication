@@ -444,41 +444,52 @@ class LQN_CRN2():
                     if("_e" in self.names[i]):
                         #da qui devo risalire a ritroso e fare il merge dei jump
                         print("from",[self.names[i] for i in fromIdx[0]],"to",[self.names[i] for i in toIdx[0]])
-                        toSum=np.where(np.array(self.Jumps)[:,fromIdx[0]]==1)[0].tolist()
-                        #ogni elemento di tu sum mi crea una path separata
-                        for startIdx in toSum:
-                            pIdx=[idx,startIdx]
-                            print(pIdx)
-                            pIdx+=self._mergeInfJumps(np.where(np.array(self.Jumps)[:,fromIdx[0]]==1)[0])
+                        #toSum=[idx]+np.where(np.array(self.Jumps)[:,fromIdx[0]]==1)[0].tolist()
+                        for inState in np.where(np.array(self.Jumps)[:,fromIdx[0]]==1)[0].tolist():
+                            toSum=[idx,inState]
+                            toSum+=self._mergeInfJumps([inState])
+                            print(toSum)
                             
-                            #toSum=list(dict.fromkeys(mylist))
-                            print(pIdx)
                             #sommo le righe individuate e le elimino dalla matrice
-                            for j in pIdx:
+                            for j in toSum:
                                 try:
                                     if self.Jumps[j] in cJumps:
                                         cJumps.remove(self.Jumps[j])
                                 except:
                                     traceback.print_exc()
                                     raise ValueError()
-                                    
-                            cJumps.append(np.array(self.Jumps)[pIdx,:].sum(axis=0).tolist())
-        
+            
+                            cJumps.append(np.array(self.Jumps)[toSum,:].sum(axis=0).tolist())
+            
         print(np.array(cJumps))
         
                                       
                             
-    def _mergeInfJumps(self,fromJ):   
-        toSum=[]    
+    # def _mergeInfJumps(self,fromJ):   
+    #     toSum=[]    
+    #     for idx in fromJ:
+    #         #chiamo la ricorsione se serve
+    #         p=self.props[idx]
+    #         res=re.search(r"D", p, re.MULTILINE)
+    #         if(res is not None and idx!=0):
+    #             fromIdx=np.where(np.array(self.Jumps[idx])==-1)
+    #             toIdx=np.where(np.array(self.Jumps[idx])==1)
+    #             #print("from",[self.names[i] for i in fromIdx[0]],"to",[self.names[i] for i in toIdx[0]])
+    #             toSum+=np.where(np.array(self.Jumps)[:,fromIdx[0]]==1)[0].tolist()
+    #             toSum+=self._mergeInfJumps(np.where(np.array(self.Jumps)[:,fromIdx[0]]==1)[0])
+    #
+    #     return toSum
+    
+    def _mergeInfJumps(self,fromJ):  
         for idx in fromJ:
+            toSum=[]
             #chiamo la ricorsione se serve
             p=self.props[idx]
             res=re.search(r"D", p, re.MULTILINE)
-            if(res is not None):
-                fromIdx=np.where(np.array(self.Jumps[idx])==-1)
+            if(res is not None and idx!=0):
+                fromIdx=np.where(np.array(self.Jumps[idx])==-1) 
                 toIdx=np.where(np.array(self.Jumps[idx])==1)
-                #print("from",[self.names[i] for i in fromIdx[0]],"to",[self.names[i] for i in toIdx[0]])
-                toSum+=np.where(np.array(self.Jumps)[:,fromIdx[0]]==1)[0].tolist()
-                toSum+=self._mergeInfJumps(np.where(np.array(self.Jumps)[:,fromIdx[0]]==1)[0])
-        print(toSum)
+                for inState in np.where(np.array(self.Jumps)[:,fromIdx[0]]==1)[0].tolist():
+                    toSum=[inState]
+                    toSum+=self._mergeInfJumps([inState])
         return toSum
