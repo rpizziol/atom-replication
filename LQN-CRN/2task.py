@@ -47,6 +47,7 @@ if __name__ == '__main__':
     
     lqn2crn.toCasadiCtrl(outDir="./controller")
     lqn2crn.toMatlab(outDir="../model/validation")
+    lqn2crn.toJuliaCtrl(outDir="./controller/julia")
     
     # # validate the model against lqns#
     # matV = matlabValidator("../model/validation/%s/lqn.m"%(mname))

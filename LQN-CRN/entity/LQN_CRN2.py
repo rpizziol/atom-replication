@@ -13,6 +13,8 @@ from pathlib import Path
 import sys
 import entity
 import os
+import re
+import copy
 
 script_dir = Path(os.path.realpath(__file__))/".."/".."
 
@@ -91,7 +93,9 @@ class LQN_CRN2():
             for a in act.getActivities():
                 self.mapStateName(a)
         elif(isinstance(act, actBlock)):
+            #print(act.name,len(act.getActivities()))
             for a in act.getActivities():
+                #print("\t"+a.name,a.dest.name,a.getParentEntry().name)
                 self.mapStateName(a)
     
     def createJump(self, sndName, lrcvName, rrcvName, rsyncName):
@@ -106,7 +110,9 @@ class LQN_CRN2():
         if(rsyncName is not None):
             jump[self.names.index(rsyncName)] = -1
         
-        self.Jumps.append(jump)
+        #verifico che il jump non esiste gia nella matrice
+        if(jump not in self.Jumps):
+            self.Jumps.append(jump)
     
     def createPropensity(self, jump):
         # per semplicita cerco di determinare la propensita a partire dal jump
@@ -324,6 +330,7 @@ class LQN_CRN2():
         mfid = open("%s/lqn.m" % str(outd.absolute()), "w+")
         mfid.write(model)
         mfid.close()
+        
     
     def toPython(self, outDir=None):
         if(outDir == None):
@@ -409,3 +416,69 @@ class LQN_CRN2():
         mfid = open("%s/__init__.py" % str(outd.absolute()), "w+")
         mfid.write("from .lqnCtrl import *\n")
         mfid.close()
+        
+    def toJuliaCtrl(self,outDir=None):
+        
+        if(outDir == None):
+            outDir = "."
+            
+        env = Environment(
+            loader=PackageLoader('trasducer', 'templates'),
+            autoescape=select_autoescape(['html', 'xml']),
+            trim_blocks=False,
+            lstrip_blocks=False)
+        
+        print(self.names)
+        
+        #creo il controllore con le assunzioni per velocizzare l'ottimizazione
+        #riformulo la matricedei jump
+        cJumps=self.Jumps.copy()
+        for idx,val in enumerate(self.Jumps):
+            p=self.props[idx]
+            res=re.search(r"D", p, re.MULTILINE)
+            if(res is not None):
+                #print("infinite jump")
+                fromIdx=np.where(np.array(val)==-1)
+                toIdx=np.where(np.array(val)==1)
+                for i in toIdx[0]:
+                    if("_e" in self.names[i]):
+                        #da qui devo risalire a ritroso e fare il merge dei jump
+                        print("from",[self.names[i] for i in fromIdx[0]],"to",[self.names[i] for i in toIdx[0]])
+                        toSum=np.where(np.array(self.Jumps)[:,fromIdx[0]]==1)[0].tolist()
+                        #ogni elemento di tu sum mi crea una path separata
+                        for startIdx in toSum:
+                            pIdx=[idx,startIdx]
+                            print(pIdx)
+                            pIdx+=self._mergeInfJumps(np.where(np.array(self.Jumps)[:,fromIdx[0]]==1)[0])
+                            
+                            #toSum=list(dict.fromkeys(mylist))
+                            print(pIdx)
+                            #sommo le righe individuate e le elimino dalla matrice
+                            for j in pIdx:
+                                try:
+                                    if self.Jumps[j] in cJumps:
+                                        cJumps.remove(self.Jumps[j])
+                                except:
+                                    traceback.print_exc()
+                                    raise ValueError()
+                                    
+                            cJumps.append(np.array(self.Jumps)[pIdx,:].sum(axis=0).tolist())
+        
+        print(np.array(cJumps))
+        
+                                      
+                            
+    def _mergeInfJumps(self,fromJ):   
+        toSum=[]    
+        for idx in fromJ:
+            #chiamo la ricorsione se serve
+            p=self.props[idx]
+            res=re.search(r"D", p, re.MULTILINE)
+            if(res is not None):
+                fromIdx=np.where(np.array(self.Jumps[idx])==-1)
+                toIdx=np.where(np.array(self.Jumps[idx])==1)
+                #print("from",[self.names[i] for i in fromIdx[0]],"to",[self.names[i] for i in toIdx[0]])
+                toSum+=np.where(np.array(self.Jumps)[:,fromIdx[0]]==1)[0].tolist()
+                toSum+=self._mergeInfJumps(np.where(np.array(self.Jumps)[:,fromIdx[0]]==1)[0])
+        print(toSum)
+        return toSum
