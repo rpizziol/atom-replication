@@ -24,9 +24,9 @@ if __name__ == '__main__':
     Router = Task(name="Router")
     Front_end = Task(name="Front_end")
     CatSvc = Task(name="CatSvc")
-    CatStore = Task(name="CatStore")
     CartSvc = Task(name="CartSvc")
-    
+    CatStore = Task(name="CatStore")
+    CartStore = Task(name="CartStore")
     
     # entries declaration
     browse = Entry("Browse")
@@ -38,6 +38,7 @@ if __name__ == '__main__':
     Cart = Entry("Cart")
     
     CatQry = Entry("CatQry")
+    CartQry = Entry("CartQry")
     
     List = Entry("List")
     Item = Entry("Item")
@@ -55,7 +56,8 @@ if __name__ == '__main__':
     CatSvc.addEntry(List)
     CatSvc.addEntry(Item)
     
-    #CatStore.addEntry(CatQry)
+    CatStore.addEntry(CatQry)
+    CartStore.addEntry(CartQry)
     
     CartSvc.addEntry(Get)
     CartSvc.addEntry(Add)
@@ -63,18 +65,24 @@ if __name__ == '__main__':
     
     # activity declaration
     
+    #cartDB
+    CartQry.getActivities().append(Activity(stime=1.0, parent=CartQry, name="e"))
+    
     #catDB
     CatQry.getActivities().append(Activity(stime=1.0, parent=CatQry, name="e"))
     
     # CatSvc  entries logic#
-    #List.getActivities().append(SynchCall(dest=CatQry, parent=List, name="List2CatQry"))
+    List.getActivities().append(SynchCall(dest=CatQry, parent=List, name="List2CatQry"))
     List.getActivities().append(Activity(stime=1.0, parent=List, name="e"))
-    # Item.getActivities().append(SynchCall(dest=CatQry, parent=Item, name="Item2CatQry"))
+    Item.getActivities().append(SynchCall(dest=CatQry, parent=Item, name="Item2CatQry"))
     Item.getActivities().append(Activity(stime=1.0, parent=Item, name="e"))
     
     # CartSvc  entries logic#
+    Get.getActivities().append(SynchCall(dest=CartQry, parent=Get, name="Get2CartQry"))
     Get.getActivities().append(Activity(stime=1.0, parent=Get, name="e"))
+    Add.getActivities().append(SynchCall(dest=CartQry, parent=Add, name="Add2CartQry"))
     Add.getActivities().append(Activity(stime=1.0, parent=Add, name="e"))
+    Rmv.getActivities().append(SynchCall(dest=CartQry, parent=Rmv, name="Rmv2CartQry"))
     Rmv.getActivities().append(Activity(stime=1.0, parent=Rmv, name="e"))
     
     # Router  entries logic#
@@ -89,9 +97,9 @@ if __name__ == '__main__':
     BlkCart=actBlock( parent=choiceAddress, name="BlkCart")
     BlkCart.activities.append(SynchCall(dest=Cart, parent=BlkCart, name="2Cart"))
     
-    choiceAddress.addBlock(BlkHome, 1.0/3)
-    choiceAddress.addBlock(BlkCatalog, 1.0/3)
-    choiceAddress.addBlock(BlkCart, 1.0/3)
+    choiceAddress.addBlock(BlkHome, "P_Home")
+    choiceAddress.addBlock(BlkCatalog, "P_Catalog")
+    choiceAddress.addBlock(BlkCart, "P_Cart")
     
     Addr.getActivities().append(choiceAddress)
     Addr.getActivities().append(Activity(stime=1.0, parent=Addr, name="e"))
@@ -105,8 +113,8 @@ if __name__ == '__main__':
     blkItem=actBlock(parent=choiceCat, name="blkItem")
     blkItem.getActivities().append(SynchCall(dest=Item, parent=blkItem, name="2Item"))
     
-    choiceCat.addBlock(blkList, 1.0/2)
-    choiceCat.addBlock(blkItem,1.0/2)
+    choiceCat.addBlock(blkList, "P_List")
+    choiceCat.addBlock(blkItem,"P_Item")
     
     Catalog.getActivities().append(choiceCat)
     Catalog.getActivities().append(Activity(stime=1.0, parent=Catalog, name="e"))
@@ -119,9 +127,9 @@ if __name__ == '__main__':
     blkRmv=actBlock(parent=choiceCart, name="BlkRmv")
     blkRmv.getActivities().append(SynchCall(dest=Rmv, parent=blkRmv, name="2Rmv"))
     
-    choiceCart.addBlock(blkGet, 1.0/3)
-    choiceCart.addBlock(blkAdd, 1.0/3)
-    choiceCart.addBlock(blkRmv, 1.0/3)
+    choiceCart.addBlock(blkGet, "P_Get")
+    choiceCart.addBlock(blkAdd, "P_Add")
+    choiceCart.addBlock(blkRmv, "P_Rmv")
     
     Cart.getActivities().append(choiceCart)
     Cart.getActivities().append(Activity(stime=1.0, parent=Cart, name="e"))
@@ -131,7 +139,7 @@ if __name__ == '__main__':
     browse.getActivities().append(Activity(stime=1.0, parent=browse, name="browse"))
     
     lqn2crn = LQN_CRN2()
-    lqn2crn.getCrn({"task":[cTask, Router,Front_end,CatSvc,CartSvc], "name":"2task_prob"})
+    lqn2crn.getCrn({"task":[cTask, Router,Front_end,CatSvc,CartSvc,CatStore,CartStore], "name":"2task_prob"})
     
     #lqn2crn.toCasadiCtrl(outDir="./controller")
     lqn2crn.toMatlab(outDir="../model/validation")

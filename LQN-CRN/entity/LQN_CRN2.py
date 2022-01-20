@@ -166,7 +166,7 @@ class LQN_CRN2():
                 #per sicurezza dovrei analizzare queste condizioni sull'intero jump e non solo sul primo che incontro anche se cosi 
                 #dovrebbe funzionare per via dell'ordinamento che la visita in profondita da agli stati della CRN
                 if(isinstance(act,probChoice)):
-                    prop="D*X%s_%s*%f"%(act.getParentEntry().name,act.name,act.probs[act.getActivities().index(act1)])
+                    prop="D*X%s_%s*%s"%(act.getParentEntry().name,act.name,act.probs[act.getActivities().index(act1)])
                 elif(isinstance(act,actBlock)):
                     prop="D*X%s_%s"%(act.getParentEntry().name,act.name)
                 #elif(isinstance(act,SynchCall)):
@@ -433,6 +433,7 @@ class LQN_CRN2():
         #creo il controllore con le assunzioni per velocizzare l'ottimizazione
         #riformulo la matricedei jump
         cJumps=self.Jumps.copy()
+        cProp=self.props.copy()
         for idx,val in enumerate(self.Jumps):
             p=self.props[idx]
             res=re.search(r"D", p, re.MULTILINE)
@@ -451,34 +452,59 @@ class LQN_CRN2():
                             print(toSum)
                             
                             #sommo le righe individuate e le elimino dalla matrice
+                            #aggiorno anche le propensity
+                            nProp=None
                             for j in toSum:
                                 try:
                                     if self.Jumps[j] in cJumps:
                                         cJumps.remove(self.Jumps[j])
+                                        
+                                    #elimino la vecchia propensity   
+                                    if(self.props[j] in cProp): 
+                                        cProp.remove(self.props[j])
+                                        
+                                    #massaggio la nuova propensity
+                                    pToRmv=self.props[j]
+                                    isInfpToRmv=re.search(r"D",pToRmv, re.MULTILINE)
+                                    if(isInfpToRmv is not None):
+                                        probMatches = re.finditer(r"(P_[a-zA-Z]+)",pToRmv, re.MULTILINE | re.UNICODE)
+                                        for matchNum, match in enumerate(probMatches, start=1):
+                                            if(nProp is not None):
+                                                nProp="%s*%s"%(match.group(),nProp)
+                                            else:
+                                                nProp=match.group()
+                                    else:
+                                        if(nProp is not None):
+                                            nProp="%s*%s"%(self.props[j],nProp)
+                                        else:
+                                            nProp=self.props[j]
+                                    
                                 except:
                                     traceback.print_exc()
                                     raise ValueError()
             
                             cJumps.append(np.array(self.Jumps)[toSum,:].sum(axis=0).tolist())
+                            cProp.append(nProp)
+                            
             
         print(np.array(cJumps))
         
-                                      
-                            
-    # def _mergeInfJumps(self,fromJ):   
-    #     toSum=[]    
-    #     for idx in fromJ:
-    #         #chiamo la ricorsione se serve
-    #         p=self.props[idx]
-    #         res=re.search(r"D", p, re.MULTILINE)
-    #         if(res is not None and idx!=0):
-    #             fromIdx=np.where(np.array(self.Jumps[idx])==-1)
-    #             toIdx=np.where(np.array(self.Jumps[idx])==1)
-    #             #print("from",[self.names[i] for i in fromIdx[0]],"to",[self.names[i] for i in toIdx[0]])
-    #             toSum+=np.where(np.array(self.Jumps)[:,fromIdx[0]]==1)[0].tolist()
-    #             toSum+=self._mergeInfJumps(np.where(np.array(self.Jumps)[:,fromIdx[0]]==1)[0])
-    #
-    #     return toSum
+        tname = [t.name for t in self.lqn["task"]]
+        mprops = []
+        for p in cProp:
+            npr = p
+            for tn in tname:
+                npr = npr.replace("NC[\"%s\"]" % (tn), "NC[%d]" % (tname.index(tn) + 1))
+                npr = npr.replace("NT[\"%s\"]" % (tn), "NT[%d]" % (tname.index(tn) + 1))
+            for vname in self.names:
+                npr = npr.replace("MU[\"%s\"]" % (vname), "MU[%d]" % (self.names.index(vname) + 1))
+            for vname in self.names:
+                npr = npr.replace(vname, "X[%d-sum(toZero[1,1:%d])]" % (self.names.index(vname) + 1,self.names.index(vname) + 1))
+            npr = npr.replace("D", "p.delta")
+            mprops.append(npr)
+        
+        for p in mprops:
+            print(p)
     
     def _mergeInfJumps(self,fromJ):  
         for idx in fromJ:
