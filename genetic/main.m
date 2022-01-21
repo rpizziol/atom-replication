@@ -10,6 +10,7 @@ model.N = 3; % Number of microservices (tasks)
 model.M = 3; % Number of classes (max entries)
 % Starting service time for each entry
 st = [0.0012, 0.0021, 0.0037, 0.0051];
+rv = [1000, 1000];
 nuser = 3000;
 
 % Complete model
