@@ -1,5 +1,7 @@
 using Printf,Ipopt,MadNLP,Plots,MadNLPMumps,JuMP,MAT,ProgressBars,ParameterJuMP,MATLAB,Statistics
 
+cwd=pwd()
+
 #model = Model(()->MadNLP.Optimizer(linear_solver=MadNLPMumps))
 model = Model(Ipopt.Optimizer)
 set_optimizer_attribute(model, "linear_solver", "pardiso")
@@ -148,7 +150,7 @@ end
 
 #--------------
 
-alfa=1.0
+alfa=0.5
 
 dt_sim=60.
 nrep=1
@@ -182,7 +184,7 @@ for i in ProgressBar(1:tstep)
         optNC[i,p+1]=max(value(NC[p])+0.00001*Ie,0.0)
     end
 
-    NT=2*ceil.([0,value(sum(X[1:end-1])),
+    NT=ceil.([0,value(sum(X[1:end-1])),
      value(sum(X[[7-sum(toZero[1,1:7]),24-sum(toZero[1,1:24]),46-sum(toZero[1,1:46]),
               13-sum(toZero[1,1:13]),20-sum(toZero[1,1:20]),
               30-sum(toZero[1,1:30]),37-sum(toZero[1,1:37]),42-sum(toZero[1,1:42])]])),
@@ -194,7 +196,7 @@ for i in ProgressBar(1:tstep)
 
 
     println("simulating")
-    #mat"cd(\"/Users/emilio/git/atom-replication/model/validation/2task_prob\")"
+    mat"cd(\"/Users/emilio/git/atom-replication/model/validation/2task_prob\")"
     #mat"Xsim=lqn($XS($i,:),$MU,[inf,inf,inf,inf,inf,inf,inf],[inf,inf,inf,inf,inf,inf,inf],$dt_sim,1,$dt_sim);"
     mat"Xsim=lqn($XS($i,:),$MU,$NT,$optNC($i,:),$dt_sim,1,$dt_sim);"
     @mget Xsim
