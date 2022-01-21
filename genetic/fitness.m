@@ -1,8 +1,9 @@
-function value = fitness(cpushare, sourcemodel, st, rv, model, params, Cmax)
+function value = fitness(cpushare, sourcemodel, st, rv, model, params, Cmax, nuser)
       newModelName = 'fittmp';
 
       temppath = './out/fittmp.lqn';
-      updateModel(sourcemodel, temppath, 'rv', rv);
+      updateModel(sourcemodel, temppath, 'nuser', nuser);
+      updateModel(temppath, temppath, 'rv', rv);
       [np2, st2] = calculateByCPUShare(st, cpushare);
 
       updateModel(temppath, temppath, 'st', st2);
@@ -14,7 +15,6 @@ function value = fitness(cpushare, sourcemodel, st, rv, model, params, Cmax)
           value = Inf;
       else
           %% Calculate the Theta
-         
           value = solveModel(newModelName, model, params, Cmax, rv, cpushare);
           value = -value; % This is just for optimtool (minimize)
       end

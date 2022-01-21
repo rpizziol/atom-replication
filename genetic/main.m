@@ -5,7 +5,7 @@ rng('default'); % For replication of the experiment
 %% Model definition
 % Model with 3 tasks
 sourcemodel = './res/model1.lqn';
-temppath = './out/temp1.lqn';
+%temppath = './out/temp1.lqn';
 model.N = 3; % Number of microservices (tasks)
 model.M = 3; % Number of classes (max entries)
 % Starting service time for each entry
@@ -42,10 +42,9 @@ constraints.s_ub = [100, 100];      % Upper bound
 Cmax = sum(constraints.s_ub); %constraints.Q.*constraints.s_ub);
 
 %% Genetic algorithm
-updateModel(sourcemodel, temppath, 'nuser', nuser);
 tic()
 
-f = @(x)fitness(x, sourcemodel, st, rv, model, params, Cmax);
+f = @(x)fitness(x, sourcemodel, st, rv, model, params, Cmax, nuser);
 options = optimoptions('ga'); % Load default settings
 options = optimoptions(options,'PopulationType', 'doubleVector');
 options = optimoptions(options,'PopulationSize', 40); % default: 50
