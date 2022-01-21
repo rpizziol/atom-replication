@@ -48,9 +48,9 @@ tic()
 f = @(x)fitness(x, sourcemodel, st, rv, model, params, Cmax);
 options = optimoptions('ga'); % Load default settings
 options = optimoptions(options,'PopulationType', 'doubleVector');
-options = optimoptions(options,'PopulationSize', 50); % default: 50
-options = optimoptions(options,'MaxGenerations', 200); % default: 100*nvars
-options = optimoptions(options,'MaxStallGenerations', 50);
+options = optimoptions(options,'PopulationSize', 40); % default: 50
+options = optimoptions(options,'MaxGenerations', 180); % default: 100*nvars
+options = optimoptions(options,'MaxStallGenerations', 10);
 options = optimoptions(options,'MutationFcn', { @mutationadaptfeasible 0.1 });
 options = optimoptions(options,'PlotFcn', {@gaplotbestf, @gaplotbestindiv }); %@printState
 options = optimoptions(options,'Display', 'iter');

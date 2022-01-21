@@ -9,8 +9,8 @@ G
 # Processors declaration, with multiplicity 
 P 0
 p ProcClient f m {{nuser}}
-p ProcRouter f m 70
-p ProcFrontend f m 29
+p ProcRouter f m 4
+p ProcFrontend f m 1
 -1
 
 # Tasks declaration
@@ -27,15 +27,15 @@ t TaskFrontend n EntryHome EntryCatalog EntryCarts -1
 E 0
 s EntryBrowse 7.0 -1
 A EntryAddress ActivityAddress
-s EntryHome 0.0021 -1
-s EntryCatalog 0.0038 -1
-s EntryCarts 0.0052 -1
+s EntryHome 0.0023 -1
+s EntryCatalog 0.0041 -1
+s EntryCarts 0.0056 -1
 y EntryBrowse EntryAddress 1.0 -1
 -1
 
 # Activities definition
 A TaskRouter
- s ActivityAddress 0.0012
+ s ActivityAddress 0.0013
  s ActivityHome 0.00000001
  s ActivityCatalog 0.00000001
  s ActivityCarts 0.00000001
