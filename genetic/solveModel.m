@@ -3,7 +3,7 @@ function fval = solveModel(modelName, model, params, Cmax, r, s)
     Ct = sum(s);  %sum(r.*s); 
     Chat = Ct / Cmax; % Normalized Ct
 
-    [status, ~] = system("cd out; lqns -x " + modelName + ".lqn");
+    [status, ~] = system("cd out; lqsim -x " + modelName + ".lqn");
     %[status, ~] = system("cd out; java -jar DiffLQN.jar " + modelName + ".lqn");
     %[status, ~] = system("java -jar ./out/DiffLQN.jar " + temppath);
 
