@@ -14,12 +14,12 @@ function fval = solveModel(modelName, model, params, Cmax, r, s)
         xdoc = xmlread(strcat('./out/', modelName, '.lqxo'));
         entry = xdoc.getElementsByTagName('result-entry');
         
-        Xt(1,1) = entry.item(0).getAttribute('throughput'); % EntryBrowse
-        Xt(2,1) = entry.item(1).getAttribute('throughput'); % EntryAddress
+        Xt(1,1) = str2double(entry.item(0).getAttribute('throughput')); % EntryBrowse
+        Xt(2,1) = str2double(entry.item(1).getAttribute('throughput')); % EntryAddress
         % EntryHome EntryCatalog EntryCarts
-        Xt(3,1) = entry.item(2).getAttribute('throughput');
-        Xt(3,2) = entry.item(3).getAttribute('throughput');
-        Xt(3,3) = entry.item(4).getAttribute('throughput');
+        Xt(3,1) = str2double(entry.item(2).getAttribute('throughput'));
+        Xt(3,2) = str2double(entry.item(3).getAttribute('throughput'));
+        Xt(3,3) = str2double(entry.item(4).getAttribute('throughput'));
 
 
 %         Xt(1,1) = m(1,4); % EntryBrowse
