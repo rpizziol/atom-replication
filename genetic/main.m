@@ -24,7 +24,7 @@ rng('default'); % For replication of the experiment
 
 % Full model in xml
 sourcemodel = './res/atom-full_template2.lqnx';
-model.N = 5;
+model.N = 7;
 model.M = 3;    % Number of classes (max entries)
 nuser = 3000;
 st = [0.0012, 0.0021, 0.0037, 0.0051, 0.0022, 0.0019, 0.0048, 0.0174,...
@@ -64,6 +64,6 @@ options = optimoptions(options,'MaxStallGenerations', 10);
 options = optimoptions(options,'MutationFcn', { @mutationadaptfeasible 0.1 });
 options = optimoptions(options,'PlotFcn', {@gaplotbestf, @gaplotbestindiv }); %@printState
 options = optimoptions(options,'Display', 'iter');
-[x, fval, exitflag, output, population, scores] = ga(f, model.N -1, [],...
+[x, fval, exitflag, output, population, scores] = ga(f, model.N -3, [],...
     [], [], [], constraints.s_lb, constraints.s_ub, [], [], options);
 toc()
