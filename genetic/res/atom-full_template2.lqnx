@@ -107,7 +107,7 @@
       </task-activities>
     </task>
   </processor>
-  <processor multiplicity="{{np[6]}}" name="ProcCartsdb" quantum="0.1" replication="1" scheduling="ps">
+  <processor multiplicity="1" name="ProcCartsdb" quantum="0.1" replication="1" scheduling="ps">
     <task multiplicity="100" name="TaskCartsdb" replication="1" scheduling="fcfs">
       <!-- cartdb -->
       <fan-in source="TaskCartssvc" value="1"/>
@@ -227,7 +227,7 @@
       </task-activities>
     </task>
   </processor>
-  <processor multiplicity="{{np[5]}}" name="ProcCatalogdb" quantum="0.1" replication="1" scheduling="ps">
+  <processor multiplicity="1" name="ProcCatalogdb" quantum="0.1" replication="1" scheduling="ps">
     <task multiplicity="151" name="TaskCatalogdb" replication="1" scheduling="fcfs">
       <!-- catalogdb -->
       <fan-in source="TaskCatalogsvc" value="1"/>
