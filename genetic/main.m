@@ -3,15 +3,15 @@ close('all');
 rng('default'); % For replication of the experiment 
 
 %% Model definition
-% Model with 3 tasks
-sourcemodel = './res/model1.lqn';
-%temppath = './out/temp1.lqn';
-model.N = 3; % Number of microservices (tasks)
-model.M = 3; % Number of classes (max entries)
-% Starting service time for each entry
-st = [0.0012, 0.0021, 0.0037, 0.0051];
-rv = [1000, 1000];
-nuser = 3000;
+% % Model with 3 tasks
+% sourcemodel = './res/model1.lqn';
+% %temppath = './out/temp1.lqn';
+% model.N = 3; % Number of microservices (tasks)
+% model.M = 3; % Number of classes (max entries)
+% % Starting service time for each entry
+% st = [0.0012, 0.0021, 0.0037, 0.0051];
+% rv = [1000, 1000];
+% nuser = 3000;
 
 % Complete model
 %sourcemodel = './res/model2.lqn';
@@ -22,23 +22,34 @@ nuser = 3000;
 %st = [0.0012, 0.0021, 0.0037, 0.0051, 0.0022, 0.0019, 0.0048, 0.0174, 0.0056];
 %nuser = 3000;
 
+% Full model in xml
+sourcemodel = './res/atom-full_template2.lqnx';
+model.N = 5;
+model.M = 3;    % Number of classes (max entries)
+nuser = 3000;
+st = [0.0012, 0.0021, 0.0037, 0.0051, 0.0022, 0.0019, 0.0048, 0.0174,...
+    0.0056];
+rv = [nuser, nuser, nuser, nuser];
+
 %% Objective function's parameters
 %params.psi = rand(model.N, model.M); % Weights of transactions
 params.psi = zeros(model.N, model.M); % Weights of transactions
 params.psi(1,1) = 1;
 
-% [1, 0, 0]
-% [0, 0, 0]
-% [0, 0, 0]
+% [1, 0, 0, 0, 0]
+% [0, 0, 0, 0, 0]
+% [0, 0, 0, 0, 0]
+% [0, 0, 0, 0, 0]
+% [0, 0, 0, 0, 0]
 
 params.tau1 = 0.5; % Objective function weight 1
 params.tau2 = 0.5; % Objective function weight 2
 
 %% Constraints for r and s
-constraints.Q = [1200, 1200]; % Max number of replicas for each microservice
+constraints.Q = [1200, 1200, 1200, 1200]; % Max number of replicas for each microservice
 % CPU share for each replica of each microservice for the time interval t
-constraints.s_lb = [0.001, 0.001];  % Lower bound
-constraints.s_ub = [100, 100];      % Upper bound
+constraints.s_lb = [0.001, 0.001, 0.001, 0.001];  % Lower bound
+constraints.s_ub = [100, 100, 100, 100];      % Upper bound
 Cmax = sum(constraints.s_ub); %constraints.Q.*constraints.s_ub);
 
 %% Genetic algorithm

@@ -1,7 +1,8 @@
 function value = fitness(cpushare, sourcemodel, st, rv, model, params, Cmax, nuser)
       newModelName = 'fittmp';
 
-      temppath = './out/fittmp.lqn';
+%       temppath = './out/fittmp.lqn';
+      temppath = './out/fittmp.lqnx';
       updateModel(sourcemodel, temppath, 'nuser', nuser);
       updateModel(temppath, temppath, 'rv', rv);
       [np2, st2] = calculateByCPUShare(st, cpushare);

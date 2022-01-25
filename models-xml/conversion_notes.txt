@@ -26,9 +26,9 @@
 <!-- E7 = EntryDelete {{st[9]}} -->
 
 <!-- P3_3 = ProcCatalogdb {{np[5]}} -->
-<!-- T5 = TaskCatalogdb {{rv[5]}} -->
-<!-- E10 = EntryQueryCatalog {{st[10]}} -->
+<!-- T5 = TaskCatalogdb {{rv[5]}} 151 -->
+<!-- E10 = EntryQueryCatalog {{st[10]}} 0.0013 -->
 
 <!-- P2_3 = ProcCartsdb {{np[6]}} -->
-<!-- T6 = TaskCartsdb {{rv[6]}} -->
-<!-- E11 = EntryQueryCartsdb {{st[11]}} -->
+<!-- T6 = TaskCartsdb {{rv[6]}} 100 -->
+<!-- E11 = EntryQueryCartsdb {{st[11]}} 0.0022 -->
