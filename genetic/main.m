@@ -23,7 +23,7 @@ rng('default'); % For replication of the experiment
 %nuser = 3000;
 
 % Full model in xml
-sourcemodel = './res/atom-full_template2.lqnx';
+sourcemodel = './res/atom-full_template3.lqnx';
 model.N = 7;
 model.M = 3;    % Number of classes (max entries)
 nuser = 3000;
@@ -58,8 +58,8 @@ tic()
 f = @(x)fitness(x, sourcemodel, st, rv, model, params, Cmax, nuser);
 options = optimoptions('ga'); % Load default settings
 options = optimoptions(options,'PopulationType', 'doubleVector');
-options = optimoptions(options,'PopulationSize', 40); % default: 50
-options = optimoptions(options,'MaxGenerations', 180); % default: 100*nvars
+options = optimoptions(options,'PopulationSize', 50); % default: 50
+options = optimoptions(options,'MaxGenerations', 400); % default: 100*nvars
 options = optimoptions(options,'MaxStallGenerations', 10);
 options = optimoptions(options,'MutationFcn', { @mutationadaptfeasible 0.1 });
 options = optimoptions(options,'PlotFcn', {@gaplotbestf, @gaplotbestindiv }); %@printState
