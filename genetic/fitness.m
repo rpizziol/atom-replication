@@ -11,12 +11,12 @@ function value = fitness(cpushare, sourcemodel, st, rv, model, params, Cmax, nus
       updateModel(temppath, temppath, 'np', np2);
       %% Check if st2 violates the SLA
       % SLA is 110% of the nominal service time
-      SLA = st*1.1;
-      if sum(st2 > SLA) > 0 % At least one value violates the SLA
-          value = Inf;
-      else
+%       SLA = st*1.1;
+%       if sum(st2 > SLA) > 0 % At least one value violates the SLA
+%           value = Inf;
+%       else
           %% Calculate the Theta
-          value = solveModel(newModelName, model, params, Cmax, rv, cpushare);
-          value = -value; % This is just for optimtool (minimize)
-      end
+      value = solveModel(newModelName, model, params, Cmax, rv, cpushare);
+      value = -value; % This is just for optimtool (minimize)
+%       end
 end

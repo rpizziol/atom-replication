@@ -14,6 +14,7 @@ function fval = solveModel(modelName, model, params, Cmax, r, s)
 
         xdoc = xmlread(strcat('./out/', modelName, '.lqxo'));
         entry = xdoc.getElementsByTagName('result-entry');
+        % getElementsByTagName (name) invece di item(0), item(1)
         
         % EntryBrowse
         Xt(1,1) = str2double(entry.item(0).getAttribute('throughput'));

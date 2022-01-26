@@ -3,7 +3,7 @@
 <lqn-model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" description="Sock shop LINE." name="sock" xsi:noNamespaceSchemaLocation="/usr/local/share/lqns/lqn.xsd">
 <solver-params comment="Sockshop model" conv_val="1e-05" it_limit="500" print_int="10" underrelax_coeff="0.1"/>
   <!-- TaskClient -->
-  <processor multiplicity="1" name="ProcClient" scheduling="inf">
+  <processor multiplicity="{{nuser}}" name="ProcClient" scheduling="inf">
     <task multiplicity="{{nuser}}" name="TaskClient" scheduling="ref" think-time="7.0">
       <entry name="EntryBrowse" type="NONE"/>
       <task-activities>
