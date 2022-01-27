@@ -66,7 +66,7 @@ options = optimoptions(options,'MaxStallGenerations', 10);
 options = optimoptions(options,'MutationFcn', { @mutationadaptfeasible 0.1 });
 options = optimoptions(options,'PlotFcn', {@gaplotbestf, @gaplotbestindiv }); %@printState
 options = optimoptions(options,'Display', 'iter');
-%options = optimoptions(options, 'OutputFcn', @outputFcn_global);
+options = optimoptions(options, 'OutputFcn', @printState);
 [x, fval, exitflag, output, population, scores] = ga(f, model.N -3, [],...
     [], [], [], constraints.s_lb, constraints.s_ub, [], [], options);
 toc()
