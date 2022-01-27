@@ -58,12 +58,17 @@ tic()
 f = @(x)fitness(x, sourcemodel, st, rv, model, params, Cmax, nuser);
 options = optimoptions('ga'); % Load default settings
 options = optimoptions(options,'PopulationType', 'doubleVector');
-options = optimoptions(options,'PopulationSize', 50); % default: 50
-options = optimoptions(options,'MaxGenerations', 400); % default: 100*nvars
+options = optimoptions(options,'PopulationSize', 30); % default: 50
+options = optimoptions(options,'MaxGenerations', 100); % default: 100*nvars
 options = optimoptions(options,'MaxStallGenerations', 10);
 options = optimoptions(options,'MutationFcn', { @mutationadaptfeasible 0.1 });
 options = optimoptions(options,'PlotFcn', {@gaplotbestf, @gaplotbestindiv }); %@printState
 options = optimoptions(options,'Display', 'iter');
+options = optimoptions(options, 'OutputFcn', @outputFcn_global);
 [x, fval, exitflag, output, population, scores] = ga(f, model.N -3, [],...
     [], [], [], constraints.s_lb, constraints.s_ub, [], [], options);
 toc()
+
+global outputFcn_global_data
+
+outputFcn_global_data.x
