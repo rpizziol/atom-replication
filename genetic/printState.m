@@ -17,7 +17,8 @@ function state = printState(options, state, flag) %[state,options,optchanged]
     %     [~, p] = ismember(state.Score, state.Best, 'rows');
     %     index = find(p, 1);
         % Use that index to select the member of the population who had that
-        bestIndividual = state.Population(index, :);
+        tmpBestIndividual = state.Population(index, :);
+        bestIndividual = tmpBestIndividual(1, :);
         %disp(bestIndividual);
         bestIndividuals = [bestIndividuals; bestIndividual];
         bestValues = [bestValues; state.Best(end)];
