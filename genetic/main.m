@@ -55,13 +55,14 @@ Cmax = sum(constraints.s_ub); %constraints.Q.*constraints.s_ub);
 global allBest 
 
 %% Genetic algorithm
-tic()
+global start 
+start = tic();
 
 f = @(x)fitness(x, sourcemodel, st, rv, model, params, Cmax, nuser);
 options = optimoptions('ga'); % Load default settings
 options = optimoptions(options,'PopulationType', 'doubleVector');
-options = optimoptions(options,'PopulationSize', 30); % default: 50
-options = optimoptions(options,'MaxGenerations', 100); % default: 100*nvars
+options = optimoptions(options,'PopulationSize', 50); % default: 50
+options = optimoptions(options,'MaxGenerations', 400); % default: 100*nvars
 options = optimoptions(options,'MaxStallGenerations', 10);
 options = optimoptions(options,'MutationFcn', { @mutationadaptfeasible 0.1 });
 options = optimoptions(options,'PlotFcn', {@gaplotbestf, @gaplotbestindiv, @printState });

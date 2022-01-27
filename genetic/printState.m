@@ -1,5 +1,6 @@
 function state = printState(options, state, flag) %[state,options,optchanged] 
     global allBest
+    global start
     
 %     disp('Best');
 %     disp(state.Best);
@@ -16,7 +17,7 @@ function state = printState(options, state, flag) %[state,options,optchanged]
         % Use that index to select the member of the population who had that
         bestIndividual = state.Population(index, :);
         disp(bestIndividual);
-        allBest = [allBest; bestIndividual];
+        allBest = [allBest; bestIndividual, state.Best(end), toc(start)];
     end
 end
 
