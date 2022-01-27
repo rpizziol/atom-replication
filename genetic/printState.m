@@ -1,4 +1,4 @@
-function [state,options,optchanged] = printState(options, state, flag)
+function state = printState(options, state, flag) %[state,options,optchanged] 
     global allBest
     allBest = [allBest; state.Best];
     %disp(state.Best);
