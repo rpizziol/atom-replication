@@ -4,7 +4,7 @@ cwd=pwd()
 
 #model = Model(()->MadNLP.Optimizer(linear_solver=MadNLPMumps))
 model = Model(Ipopt.Optimizer)
-#set_optimizer_attribute(model, "linear_solver", "pardiso")
+set_optimizer_attribute(model, "linear_solver", "pardiso")
 set_optimizer_attribute(model, "max_iter", 10000)
 #set_optimizer_attribute(model, "tol", 10^-10)
 set_optimizer_attribute(model, "print_level", 0)
@@ -199,19 +199,19 @@ for i in ProgressBar(1:tstep)
      ])
 
 
-    println("simulating")
-    println(cwd)
-    mat"cd(\"$cwd\")"
-    #mat"Xsim=lqn($XS($i,:),$MU,[inf,inf,inf,inf,inf,inf,inf],[inf,inf,inf,inf,inf,inf,inf],$dt_sim,1,$dt_sim);"
-    mat"Xsim=lqn($XS($i,:),$MU,$NT,$optNC($i,:),$dt_sim,1,$dt_sim);"
-    @mget Xsim
-    global XS[i+1,:]=Xsim[:,end]
+    # println("simulating")
+    # println(cwd)
+    # mat"cd(\"$cwd\")"
+    # #mat"Xsim=lqn($XS($i,:),$MU,[inf,inf,inf,inf,inf,inf,inf],[inf,inf,inf,inf,inf,inf,inf],$dt_sim,1,$dt_sim);"
+    # mat"Xsim=lqn($XS($i,:),$MU,$NT,$optNC($i,:),$dt_sim,1,$dt_sim);"
+    # @mget Xsim
+    # global XS[i+1,:]=Xsim[:,end]
 
     println(NT)
     println(optNC[i,:])
     push!(Tsim,mean(Xsim[end,:])*MU[end])
 
-    global Ie += (tgt - XS[i+1,end])
+    #global Ie += (tgt - XS[i+1,end])
 end
 
 closeall()
