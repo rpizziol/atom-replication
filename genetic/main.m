@@ -52,7 +52,7 @@ constraints.s_lb = [0.001, 0.001, 0.001, 0.001];  % Lower bound
 constraints.s_ub = [100, 100, 100, 100];      % Upper bound
 Cmax = sum(constraints.s_ub); %constraints.Q.*constraints.s_ub);
 
-global allBest 
+% global allBest 
 
 %% Genetic algorithm
 tic()
@@ -71,4 +71,4 @@ options = optimoptions(options,'PlotFcn', {@gaplotbestf, @gaplotbestindiv, @prin
     [], [], [], constraints.s_lb, constraints.s_ub, [], [], options);
 toc()
 
-save('allBest.mat', 'allBest');
+%save('allBest.mat', 'allBest');
