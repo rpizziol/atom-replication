@@ -4,10 +4,10 @@ cwd=pwd()
 
 #model = Model(()->MadNLP.Optimizer(linear_solver=MadNLPMumps))
 model = Model(Ipopt.Optimizer)
-set_optimizer_attribute(model, "linear_solver", "pardiso")
+#set_optimizer_attribute(model, "linear_solver", "pardiso")
 set_optimizer_attribute(model, "max_iter", 10000)
 #set_optimizer_attribute(model, "tol", 10^-10)
-#set_optimizer_attribute(model, "print_level", 0)
+set_optimizer_attribute(model, "print_level", 0)
 
 jump=[0  0  0  0  0  0  0  0  0  0  0  0  0  0 -1  0 -1  1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0;
       0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 -1  0  0  0  0 -1  1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0;
@@ -165,7 +165,8 @@ t=LinRange(0,(tstep+1)*dt_sim,(tstep+1))
 Tsim=[]
 Ie=0
 
-for i in ProgressBar(1:tstep)
+#for i in ProgressBar(1:tstep)
+for i=1:tstep
 
     #w=rand(1000:3000)
     w=XS[1,end]
