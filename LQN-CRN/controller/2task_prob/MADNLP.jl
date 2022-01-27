@@ -35,9 +35,9 @@ r=jump[:,:].==zeros(size(jump,1),1)
 toZero=sum(r,dims=1).==size(jump,1) #se 1 indica che queta colonna è da eliminare
 jumpR=jump[:,.!toZero[1,:]]
 
-P_Home=1.0/3
-P_Catalog=1.0/3
-P_Cart=1.0/3
+P_Home=0.63
+P_Catalog=0.32
+P_Cart=0.05
 
 P_List=1.0/2
 P_Item=1.0/2
@@ -90,7 +90,8 @@ register(model, :min_, 2, min_, ∇f)
 
 @constraint(model,sum(X)==C)
 @constraint(model,jump'*T.<=10^-6)
-@constraint(model,NC.<=1000)
+@constraint(model,jump'*T.>=-10^-6)
+@constraint(model,NC.<=100)
 
 NlProp=[
 @NLexpression(model,X[15-sum(toZero[1,1:15])]/(X[15-sum(toZero[1,1:15])]+X[22-sum(toZero[1,1:22])])*min_(X[17-sum(toZero[1,1:17])],NC[5])*MU[17]),
@@ -150,11 +151,11 @@ end
 
 #--------------
 
-alfa=0.5
+alfa=1.0
 
 dt_sim=60.
 nrep=1
-tstep=100
+tstep=200
 XS=zeros(tstep+1,size(jump,2))
 XS[1,:]=zeros(1,size(jump,2))
 XS[1,end]=3000
@@ -171,8 +172,8 @@ for i in ProgressBar(1:tstep)
 
     set_value(C,w)
 
-    global tgt=round(alfa*0.998*w,digits=6)
-    @objective(model,Min,0.7*(X[end]-tgt)^2/tgt+0.3*sum(NC[i]/1000 for i=1:size(NC,1)))
+    global tgt=round(alfa*0.999*w,digits=6)
+    @objective(model,Min,0.99999*(X[end]-tgt)^2+0.0000006*sum(NC[i] for i=1:size(NC,1)))
     push!(stimes,@elapsed JuMP.optimize!(model))
     status=termination_status(model)
     if(status!=MOI.LOCALLY_SOLVED && status!=MOI.ALMOST_LOCALLY_SOLVED)
@@ -183,6 +184,9 @@ for i in ProgressBar(1:tstep)
         #maximum(value.(NC[:,0])+ones(2)*(0.001*Ie),ones(2)*0.1)
         optNC[i,p+1]=max(value(NC[p])+0.00001*Ie,0.0)
     end
+
+    # optNC[i,6]=1000
+    # optNC[i,7]=1000
 
     NT=ceil.([0,value(sum(X[1:end-1])),
      value(sum(X[[7-sum(toZero[1,1:7]),24-sum(toZero[1,1:24]),46-sum(toZero[1,1:46]),
