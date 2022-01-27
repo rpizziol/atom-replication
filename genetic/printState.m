@@ -1,5 +1,6 @@
 function state = printState(options, state, flag)
-    %disp('called');
-    disp(state.Best);
+    global allBest
+    allBest = [allBest; state.Best];
+    %disp(state.Best);
 end
 

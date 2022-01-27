@@ -52,6 +52,8 @@ constraints.s_lb = [0.001, 0.001, 0.001, 0.001];  % Lower bound
 constraints.s_ub = [100, 100, 100, 100];      % Upper bound
 Cmax = sum(constraints.s_ub); %constraints.Q.*constraints.s_ub);
 
+global allBest 
+
 %% Genetic algorithm
 tic()
 
@@ -64,11 +66,9 @@ options = optimoptions(options,'MaxStallGenerations', 10);
 options = optimoptions(options,'MutationFcn', { @mutationadaptfeasible 0.1 });
 options = optimoptions(options,'PlotFcn', {@gaplotbestf, @gaplotbestindiv }); %@printState
 options = optimoptions(options,'Display', 'iter');
-options = optimoptions(options, 'OutputFcn', @outputFcn_global);
+%options = optimoptions(options, 'OutputFcn', @outputFcn_global);
 [x, fval, exitflag, output, population, scores] = ga(f, model.N -3, [],...
     [], [], [], constraints.s_lb, constraints.s_ub, [], [], options);
 toc()
 
-global outputFcn_global_data
-
-outputFcn_global_data.x
+save('allBest.mat', 'allBest');
