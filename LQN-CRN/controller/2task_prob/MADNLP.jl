@@ -4,7 +4,7 @@ cwd=pwd()
 
 #model = Model(()->MadNLP.Optimizer(linear_solver=MadNLPMumps))
 model = Model(Ipopt.Optimizer)
-set_optimizer_attribute(model, "linear_solver", "pardiso")
+#set_optimizer_attribute(model, "linear_solver", "pardiso")
 set_optimizer_attribute(model, "max_iter", 10000)
 #set_optimizer_attribute(model, "tol", 10^-10)
 set_optimizer_attribute(model, "print_level", 0)
