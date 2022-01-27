@@ -1,0 +1,34 @@
+<!-- {{nuser}} = nuser -->
+
+<!-- P1 = ProcClient {{nuser}} -->
+<!-- T0 = TaskClient {{nuser}} -->
+<!-- E0 = EntryBrowse 7.0 (think time) -->
+
+<!-- P2_1 = ProcRouter {{np[1]}} -->
+<!-- T1 = TaskRouter {{rv[1]}} -->
+<!-- E1 = EntryAddress {{st[1]}} -->
+
+<!-- P2_2 = ProcFrontend {{np[2]}} -->
+<!-- T2 = TaskFrontend {{rv[2]}} -->
+<!-- E2 = EntryHome {{st[2]}} -->
+<!-- E3 = EntryCatalog {{st[3]}} -->
+<!-- E4 = EntryCarts {{st[4]}} -->
+
+<!-- P3_2 = ProcCatalogsvc {{np[3]}} -->
+<!-- T4 = TaskCatalogsvc {{rv[3]}} -->
+<!-- E8 = EntryList {{st[5]}} -->
+<!-- E9 = EntryItem {{st[6]}} -->
+
+<!-- P3_1 = ProcCartssvc {{np[4]}} ->
+<!-- T3 = TaskCartssvc {{rv[4]}} -->
+<!-- E5 = EntryGet {{st[7]}} -->
+<!-- E6 = EntryAdd {{st[8]}} -->
+<!-- E7 = EntryDelete {{st[9]}} -->
+
+<!-- P3_3 = ProcCatalogdb {{np[5]}} -->
+<!-- T5 = TaskCatalogdb {{rv[5]}} 151 -->
+<!-- E10 = EntryQueryCatalog {{st[10]}} 0.0013 -->
+
+<!-- P2_3 = ProcCartsdb {{np[6]}} -->
+<!-- T6 = TaskCartsdb {{rv[6]}} 100 -->
+<!-- E11 = EntryQueryCartsdb {{st[11]}} 0.0022 -->
