@@ -9,7 +9,8 @@ function state = printState(options, state, flag) %[state,options,optchanged]
 %     disp(state.Score);
 
     % Find the index of the 'Score' equal to 'Best'
-    index = find(state.Score == state.Best);
+    [~, p] = ismember(state.Score, state.Best, 'rows');
+    index = find(p, 1);
     % Use that index to select the member of the population who had that
     bestIndividual = state.Population(index, :);
     disp(bestIndividual);
