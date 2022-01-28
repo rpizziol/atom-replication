@@ -24,6 +24,7 @@ for i = 1:niter
         xdoc = xmlread('./out/thrtmp.lqxo');
         entry = xdoc.getElementsByTagName('result-entry');
         thr = str2double(entry.item(0).getAttribute('throughput'));
+        disp(thr);
     end
     %% Update the throughputs
     bestThroughputs(i) = thr;
