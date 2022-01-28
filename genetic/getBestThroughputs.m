@@ -7,7 +7,7 @@ st = [0.0012, 0.0021, 0.0037, 0.0051, 0.0022, 0.0019, 0.0048, 0.0174,...
 0.0056];
 rv = [nuser, nuser, nuser, nuser];
 
-niter = size(bestIndividuals, 2);
+niter = size(bestIndividuals, 1);
 bestThroughputs = zeros(niter, 1);
 
 for i = 1:niter
