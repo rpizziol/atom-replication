@@ -21,7 +21,7 @@ for i = 1:niter
     %% Calculate throughput of reference task
     [status, ~] = system("cd out; lqns -x thrtmp.lqnx");
     if status == 0 % no error
-        xdoc = xmlread(temppath);
+        xdoc = xmlread('./out/thrtmp.lqxo');
         entry = xdoc.getElementsByTagName('result-entry');
         thr = str2double(entry.item(0).getAttribute('throughput'));
     end
