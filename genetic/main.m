@@ -72,6 +72,5 @@ options = optimoptions(options,'PlotFcn', {@gaplotbestf, @gaplotbestindiv, @prin
 %options = optimoptions(options,'Display', 'iter');
 [x, fval, exitflag, output, population, scores] = ga(f, model.N -3, [],...
     [], [], [], constraints.s_lb, constraints.s_ub, [], [], options);
-toc()
-
+toc(start);
 save('allbest.mat', 'bestIndividuals', 'bestValues', 'bestTimeStamps');
