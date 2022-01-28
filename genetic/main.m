@@ -75,4 +75,4 @@ options = optimoptions(options,'Display', 'iter');
 toc(start);
 save('allbest.mat', 'bestIndividuals', 'bestValues', 'bestTimeStamps');
 
-getBestThroughputs(st, rv, nuser, sourcemodel, bestIndividuals);
+%getBestThroughputs(st, rv, nuser, sourcemodel, bestIndividuals);

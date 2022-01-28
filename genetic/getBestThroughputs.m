@@ -12,7 +12,7 @@ bestThroughputs = zeros(niter, 1);
 
 for i = 1:niter
     %% Generate lqnx file
-    cpushare = bestIndividuals(i);
+    cpushare = bestIndividuals(i, :);
     updateModel(sourcemodel, temppath, 'nuser', nuser);
     updateModel(temppath, temppath, 'rv', rv);
     [np2, st2] = calculateByCPUShare(st, cpushare);
