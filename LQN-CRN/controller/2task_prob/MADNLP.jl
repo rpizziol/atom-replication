@@ -1,4 +1,4 @@
-using Printf,Ipopt,MadNLP,Plots,MadNLPMumps,JuMP,MAT,ProgressBars,ParameterJuMP,MATLAB,Statistics
+using Printf,Ipopt,MadNLP,MadNLPMumps,JuMP,MAT,ProgressBars,ParameterJuMP,MATLAB,Statistics
 
 wdir=pwd()
 
@@ -229,10 +229,10 @@ for i=1:tstep
     # global Ie += (tgt - cumAvgT[end])
 end
 
-closeall()
-hline([tgt],label = "Target",reuse=false,legend=:bottomright)
-plot!(t,Tsim,label = "Controlled-simulation",legend=:bottomright)
+# closeall()
+# hline([tgt],label = "Target",reuse=false,legend=:bottomright)
+# plot!(t,Tsim,label = "Controlled-simulation",legend=:bottomright)
 #plot!(t[2:end],cumAvgT,label = "Controlled-simulation",legend=:bottomright)
-xlabel!("Time(s)")
-ylabel!("Throughput(req/s)")
+# xlabel!("Time(s)")
+# ylabel!("Throughput(req/s)")
 #ylims!((0.0,tgt+10))
