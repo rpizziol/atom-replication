@@ -7,7 +7,7 @@ model = Model(Ipopt.Optimizer)
 #set_optimizer_attribute(model, "linear_solver", "pardiso")
 set_optimizer_attribute(model, "max_iter", 10000)
 #set_optimizer_attribute(model, "tol", 10^-10)
-set_optimizer_attribute(model, "print_level", 0)
+#set_optimizer_attribute(model, "print_level", 0)
 
 jump=[0  0  0  0  0  0  0  0  0  0  0  0  0  0 -1  0 -1  1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0;
       0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 -1  0  0  0  0 -1  1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0;
@@ -162,7 +162,7 @@ alfa=1.0
 
 dt_sim=10.
 nrep=1
-tstep=400
+tstep=1
 XS=zeros(tstep+1,size(jump,2))
 XS[1,:]=zeros(1,size(jump,2))
 XS[1,end]=3000
