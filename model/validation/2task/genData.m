@@ -25,9 +25,9 @@ X02=zeros(1,6);
 X02(2)=X0(end);
 [t,y2]=flatOde(X02,Pl,MUl,NT,NC);
 
-X=[0,sum(y(end,[1,end])),y(end,2),sum(y(end,[3,6])),y(end,4),y(end,5)];
+X=[0,sum(y(end,[end])),y(end,2),sum(y(end,[6])),y(end,4),y(end,5)];
 
-RT0=sum(y(end,[1,end]))/(min(y(end,end),NC(1))*MU(end));
+RT0=X0(1,end)/(min(y(end,end),NC(1))*MU(end));
 RT1=sum(y(end,[2,3,6]))/(min(y(end,6),NC(2))*MU(6));
 RT2=sum(y(end,[4,5]))/(min(y(end,5),NC(3))*MU(5));
 
