@@ -213,20 +213,20 @@ for i=1:tstep
      NT[7]=1000
 
 
-    println("simulating")
-    mat"cd(\"../../../model/validation/2task_prob\")"
-    #mat"Xsim=lqn($XS($i,:),$MU,[inf,inf,inf,inf,inf,inf,inf],[inf,inf,inf,inf,inf,inf,inf],$dt_sim,1,$dt_sim);"
-    mat"Xsim=lqn($XS($i,:),$MU,$NT,$optNC($i,:),$dt_sim,1,$dt_sim);"
-    @mget Xsim
-    global XS[i+1,:]=Xsim[:,end]
-
-    println(NT)
-    println(optNC[i,:])
-    push!(Tsim,mean(Xsim[end,:])*MU[end])
-
-    global cumAvgT=cumsum(Tsim[2:end])./range(1,length(Tsim[2:end]))
-
-    global Ie += (tgt - cumAvgT[end])
+    # println("simulating")
+    # mat"cd(\"../../../model/validation/2task_prob\")"
+    # #mat"Xsim=lqn($XS($i,:),$MU,[inf,inf,inf,inf,inf,inf,inf],[inf,inf,inf,inf,inf,inf,inf],$dt_sim,1,$dt_sim);"
+    # mat"Xsim=lqn($XS($i,:),$MU,$NT,$optNC($i,:),$dt_sim,1,$dt_sim);"
+    # @mget Xsim
+    # global XS[i+1,:]=Xsim[:,end]
+    #
+    # println(NT)
+    # println(optNC[i,:])
+    # push!(Tsim,mean(Xsim[end,:])*MU[end])
+    #
+    # global cumAvgT=cumsum(Tsim[2:end])./range(1,length(Tsim[2:end]))
+    #
+    # global Ie += (tgt - cumAvgT[end])
 end
 
 closeall()
