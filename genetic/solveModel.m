@@ -1,4 +1,4 @@
-function fval = solveModel(modelName, model, params, Cmax, r, s)
+function [fval, rt] = solveModel(modelName, model, params, Cmax, r, s)
     %% Calculate total allocated CPU capacity (to minimize)
     Ct = sum(s);  %sum(r.*s); 
     Chat = Ct / Cmax; % Normalized Ct
@@ -43,6 +43,12 @@ function fval = solveModel(modelName, model, params, Cmax, r, s)
     
         %% Calculate objective function
         fval = (params.tau1 * Bhat - params.tau2 * Chat);
+
+        %% Obtain response times
+        rt = zeros(11, 1);
+        for i = 1:11
+            rt(i) = str2double(entry.item(i).getAttribute('phase1-service-time'));
+        end
     end
 end
 
