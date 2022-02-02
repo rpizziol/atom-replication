@@ -1,13 +1,13 @@
-using Printf,Ipopt,MadNLP,MadNLPMumps,JuMP,MAT,ProgressBars,ParameterJuMP,MATLAB,Statistics
+using Printf,Redis,Ipopt,JuMP,MAT,ParameterJuMP,Statistics,MadNLP
 
 wdir=pwd()
 
-#model = Model(()->MadNLP.Optimizer(linear_solver=MadNLPMumps))
+#model = Model(()->MadNLP.Optimizer(print_level=MadNLP.INFO))
 model = Model(Ipopt.Optimizer)
 #set_optimizer_attribute(model, "linear_solver", "pardiso")
-set_optimizer_attribute(model, "max_iter", 10000)
+#set_optimizer_attribute(model, "max_iter", 10000)
 #set_optimizer_attribute(model, "tol", 10^-10)
-#set_optimizer_attribute(model, "print_level", 0)
+set_optimizer_attribute(model, "print_level", 0)
 
 jump=[0  0  0  0  0  0  0  0  0  0  0  0  0  0 -1  0 -1  1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0;
       0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 -1  0  0  0  0 -1  1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0;
@@ -80,38 +80,90 @@ function ∇²f(g::AbstractVector{T}, x::T, y::T) where {T<:Real}
     return
 end
 
-min_(x,y)=-(-x-y+((-x+y)^2+10^-100)^(1.0/2))/2.0
-register(model, :min_, 2, min_, ∇f)
+# min_(x,y)=-(-x-y+((-x+y)^2+10^-100)^(1.0/2))/2.0
+# register(model, :min_, 2, min_, ∇f)
 
 @variable(model,T[i=1:size(jumpR,1)]>=0)
 @variable(model,X[i=1:size(jumpR,2)]>=0)
 @variable(model,C == 0, Param())
 @variable(model,NC[i=1:6]>=0)
 
-@constraint(model,sum(X)==C)
-@constraint(model,jump'*T.<=10^-10)
-@constraint(model,jump'*T.>=-10^-10)
+
+@constraint(model,X[48-sum(toZero[1,1:48])]+X[1-sum(toZero[1,1:1])]==C)
+@constraint(model,X[1-sum(toZero[1,1:1])]==sum(X[[5-sum(toZero[1,1:5]),
+                                                 9-sum(toZero[1,1:9]),
+                                                 26-sum(toZero[1,1:26]),
+                                                 47-sum(toZero[1,1:47])]]))
+
+@constraint(model,X[5-sum(toZero[1,1:5])]==X[7-sum(toZero[1,1:7])])
+@constraint(model,X[9-sum(toZero[1,1:9])]==sum(X[[13-sum(toZero[1,1:13]),
+                                                  20-sum(toZero[1,1:20]),
+                                                  24-sum(toZero[1,1:24]),
+                                                  ]]))
+
+@constraint(model,X[26-sum(toZero[1,1:26])]==sum(X[[30-sum(toZero[1,1:30]),
+                                                  37-sum(toZero[1,1:37]),
+                                                  42-sum(toZero[1,1:42]),
+                                                  46-sum(toZero[1,1:46]),
+                                                  ]]))
+
+@constraint(model,X[13-sum(toZero[1,1:13])]==sum(X[[15-sum(toZero[1,1:15]),
+                                                    18-sum(toZero[1,1:18])
+                                                  ]]))
+@constraint(model,X[20-sum(toZero[1,1:20])]==sum(X[[22-sum(toZero[1,1:22]),
+                                                  23-sum(toZero[1,1:23])
+                                                ]]))
+@constraint(model,X[17-sum(toZero[1,1:17])]==sum(X[[22-sum(toZero[1,1:22]),
+                                                  15-sum(toZero[1,1:15])
+                                                ]]))
+
+@constraint(model,X[30-sum(toZero[1,1:30])]==sum(X[[32-sum(toZero[1,1:32]),
+                                                  35-sum(toZero[1,1:35])
+                                                ]]))
+
+@constraint(model,X[37-sum(toZero[1,1:37])]==sum(X[[39-sum(toZero[1,1:39]),
+                                                  40-sum(toZero[1,1:40])
+                                                ]]))
+@constraint(model,X[42-sum(toZero[1,1:42])]==sum(X[[44-sum(toZero[1,1:44]),
+                                                  45-sum(toZero[1,1:45])
+                                                ]]))
+
+@constraint(model,sum(X[[7-sum(toZero[1,1:7]),
+                         17-sum(toZero[1,1:17]),
+                         18-sum(toZero[1,1:18]),
+                         23-sum(toZero[1,1:23]),
+                         24-sum(toZero[1,1:24]),
+                         34-sum(toZero[1,1:34]),
+                         35-sum(toZero[1,1:35]),
+                         40-sum(toZero[1,1:40]),
+                         45-sum(toZero[1,1:45]),
+                         46-sum(toZero[1,1:46]),
+                         47-sum(toZero[1,1:47]),
+                         48-sum(toZero[1,1:48])]])==C)
+
+@constraint(model,jump'*T.<=10^-6)
+@constraint(model,jump'*T.>=-10^-6)
 #@constraint(model,jump'*T.==0)
 @constraint(model,NC.<=100)
 
 NlProp=[
-@NLexpression(model,X[15-sum(toZero[1,1:15])]/(X[15-sum(toZero[1,1:15])]+X[22-sum(toZero[1,1:22])])*min_(X[17-sum(toZero[1,1:17])],1000)*MU[17]),
-@NLexpression(model,X[22-sum(toZero[1,1:22])]/(X[15-sum(toZero[1,1:15])]+X[22-sum(toZero[1,1:22])])*min_(X[17-sum(toZero[1,1:17])],1000)*MU[17]),
+@NLexpression(model,X[15-sum(toZero[1,1:15])]/(X[15-sum(toZero[1,1:15])]+X[22-sum(toZero[1,1:22])]+10^-50)*X[17-sum(toZero[1,1:17])]*MU[17]),
+@NLexpression(model,X[22-sum(toZero[1,1:22])]/(X[15-sum(toZero[1,1:15])]+X[22-sum(toZero[1,1:22])]+10^-50)*X[17-sum(toZero[1,1:17])]*MU[17]),
 
-@NLexpression(model,X[18-sum(toZero[1,1:18])]/(X[18-sum(toZero[1,1:18])]+X[23-sum(toZero[1,1:23])])*NC[3]*MU[18]),
-@NLexpression(model,X[23-sum(toZero[1,1:23])]/(X[18-sum(toZero[1,1:18])]+X[23-sum(toZero[1,1:23])])*NC[3]*MU[23]),
+@NLexpression(model,X[18-sum(toZero[1,1:18])]/(X[18-sum(toZero[1,1:18])]+X[23-sum(toZero[1,1:23])]+10^-50)*NC[3]*MU[18]),
+@NLexpression(model,X[23-sum(toZero[1,1:23])]/(X[18-sum(toZero[1,1:18])]+X[23-sum(toZero[1,1:23])]+10^-50)*NC[3]*MU[23]),
 
-@NLexpression(model,X[32-sum(toZero[1,1:32])]/(X[32-sum(toZero[1,1:32])]+X[39-sum(toZero[1,1:39])]+X[44-sum(toZero[1,1:44])])*min_(X[34-sum(toZero[1,1:34])],1000)*MU[34]),
-@NLexpression(model,X[39-sum(toZero[1,1:39])]/(X[32-sum(toZero[1,1:32])]+X[39-sum(toZero[1,1:39])]+X[44-sum(toZero[1,1:44])])*min_(X[34-sum(toZero[1,1:34])],1000)*MU[34]),
-@NLexpression(model,X[44-sum(toZero[1,1:44])]/(X[32-sum(toZero[1,1:32])]+X[39-sum(toZero[1,1:39])]+X[44-sum(toZero[1,1:44])])*min_(X[34-sum(toZero[1,1:34])],1000)*MU[34]),
+@NLexpression(model,X[32-sum(toZero[1,1:32])]/(X[32-sum(toZero[1,1:32])]+X[39-sum(toZero[1,1:39])]+X[44-sum(toZero[1,1:44])]+10^-50)*X[34-sum(toZero[1,1:34])]*MU[34]),
+@NLexpression(model,X[39-sum(toZero[1,1:39])]/(X[32-sum(toZero[1,1:32])]+X[39-sum(toZero[1,1:39])]+X[44-sum(toZero[1,1:44])]+10^-50)*X[34-sum(toZero[1,1:34])]*MU[34]),
+@NLexpression(model,X[44-sum(toZero[1,1:44])]/(X[32-sum(toZero[1,1:32])]+X[39-sum(toZero[1,1:39])]+X[44-sum(toZero[1,1:44])]+10^-50)*X[34-sum(toZero[1,1:34])]*MU[34]),
 
-@NLexpression(model,X[35-sum(toZero[1,1:35])]/(X[35-sum(toZero[1,1:35])]+X[40-sum(toZero[1,1:40])]+X[45-sum(toZero[1,1:45])])*NC[4]*MU[35]),
-@NLexpression(model,X[40-sum(toZero[1,1:40])]/(X[35-sum(toZero[1,1:35])]+X[40-sum(toZero[1,1:40])]+X[45-sum(toZero[1,1:45])])*NC[4]*MU[40]),
-@NLexpression(model,X[45-sum(toZero[1,1:45])]/(X[35-sum(toZero[1,1:35])]+X[40-sum(toZero[1,1:40])]+X[45-sum(toZero[1,1:45])])*NC[4]*MU[45]),
+@NLexpression(model,X[35-sum(toZero[1,1:35])]/(X[35-sum(toZero[1,1:35])]+X[40-sum(toZero[1,1:40])]+X[45-sum(toZero[1,1:45])]+10^-50)*NC[4]*MU[35]),
+@NLexpression(model,X[40-sum(toZero[1,1:40])]/(X[35-sum(toZero[1,1:35])]+X[40-sum(toZero[1,1:40])]+X[45-sum(toZero[1,1:45])]+10^-50)*NC[4]*MU[40]),
+@NLexpression(model,X[45-sum(toZero[1,1:45])]/(X[35-sum(toZero[1,1:35])]+X[40-sum(toZero[1,1:40])]+X[45-sum(toZero[1,1:45])]+10^-50)*NC[4]*MU[45]),
 
-@NLexpression(model,X[7-sum(toZero[1,1:7])]/(X[7-sum(toZero[1,1:7])]+X[24-sum(toZero[1,1:24])]+X[46-sum(toZero[1,1:46])])*NC[2]*MU[7]),
-@NLexpression(model,X[24-sum(toZero[1,1:24])]/(X[7-sum(toZero[1,1:7])]+X[24-sum(toZero[1,1:24])]+X[46-sum(toZero[1,1:46])])*NC[2]*MU[24]),
-@NLexpression(model,X[46-sum(toZero[1,1:46])]/(X[7-sum(toZero[1,1:7])]+X[24-sum(toZero[1,1:24])]+X[46-sum(toZero[1,1:46])])*NC[2]*MU[46]),
+@NLexpression(model,X[7-sum(toZero[1,1:7])]/(X[7-sum(toZero[1,1:7])]+X[24-sum(toZero[1,1:24])]+X[46-sum(toZero[1,1:46])]+10^-50)*NC[2]*MU[7]),
+@NLexpression(model,X[24-sum(toZero[1,1:24])]/(X[7-sum(toZero[1,1:7])]+X[24-sum(toZero[1,1:24])]+X[46-sum(toZero[1,1:46])]+10^-50)*NC[2]*MU[24]),
+@NLexpression(model,X[46-sum(toZero[1,1:46])]/(X[7-sum(toZero[1,1:7])]+X[24-sum(toZero[1,1:24])]+X[46-sum(toZero[1,1:46])]+10^-50)*NC[2]*MU[46]),
 
 @NLexpression(model,NC[1]*MU[47])]
 
@@ -133,22 +185,22 @@ end
 
 #-----response time constraints
 
-@constraint(model,X[17-sum(toZero[1,1:17])]<=1.1*MU[17]*(T[1]+T[2]))
-
-@constraint(model,X[18-sum(toZero[1,1:18])]<=1.1*MU[18]*T[3])
-@constraint(model,X[23-sum(toZero[1,1:23])]<=1.1*MU[23]*T[4])
-
-@constraint(model,X[34-sum(toZero[1,1:34])]<=1.1*MU[34]*(T[5]+T[6]+T[7]))
-
-@constraint(model,X[35-sum(toZero[1,1:35])]<=1.1*MU[35]*T[8])
-@constraint(model,X[40-sum(toZero[1,1:40])]<=1.1*MU[40]*T[9])
-@constraint(model,X[45-sum(toZero[1,1:45])]<=1.1*MU[45]*T[10])
-
-@constraint(model,X[7-sum(toZero[1,7])]<=1.1*MU[7]*T[11])
-@constraint(model,X[24-sum(toZero[1,1:24])]<=1.1*MU[24]*T[12])
-@constraint(model,X[46-sum(toZero[1,1:46])]<=1.1*MU[46]*T[13])
-
-@constraint(model,X[47-sum(toZero[1,1:47])]<=1.1*MU[47]*T[14])
+# @constraint(model,X[17-sum(toZero[1,1:17])]<=1.1*MU[17]*(T[1]+T[2]))
+#
+# @constraint(model,X[18-sum(toZero[1,1:18])]<=1.1*MU[18]*T[3])
+# @constraint(model,X[23-sum(toZero[1,1:23])]<=1.1*MU[23]*T[4])
+#
+# @constraint(model,X[34-sum(toZero[1,1:34])]<=1.1*MU[34]*(T[5]+T[6]+T[7]))
+#
+# @constraint(model,X[35-sum(toZero[1,1:35])]<=1.1*MU[35]*T[8])
+# @constraint(model,X[40-sum(toZero[1,1:40])]<=1.1*MU[40]*T[9])
+# @constraint(model,X[45-sum(toZero[1,1:45])]<=1.1*MU[45]*T[10])
+#
+# @constraint(model,X[7-sum(toZero[1,7])]<=1.1*MU[7]*T[11])
+# @constraint(model,X[24-sum(toZero[1,1:24])]<=1.1*MU[24]*T[12])
+# @constraint(model,X[46-sum(toZero[1,1:46])]<=1.1*MU[46]*T[13])
+#
+# @constraint(model,X[47-sum(toZero[1,1:47])]<=1.1*MU[47]*T[14])
 
 #--------------
 
@@ -157,82 +209,109 @@ end
 @constraint(model,NC[3]<=(X[18-sum(toZero[1,1:18])]+X[23-sum(toZero[1,1:23])]))
 @constraint(model,NC[4]<=(X[35-sum(toZero[1,1:35])]+X[40-sum(toZero[1,1:40])]+X[45-sum(toZero[1,1:45])]))
 
-
 alfa=1.0
 
+NTNames=["NTrouter","NTfrontend","NTCatalogsvc","NTCartsvc","NTCatalogdb","NTCartdb"]
+NCNames=["NCrouter","NCfrontend","NCCatalogsvc","NCCartsvc","NCCatalogdb","NCCartdb"]
+conn = RedisConnection()
 dt_sim=10.
 nrep=1
-tstep=1
+tstep=100000
 XS=zeros(tstep+1,size(jump,2))
 XS[1,:]=zeros(1,size(jump,2))
 XS[1,end]=3000
 optNC=zeros(tstep,size(NC,1)+1)
 stimes=[]
 t=LinRange(0,(tstep+1)*dt_sim,(tstep+1))
-Tsim=[0.]
+Tsim=[]
 Ie=0
 
 cumAvgT=nothing
+NT=nothing
 
-#for i in ProgressBar(1:tstep)
-for i=1:tstep
+i=1
 
-    #w=rand(1000:3000)
-    w=XS[1,end]
+w=get(conn, "w")
+if(w==nothing)
+    error("number of client not sampled")
+else
+    global w=parse(Float64,w)
+end
+
+while true
 
     set_value(C,w)
 
     #global tgt=round(alfa*0.999*w,digits=6)
     global tgt=MU[end]*alfa*w
-    @objective(model,Min,0.5*((MU[end]*X[end]-tgt)/tgt)^2+0.5*sum(NC[i] for i=1:size(NC,1)-2)/((size(NC,1)-2)*100))
+    @objective(model,Max,0.5*(sum(T[15:20])/428)-0.5*sum(NC[i] for i=1:size(NC,1)-2)/((size(NC,1)-2)*100))
     push!(stimes,@elapsed JuMP.optimize!(model))
     status=termination_status(model)
     if(status!=MOI.LOCALLY_SOLVED && status!=MOI.ALMOST_LOCALLY_SOLVED)
         error(status)
     end
 
-    for p=1:size(NC,1)
-        #maximum(value.(NC[:,0])+ones(2)*(0.001*Ie),ones(2)*0.1)
-        optNC[i,p+1]=max(value(NC[p])+0.0001*Ie,0.0)
-    end
-
-    optNC[i,6]=1000
-    optNC[i,7]=1000
-
-    NT=ceil.([0,value(sum(X[1:end-1])),
-     value(sum(X[[7-sum(toZero[1,1:7]),24-sum(toZero[1,1:24]),46-sum(toZero[1,1:46]),
-              13-sum(toZero[1,1:13]),20-sum(toZero[1,1:20]),
-              30-sum(toZero[1,1:30]),37-sum(toZero[1,1:37]),42-sum(toZero[1,1:42])]])),
-     value(sum(X[[15-sum(toZero[1,1:13]),20-sum(toZero[1,1:20])]])),
-     value(sum(X[[30-sum(toZero[1,1:30]),37-sum(toZero[1,1:37]),42-sum(toZero[1,1:42])]])),
+    global U=[0,value(X[47-sum(toZero[1,1:47])]),
+     value(sum(X[[7-sum(toZero[1,1:7]),24-sum(toZero[1,1:24]),46-sum(toZero[1,1:46])]])),
+     value(sum(X[[18-sum(toZero[1,1:18]),23-sum(toZero[1,1:23])]])),
+     value(sum(X[[35-sum(toZero[1,1:35]),40-sum(toZero[1,1:40]),45-sum(toZero[1,1:45])]])),
      value(X[17-sum(toZero[1,1:17])]),
      value(X[34-sum(toZero[1,1:34])])
-     ])
+     ]
 
-     NT[6]=1000
-     NT[7]=1000
+    #global NT=ceil.(U)
+    b=argmax(U[2:end]./(value.(NC)))
+    for p=1:size(NC,1)
+        #maximum(value.(NC[:,0])+ones(2)*(0.001*Ie),ones(2)*0.1)
+        #if(p==b)
+            optNC[i,p+1]=max(value(NC[p])+0.00001*Ie,0.0)
+        #else
+        #    optNC[i,p+1]=value(NC[p])
+        #end
+    end
 
+    optNC[i,:]=optNC[i,:]*1.10
 
-    # println("simulating")
-    # mat"cd(\"../../../model/validation/2task_prob\")"
-    # #mat"Xsim=lqn($XS($i,:),$MU,[inf,inf,inf,inf,inf,inf,inf],[inf,inf,inf,inf,inf,inf,inf],$dt_sim,1,$dt_sim);"
-    # mat"Xsim=lqn($XS($i,:),$MU,$NT,$optNC($i,:),$dt_sim,1,$dt_sim);"
-    # @mget Xsim
-    # global XS[i+1,:]=Xsim[:,end]
-    #
+    optNC[i,6]=3000
+    optNC[i,7]=3000
+
+    global NT=ones(1,7)*3000
+    # NT[1]=3000
+    # NT[2]=3000
+    # NT[3]=3000
+    # NT[4]=3000
+    # NT[5]=3000
+    # NT[6]=1000
+    # NT[7]=1000
+
+     for idx=1:length(NTNames)
+         set(conn, NTNames[idx], @sprintf("%d",NT[idx+1]))
+         set(conn, NCNames[idx], @sprintf("%.5f",optNC[i,idx+1]))
+         tr=get(conn, "Tr")
+         if(tr!=nothing)
+             push!(Tsim,parse(Float64,tr))
+         end
+     end
+
     # println(NT)
     # println(optNC[i,:])
-    # push!(Tsim,mean(Xsim[end,:])*MU[end])
-    #
-    # global cumAvgT=cumsum(Tsim[2:end])./range(1,length(Tsim[2:end]))
-    #
-    # global Ie += (tgt - cumAvgT[end])
-end
 
-# closeall()
-# hline([tgt],label = "Target",reuse=false,legend=:bottomright)
-# plot!(t,Tsim,label = "Controlled-simulation",legend=:bottomright)
-#plot!(t[2:end],cumAvgT,label = "Controlled-simulation",legend=:bottomright)
-# xlabel!("Time(s)")
-# ylabel!("Throughput(req/s)")
-#ylims!((0.0,tgt+10))
+    cumTr=cumsum(Tsim)./range(1,length(Tsim))
+
+    if(length(Tsim)>0)
+        global Ie += (tgt - cumTr[end])
+    end
+
+    #println(cumTr[end])
+
+    w=get(conn, "w")
+    if(w==nothing)
+        error("Number of Clients not sampled")
+    else
+        global w=parse(Float64,w)
+    end
+
+    global i+=1
+    sleep(1)
+    #break
+end
