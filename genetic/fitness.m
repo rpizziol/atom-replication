@@ -14,11 +14,11 @@ function value = fitness(cpushare, sourcemodel, st, rv, model, params, Cmax, nus
     % Obtain response time (service-time from xml)
     [value, rt] = solveModel(newModelName, model, params, Cmax, rv, cpushare);
     %% Check if st2 violates the SLA
-    % SLA is 110% of the nominal service time
-    SLA = st*1.1;
-    if sum(rt > SLA) > 0 % At least one value violates the SLA
-        value = 10;
-    else
+%    % SLA is 110% of the nominal service time
+%     SLA = st*1.1;
+%     if sum(rt > SLA) > 0 % At least one value violates the SLA
+%         value = 10;
+%     else
         value = -value; % This is just for optimtool (minimize)
-    end
+%     end
 end
