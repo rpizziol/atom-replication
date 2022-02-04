@@ -26,7 +26,7 @@ function value = fitness(cpushare, sourcemodel, st, rv, model, params, Cmax, nus
 %     else
 %         value = -value; % This is just for optimtool (minimize)
 %     end
-    disp(rt);
-    disp(SLA);
+    %disp(rt);
+    %disp(SLA);
     value = -value + max([(rt - SLA), 0]);
 end
