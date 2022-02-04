@@ -46,7 +46,7 @@ function [fval, rt] = solveModel(modelName, model, params, Cmax, r, s)
 
         %% Obtain response times
         rt = zeros(11, 1);
-        for i = 2:11
+        for i = 2:10
             rt(i) = str2double(entry.item(i).getAttribute('phase1-service-time'));
         end
     end
