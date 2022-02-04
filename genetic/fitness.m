@@ -20,10 +20,11 @@ function value = fitness(cpushare, sourcemodel, st, rv, model, params, Cmax, nus
     %% Check if st2 violates the SLA
     % SLA is 110% of the nominal service time
     SLA = rt_best*1.1;
-    if sum(rt > SLA) > 0 % At least one value violates the SLA
-        value = 1000;
-        disp('SLA violation');
-    else
-        value = -value; % This is just for optimtool (minimize)
-    end
+%     if sum(rt > SLA) > 0 % At least one value violates the SLA
+%         value = 1000;
+%         disp('SLA violation');
+%     else
+%         value = -value; % This is just for optimtool (minimize)
+%     end
+    value = -value + max([(rt - SLA), 0]);
 end
