@@ -47,7 +47,8 @@ function [fval, rt] = solveModel(modelName, model, params, Cmax, r, s)
         %% Obtain response times
         rt = zeros(1, 9);
         for i = 1:9
-            rt(i) = str2double(entry.item(i).getAttribute('phase1-service-time'));
+            % i+1 in order to skip EntryBrowse
+            rt(i) = str2double(entry.item(i+1).getAttribute('phase1-service-time'));
         end
     end
 end
