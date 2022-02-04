@@ -45,7 +45,7 @@ function [fval, rt] = solveModel(modelName, model, params, Cmax, r, s)
         fval = (params.tau1 * Bhat - params.tau2 * Chat);
 
         %% Obtain response times
-        rt = zeros(11, 1);
+        rt = zeros(9, 1);
         for i = 2:10
             rt(i) = str2double(entry.item(i).getAttribute('phase1-service-time'));
         end
