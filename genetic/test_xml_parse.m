@@ -9,11 +9,25 @@ xdoc = xmlread('./out/output_test.lqxo');
 
 
  %% Obtain response times
-entry2 = xdoc.getElementsByTagName('result-entry');
+% entry2 = xdoc.getElementsByTagName('result-entry');
+% 
+% rt = zeros(11, 1);
+% for i = 1:11
+%     rt(i) = str2double(entry2.item(i).getAttribute('phase1-service-time'));
+% end
+% 
+% disp(rt)
 
-rt = zeros(11, 1);
+ %% Obtain response times
+entries = xdoc.getElementsByTagName('entry');
+results = xdoc.getElementsByTagName('result-entry');
+
+%rt = zeros(11, 1);
 for i = 1:11
-    rt(i) = str2double(entry2.item(i).getAttribute('phase1-service-time'));
+    entryname = entries.item(i).getAttribute('name');
+    if strcmp('EntryAdd', entryname)
+        disp(entryname);
+        resptime = results.item(i).getAttribute('phase1-service-time');
+        disp(resptime);
+    end
 end
-
-disp(rt)

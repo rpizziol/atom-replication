@@ -11,30 +11,26 @@ function [fval, rt] = solveModel(modelName, model, params, Cmax, r, s)
     if status == 0 % no error
         Xt = zeros(model.N, model.M);
         %m = readmatrix(strcat('./out/', modelName, '.csv'));
-
-        xdoc = xmlread(strcat('./out/', modelName, '.lqxo'));
-        entry = xdoc.getElementsByTagName('result-entry');
-        % getElementsByTagName (name) invece di item(0), item(1)
-        
+        xmlpath = strcat('./out/', modelName, '.lqxo');
         % EntryBrowse
-        Xt(1,1) = str2double(entry.item(0).getAttribute('throughput'));
+        Xt(1,1) = str2double(getAttributeByEntry(xmlpath, 'EntryBrowse', 'throughput'));
         % EntryAddress
-        Xt(2,1) = str2double(entry.item(1).getAttribute('throughput'));
+        Xt(2,1) = str2double(getAttributeByEntry(xmlpath, 'EntryAddress', 'throughput'));
         % EntryHome EntryCatalog EntryCarts
-        Xt(3,1) = str2double(entry.item(2).getAttribute('throughput'));
-        Xt(3,2) = str2double(entry.item(3).getAttribute('throughput'));
-        Xt(3,3) = str2double(entry.item(4).getAttribute('throughput'));
+        Xt(3,1) = str2double(getAttributeByEntry(xmlpath, 'EntryHome', 'throughput'));
+        Xt(3,2) = str2double(getAttributeByEntry(xmlpath, 'EntryCatalog', 'throughput'));
+        Xt(3,3) = str2double(getAttributeByEntry(xmlpath, 'EntryCarts', 'throughput'));
         % EntryList EntryItem
-        Xt(4,1) = str2double(entry.item(5).getAttribute('throughput'));
-        Xt(4,2) = str2double(entry.item(6).getAttribute('throughput'));
+        Xt(4,1) = str2double(getAttributeByEntry(xmlpath, 'EntryList', 'throughput'));
+        Xt(4,2) = str2double(getAttributeByEntry(xmlpath, 'EntryItem', 'throughput'));
         % EntryGet EntryAdd EntryDelete
-        Xt(5,1) = str2double(entry.item(7).getAttribute('throughput'));
-        Xt(5,2) = str2double(entry.item(8).getAttribute('throughput'));
-        Xt(5,3) = str2double(entry.item(9).getAttribute('throughput'));
+        Xt(5,1) = str2double(getAttributeByEntry(xmlpath, 'EntryGet', 'throughput'));
+        Xt(5,2) = str2double(getAttributeByEntry(xmlpath, 'EntryAdd', 'throughput'));
+        Xt(5,3) = str2double(getAttributeByEntry(xmlpath, 'EntryDelete', 'throughput'));
         % EntryQueryCatalog
-        Xt(6,1) = str2double(entry.item(10).getAttribute('throughput'));
+        Xt(6,1) = str2double(getAttributeByEntry(xmlpath, 'EntryQueryCatalog', 'throughput'));
         % EntryQueryCartsdb
-        Xt(7,1) = str2double(entry.item(11).getAttribute('throughput'));
+        Xt(7,1) = str2double(getAttributeByEntry(xmlpath, 'EntryQueryCartsdb', 'throughput'));
     
         %% Calculate revenue (to maximize)
         Bt = sum(sum(params.psi.*Xt));
@@ -46,9 +42,14 @@ function [fval, rt] = solveModel(modelName, model, params, Cmax, r, s)
 
         %% Obtain response times
         rt = zeros(1, 9);
+        entrynames = ["EntryAddress" "EntryHome" "EntryCatalog" ...
+            "EntryCarts" "EntryList" "EntryItem" "EntryGet" "EntryAdd" ...
+            "EntryDelete"];
+
         for i = 1:9
+            rt(i) = str2double(getAttributeByEntry(xmlpath, entrynames(i), 'phase1-service-time'));
             % i+1 in order to skip EntryBrowse
-            rt(i) = str2double(entry.item(i+1).getAttribute('phase1-service-time'));
+            %rt(i) = str2double(entry.item(i+1).getAttribute('phase1-service-time'));
         end
     end
 end
