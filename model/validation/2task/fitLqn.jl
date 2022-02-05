@@ -1,6 +1,5 @@
 using Printf,CPLEX,Ipopt,MadNLP,Plots,MadNLPMumps,JuMP,MAT,ProgressBars,ParameterJuMP,MATLAB,Statistics
 
-cwd=pwd()
 NC=[100000,1.0,1.0]
 delta=10.0^5
 
@@ -27,10 +26,16 @@ jump=[  -1   +1   +0   +0   +0   +0;
         +0   +0   +0   +0   +1   -1;
         ]
 
-Xm=[0    1.0000    0.0000    0.0100    0.0000  498.9900;
+Xm=[0    1.0000    0.0000    0.0100    0.0000  465.9900;
+    0    1.0000    0.0000    0.0100    0.0000  758.9900;
+    0    1.0000    0.0000    0.0100    0.0000  927.9900;
+    0    1.0000    0.0000    0.0100    0.0000  655.9900;
     ]
 
-RT=[500.0000  499.0000  498.9900;
+RT=[467.0000  466.0000  465.9900;
+    760.0000  759.0000  758.9900;
+    929.0000  928.0000  927.9900;
+    657.0000  656.0000  655.9900
     ]
 
 npoints=size(Xm,1)
@@ -49,7 +54,7 @@ register(model, :min_, 1, f, autodiff=true) #∇f)
 @variable(model,MU[i=1:Int(size(jump,2)/2)]>=0)
 @variable(model,X[i=1:size(jump,2),j=1:npoints]>=0)
 @variable(model,P[i=1:Int(size(jump,2)/2),j=1:Int(size(jump,2)/2)]>=0)
-@variable(model,E_abs[i=1:size(jump,2),j=1:npoints])
+@variable(model,E_abs[i=1:size(jump,2)+floor(Int, size(jump,2)/2),j=1:npoints]>=0)
 
 @constraint(model,sum(P,dims=2).==1)
 
@@ -74,18 +79,14 @@ for p=1:npoints
 
 end
 
-#@constraint(model,sum(G,dims=2).==MU)
-#@constraint(model,[i=1:size(G,1)],G[i,:].<=MU[i])
-
-
 #qui i contraint nel caso di una sola misurazione
 #@constraint(model,MU[1]==1.0)
-#@constraint(model,P[1,1]==0)
+@constraint(model,P[1,1]==0)
 
 
 obj=[]
 for p=1:npoints
-
+        @constraint(model,sum(X[:,p])==sum(Xm[p,:]))
         @constraints(model,begin
                 E_abs[1,p]>=(X[1,p]-Xm[p,1])
                 E_abs[1,p]>=-(X[1,p]-Xm[p,1])
@@ -99,6 +100,18 @@ for p=1:npoints
                 E_abs[5,p]>=-(X[5,p]-Xm[p,5])
                 E_abs[6,p]>=X[6,p]-Xm[p,6]
                 E_abs[6,p]>=-(X[6,p]-Xm[p,6])
+                E_abs[7,p]>=(1.0-sum(T[[2,3,4],p]))
+                E_abs[7,p]>=-(1.0-sum(T[[2,3,4],p]))
+                E_abs[8,p]>=(1.0-sum(T[[6,7,8],p]))
+                E_abs[8,p]>=-(1.0-sum(T[[6,7,8],p]))
+                E_abs[9,p]>=(1.0-sum(T[[10,11,12],p]))
+                E_abs[9,p]>=-(1.0-sum(T[[10,11,12],p]))
+                # E_abs[10,p]>=((X[1,p]+X[2,p])-RT[p,1]*sum(T[[2,3,4],p]))
+                # E_abs[10,p]>=-((X[1,p]+X[2,p])-RT[p,1]*sum(T[[2,3,4],p]))
+                # E_abs[11,p]>=((X[3,p]+X[4,p])-RT[p,2]*sum(T[[6,7,8],p]))
+                # E_abs[11,p]>=-((X[3,p]+X[4,p])-RT[p,2]*sum(T[[6,7,8],p]))
+                # E_abs[12,p]>=((X[5,p]+X[6,p])-RT[p,3]*sum(T[[10,11,12],p]))
+                # E_abs[12,p]>=-((X[6,p]+X[6,p])-RT[p,3]*sum(T[[10,11,12],p]))
         end)
 
         # push!(obj,@NLexpression(model,abs(X[1,p]-Xm[p,1])+abs(X[2,p]-Xm[p,2])+
