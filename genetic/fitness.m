@@ -28,5 +28,5 @@ function value = fitness(cpushare, sourcemodel, st, rv, model, params, Cmax, nus
 %     end
     %disp(rt);
     %disp(SLA);
-    value = -value + max([(rt - SLA), 0]);
+    value = -value; %+ max([(rt - SLA), 0]);
 end
