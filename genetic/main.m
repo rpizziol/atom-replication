@@ -61,7 +61,7 @@ global start
 start = tic();
 
 f = @(x)fitness(x, sourcemodel, st, rv, model, params, Cmax, nuser);
-%ConstraintFunction = @SLAConstraint;
+ConstraintFunction = @SLAConstraint;
 
 options = optimoptions('ga'); % Load default settings
 options = optimoptions(options,'PopulationType', 'doubleVector');
@@ -73,7 +73,7 @@ options = optimoptions(options,'PlotFcn', {@gaplotbestf, @gaplotbestindiv, @prin
 %options = optimoptions(options, 'OutputFcn', @printState);
 %options = optimoptions(options,'Display', 'iter');
 [x, fval, exitflag, output, population, scores] = ga(f, model.N -3, [],...
-    [], [], [], constraints.s_lb, constraints.s_ub, [], [], options);
+    [], [], [], constraints.s_lb, constraints.s_ub, ConstraintFunction, [], options);
 toc(start);
 save('allbest.mat', 'bestIndividuals', 'bestValues', 'bestTimeStamps');
 
