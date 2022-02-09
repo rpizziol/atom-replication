@@ -16,7 +16,7 @@ function [c, ceq] = SLAConstraint(x)
             entrynames(i), 'phase1-service-time'));
     end
 
-    
+    disp(rt);
 
     % The value of c represents nonlinear inequality constraints that the
     % solver attempts to make less than or equal to zero
