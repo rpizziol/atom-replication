@@ -17,6 +17,7 @@ function [c, ceq] = SLAConstraint(x)
     end
 
     disp(rt);
+    size(rt);
 
     % The value of c represents nonlinear inequality constraints that the
     % solver attempts to make less than or equal to zero
