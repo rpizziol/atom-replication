@@ -1,9 +1,14 @@
-function value = fitness(cpushare, sourcemodel, st, rv, model, params, Cmax, nuser)
+function value = fitness(cpushare, sourcemodel, st, rv, model, params, Cmax, nuser, workmix, wmname)
+    global bestValues
+    global bestIndividuals
+    global bestTimeStamps    
+
     newModelName = 'fittmp';
 
     %       temppath = './out/fittmp.lqn';
     temppath = './out/fittmp.lqnx';
     updateModel(sourcemodel, temppath, 'nuser', nuser);
+    updateModel(temppath, temppath, 'wm', workmix);
     updateModel(temppath, temppath, 'rv', rv);
     [np2, st2] = calculateByCPUShare(st, cpushare);
     
@@ -24,5 +29,7 @@ function value = fitness(cpushare, sourcemodel, st, rv, model, params, Cmax, nus
 %     end
     %disp(rt);
     %disp(SLA);
-    value = -value; %+ max([(rt - SLA), 0]);
+    value = -value;
+    
+    save(strcat('allbest-', int2str(nuser), wmname, '.mat'), 'bestIndividuals', 'bestValues', 'bestTimeStamps');
 end
