@@ -89,23 +89,30 @@ class matlabValidator(Validator):
     
 
 if __name__ == '__main__':
-    mv = matlabValidator("../model/validation/single_task/lqn.m")
+    mv = matlabValidator("../model/validation/2task/lqn.m")
     
-    X0 = [0 for i in range(4)]
-    MU = [0 for i in range(4)]
-    NC = [0 for i in range(2)]
-    NT = [0 for i in range(2)]
+    X0 = [0 for i in range(7)]
+    MU = [0 for i in range(7)]
+    NC = [0 for i in range(3)]
+    NT = [0 for i in range(3)]
     rep = 1
     dt = 10.0 ** -1
     TF = 300 * dt
     
-    X0[3] = 100
-    MU[2] = 1
-    MU[3] = 1
-    NC[0] = -1
-    NC[1] = 20
-    NT[0] = -1
-    NT[1] = 15
+    X0[-1] = 100
+    MU[4] = 1
+    MU[5] = 100
+    MU[6] = 1
     
-    T = mv.solveModel(X0, MU, NT, NC, dt)
+    NC[0] = -1
+    NC[1] = 1
+    NC[2] = 1
+    
+    NT[0] = -1
+    NT[1] = 10000
+    NT[2] = 10000
+    
+    Names=["XBrowse_2Address","XAddress_a","XAddress_2Home","XHome_a","XHome_e","XAddress_e","XBrowse_browse"]
+    
+    T = mv.solveModel(X0, MU, NT,NC, dt,Names=Names)
     print(T)
