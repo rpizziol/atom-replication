@@ -7,9 +7,12 @@ function value = fitness(cpushare, sourcemodel, st, model, params, Cmax, workmix
     N = @(t,mod,period,shift)sin(t/(period/(2*pi)))*mod+shift;
     %plot(N([0:60:6000],1500,6000,1510));
 
-    disp(toc(start));
-    nuser = floor(N(toc(start), 1500, 6000, 1510));
-    disp(nuser);
+    %disp(toc(start));
+
+    timeSlot = floor(toc(start) / 600); % Time sampled every 10 minutes
+    nuser = floor(N(timeSlot, 1500, 6000, 1510));
+    
+    %disp(nuser);
 
     %nuser = 1000;
 
