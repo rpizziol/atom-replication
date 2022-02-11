@@ -1,16 +1,16 @@
-clear
-close('all');
-rng('default'); % For replication of the experiment 
+for j = 1:3
+    clear
+    close('all');
+    rng('default'); % For replication of the experiment 
+    wm_names = 'bso'; % browsing / shopping / ordering
+    wmname = wm_names(j);
 
-wm_names = 'bso'; % browsing / shopping / ordering
-
-workmixes = [0.63, 0.32, 0.05;
+    workmixes = [0.63, 0.32, 0.05;
     0.54, 0.26, 0.20;
     0.33, 0.17, 0.50];
 
-for j = 1:3
     workmix = workmixes(j, :);
-    wmname = wm_names(j);
+    
     
     % Full model in xml
     sourcemodel = './res/atom-full_template5.lqnx'; % variable workload mix
@@ -73,8 +73,9 @@ for j = 1:3
         'bestValues', 'bestTimeStamps', 'nusersInTime', 'timeSlots', ...
         'times');
 
-    clear bestValues bestIndividuals bestTimeStamps nusersInTime ...
-        timeSlots times
+    clear
+    %clear bestValues bestIndividuals bestTimeStamps nusersInTime ...
+    %    timeSlots times
 
     %bestThroughputs = getBestThroughputs(st, rv, nuser, sourcemodel, bestIndividuals);
 end
