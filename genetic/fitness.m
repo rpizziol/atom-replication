@@ -2,16 +2,16 @@ function value = fitness(cpushare, sourcemodel, st, model, params, Cmax, workmix
     global bestValues
     global bestIndividuals
     global bestTimeStamps    
-    %global start
+    global start
     
-    %N = @(t,mod,period,shift)sin(t/(period/(2*pi)))*mod+shift;
+    N = @(t,mod,period,shift)sin(t/(period/(2*pi)))*mod+shift;
     %plot(N([0:60:6000],1500,6000,1510));
 
-    %disp(toc(start));
-    %nuser = N(toc(start), 1500, 6000, 1510);
-    %disp(nuser);
+    disp(toc(start));
+    nuser = floor(N(toc(start), 1500, 6000, 1510));
+    disp(nuser);
 
-    nuser = 1000;
+    %nuser = 1000;
 
     rv = [nuser, nuser, nuser, nuser];
     newModelName = 'fittmp';
