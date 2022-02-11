@@ -1,7 +1,8 @@
-for j = 1:3
     clear
     close('all');
     rng('default'); % For replication of the experiment 
+
+for j = 1:3
     wm_names = 'bso'; % browsing / shopping / ordering
     wmname = wm_names(j);
 
@@ -74,6 +75,8 @@ for j = 1:3
         'times');
 
     clear
+    close('all');
+    rng('default'); % For replication of the experiment 
     %clear bestValues bestIndividuals bestTimeStamps nusersInTime ...
     %    timeSlots times
 
