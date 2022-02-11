@@ -10,7 +10,7 @@ function value = fitness(cpushare, sourcemodel, st, model, params, Cmax, workmix
     %disp(toc(start));
 
     timeSlot = floor(toc(start) / 600); % Time sampled every 10 minutes
-    nuser = floor(N(timeSlot, 1500, 6000, 1510));
+    nuser = floor(N(timeSlot*600, 1500, 6000, 1510));
     
     %disp(nuser);
 
