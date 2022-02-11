@@ -43,6 +43,7 @@ for j = 1:3
     global bestValues
     global bestIndividuals
     global bestTimeStamps
+    %global bestThroughputs
     
     %% Genetic algorithm
     global start 
@@ -54,7 +55,8 @@ for j = 1:3
     options = optimoptions('ga'); % Load default settings
     options = optimoptions(options,'PopulationType', 'doubleVector');
     options = optimoptions(options,'PopulationSize', 50); % default: 50
-    options = optimoptions(options,'MaxGenerations', 20); % default: 100*nvars
+    options = optimoptions(options,'MaxGenerations', 400); % default: 100*nvars
+    options = optimoptions(options,'MaxTime', 600);
     options = optimoptions(options,'MaxStallGenerations', 10);
     options = optimoptions(options,'MutationFcn', { @mutationadaptfeasible 0.1 });
     options = optimoptions(options,'PlotFcn', {@gaplotbestf, @gaplotbestindiv, @printState });
@@ -64,5 +66,13 @@ for j = 1:3
     [x, fval, exitflag, output, population, scores] = ga(f, model.N -3, [],...
     [], [], [], constraints.s_lb, constraints.s_ub, [], [], options); %ConstraintFunction
     toc(start);
-    save(strcat('sintest-', wmname, '.mat'), 'bestIndividuals', 'bestValues', 'bestTimeStamps');
+    
+    save(strcat('sintest-', wmname, '.mat'), 'bestIndividuals', ...
+        'bestValues', 'bestTimeStamps', 'nusersInTime', 'timeSlots', ...
+        'times');
+
+    clear bestValues bestIndividuals bestTimeStamps nusersInTime ...
+        timeSlots times
+
+    %bestThroughputs = getBestThroughputs(st, rv, nuser, sourcemodel, bestIndividuals);
 end

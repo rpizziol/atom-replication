@@ -1,20 +1,25 @@
 function value = fitness(cpushare, sourcemodel, st, model, params, Cmax, workmix, wmname)
     global bestValues
     global bestIndividuals
-    global bestTimeStamps    
+    global bestTimeStamps
+    global nusersInTime
+    global timeSlots
+    global times
+    
     global start
-    
+    global currNuser
+    global currTimeSlot
+    global currTime  
+
     N = @(t,mod,period,shift)sin(t/(period/(2*pi)))*mod+shift;
-    %plot(N([0:60:6000],1500,6000,1510));
+    %plot(N([0:600:6000],1500,6000,1510));
 
-    %disp(toc(start));
-
-    timeSlot = floor(toc(start) / 600); % Time sampled every 10 minutes
-    nuser = floor(N(timeSlot*600, 1500, 6000, 1510));
-    
-    %disp(nuser);
-
-    %nuser = 1000;
+    window = 120; % change nusers every 120 seconds
+    currTime = toc(start);
+    timeSlot = floor(toc(start) / window); % Time sampled every 10 minutes
+    nuser = floor(N(timeSlot*window, 1500, 6000, 1510));
+    currNuser = nuser;
+    currTimeSlot = timeSlot*window;
 
     rv = [nuser, nuser, nuser, nuser];
     newModelName = 'fittmp';
@@ -32,18 +37,9 @@ function value = fitness(cpushare, sourcemodel, st, model, params, Cmax, workmix
     %% Calculate the Theta
     % Obtain response time (service-time from xml)
     [value, rt] = solveModel(newModelName, model, params, Cmax, rv, cpushare);
-    %% Check if st2 violates the SLA
-    % SLA is 110% of the nominal service time
-    
-%     if sum(rt > SLA) > 0 % At least one value violates the SLA
-%         value = 1000;
-%         disp('SLA violation');
-%     else
-%         value = -value; % This is just for optimtool (minimize)
-%     end
-    %disp(rt);
-    %disp(SLA);
+
     value = -value;
-    
-    save(strcat('allbest-', int2str(nuser), wmname, '.mat'), 'bestIndividuals', 'bestValues', 'bestTimeStamps');
+    save(strcat('sintest-', wmname, '.mat'), 'bestIndividuals', ...
+        'bestValues', 'bestTimeStamps', 'nusersInTime', 'timeSlots', ...
+        'times');
 end
