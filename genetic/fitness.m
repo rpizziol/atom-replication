@@ -1,8 +1,15 @@
-function value = fitness(cpushare, sourcemodel, st, rv, model, params, Cmax, nuser, workmix, wmname)
+function value = fitness(cpushare, sourcemodel, st, model, params, Cmax, workmix, wmname)
     global bestValues
     global bestIndividuals
     global bestTimeStamps    
+    global start
+    
+    N = @(t,mod,period,shift)sin(t/(period/(2*pi)))*mod+shift;
+    %plot(N([0:60:6000],1500,6000,1510));
 
+    nuser = N(toc(start), 1500, 6000, 1510);
+
+    rv = [nuser, nuser, nuser, nuser];
     newModelName = 'fittmp';
 
     %       temppath = './out/fittmp.lqn';

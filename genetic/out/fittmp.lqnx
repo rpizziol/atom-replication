@@ -4,7 +4,7 @@
 <solver-params comment="Sockshop model" conv_val="1e-05" it_limit="50000" print_int="10" underrelax_coeff="0.1"/>
   <!-- TaskClient -->
   <processor multiplicity="1" name="ProcClient" scheduling="inf">
-    <task multiplicity="3000" name="TaskClient" scheduling="ref" think-time="7.0">
+    <task multiplicity="1000" name="TaskClient" scheduling="ref" think-time="7.0">
       <entry name="EntryBrowse" type="NONE"/>
       <task-activities>
         <activity bound-to-entry="EntryBrowse" host-demand-mean="0.00000005" name="AS"/>
@@ -25,15 +25,15 @@
   
   <!-- TaskRouter -->
   <processor multiplicity="1" name="ProcRouter" quantum="0.1" replication="1" scheduling="ps">
-    <task multiplicity="3000" name="TaskRouter" replication="1" scheduling="fcfs">
+    <task multiplicity="1000" name="TaskRouter" replication="1" scheduling="fcfs">
       <fan-out dest="TaskFrontend" value="1"/>
       <entry name="EntryAddress" type="NONE"/>
       <task-activities>
         <activity bound-to-entry="EntryAddress" host-demand-mean="0.00000005" name="AS1"/>
         <activity host-demand-mean="0.0022" name="AS2">
-          <synch-call calls-mean="0.63" dest="EntryHome"/>
-          <synch-call calls-mean="0.32" dest="EntryCatalog"/>
-          <synch-call calls-mean="0.05" dest="EntryCarts"/>
+          <synch-call calls-mean="0.6300" dest="EntryHome"/>
+          <synch-call calls-mean="0.3200" dest="EntryCatalog"/>
+          <synch-call calls-mean="0.0500" dest="EntryCarts"/>
         </activity>
         <precedence>
           <pre>
@@ -52,7 +52,7 @@
   
   <!-- TaskFrontend -->
   <processor multiplicity="2" name="ProcFrontend" quantum="0.1" replication="1" scheduling="ps">
-    <task multiplicity="3000" name="TaskFrontend" replication="1" scheduling="fcfs">
+    <task multiplicity="1000" name="TaskFrontend" replication="1" scheduling="fcfs">
       <fan-out dest="TaskCartssvc" value="1"/>
       <fan-out dest="TaskCatalogsvc" value="1"/>
       <fan-in source="TaskRouter" value="1"/>
@@ -112,7 +112,7 @@
   
   <!-- TaskCatalogsvc -->
   <processor multiplicity="1" name="ProcCatalogsvc" quantum="0.1" replication="1" scheduling="ps">
-    <task multiplicity="3000" name="TaskCatalogsvc" replication="1" scheduling="fcfs">
+    <task multiplicity="1000" name="TaskCatalogsvc" replication="1" scheduling="fcfs">
       <fan-out dest="TaskCatalogdb" value="1"/>
       <fan-in source="TaskFrontend" value="1"/>
       <entry name="EntryList" type="NONE"/>
@@ -154,7 +154,7 @@
   
   <!-- TaskCartssvc -->
   <processor multiplicity="1" name="ProcCartssvc" quantum="0.1" replication="1" scheduling="ps">
-    <task multiplicity="3000" name="TaskCartssvc" replication="1" scheduling="fcfs">
+    <task multiplicity="1000" name="TaskCartssvc" replication="1" scheduling="fcfs">
       <fan-out dest="TaskCartsdb" value="1"/>
       <fan-in source="TaskFrontend" value="1"/>
       <entry name="EntryGet" type="NONE"/>

@@ -26,7 +26,7 @@ rng('default'); % For replication of the experiment
 % shopping mix 0.54, 0.26, 0.20
 % ordering mix 0.33, 0.17, 0.50
 
-wm_names = ['browsing', 'shopping', 'ordering'];
+wm_names = 'bso'; % browsing / shopping / ordering
 
 workmixes = [0.63, 0.32, 0.05;
     0.54, 0.26, 0.20;
@@ -97,5 +97,6 @@ for i = 1:3
         toc(start);
         save(strcat('allbest-', int2str(nuser), wmname, '.mat'), 'bestIndividuals', 'bestValues', 'bestTimeStamps');
     end
+
 end
 %getBestThroughputs(st, rv, nuser, sourcemodel, bestIndividuals);
