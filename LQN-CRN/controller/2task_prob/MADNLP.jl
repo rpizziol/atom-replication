@@ -264,13 +264,13 @@ while true
     for p=1:size(NC,1)
         #maximum(value.(NC[:,0])+ones(2)*(0.001*Ie),ones(2)*0.1)
         #if(p==b)
-            optNC[i,p+1]=max(value(NC[p])+0.00001*Ie,0.0)
+            optNC[i,p+1]=max(value(NC[p])+0.0001*Ie,0.0)
         #else
         #    optNC[i,p+1]=value(NC[p])
         #end
     end
 
-    optNC[i,:]=optNC[i,:]*1.10
+    optNC[i,:]=optNC[i,:]*1.20
 
     optNC[i,6]=3000
     optNC[i,7]=3000
