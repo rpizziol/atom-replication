@@ -2,7 +2,8 @@
     close('all');
     rng('default'); % For replication of the experiment 
 
-for j = 1:3
+    j = 1;
+%for j = 1:3
     wm_names = 'bso'; % browsing / shopping / ordering
     wmname = wm_names(j);
 
@@ -74,11 +75,11 @@ for j = 1:3
         'bestValues', 'bestTimeStamps', 'nusersInTime', 'timeSlots', ...
         'times');
 
-    clear
-    close('all');
-    rng('default'); % For replication of the experiment 
+ %   clear
+  %  close('all');
+   % rng('default'); % For replication of the experiment 
     %clear bestValues bestIndividuals bestTimeStamps nusersInTime ...
     %    timeSlots times
 
     %bestThroughputs = getBestThroughputs(st, rv, nuser, sourcemodel, bestIndividuals);
-end
+%end
