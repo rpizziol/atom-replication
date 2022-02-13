@@ -16,10 +16,10 @@ function value = fitness(cpushare, sourcemodel, st, model, params, ...
     N = @(t,mod,period,shift)sin(t/(period/(2*pi)))*mod+shift;
     %plot(N([0:600:6000],1500,6000,1510));
 
-    window = 30; % change nusers every 10 minutes
+    window = 600; % change nusers every 10 minutes
     currTime = toc(start);
     timeSlot = floor(currTime / window); % Time sampled every 10 minutes
-    nuser = floor(N(timeSlot*window, 150, 300, 1510));
+    nuser = floor(N(timeSlot*window, 1500, 6000, 1510));
     currNuser = nuser;
     currTimeSlot = timeSlot*window;
 
