@@ -1,29 +1,24 @@
 function state = printState(options, state, flag)
-
-    global start
+    % Function called once for every generation to save the calculated data
     global bestValues
     global bestIndividuals
     global bestTimeStamps
     global nusersInTime
     global timeSlots
-    global times
 
+    global start
     global currNuser
-    global currTimeSlot
-    global currTime  
+    
+    window = 60; % change nusers every 10 minutes
 
     N = @(t,mod,period,shift)sin(t/(period/(2*pi)))*mod+shift;
     %plot(N([0:600:6000],1500,6000,1510));
 
-    window = 600; % change nusers every 10 minutes
-    currTime = toc(start);
-    timeSlot = floor(currTime / window); % Time sampled every 10 minutes
-    nuser = floor(N(timeSlot*window, 1500, 6000, 1510));
-    currNuser = nuser;
+    
+    now = toc(start);
+    timeSlot = floor(now / window); % Time sampled every 10 minutes
     currTimeSlot = timeSlot*window;
-
-
-
+    currNuser = floor(N(currTimeSlot, 150, 600, 1510));    
 
     % Find the index of the 'Score' equal to 'Best'
     if(size(state.Best) >= 1)
@@ -34,10 +29,9 @@ function state = printState(options, state, flag)
         
         bestIndividuals = [bestIndividuals; bestIndividual];
         bestValues = [bestValues; state.Best(end)];
-        bestTimeStamps = [bestTimeStamps; toc(start)];
+        bestTimeStamps = [bestTimeStamps; now];
         nusersInTime = [nusersInTime; currNuser];
         timeSlots = [timeSlots; currTimeSlot];
-        times = [times; currTime];
 
         disp('bestIndividuals');
         disp(bestIndividuals);
@@ -49,8 +43,7 @@ function state = printState(options, state, flag)
         disp(nusersInTime);
         disp('timeSlots');
         disp(timeSlots);
-        disp('times');
-        disp(times);
+        
     end
 end
 

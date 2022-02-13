@@ -1,12 +1,5 @@
 function value = fitness(cpushare, sourcemodel, st, model, params, ...
     Cmax, workmix, wmname)
-
-    global bestValues
-    global bestIndividuals
-    global bestTimeStamps
-    global nusersInTime
-    global timeSlots
-    global times
     
     global currNuser
 
@@ -26,11 +19,10 @@ function value = fitness(cpushare, sourcemodel, st, model, params, ...
     updateModel(temppath, temppath, 'np', np2);
     
     %% Calculate the Theta
-    % Obtain response time (service-time from xml)
-    [value, rt] = solveModel(newModelName, model, params, Cmax, rv, cpushare);
-
+    value = solveModel(newModelName, model, params, Cmax, rv, cpushare);
     value = -value;
-    save(strcat('./out/mat/sintest-', wmname, '.mat'), 'bestIndividuals', ...
-        'bestValues', 'bestTimeStamps', 'nusersInTime', 'timeSlots', ...
-        'times');
+
+%     save(strcat('./out/mat/sintest-', wmname, '.mat'), 'bestIndividuals', ...
+%         'bestValues', 'bestTimeStamps', 'nusersInTime', 'timeSlots', ...
+%         'times');
 end
