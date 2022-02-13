@@ -49,12 +49,16 @@ j = 1;
     global nusersInTime
     global timeSlots
     global times
+
+    global currNuser
+
+    currNuser = 1510;
     
     %% Genetic algorithm
     global start 
     start = tic();
     
-    f = @(x)fitness(x, sourcemodel, st, model, params, Cmax, workmix, wmname, start);
+    f = @(x)fitness(x, sourcemodel, st, model, params, Cmax, workmix, wmname);
     %ConstraintFunction = @SLAConstraint;
     
     options = optimoptions('ga'); % Load default settings
