@@ -4,7 +4,7 @@
 
     
 %for j = 1:3
-j = 1;
+for j = 2:3
     wm_names = 'bso'; % browsing / shopping / ordering
     wmname = wm_names(j);
 
@@ -48,7 +48,6 @@ j = 1;
     global bestTimeStamps
     global nusersInTime
     global timeSlots
-    global times
 
     global currNuser
 
@@ -86,4 +85,4 @@ j = 1;
     %    timeSlots times
 
     %bestThroughputs = getBestThroughputs(st, rv, nuser, sourcemodel, bestIndividuals);
-%end
+end
