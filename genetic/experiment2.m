@@ -65,7 +65,7 @@ j = 1;
     options = optimoptions(options,'PopulationType', 'doubleVector');
     options = optimoptions(options,'PopulationSize', 50); % default: 50
     options = optimoptions(options,'MaxGenerations', 400); % default: 100*nvars
-    options = optimoptions(options,'MaxTime', 600); % 1h40 = 6000 seconds
+    options = optimoptions(options,'MaxTime', 6000); % 1h40 = 6000 seconds
     options = optimoptions(options,'MaxStallGenerations', 10);
     options = optimoptions(options,'MutationFcn', { @mutationadaptfeasible 0.1 });
     options = optimoptions(options,'PlotFcn', {@gaplotbestf, @gaplotbestindiv, @printState });
@@ -77,8 +77,7 @@ j = 1;
     toc(start);
     
     save(strcat('./out/mat/sintest-', wmname, '.mat'), 'bestIndividuals', ...
-        'bestValues', 'bestTimeStamps', 'nusersInTime', 'timeSlots', ...
-        'times');
+        'bestValues', 'bestTimeStamps', 'nusersInTime', 'timeSlots');
 
  %   clear
   %  close('all');

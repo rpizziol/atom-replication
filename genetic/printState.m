@@ -9,7 +9,7 @@ function state = printState(options, state, flag)
     global start
     global currNuser
     
-    window = 60; % change nusers every 10 minutes
+    window = 600; % change nusers every 10 minutes
 
     N = @(t,mod,period,shift)sin(t/(period/(2*pi)))*mod+shift;
     %plot(N([0:600:6000],1500,6000,1510));
@@ -18,7 +18,7 @@ function state = printState(options, state, flag)
     now = toc(start);
     timeSlot = floor(now / window); % Time sampled every 10 minutes
     currTimeSlot = timeSlot*window;
-    currNuser = floor(N(currTimeSlot, 150, 600, 1510));    
+    currNuser = floor(N(currTimeSlot, 1500, 6000, 1510));    
 
     % Find the index of the 'Score' equal to 'Best'
     if(size(state.Best) >= 1)
