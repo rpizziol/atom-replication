@@ -1,18 +1,18 @@
 %load('../out/mat/sintest-b.mat');
 
 
-saveAllPlots('b');
-saveAllPlots('s');
-saveAllPlots('o');
+saveAllPlots('b', '1');
+%saveAllPlots('s');
+%saveAllPlots('o');
 
 
-function saveAllPlots(id)
+function saveAllPlots(id, n)
     load(strcat('../out/mat/sintest-', id, '.mat'));
-    savePlot(strcat(id, '-bestIndividuals'), bestIndividuals);
-    savePlot(strcat(id, '-bestTimeStamps'), bestTimeStamps);
-    savePlot(strcat(id, '-bestValues'), bestValues);
-    savePlot(strcat(id, '-nusersInTime'), nusersInTime);
-    savePlot(strcat(id, '-timeSlots'), timeSlots);
+    savePlot(strcat(id, '-bestIndividuals', n), bestIndividuals);
+    savePlot(strcat(id, '-bestTimeStamps', n), bestTimeStamps);
+    savePlot(strcat(id, '-bestValues', n), bestValues);
+    savePlot(strcat(id, '-nusersInTime', n), nusersInTime);
+    savePlot(strcat(id, '-timeSlots', n), timeSlots);
 end
 
 
