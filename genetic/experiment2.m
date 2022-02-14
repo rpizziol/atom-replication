@@ -16,7 +16,7 @@ j = 3;
     
     
     % Full model in xml
-    sourcemodel = './res/atom-full_template5.lqnx'; % variable workload mix
+    sourcemodel = './res/atom-full_template6.lqnx'; % variable workload mix
     
     model.N = 7;
     model.M = 3;    % Number of classes (max entries)
@@ -51,7 +51,7 @@ j = 3;
 
     global currNuser
 
-    currNuser = 1509;
+    currNuser = readNUser();
     
     %% Genetic algorithm
     global start 

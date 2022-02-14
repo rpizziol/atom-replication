@@ -15,4 +15,3 @@ function rt = getAttributeByEntry(xmlpath, entryname, attrname)
         i = i + 1;
     end
 end
-

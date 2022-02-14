@@ -12,8 +12,8 @@ function value = fitness(cpushare, sourcemodel, st, model, params, ...
 
     [np2, st2] = calculateByCPUShare(st, cpushare);
 
-    updateModel(sourcemodel, temppath, 'nuser', nuser);
-    updateModel(temppath, temppath, 'wm', workmix);
+    %updateModel(sourcemodel, temppath, 'nuser', nuser);
+    updateModel(sourcemodel, temppath, 'wm', workmix);
     updateModel(temppath, temppath, 'rv', rv);
     updateModel(temppath, temppath, 'st', st2);
     updateModel(temppath, temppath, 'np', np2);
