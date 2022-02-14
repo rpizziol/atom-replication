@@ -4,7 +4,7 @@
 
     
 %for j = 1:3
-j = 2;
+j = 3;
     wm_names = 'bso'; % browsing / shopping / ordering
     wmname = wm_names(j);
 
