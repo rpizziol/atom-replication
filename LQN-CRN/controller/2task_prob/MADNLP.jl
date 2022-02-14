@@ -1,4 +1,4 @@
-using Printf,Redis,Ipopt,JuMP,MAT,ParameterJuMP,Statistics,MadNLP
+using Printf,Redis,Ipopt,JuMP,MAT,ParameterJuMP,Statistics,MadNLP,JSON
 
 wdir=pwd()
 
@@ -141,8 +141,8 @@ end
                          47-sum(toZero[1,1:47]),
                          48-sum(toZero[1,1:48])]])==C)
 
-@constraint(model,jump'*T.<=10^-6)
-@constraint(model,jump'*T.>=-10^-6)
+@constraint(model,jump'*T.<=10^-10)
+@constraint(model,jump'*T.>=-10^-10)
 #@constraint(model,jump'*T.==0)
 @constraint(model,NC.<=100)
 
@@ -209,7 +209,7 @@ end
 @constraint(model,NC[3]<=(X[18-sum(toZero[1,1:18])]+X[23-sum(toZero[1,1:23])]))
 @constraint(model,NC[4]<=(X[35-sum(toZero[1,1:35])]+X[40-sum(toZero[1,1:40])]+X[45-sum(toZero[1,1:45])]))
 
-alfa=1.0
+alfa=1
 
 NTNames=["NTrouter","NTfrontend","NTCatalogsvc","NTCartsvc","NTCatalogdb","NTCartdb"]
 NCNames=["NCrouter","NCfrontend","NCCatalogsvc","NCCartsvc","NCCatalogdb","NCCartdb"]
@@ -243,10 +243,11 @@ while true
     set_value(C,w)
 
     #global tgt=round(alfa*0.999*w,digits=6)
-    global tgt=MU[end]*alfa*w
-    @objective(model,Max,0.5*(sum(T[15:20])/428)-0.5*sum(NC[i] for i=1:size(NC,1)-2)/((size(NC,1)-2)*100))
+    global tgt=w/7.005
+    @objective(model,Min,0.5*((sum(T[15:20])-alfa*tgt)^2/(alfa*tgt))+0.5*sum(NC[i] for i=1:size(NC,1)-2)/((size(NC,1)-2)*100))
     push!(stimes,@elapsed JuMP.optimize!(model))
     status=termination_status(model)
+    set(conn, "started","1")
     if(status!=MOI.LOCALLY_SOLVED && status!=MOI.ALMOST_LOCALLY_SOLVED)
         error(status)
     end
@@ -259,23 +260,35 @@ while true
      value(X[34-sum(toZero[1,1:34])])
      ]
 
-    #global NT=ceil.(U)
+    global NU=[100000,
+               value(X[1-sum(toZero[1,1:1])])+0.01*Ie,
+               value(X[1-sum(toZero[1,1:1])])+0.01*Ie,
+               value(X[9-sum(toZero[1,1:9])])+0.01*Ie,
+               value(X[26-sum(toZero[1,1:26])])+0.01*Ie,
+               100000,
+               100000
+               ]
+
+
+    global NT=ceil.(NU)
     b=argmax(U[2:end]./(value.(NC)))
     for p=1:size(NC,1)
         #maximum(value.(NC[:,0])+ones(2)*(0.001*Ie),ones(2)*0.1)
         #if(p==b)
-            optNC[i,p+1]=max(value(NC[p])+0.0001*Ie,0.0)
+            optNC[i,p+1]=max(value(NC[p])+0.00002*Ie,0.0)
         #else
         #    optNC[i,p+1]=value(NC[p])
         #end
     end
 
+    println([value(X[1-sum(toZero[1,1:1])])])
+
     optNC[i,:]=optNC[i,:]*1.20
 
-    optNC[i,6]=3000
-    optNC[i,7]=3000
+    optNC[i,6]=30000.
+    optNC[i,7]=30000.
 
-    global NT=ones(1,7)*3000
+    #global NT=ones(1,7)*30000
     # NT[1]=3000
     # NT[2]=3000
     # NT[3]=3000
@@ -293,13 +306,10 @@ while true
          end
      end
 
-    # println(NT)
-    # println(optNC[i,:])
-
     cumTr=cumsum(Tsim)./range(1,length(Tsim))
 
     if(length(Tsim)>0)
-        global Ie += (tgt - cumTr[end])
+        global Ie += (alfa*tgt - cumTr[end])
     end
 
     #println(cumTr[end])
@@ -312,6 +322,7 @@ while true
     end
 
     global i+=1
-    sleep(1)
+    set(conn, "stimes",JSON.json(stimes))
+    sleep(1.)
     #break
 end

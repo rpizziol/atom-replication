@@ -12,6 +12,9 @@ import scipy.stats as st
 import redis
 import subprocess
 import time
+import json
+from scipy.io import savemat
+from scipy.io import loadmat
 
 class sockShop():
     modelFilePath = None
@@ -19,9 +22,10 @@ class sockShop():
     res = None
     matEng = None
     r = None
-    Tsim = None
-    optNC= None
-    optNT= None
+    Tsim  = None
+    optNC = None
+    optNT = None
+    stimes = None
     NTNames=["NTrouter","NTfrontend","NTCatalogsvc","NTCartsvc","NTCatalogdb","NTCartdb"]
     NCNames=["NCrouter","NCfrontend","NCCatalogsvc","NCCartsvc","NCCatalogdb","NCCartdb"]
 
@@ -103,15 +107,21 @@ class sockShop():
         self.r.set("w",X0[47])
         
         P=self.startOptCtrl()
-        time.sleep(30)
+        
+        self.r.set("started","0")
+        while(self.r.get("started").decode('UTF-8')=="0"):
+            print("waint julia to start")
+            time.sleep(0.5)
+        print("started")
+        
         while(step<simLength):
             print("step %d"%(step))
             stime=time.time()
             
             #aggiorno i controlli
-            #NT=[10000]+list(map(lambda x: 2 if x is None else float(x), self.r.mget(self.NTNames)))
-            NC=[10000]+list(map(lambda x: 2 if x is None else float(x), self.r.mget(self.NCNames)))
-            NT=np.ceil([10000,10000,10000,10000,10000,1000,1000]).tolist()
+            NT=[10000]+list(map(lambda x: 10 if x is None else int(x), self.r.mget(self.NTNames)))
+            NC=[10000]+list(map(lambda x: 10 if x is None else float(x), self.r.mget(self.NCNames)))
+            #NT=np.ceil([10000,10000,10000,10000,10000,1000,1000]).tolist()
             #NC=[10000,0.7333,1.5276,0.4644,0.3570,1000,1000]
             
             self.optNT.append(NT)
@@ -124,7 +134,7 @@ class sockShop():
             Xsys+=(X[47,:]*MU[47]).tolist()
             
             X0=X[:,-1].tolist()
-            print(X0)
+            #print(X0)
             X0[48]=0
             simTime+=TF
             #if(simTime%samplingPeriod==0):
@@ -137,17 +147,22 @@ class sockShop():
             step+=1
                 
         P.terminate()
+        
+        stimes=self.r.get("stimes").decode('UTF-8')
+        self.stimes=json.loads(stimes)
+        
 
 if __name__ == '__main__':
     
+    
     sys=sockShop("../model/validation/2task_prob/lqn.m")
-    sys.startSim(samplingPeriod=1.0, ctrlPeriod=1.0, simLength=500)
+    sys.startSim(samplingPeriod=1.0, ctrlPeriod=1.0, simLength=1000)
     
     
     plt.figure()
     plt.plot(sys.Tsim)
     plt.plot(np.divide(np.cumsum(sys.Tsim),np.linspace(1,len(sys.Tsim),len(sys.Tsim))))
-    plt.axhline(3000*(1.0/7))
+    plt.axhline(3000*(1.0/7.005))
     
     plt.figure()
     plt.plot(np.array(sys.optNT)[:,1:4])

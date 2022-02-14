@@ -1,6 +1,5 @@
 using Printf,CPLEX,Ipopt,MadNLP,Plots,MadNLPMumps,JuMP,MAT,ProgressBars,ParameterJuMP,MATLAB,Statistics
 
-NC=[100000,1.0,1.0]
 delta=10.0^5
 
 #model = Model(CPLEX.Optimizer)
@@ -26,37 +25,41 @@ jump=[  -1   +1   +0   +0   +0   +0;
         +0   +0   +0   +0   +1   -1;
         ]
 
-#lunghezza di coda misurata su ogni entry rispetto a numero di acquiring e numbero di executing
-Xm=[0    1.0000    0.0000    0.0100    0.0000  465.9900;
-    0    1.0000    0.0000    0.0100    0.0000  758.9900;
-    0    1.0000    0.0000    0.0100    0.0000  927.9900;
-    0    1.0000    0.0000    0.0100    0.0000  655.9900;
-    ]
-# Xm = [0.0 1.0 0.0 0.01 0.0 495.9900;
-#       0.0 1.0 0.0 0.01 0.0 655.99;
-#       0.0 1.0 0.0 0.01 0.0 199.99;
-#       0.0 1.0 0.0 0.01 0.0 399.99;
-#       0  1.0000    0.0000    0.0100    0.0000  978.9900;
-#       0.0 1.0 0.0 0.01 0.0 798.99;
-#       0.0 1.0 0.0 0.01 0.0 275.99;
-#       0    1.0000    0.0000    0.0100    0.0000  727.9900
-#       ]
+NC=[  100000 1.0 1.0;
+      100000 1.0 1.0;
+      100000 1.0 1.0;
+      100000 1.0 1.0;
+      100000 1.0 1.0;
+      100000 1.0 1.0;
+      100000 1.0 1.0;
+      100000 1.0 1.0;
+      100000 1.0 1.0;
+      100000 1.0 1.0;]
 
-#response time misurato dalla entry che include anche le chiamte annidate
-RT=[467.0000  466.0000  465.9900;
-    760.0000  759.0000  758.9900;
-    929.0000  928.0000  927.9900;
-    657.0000  656.0000  655.9900;
-    ]
-# RT = [   497.00 496.00 495.9900;
-#          657.52 656.37 655.99;
-#          201.00 200.00 199.99;
-#          401.00 400.00 399.99;
-#          980.0000  979.0000  978.9900;
-#          800.68 799.58 798.9979;
-#          277.28 276.28 275.99;
-#          729.0000  728.0000  727.9900
-#          ]
+Xm = [   0    1.0000    0.0000  569.9900    0.0000    0.0100;
+         0    1.0000    0.0000  344.9900    0.0000    0.0100;
+         0    1.0000    0.0000  745.9900    0.0000    0.0100;
+         0    1.0000    0.0000  798.9900    0.0000    0.0100;
+         0    1.0000    0.0000  171.9900    0.0000    0.0100;
+         0    1.0000    0.0000  297.9900    0.0000    0.0100;
+         0    1.0000    0.0000  281.9900    0.0000    0.0100;
+         0    1.0000    0.0000  660.9900    0.0000    0.0100;
+         0    1.0000    0.0000  751.9900    0.0000    0.0100;
+         0    1.0000    0.0000  849.9900    0.0000    0.0100;]
+
+
+RT = [  571.0000  569.9900    0.0100;
+        346.0000  344.9900    0.0100;
+        747.0000  745.9900    0.0100;
+        800.0000  798.9900    0.0100;
+        173.0000  171.9900    0.0100;
+        299.0000  297.9900    0.0100;
+        283.0000  281.9900    0.0100;
+        662.0000  660.9900    0.0100;
+        753.0000  751.9900    0.0100;
+        851.0000  849.9900    0.0100;];
+
+T =[]
 
 npoints=size(Xm,1)
 
@@ -77,10 +80,10 @@ register(model, :min_, 1, f, autodiff=true) #∇f)
 @variable(model,X[i=1:size(jump,2),j=1:npoints]>=0,start = 1)
 @variable(model,P[i=1:Int(size(jump,2)/2),j=1:Int(size(jump,2)/2)]>=0)
 
-Prnd=rand(size(P,1),size(P,1))
-# Prnd=[1 0 0;
-#       0 1 0;
-#       0 0 1]
+# Prnd=rand(size(P,1),size(P,1))
+# # Prnd=[1 0 0;
+# #       0 1 0;
+# #       0 0 1]
 # Prnd=Prnd./sum(Prnd,dims=2)
 # for i=1:size(P,1)
 #     for j=1:size(P,1)
@@ -94,18 +97,20 @@ Prnd=rand(size(P,1),size(P,1))
 #     0 0 0]
 
 
-for i=1:size(P2,1)
-    for j=1:size(P2,1)
-        #set_start_value(P2[i,j],Prnd[i,j])
-    end
-end
+# for i=1:size(P2,1)
+#     for j=1:size(P2,1)
+#         #set_start_value(P2[i,j],Prnd[i,j])
+#     end
+# end
 
 @variable(model,E_abs[i=1:size(jump,2)+floor(Int, size(jump,2)/2),j=1:npoints]>=0,start = 0)
 @variable(model,ERT_abs[i=1:floor(Int, size(jump,2)/2),j=1:npoints]>=0,start = 0)
 @variable(model,RTs[i=1:floor(Int, size(jump,2)/2),j=1:npoints]>=0,start = 0)
 
 @constraint(model,sum(P,dims=2).==1)
-@constraint(model,sum(P2,dims=2).<=1)
+#@constraint(model,sum(P2,dims=2).<=1)
+@constraint(model,P2.<=1)
+@constraint(model,P.<=1)
 @constraint(model,[i=1:size(P2,1)],P2[i,i]==0)
 
 for p=1:npoints
@@ -115,15 +120,15 @@ for p=1:npoints
 @NLconstraint(model,T[4,p]==P[1,1]*MU[1]*X[2,p])
 
 @constraint(model,T[5,p]==delta*X[3,p])
-@NLconstraint(model,T[6,p]==P[2,3]*MU[2]*(min_(X[4,p]-NC[2])+NC[2]))
-@NLconstraint(model,T[7,p]==P[2,1]*MU[2]*(min_(X[4,p]-NC[2])+NC[2]))
-@NLconstraint(model,T[8,p]==P[2,2]*MU[2]*(min_(X[4,p]-NC[2])+NC[2]))
+@NLconstraint(model,T[6,p]==P[2,3]*MU[2]*(min_(X[4,p]-NC[p,2])+NC[p,2]))
+@NLconstraint(model,T[7,p]==P[2,1]*MU[2]*(min_(X[4,p]-NC[p,2])+NC[p,2]))
+@NLconstraint(model,T[8,p]==P[2,2]*MU[2]*(min_(X[4,p]-NC[p,2])+NC[p,2]))
 
 
 @constraint(model,T[9,p]==delta*X[5,p])
-@NLconstraint(model,T[10,p]==P[3,1]*MU[3]*(min_(X[6,p]-NC[3])+NC[3]))
-@NLconstraint(model,T[11,p]==P[3,2]*MU[3]*(min_(X[6,p]-NC[3])+NC[3]))
-@NLconstraint(model,T[12,p]==P[3,3]*MU[3]*(min_(X[6,p]-NC[3])+NC[3]))
+@NLconstraint(model,T[10,p]==P[3,1]*MU[3]*(min_(X[6,p]-NC[p,3])+NC[p,3]))
+@NLconstraint(model,T[11,p]==P[3,2]*MU[3]*(min_(X[6,p]-NC[p,3])+NC[p,3]))
+@NLconstraint(model,T[12,p]==P[3,3]*MU[3]*(min_(X[6,p]-NC[p,3])+NC[p,3]))
 
 @constraint(model,jump'*T[:,p].==0)
 
@@ -135,7 +140,8 @@ end
 
 #qui i contraint nel caso di una sola misurazione
 #@constraint(model,MU[1]==1.0)
-#@constraint(model,P[1,1]==0)
+@constraint(model,P[1,1]==0)
+
 
 
 obj=[]
@@ -163,11 +169,11 @@ for p=1:npoints
         end)
 
         for i=1:Int(size(jump,2)/2)
-            @constraint(model,RTlqn[i,p]==sum(P2[i,j]*RTlqn[j,p] for j=1:Int(size(jump,2)/2))+RTs[i,p])
+            @NLconstraint(model,RTlqn[i,p]==sum(P2[i,j]*RTlqn[j,p] for j=1:Int(size(jump,2)/2))+RTs[i,p])
             @constraint(model,ERT_abs[i,p]>=RTlqn[i,p]-RT[p,i])
             @constraint(model,ERT_abs[i,p]>=-RTlqn[i,p]+RT[p,i])
         end
 end
 
-@objective(model,Min, sum(E_abs[i,p] for i=1:size(E_abs,1) for p=1:size(E_abs,2))+sum(ERT_abs))
+@objective(model,Min, sum(E_abs[i,p] for i=1:size(E_abs,1) for p=7:size(E_abs,2))+sum(ERT_abs))
 JuMP.optimize!(model)
