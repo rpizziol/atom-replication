@@ -12,7 +12,7 @@ function saveAllPlots(id, n)
     savePlot(strcat(n, '/', id, '-bestTimeStamps', n), bestTimeStamps);
     savePlot(strcat(n, '/', id, '-bestValues', n), bestValues);
     savePlot(strcat(n, '/', id, '-nusersInTime', n), nusersInTime);
-    savePlot(strcat(n, '/', id, '-timeSlots', n), timeSlots);
+    %savePlot(strcat(n, '/', id, '-timeSlots', n), timeSlots);
 end
 
 

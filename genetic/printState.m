@@ -4,12 +4,12 @@ function state = printState(options, state, flag)
     global bestIndividuals
     global bestTimeStamps
     global nusersInTime
-    global timeSlots
+%     global timeSlots
 
     %global start
     global currNuser
     
-    window = 60; % change nusers every 10 minutes
+%     window = 600; % change nusers every 10 minutes
 
     %N = @(t,mod,period,shift)sin(t/(period/(2*pi)))*mod+shift;
     %plot(N([0:600:6000],1500,6000,1510));
@@ -21,8 +21,8 @@ function state = printState(options, state, flag)
     fclose(fid);
     
     now = str2double(cellnow{1}{2}); % toc(start);
-    timeSlot = floor(now / window); % Time sampled every 10 minutes
-    currTimeSlot = timeSlot*window;
+%     timeSlot = floor(now / window); % Time sampled every 10 minutes
+%     currTimeSlot = timeSlot*window;
     currNuser = readNUser();
 
     % Find the index of the 'Score' equal to 'Best'
@@ -36,7 +36,7 @@ function state = printState(options, state, flag)
         bestValues = [bestValues; state.Best(end)];
         bestTimeStamps = [bestTimeStamps; now];
         nusersInTime = [nusersInTime; currNuser];
-        timeSlots = [timeSlots; currTimeSlot];
+%         timeSlots = [timeSlots; currTimeSlot];
 
         disp('bestIndividuals');
         disp(bestIndividuals);
@@ -46,8 +46,8 @@ function state = printState(options, state, flag)
         disp(bestTimeStamps);
         disp('nusersInTime');
         disp(nusersInTime);
-        disp('timeSlots');
-        disp(timeSlots);
+%         disp('timeSlots');
+%         disp(timeSlots);
         
     end
 end
