@@ -2,6 +2,7 @@ function fval = solveModel(modelName, model, params, Cmax, r, s)
     %% Calculate total allocated CPU capacity (to minimize)
     Ct = sum(s);  %sum(r.*s); 
     Chat = Ct / Cmax; % Normalized Ct
+    global currNuser
 
     [status, ~] = system("cd out; lqns -x " + modelName + ".lqnx");
     %[status, ~] = system("cd out; lqsim -x " + modelName + ".lqn");
@@ -34,7 +35,8 @@ function fval = solveModel(modelName, model, params, Cmax, r, s)
     
         %% Calculate revenue (to maximize)
         Bt = sum(sum(params.psi.*Xt));
-        Bmax = sum(sum(params.psi.*repmat(428.5714, model.N, model.M))); % nuser (3000) / 7 (think time)
+
+        Bmax = sum(sum(params.psi.*repmat(currNuser / 7, model.N, model.M))); % nuser (3000) / 7 (think time)
         Bhat = Bt / Bmax; % Normalized Bt
     
         %% Calculate objective function
