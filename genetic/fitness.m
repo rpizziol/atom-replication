@@ -3,6 +3,8 @@ function value = fitness(cpushare, sourcemodel, st, model, params, ...
     
     global currNuser
 
+    currNuser = readNUser();
+
     nuser = currNuser;
 
     rv = [nuser, nuser, nuser, nuser];

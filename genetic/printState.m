@@ -23,7 +23,7 @@ function state = printState(options, state, flag)
     now = str2double(cellnow{1}{2}); % toc(start);
 %     timeSlot = floor(now / window); % Time sampled every 10 minutes
 %     currTimeSlot = timeSlot*window;
-    currNuser = readNUser();
+    %currNuser = ;
 
     % Find the index of the 'Score' equal to 'Best'
     if(size(state.Best) >= 1)
