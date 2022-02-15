@@ -51,32 +51,36 @@ j = 2;
 
     global currNuser
 
-    currNuser = readNUser();
-    
-    %% Genetic algorithm
-    global start 
-    start = tic();
-    
-    f = @(x)fitness(x, sourcemodel, st, model, params, Cmax, workmix, wmname);
-    %ConstraintFunction = @SLAConstraint;
-    
-    options = optimoptions('ga'); % Load default settings
-    options = optimoptions(options,'PopulationType', 'doubleVector');
-    options = optimoptions(options,'PopulationSize', 50); % default: 50
-    options = optimoptions(options,'MaxGenerations', 400); % default: 100*nvars
-    options = optimoptions(options,'MaxTime', 6000); % 1h40 = 6000 seconds
-    options = optimoptions(options,'MaxStallGenerations', 100);
-    options = optimoptions(options,'MutationFcn', { @mutationadaptfeasible 0.1 });
-    options = optimoptions(options,'PlotFcn', {@gaplotbestf, @gaplotbestindiv, @printState });
-    %options = optimoptions(options, 'OutputFcn', @printState);
-    %options = optimoptions(options,'Display', 'iter');
-    
-    [x, fval, exitflag, output, population, scores] = ga(f, model.N -3, [],...
-    [], [], [], constraints.s_lb, constraints.s_ub, [], [], options); %ConstraintFunction
-    toc(start);
-    
-    save(strcat('./out/mat/sintest-', wmname, '.mat'), 'bestIndividuals', ...
-        'bestValues', 'bestTimeStamps', 'nusersInTime');
+    for i = 1:10
+        currNuser = readNUser();
+        
+        %% Genetic algorithm
+        global start 
+        start = tic();
+        
+        f = @(x)fitness(x, sourcemodel, st, model, params, Cmax, workmix, wmname);
+        %ConstraintFunction = @SLAConstraint;
+        
+        options = optimoptions('ga'); % Load default settings
+        options = optimoptions(options,'PopulationType', 'doubleVector');
+        options = optimoptions(options,'PopulationSize', 50); % default: 50
+        options = optimoptions(options,'MaxGenerations', 400); % default: 100*nvars
+        options = optimoptions(options,'MaxTime', 600); % 1h40 = 6000 seconds
+        options = optimoptions(options,'MaxStallGenerations', 100);
+        options = optimoptions(options,'MutationFcn', { @mutationadaptfeasible 0.1 });
+        options = optimoptions(options,'PlotFcn', {@gaplotbestf, @gaplotbestindiv, @printState });
+        %options = optimoptions(options, 'OutputFcn', @printState);
+        %options = optimoptions(options,'Display', 'iter');
+        
+        [x, fval, exitflag, output, population, scores] = ga(f, model.N -3, [],...
+        [], [], [], constraints.s_lb, constraints.s_ub, [], [], options); %ConstraintFunction
+        toc(start);
+        
+        save(strcat('./out/mat/sintest-', wmname, '.mat'), 'bestIndividuals', ...
+            'bestValues', 'bestTimeStamps', 'nusersInTime');
+
+        constraints.s_ub = x*3;
+    end
 
  %   clear
   %  close('all');

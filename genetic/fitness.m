@@ -3,7 +3,7 @@ function value = fitness(cpushare, sourcemodel, st, model, params, ...
     
     global currNuser
 
-    currNuser = readNUser();
+    %currNuser = readNUser();
 
     nuser = currNuser;
 
