@@ -4,7 +4,7 @@
 
     
 %for j = 1:3
-j = 2;
+j = 3;
     wm_names = 'bso'; % browsing / shopping / ordering
     global wmname
     wmname = wm_names(j);
@@ -66,7 +66,7 @@ j = 2;
         options = optimoptions(options,'PopulationType', 'doubleVector');
         options = optimoptions(options,'PopulationSize', 50); % default: 50
         options = optimoptions(options,'MaxGenerations', 400); % default: 100*nvars
-        options = optimoptions(options,'MaxTime', 100); % 1h40 = 6000 seconds
+        options = optimoptions(options,'MaxTime', 600); % 1h40 = 6000 seconds
         options = optimoptions(options,'MaxStallGenerations', 100);
         options = optimoptions(options,'MutationFcn', { @mutationadaptfeasible 0.1 });
         options = optimoptions(options,'PlotFcn', {@gaplotbestf, @gaplotbestindiv, @printState });
