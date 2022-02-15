@@ -6,6 +6,7 @@
 %for j = 1:3
 j = 2;
     wm_names = 'bso'; % browsing / shopping / ordering
+    global wmname
     wmname = wm_names(j);
 
     workmixes = [0.63, 0.32, 0.05;
@@ -40,7 +41,7 @@ j = 2;
     constraints.Q = [1200, 1200, 1200, 1200]; % Max number of replicas for each microservice
     % CPU share for each replica of each microservice for the time interval t
     constraints.s_lb = [0.001, 0.001, 0.001, 0.001];  % Lower bound
-    constraints.s_ub = [100, 100, 100, 100];      % Upper bound
+    constraints.s_ub = [50, 50, 50, 50];      % Upper bound
     Cmax = sum(constraints.s_ub); %constraints.Q.*constraints.s_ub);
     
     global bestValues
@@ -55,7 +56,7 @@ j = 2;
         currNuser = readNUser();
         
         %% Genetic algorithm
-        global start 
+        
         start = tic();
         
         f = @(x)fitness(x, sourcemodel, st, model, params, Cmax, workmix, wmname);
@@ -65,7 +66,7 @@ j = 2;
         options = optimoptions(options,'PopulationType', 'doubleVector');
         options = optimoptions(options,'PopulationSize', 50); % default: 50
         options = optimoptions(options,'MaxGenerations', 400); % default: 100*nvars
-        options = optimoptions(options,'MaxTime', 600); % 1h40 = 6000 seconds
+        options = optimoptions(options,'MaxTime', 100); % 1h40 = 6000 seconds
         options = optimoptions(options,'MaxStallGenerations', 100);
         options = optimoptions(options,'MutationFcn', { @mutationadaptfeasible 0.1 });
         options = optimoptions(options,'PlotFcn', {@gaplotbestf, @gaplotbestindiv, @printState });
@@ -74,6 +75,7 @@ j = 2;
         
         [x, fval, exitflag, output, population, scores] = ga(f, model.N -3, [],...
         [], [], [], constraints.s_lb, constraints.s_ub, [], [], options); %ConstraintFunction
+
         toc(start);
         
         save(strcat('./out/mat/sintest-', wmname, '.mat'), 'bestIndividuals', ...

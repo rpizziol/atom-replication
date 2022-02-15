@@ -6,7 +6,7 @@ function state = printState(options, state, flag)
     global nusersInTime
 %     global timeSlots
 
-    %global start
+    global wmname
     global currNuser
     
 %     window = 600; % change nusers every 10 minutes
@@ -20,7 +20,7 @@ function state = printState(options, state, flag)
     cellnow = textscan(fid,'%s',2,'headerlines', 3);
     fclose(fid);
     
-    now = str2double(cellnow{1}{2}); % toc(start);
+    now = str2double(cellnow{1}{2});
 %     timeSlot = floor(now / window); % Time sampled every 10 minutes
 %     currTimeSlot = timeSlot*window;
     %currNuser = ;
@@ -37,6 +37,9 @@ function state = printState(options, state, flag)
         bestTimeStamps = [bestTimeStamps; now];
         nusersInTime = [nusersInTime; currNuser];
 %         timeSlots = [timeSlots; currTimeSlot];
+
+        save(strcat('./out/mat/sintest-', wmname, '.mat'), 'bestIndividuals', ...
+            'bestValues', 'bestTimeStamps', 'nusersInTime');
 
         disp('bestIndividuals');
         disp(bestIndividuals);

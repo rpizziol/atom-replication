@@ -3,6 +3,7 @@ function fval = solveModel(modelName, model, params, Cmax, r, s)
     Ct = sum(s);  %sum(r.*s); 
     Chat = Ct / Cmax; % Normalized Ct
     global currNuser
+    currNuser = readNUser();
 
     [status, ~] = system("cd out; lqns -x " + modelName + ".lqnx");
     %[status, ~] = system("cd out; lqsim -x " + modelName + ".lqn");
