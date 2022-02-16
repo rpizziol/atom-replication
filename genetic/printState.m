@@ -4,7 +4,6 @@ function state = printState(options, state, flag)
     global bestIndividuals
     global bestTimeStamps
     global nusersInTime
-%     global timeSlots
     global start
 
     global wmname
@@ -21,7 +20,7 @@ function state = printState(options, state, flag)
     cellnow = textscan(fid,'%s',2,'headerlines', 3);
     fclose(fid);
 
-    if(toc(start) > 30) % TODO replace 600
+    if(toc(start) > 600)
         state.StopFlag = 'y';
     end
 
@@ -47,16 +46,14 @@ function state = printState(options, state, flag)
         save(strcat('./out/mat/sintest-', wmname, '.mat'), 'bestIndividuals', ...
             'bestValues', 'bestTimeStamps', 'nusersInTime');
 
-%         disp('bestIndividuals');
-%         disp(bestIndividuals);
-%         disp('bestValues');
-%         disp(bestValues);
-%         disp('bestTimeStamps');
-%         disp(bestTimeStamps);
-%         disp('nusersInTime');
-%         disp(nusersInTime);
-%         disp('timeSlots');
-%         disp(timeSlots);
+        disp('bestIndividuals');
+        disp(bestIndividuals);
+        disp('bestValues');
+        disp(bestValues);
+        disp('bestTimeStamps');
+        disp(bestTimeStamps);
+        disp('nusersInTime');
+        disp(nusersInTime);
         
     end
 end

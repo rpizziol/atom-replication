@@ -16,6 +16,6 @@ def updateFile(infile, outfile, now):
 	
 start = time()
 while True:
-    sleep(10) # change here the sampling time (600 = 10 minutes)
+    sleep(200) # change here the sampling time (600 = 10 minutes)
     now = time() - start
     updateFile('./res/atom-full_template5.lqnx', './res/atom-full_template6.lqnx', now)
