@@ -52,7 +52,10 @@ j = 3;
 
     global currNuser
 
+    global start
     for i = 1:10
+        
+        disp(i);
         currNuser = readNUser();
         
         %% Genetic algorithm
@@ -92,3 +95,4 @@ j = 3;
 
     %bestThroughputs = getBestThroughputs(st, rv, nuser, sourcemodel, bestIndividuals);
 %end
+

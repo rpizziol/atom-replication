@@ -5,6 +5,7 @@ function state = printState(options, state, flag)
     global bestTimeStamps
     global nusersInTime
 %     global timeSlots
+    global start
 
     global wmname
     global currNuser
@@ -19,6 +20,11 @@ function state = printState(options, state, flag)
     fid = fopen('./res/atom-full_template6.lqnx'); 
     cellnow = textscan(fid,'%s',2,'headerlines', 3);
     fclose(fid);
+
+    if(toc(start) > 30) % TODO replace 600
+        state.StopFlag = 'y';
+    end
+
     
     now = str2double(cellnow{1}{2});
 %     timeSlot = floor(now / window); % Time sampled every 10 minutes
@@ -41,14 +47,14 @@ function state = printState(options, state, flag)
         save(strcat('./out/mat/sintest-', wmname, '.mat'), 'bestIndividuals', ...
             'bestValues', 'bestTimeStamps', 'nusersInTime');
 
-        disp('bestIndividuals');
-        disp(bestIndividuals);
-        disp('bestValues');
-        disp(bestValues);
-        disp('bestTimeStamps');
-        disp(bestTimeStamps);
-        disp('nusersInTime');
-        disp(nusersInTime);
+%         disp('bestIndividuals');
+%         disp(bestIndividuals);
+%         disp('bestValues');
+%         disp(bestValues);
+%         disp('bestTimeStamps');
+%         disp(bestTimeStamps);
+%         disp('nusersInTime');
+%         disp(nusersInTime);
 %         disp('timeSlots');
 %         disp(timeSlots);
         
