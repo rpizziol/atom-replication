@@ -9,13 +9,6 @@ function state = printState(options, state, flag)
     global wmname
     global currNuser
     
-%     window = 600; % change nusers every 10 minutes
-
-    %N = @(t,mod,period,shift)sin(t/(period/(2*pi)))*mod+shift;
-    %plot(N([0:600:6000],1500,6000,1510));
-
-
-    
     fid = fopen('./res/atom-full_template6.lqnx'); 
     cellnow = textscan(fid,'%s',2,'headerlines', 3);
     fclose(fid);
@@ -24,11 +17,7 @@ function state = printState(options, state, flag)
         state.StopFlag = 'y';
     end
 
-    
     now = str2double(cellnow{1}{2});
-%     timeSlot = floor(now / window); % Time sampled every 10 minutes
-%     currTimeSlot = timeSlot*window;
-    %currNuser = ;
 
     % Find the index of the 'Score' equal to 'Best'
     if(size(state.Best) >= 1)

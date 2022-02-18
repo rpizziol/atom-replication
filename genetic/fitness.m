@@ -1,9 +1,7 @@
 function value = fitness(cpushare, sourcemodel, st, model, params, ...
-    Cmax, workmix, wmname)
+    constraints, workmix, wmname)
     
     global currNuser
-
-    %currNuser = readNUser();
 
     nuser = currNuser;
 
@@ -21,7 +19,7 @@ function value = fitness(cpushare, sourcemodel, st, model, params, ...
     updateModel(temppath, temppath, 'np', np2);
     
     %% Calculate the Theta
-    value = solveModel(newModelName, model, params, Cmax, rv, cpushare);
+    value = solveModel(newModelName, model, params, constraints, rv, cpushare);
     value = -value;
 
 %     save(strcat('./out/mat/sintest-', wmname, '.mat'), 'bestIndividuals', ...
