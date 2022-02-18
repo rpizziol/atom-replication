@@ -56,7 +56,7 @@ j = 3;
     for i = 1:10
         
         disp(i);
-        currNuser = readNUser();
+        currNuser = readNuser('./res/atom-full_template6.lqnx');
         
         %% Genetic algorithm
         

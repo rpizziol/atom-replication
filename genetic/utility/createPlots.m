@@ -1,7 +1,7 @@
 %load('../out/mat/sintest-b.mat');
 
 
-saveAllPlots('o', '4');
+saveAllPlots('o', '5');
 %saveAllPlots('s');
 %saveAllPlots('o');
 
