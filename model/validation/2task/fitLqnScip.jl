@@ -55,15 +55,15 @@ for p=1:npoints
 @NLconstraint(model,T[4,p]==P[1,1]*MU[1]*X[2,p])
 
 @constraint(model,T[5,p]==delta*X[3,p])
-@NLconstraint(model,T[6,p]==P[2,3]*MU[2]*(mmin(X[4,p],DATA["NC"][p,2])))
-@NLconstraint(model,T[7,p]==P[2,1]*MU[2]*(mmin(X[4,p],DATA["NC"][p,2])))
-@NLconstraint(model,T[8,p]==P[2,2]*MU[2]*(mmin(X[4,p],DATA["NC"][p,2])))
+@NLconstraint(model,T[6,p]==P[2,3]*MU[2]*(min(X[4,p],DATA["NC"][p,2])))
+@NLconstraint(model,T[7,p]==P[2,1]*MU[2]*(min(X[4,p],DATA["NC"][p,2])))
+@NLconstraint(model,T[8,p]==P[2,2]*MU[2]*(min(X[4,p],DATA["NC"][p,2])))
 
 
 @constraint(model,T[9,p]==delta*X[5,p])
-@NLconstraint(model,T[10,p]==P[3,1]*MU[3]*(mmin(X[6,p],DATA["NC"][p,3])))
-@NLconstraint(model,T[11,p]==P[3,2]*MU[3]*(mmin(X[6,p],DATA["NC"][p,3])))
-@NLconstraint(model,T[12,p]==P[3,3]*MU[3]*(mmin(X[6,p],DATA["NC"][p,3])))
+@NLconstraint(model,T[10,p]==P[3,1]*MU[3]*(min(X[6,p],DATA["NC"][p,3])))
+@NLconstraint(model,T[11,p]==P[3,2]*MU[3]*(min(X[6,p],DATA["NC"][p,3])))
+@NLconstraint(model,T[12,p]==P[3,3]*MU[3]*(min(X[6,p],DATA["NC"][p,3])))
 
 
 @constraint(model,jump'*T[:,p].<=10^-10)
