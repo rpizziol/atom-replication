@@ -4,9 +4,7 @@ Created on 8 dic 2021
 @author: emilio
 '''
 
-from entity import *
-from validation import lqnsValidator
-from validation import matlabValidator
+from entity import *  
 import matplotlib.pyplot as plt
 import numpy as np
 import scipy.io as sp
@@ -16,38 +14,40 @@ if __name__ == '__main__':
     
     # task declaration
     cTask = Task(name="Client", ref=True)
-    Router = Task(name="Router")
-    Front_end = Task(name="Front_end")
+    T1 = Task(name="T1")
+    T2 = Task(name="T2")
+    T3 = Task(name="T3")
     
     # entries declaration
-    Home = Entry("Home")
-    Addr = Entry("Address")
-    browse = Entry("Browse")
+    browse = Entry("browse")
+    e1 = Entry("e1")
+    e2 = Entry("e2")
+    e3 = Entry("e3")
     
     cTask.addEntry(browse)
-    Router.addEntry(Addr)
-    Front_end.addEntry(Home)
+    T1.addEntry(e1)
+    T2.addEntry(e2)
+    T3.addEntry(e3)
     
     # activity declaration
+    e3.getActivities().append(Activity(stime=1.0, parent=e3, name="e"))
     
-    # Front_end  entries logic#
-    Addr.getActivities().append(SynchCall(dest=Home, parent=Addr, name="2Home"))
-    Addr.getActivities().append(Activity(stime=1.0, parent=Addr, name="e"))
+    e2.getActivities().append(SynchCall(dest=e3, parent=e2, name="2e3"))
+    e2.getActivities().append(Activity(stime=1.0, parent=e2, name="e"))
     
-    # Router entries logic#
-    Home.getActivities().append(Activity(stime=1.0, parent=Home, name="e"))
+    e1.getActivities().append(SynchCall(dest=e2, parent=e1, name="2e2"))
+    e1.getActivities().append(Activity(stime=1.0, parent=e1, name="e"))
     
-    # client logic#
-    browse.getActivities().append(SynchCall(dest=Addr, parent=browse, name="2Address"))
+    browse.getActivities().append(SynchCall(dest=e1, parent=browse, name="2e1"))
     browse.getActivities().append(Activity(stime=1.0, parent=browse, name="browse"))
     
-    mname="_2tier"
+    mname="_3tierGPS"
     lqn2crn = LQN_CRN2()
-    lqn2crn.getCrn({"task":[cTask, Router,Front_end], "name":mname})
+    lqn2crn.getCrn({"task":[cTask, T1,T2,T3], "name":mname})
     
-    lqn2crn.toCasadiCtrl(outDir="./controller")
+    #lqn2crn.toCasadiCtrl(outDir="./controller")
     lqn2crn.toMatlab(outDir="../model/validation")
-    lqn2crn.toJuliaCtrl(outDir="./controller/julia")
+    #lqn2crn.toJuliaCtrl(outDir="./controller/julia")
     
     # # validate the model against lqns#
     # matV = matlabValidator("../model/validation/%s/lqn.m"%(mname))
