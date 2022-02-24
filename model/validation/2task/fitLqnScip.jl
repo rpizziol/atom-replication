@@ -1,4 +1,4 @@
-using SCIP,Printf,CPLEX,Ipopt,MadNLP,Plots,MadNLPMumps,JuMP,MAT,ProgressBars,ParameterJuMP,MATLAB,Statistics
+using SCIP,Printf,JuMP,MAT,ProgressBars,Statistics
 
 function mmin(x,y)
      return  ((x+y) - abs(x-y))/2
