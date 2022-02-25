@@ -1,32 +1,13 @@
-from pyscipopt import Model
+from pyomo.environ import * 
 
-model = Model("Example")
+model = ConcreteModel()
 
-jump=[  [-1,+1,+0,+0,+0,+0],
-        [+0,-1,+1,+0,+0,+0],
-        [+0,-1,+0,+0,+1,+0],
-        [+1,-1,+0,+0,+0,+0],
-        [+0,+0,-1,+1,+0,+0],
-        [+0,+0,+0,-1,+1,+0],
-        [+1,+0,+0,-1,+0,+0],
-        [+0,+0,+1,-1,+0,+0],
-        [+0,+0,+0,+0,-1,+1],
-        [+1,+0,+0,+0,+0,-1],
-        [+0,+0,+1,+0,+0,-1],
-        [+0,+0,+0,+0,+1,-1]
-        ]
+model.x = Var([1,2], domain=NonNegativeReals)
 
-def min(x,y):
-    return ((x+y) - abs(x-y))/2
+model.OBJ = Objective(expr = 2*model.x[1] + 3*model.x[2])
 
-x = model.addVar("x",lb=0, ub=3)
-y = model.addVar("y",lb=0, ub=20)
-z = model.addVar("z",lb=None, ub=None)
-model.addCons(z == min(x,y))
-model.setObjective(z)
-model.setMaximize()
-model.optimize()
-sol = model.getBestSol()
-print("x: {}".format(sol[x]))
-print("y: {}".format(sol[y]))
-print("z: {}".format(sol[z]))
+model.Constraint1 = Constraint(expr = 3*model.x[1] + 4*model.x[2] >= 1)
+
+solver = SolverFactory("couenne")
+
+solver.solve(model)

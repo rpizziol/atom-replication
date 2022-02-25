@@ -13,8 +13,8 @@ Cli=zeros(np,1);
 
 for i=1:np
 
-Cli(i)=randi([10,200]);
-NC(i,:)=[inf,randi([1,50])];
+Cli(i)=randi([100,2000]);
+NC(i,:)=[inf,randi([1,100])];
 [t,y,Ts]=lqnOde([0,0,0,0,0,0,0,0,0,Cli(i)],MU,NT,NC(i,:));
 
 Tm(i,:)=Ts';
