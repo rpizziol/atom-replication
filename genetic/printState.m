@@ -30,7 +30,6 @@ function state = printState(options, state, flag)
         bestValues = [bestValues; state.Best(end)];
         bestTimeStamps = [bestTimeStamps; now];
         nusersInTime = [nusersInTime; currNuser];
-%         timeSlots = [timeSlots; currTimeSlot];
 
         save(strcat('./out/mat/sintest-', wmname, '.mat'), 'bestIndividuals', ...
             'bestValues', 'bestTimeStamps', 'nusersInTime');
@@ -43,7 +42,6 @@ function state = printState(options, state, flag)
         disp(bestTimeStamps);
         disp('nusersInTime');
         disp(nusersInTime);
-        
     end
 end
 
