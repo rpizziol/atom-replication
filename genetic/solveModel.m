@@ -8,13 +8,13 @@
 %   s           : the CPU share array.
 % OUTPUTS
 %   fval        : the value of the objective function given r and s.
-function fval = solveModel(modelName, model, params, constraints, r, s)
+function fval = solveModel(modelName, model, params, constraints, r, s, currNuser)
     %% Calculate total allocated CPU capacity (to minimize)
     Cmax = sum(constraints.s_ub); %constraints.Q.*constraints.s_ub);
     Ct = sum(s);  %sum(r.*s); 
     Chat = Ct / Cmax; % Normalized Ct
-    global currNuser
-    currNuser = readNuser('./res/atom-full_template6.lqnx');
+    %global currNuser
+    %currNuser = readNuser('./res/atom-full_template6.lqnx');
 
     [status, ~] = system("cd out; lqns -x " + modelName + ".lqnx");
 

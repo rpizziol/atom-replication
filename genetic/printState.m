@@ -9,15 +9,17 @@ function state = printState(options, state, flag)
     global wmname
     global currNuser
     
-    fid = fopen('./res/atom-full_template6.lqnx'); 
-    cellnow = textscan(fid,'%s',2,'headerlines', 3);
-    fclose(fid);
+    %fid = fopen('./res/atom-full_template6.lqnx'); 
+    %cellnow = textscan(fid,'%s',2,'headerlines', 3);
+    %fclose(fid);
 
-    if(toc(start) > 600)
+    now = toc(start);
+
+    if(now > 600)
         state.StopFlag = 'y';
     end
 
-    now = str2double(cellnow{1}{2});
+    %now = str2double(cellnow{1}{2});
 
     % Find the index of the 'Score' equal to 'Best'
     if(size(state.Best) >= 1)
