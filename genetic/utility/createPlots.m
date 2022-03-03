@@ -1,24 +1,20 @@
-%load('../out/mat/sintest-b.mat');
+testname = '20220303-1223-browsing';
 
 
-saveAllPlots('o', '5');
-%saveAllPlots('s');
-%saveAllPlots('o');
+saveAllPlots(testname);
 
-
-function saveAllPlots(id, n)
-    load(strcat('../out/mat/sintest-', id, '.mat'));
-    savePlot(strcat(n, '/', id, '-bestIndividuals', n), bestIndividuals);
-    savePlot(strcat(n, '/', id, '-bestTimeStamps', n), bestTimeStamps);
-    savePlot(strcat(n, '/', id, '-bestValues', n), bestValues);
-    savePlot(strcat(n, '/', id, '-nusersInTime', n), nusersInTime);
-    %savePlot(strcat(n, '/', id, '-timeSlots', n), timeSlots);
+function saveAllPlots(testname)
+    load(strcat('../out/mat/', testname, '.mat'));
+    savePlot(testname, 'bestIndividuals', bestIndividuals);
+    savePlot(testname, 'bestTimeStamps', bestTimeStamps);
+    savePlot(testname, 'bestValues', bestValues);
+    savePlot(testname, 'nusersInTime', nusersInTime);
 end
 
-
-function savePlot(plotName, variable)
+function savePlot(foldername, plotName, variable)
+    mkdir(strcat('../out/plots/', foldername));
     plot(variable);
     title(plotName);
     ax = gca;
-    exportgraphics(ax, strcat('../out/plots/', plotName, '.jpg'));
+    exportgraphics(ax, strcat('../out/plots/', foldername, '/', plotName, '.jpg'));
 end
