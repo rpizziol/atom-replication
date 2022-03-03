@@ -21,7 +21,7 @@ N=@(t,mod,period,shift)sin(t/(period/(2*pi)))*mod+shift;
 start = tic();
 
 for i = 1:5
-    nuser = N(toc(start),1500,6000,1510);
+    nuser = sprintf('%5.f',N(toc(start),1500,6000,1510));
     runExperiment(mix.values, nuser);
 end
 
