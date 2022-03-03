@@ -1,4 +1,6 @@
-function runExperiment(testname, workmix, currNuser)
+function runExperiment(workmix, nuser)
+    global currNuser
+    currNuser = nuser;
     %% Model definition
     % Full model in xml
     sourcemodel = './res/atom-full_template6.lqnx'; % variable workload mix
@@ -36,6 +38,8 @@ function runExperiment(testname, workmix, currNuser)
     global bestTimeStamps
     global nusersInTime
     global start
+
+    global testname 
         
     
     %% Genetic algorithm
@@ -57,6 +61,8 @@ function runExperiment(testname, workmix, currNuser)
     
     [x, fval, exitflag, output, population, scores] = ga(f, model.N -3, [],...
     [], [], [], constraints.s_lb, constraints.s_ub, [], [], options); %ConstraintFunction
+
+    disp(exitflag);
 
     toc(start);
     

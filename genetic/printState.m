@@ -1,13 +1,16 @@
 function state = printState(options, state, flag)
     % Function called once for every generation to save the calculated data
+    % from global variables to .mat files.
     global bestValues
     global bestIndividuals
     global bestTimeStamps
     global nusersInTime
     global start
 
-    global wmname
     global currNuser
+
+    % Name of the file where the results of the test will be saved
+    global testname
     
     %fid = fopen('./res/atom-full_template6.lqnx'); 
     %cellnow = textscan(fid,'%s',2,'headerlines', 3);
@@ -33,8 +36,8 @@ function state = printState(options, state, flag)
         bestTimeStamps = [bestTimeStamps; now];
         nusersInTime = [nusersInTime; currNuser];
 
-        save(strcat('./out/mat/sintest-', wmname, '.mat'), 'bestIndividuals', ...
-            'bestValues', 'bestTimeStamps', 'nusersInTime');
+        save(strcat('./out/mat/', testname, '.mat'), 'bestIndividuals', ...
+        'bestValues', 'bestTimeStamps', 'nusersInTime');
 
         disp('bestIndividuals');
         disp(bestIndividuals);
