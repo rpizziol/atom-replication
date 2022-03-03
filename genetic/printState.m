@@ -18,6 +18,7 @@ function state = printState(options, state, flag)
 
     now = toc(start);
 
+    % Terminate execution after 10 minutes
     if(now > 600)
         state.StopFlag = 'y';
     end

@@ -27,15 +27,15 @@
   
   <!-- TaskRouter -->
   <processor multiplicity="1" name="ProcRouter" quantum="0.1" replication="1" scheduling="ps">
-    <task multiplicity="1391" name="TaskRouter" replication="1" scheduling="fcfs">
+    <task multiplicity="1000" name="TaskRouter" replication="1" scheduling="fcfs">
       <fan-out dest="TaskFrontend" value="1"/>
       <entry name="EntryAddress" type="NONE"/>
       <task-activities>
         <activity bound-to-entry="EntryAddress" host-demand-mean="0.00000005" name="AS1"/>
         <activity host-demand-mean="0.0022" name="AS2">
-          <synch-call calls-mean="0.3300" dest="EntryHome"/>
-          <synch-call calls-mean="0.1700" dest="EntryCatalog"/>
-          <synch-call calls-mean="0.5000" dest="EntryCarts"/>
+          <synch-call calls-mean="0.6300" dest="EntryHome"/>
+          <synch-call calls-mean="0.3200" dest="EntryCatalog"/>
+          <synch-call calls-mean="0.0500" dest="EntryCarts"/>
         </activity>
         <precedence>
           <pre>
@@ -54,7 +54,7 @@
   
   <!-- TaskFrontend -->
   <processor multiplicity="2" name="ProcFrontend" quantum="0.1" replication="1" scheduling="ps">
-    <task multiplicity="1391" name="TaskFrontend" replication="1" scheduling="fcfs">
+    <task multiplicity="1000" name="TaskFrontend" replication="1" scheduling="fcfs">
       <fan-out dest="TaskCartssvc" value="1"/>
       <fan-out dest="TaskCatalogsvc" value="1"/>
       <fan-in source="TaskRouter" value="1"/>
@@ -114,7 +114,7 @@
   
   <!-- TaskCatalogsvc -->
   <processor multiplicity="1" name="ProcCatalogsvc" quantum="0.1" replication="1" scheduling="ps">
-    <task multiplicity="1391" name="TaskCatalogsvc" replication="1" scheduling="fcfs">
+    <task multiplicity="1000" name="TaskCatalogsvc" replication="1" scheduling="fcfs">
       <fan-out dest="TaskCatalogdb" value="1"/>
       <fan-in source="TaskFrontend" value="1"/>
       <entry name="EntryList" type="NONE"/>
@@ -156,7 +156,7 @@
   
   <!-- TaskCartssvc -->
   <processor multiplicity="1" name="ProcCartssvc" quantum="0.1" replication="1" scheduling="ps">
-    <task multiplicity="1391" name="TaskCartssvc" replication="1" scheduling="fcfs">
+    <task multiplicity="1000" name="TaskCartssvc" replication="1" scheduling="fcfs">
       <fan-out dest="TaskCartsdb" value="1"/>
       <fan-in source="TaskFrontend" value="1"/>
       <entry name="EntryGet" type="NONE"/>
