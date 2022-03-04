@@ -3,23 +3,23 @@
 <!-- lt-lqns -xml -->
 <lqn-model name="fittmp" description="lt-lqns 5.23 solution for model from: fittmp.lqnx." xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="/usr/local/share/lqns/lqn.xsd">
    <solver-params comment="Sockshop model" conv_val="1e-05" it_limit="50000" underrelax_coeff="0.1" print_int="10">
-      <result-general solver-info="" valid="true" conv-val="8.91593e-06" iterations="190" platform-info="lt-lqns 5.23" user-cpu-time=" 0:00:00.231" system-cpu-time=" 0:00:00.013" elapsed-time=" 0:00:00.244" max-rss="4288">
-         <mva-info submodels="5" core="950" step="14374" step-squared="283758" wait="1.90468e+06" wait-squared="2.84828e+10" faults="0"/>
+      <result-general solver-info="" valid="true" conv-val="9.40806e-06" iterations="76" platform-info="lt-lqns 5.23" user-cpu-time=" 0:00:00.104" system-cpu-time=" 0:00:00.003" elapsed-time=" 0:00:00.107" max-rss="4284">
+         <mva-info submodels="5" core="380" step="5637" step-squared="99283" wait="726909" wait-squared="3.81149e+09" faults="0"/>
       </result-general>
    </solver-params>
    <processor name="ProcClient" scheduling="inf">
-      <result-processor utilization="2.53343e-06"/>
+      <result-processor utilization="1.9852e-05"/>
       <task name="TaskClient" scheduling="ref" multiplicity="1391" think-time="7">
-         <result-task throughput="25.3343" utilization="1213.66" phase1-utilization="1213.66" proc-utilization="2.53343e-06"/>
+         <result-task throughput="198.52" utilization="1.35928" phase1-utilization="1.35928" proc-utilization="1.9852e-05"/>
          <entry name="EntryBrowse" type="NONE">
-            <result-entry utilization="1213.66" throughput="25.3343" squared-coeff-variation="1.13231e-05" proc-utilization="2.53343e-06" throughput-bound="197.316" phase1-service-time="47.9058" phase1-service-time-variance="0.0259861" phase1-utilization="1213.66"/>
+            <result-entry utilization="1.35928" throughput="198.52" squared-coeff-variation="4.35955" proc-utilization="1.9852e-05" throughput-bound="198.525" phase1-service-time="0.00684708" phase1-service-time-variance="0.000204386" phase1-utilization="1.35928"/>
          </entry>
          <task-activities>
             <activity name="AS" bound-to-entry="EntryBrowse" host-demand-mean="5e-08">
-               <result-activity proc-waiting="0" service-time="5e-08" utilization="1.26672e-06" service-time-variance="2.5e-15" throughput="25.3343" proc-utilization="1.26672e-06"/>
+               <result-activity proc-waiting="0" service-time="5e-08" utilization="9.926e-06" service-time-variance="2.5e-15" throughput="198.52" proc-utilization="9.926e-06"/>
             </activity>
             <activity name="AS0" host-demand-mean="5e-08">
-               <result-activity proc-waiting="0" service-time="47.9058" utilization="1213.66" service-time-variance="0.0259861" throughput="25.3343" proc-utilization="1.26672e-06"/>
+               <result-activity proc-waiting="0" service-time="0.00684703" utilization="1.35927" service-time-variance="0.000204386" throughput="198.52" proc-utilization="9.926e-06"/>
                <synch-call dest="EntryAddress" calls-mean="1">
                   <result-call waiting="0"/>
                </synch-call>
@@ -35,28 +35,28 @@
          </task-activities>
       </task>
    </processor>
-   <processor name="ProcRouter" scheduling="ps" quantum="0.1">
-      <result-processor utilization="0.0481364"/>
-      <task name="TaskRouter" scheduling="fcfs" multiplicity="2142">
-         <result-task throughput="25.3343" utilization="1213.64" phase1-utilization="1213.64" proc-utilization="0.0481364"/>
+   <processor name="ProcRouter" scheduling="ps" multiplicity="2" quantum="0.1">
+      <result-processor utilization="0.39705"/>
+      <task name="TaskRouter" scheduling="fcfs" multiplicity="1500">
+         <result-task throughput="198.52" utilization="1.36223" phase1-utilization="1.36223" proc-utilization="0.39705"/>
          <fan-out dest="TaskFrontend" value="1"/>
          <entry name="EntryAddress" type="NONE">
-            <result-entry utilization="1213.64" throughput="25.3343" squared-coeff-variation="11.9723" proc-utilization="0.0481364" throughput-bound="43170.1" phase1-service-time="47.905" phase1-service-time-variance="27475" phase1-utilization="1213.64"/>
+            <result-entry utilization="1.36223" throughput="198.52" squared-coeff-variation="2.52725" proc-utilization="0.39705" throughput-bound="224539" phase1-service-time="0.00686194" phase1-service-time-variance="0.000118998" phase1-utilization="1.36223"/>
          </entry>
          <task-activities>
             <activity name="AS1" bound-to-entry="EntryAddress" host-demand-mean="5e-08">
-               <result-activity proc-waiting="0" service-time="5.25265e-08" utilization="1.33072e-06" service-time-variance="2.5e-15" throughput="25.3343" proc-utilization="1.26672e-06"/>
+               <result-activity proc-waiting="0" service-time="5.32484e-08" utilization="1.05709e-05" service-time-variance="2.5e-15" throughput="198.52" proc-utilization="9.926e-06"/>
             </activity>
-            <activity name="AS2" host-demand-mean="0.0019">
-               <result-activity proc-waiting="9.6008e-05" service-time="47.905" utilization="1213.64" service-time-variance="27475" throughput="25.3343" proc-utilization="0.0481352"/>
+            <activity name="AS2" host-demand-mean="0.002">
+               <result-activity proc-waiting="0.000129934" service-time="0.00686189" utilization="1.36222" service-time-variance="0.000118998" throughput="198.52" proc-utilization="0.39704"/>
                <synch-call dest="EntryHome" calls-mean="0.63">
-                  <result-call waiting="0.000143326"/>
+                  <result-call waiting="0"/>
                </synch-call>
                <synch-call dest="EntryCatalog" calls-mean="0.32">
                   <result-call waiting="0"/>
                </synch-call>
                <synch-call dest="EntryCarts" calls-mean="0.05">
-                  <result-call waiting="0.000143268"/>
+                  <result-call waiting="0"/>
                </synch-call>
             </activity>
             <precedence>
@@ -73,34 +73,34 @@
          </task-activities>
       </task>
    </processor>
-   <processor name="ProcFrontend" scheduling="ps" quantum="0.1">
-      <result-processor utilization="0.133817"/>
-      <task name="TaskFrontend" scheduling="fcfs" multiplicity="2142">
-         <result-task throughput="25.3343" utilization="1213.59" phase1-utilization="1213.59" proc-utilization="0.133817"/>
+   <processor name="ProcFrontend" scheduling="ps" multiplicity="14" quantum="0.1">
+      <result-processor utilization="0.555668"/>
+      <task name="TaskFrontend" scheduling="fcfs" multiplicity="1500">
+         <result-task throughput="198.52" utilization="0.939495" phase1-utilization="0.939495" proc-utilization="0.555668"/>
          <fan-in source="TaskRouter" value="1"/>
          <fan-out dest="TaskCartssvc" value="1"/>
          <fan-out dest="TaskCatalogsvc" value="1"/>
          <entry name="EntryHome" type="NONE">
-            <result-entry utilization="0.073697" throughput="15.9606" squared-coeff-variation="0.768323" proc-utilization="0.0638433" throughput-bound="535493" phase1-service-time="0.00461743" phase1-service-time-variance="1.63811e-05" phase1-utilization="0.073697"/>
+            <result-entry utilization="0.262643" throughput="125.068" squared-coeff-variation="0.999989" proc-utilization="0.262648" throughput-bound="714269" phase1-service-time="0.00210001" phase1-service-time-variance="4.41e-06" phase1-utilization="0.262643"/>
          </entry>
          <entry name="EntryCatalog" type="NONE">
-            <result-entry utilization="1213.43" throughput="8.10698" squared-coeff-variation="2.51243" proc-utilization="0.05756" throughput-bound="16258.1" phase1-service-time="149.677" phase1-service-time-variance="56286.7" phase1-utilization="1213.43"/>
+            <result-entry utilization="0.511767" throughput="63.5264" squared-coeff-variation="1.3234" proc-utilization="0.241404" throughput-bound="189872" phase1-service-time="0.00805597" phase1-service-time-variance="8.58871e-05" phase1-utilization="0.511767"/>
          </entry>
          <entry name="EntryCarts" type="NONE">
-            <result-entry utilization="0.0829486" throughput="1.26672" squared-coeff-variation="2.34724" proc-utilization="0.0124139" throughput-bound="35258.1" phase1-service-time="0.0654832" phase1-service-time-variance="0.0100651" phase1-utilization="0.0829486"/>
+            <result-entry utilization="0.165085" throughput="9.926" squared-coeff-variation="1.79753" proc-utilization="0.0516157" throughput-bound="90442.9" phase1-service-time="0.0166316" phase1-service-time-variance="0.000497215" phase1-utilization="0.165085"/>
          </entry>
          <task-activities>
             <activity name="AH1" bound-to-entry="EntryHome" host-demand-mean="5e-08">
-               <result-activity proc-waiting="0" service-time="5.77171e-08" utilization="9.21201e-07" service-time-variance="2.5e-15" throughput="15.9606" proc-utilization="7.98031e-07"/>
+               <result-activity proc-waiting="0" service-time="4.99991e-08" utilization="6.25327e-06" service-time-variance="2.5e-15" throughput="125.068" proc-utilization="6.25338e-06"/>
             </activity>
-            <activity name="AH2" host-demand-mean="0.004">
-               <result-activity proc-waiting="0.00061737" service-time="0.00461737" utilization="0.0736961" service-time-variance="1.63811e-05" throughput="15.9606" proc-utilization="0.0638425"/>
+            <activity name="AH2" host-demand-mean="0.0021">
+               <result-activity proc-waiting="0" service-time="0.00209996" utilization="0.262637" service-time-variance="4.41e-06" throughput="125.068" proc-utilization="0.262642"/>
             </activity>
             <activity name="AH3" bound-to-entry="EntryCatalog" host-demand-mean="5e-08">
-               <result-activity proc-waiting="0" service-time="5.77171e-08" utilization="4.67912e-07" service-time-variance="2.5e-15" throughput="8.10698" proc-utilization="4.05349e-07"/>
+               <result-activity proc-waiting="0" service-time="4.99991e-08" utilization="3.17626e-06" service-time-variance="2.5e-15" throughput="63.5264" proc-utilization="3.17632e-06"/>
             </activity>
-            <activity name="AH4" host-demand-mean="0.0071">
-               <result-activity proc-waiting="0.00109583" service-time="149.677" utilization="1213.43" service-time-variance="56286.7" throughput="8.10698" proc-utilization="0.0575595"/>
+            <activity name="AH4" host-demand-mean="0.0038">
+               <result-activity proc-waiting="0" service-time="0.00805592" utilization="0.511764" service-time-variance="8.58871e-05" throughput="63.5264" proc-utilization="0.2414"/>
                <synch-call dest="EntryList" calls-mean="0.5">
                   <result-call waiting="0"/>
                </synch-call>
@@ -109,10 +109,10 @@
                </synch-call>
             </activity>
             <activity name="AH5" bound-to-entry="EntryCarts" host-demand-mean="5e-08">
-               <result-activity proc-waiting="0" service-time="5.77171e-08" utilization="7.31112e-08" service-time-variance="2.5e-15" throughput="1.26672" proc-utilization="6.33358e-08"/>
+               <result-activity proc-waiting="0" service-time="4.99991e-08" utilization="4.96291e-07" service-time-variance="2.5e-15" throughput="9.926" proc-utilization="4.963e-07"/>
             </activity>
-            <activity name="AH6" host-demand-mean="0.0098">
-               <result-activity proc-waiting="0.00151256" service-time="0.0654832" utilization="0.0829485" service-time-variance="0.0100651" throughput="1.26672" proc-utilization="0.0124138"/>
+            <activity name="AH6" host-demand-mean="0.0052">
+               <result-activity proc-waiting="0" service-time="0.0166315" utilization="0.165085" service-time-variance="0.000497215" throughput="9.926" proc-utilization="0.0516152"/>
                <synch-call dest="EntryGet" calls-mean="0.33">
                   <result-call waiting="0"/>
                </synch-call>
@@ -159,33 +159,33 @@
          </task-activities>
       </task>
    </processor>
-   <processor name="ProcCatalogsvc" scheduling="ps" quantum="0.1">
-      <result-processor utilization="0.999996"/>
-      <task name="TaskCatalogsvc" scheduling="fcfs" multiplicity="2142">
-         <result-task throughput="8.10698" utilization="1213.36" phase1-utilization="1213.36" proc-utilization="0.999996"/>
+   <processor name="ProcCatalogsvc" scheduling="ps" multiplicity="2" quantum="0.1">
+      <result-processor utilization="0.177874"/>
+      <task name="TaskCatalogsvc" scheduling="fcfs" multiplicity="1500">
+         <result-task throughput="63.5264" utilization="0.270408" phase1-utilization="0.270408" proc-utilization="0.177874"/>
          <fan-in source="TaskFrontend" value="1"/>
          <fan-out dest="TaskCatalogdb" value="1"/>
          <entry name="EntryList" type="NONE">
-            <result-entry utilization="651.192" throughput="4.05349" squared-coeff-variation="0.999176" proc-utilization="0.536682" throughput-bound="16020.9" phase1-service-time="160.65" phase1-service-time-variance="25787.1" phase1-utilization="651.192"/>
+            <result-entry utilization="0.141649" throughput="31.7632" squared-coeff-variation="1.17996" proc-utilization="0.0952896" throughput-bound="348837" phase1-service-time="0.00445952" phase1-service-time-variance="2.34661e-05" phase1-utilization="0.141649"/>
          </entry>
          <entry name="EntryItem" type="NONE">
-            <result-entry utilization="562.17" throughput="4.05349" squared-coeff-variation="0.999176" proc-utilization="0.463314" throughput-bound="18529.4" phase1-service-time="138.688" phase1-service-time-variance="19218.5" phase1-utilization="562.17"/>
+            <result-entry utilization="0.128759" throughput="31.7632" squared-coeff-variation="1.21976" proc-utilization="0.0825843" throughput-bound="384615" phase1-service-time="0.00405372" phase1-service-time-variance="2.00439e-05" phase1-utilization="0.128759"/>
          </entry>
          <task-activities>
             <activity name="AS3" bound-to-entry="EntryList" host-demand-mean="5e-10">
-               <result-activity proc-waiting="0" service-time="6.06678e-07" utilization="2.45916e-06" service-time-variance="2.5e-19" throughput="4.05349" proc-utilization="2.02674e-09"/>
+               <result-activity proc-waiting="0" service-time="5.07243e-10" utilization="1.61116e-08" service-time-variance="2.5e-19" throughput="31.7632" proc-utilization="1.58816e-08"/>
             </activity>
-            <activity name="AS4" host-demand-mean="0.1324">
-               <result-activity proc-waiting="160.516" service-time="160.65" utilization="651.192" service-time-variance="25787.1" throughput="4.05349" proc-utilization="0.536682"/>
+            <activity name="AS4" host-demand-mean="0.003">
+               <result-activity proc-waiting="4.34561e-05" service-time="0.00445952" utilization="0.141648" service-time-variance="2.34661e-05" throughput="31.7632" proc-utilization="0.0952896"/>
                <synch-call dest="EntryQueryCatalog" calls-mean="1">
                   <result-call waiting="0"/>
                </synch-call>
             </activity>
             <activity name="AS5" bound-to-entry="EntryItem" host-demand-mean="5e-10">
-               <result-activity proc-waiting="0" service-time="6.06678e-07" utilization="2.45916e-06" service-time-variance="2.5e-19" throughput="4.05349" proc-utilization="2.02674e-09"/>
+               <result-activity proc-waiting="0" service-time="5.07243e-10" utilization="1.61116e-08" service-time-variance="2.5e-19" throughput="31.7632" proc-utilization="1.58816e-08"/>
             </activity>
-            <activity name="AS6" host-demand-mean="0.1143">
-               <result-activity proc-waiting="138.572" service-time="138.688" utilization="562.17" service-time-variance="19218.5" throughput="4.05349" proc-utilization="0.463314"/>
+            <activity name="AS6" host-demand-mean="0.0026">
+               <result-activity proc-waiting="3.76619e-05" service-time="0.00405372" utilization="0.128759" service-time-variance="2.00439e-05" throughput="31.7632" proc-utilization="0.0825843"/>
                <synch-call dest="EntryQueryCatalog" calls-mean="1">
                   <result-call waiting="0"/>
                </synch-call>
@@ -215,48 +215,48 @@
          </task-activities>
       </task>
    </processor>
-   <processor name="ProcCartssvc" scheduling="ps" quantum="0.1">
-      <result-processor utilization="0.0617828"/>
-      <task name="TaskCartssvc" scheduling="fcfs" multiplicity="2142">
-         <result-task throughput="1.25405" utilization="0.0686229" phase1-utilization="0.0686229" proc-utilization="0.0617828"/>
+   <processor name="ProcCartssvc" scheduling="ps" multiplicity="5" quantum="0.1">
+      <result-processor utilization="0.0913886"/>
+      <task name="TaskCartssvc" scheduling="fcfs" multiplicity="1500">
+         <result-task throughput="9.82674" utilization="0.113479" phase1-utilization="0.113479" proc-utilization="0.0913886"/>
          <fan-in source="TaskFrontend" value="1"/>
          <fan-out dest="TaskCartsdb" value="1"/>
          <entry name="EntryGet" type="NONE">
-            <result-entry utilization="0.0122844" throughput="0.418016" squared-coeff-variation="0.961594" proc-utilization="0.0106594" throughput-bound="77328.5" phase1-service-time="0.0293874" phase1-service-time-variance="0.00083045" phase1-utilization="0.0122844"/>
+            <result-entry utilization="0.0230864" throughput="3.27558" squared-coeff-variation="1.19923" proc-utilization="0.0157228" throughput-bound="214286" phase1-service-time="0.00704802" phase1-service-time-variance="5.95715e-05" phase1-utilization="0.0230864"/>
          </entry>
          <entry name="EntryAdd" type="NONE">
-            <result-entry utilization="0.0421382" throughput="0.418016" squared-coeff-variation="0.945436" proc-utilization="0.0386665" throughput-bound="22618.8" phase1-service-time="0.100805" phase1-service-time-variance="0.00960721" phase1-utilization="0.0421382"/>
+            <result-entry utilization="0.0646856" throughput="3.27558" squared-coeff-variation="1.02539" proc-utilization="0.0573226" throughput-bound="76142.1" phase1-service-time="0.0197479" phase1-service-time-variance="0.000399879" phase1-utilization="0.0646856"/>
          </entry>
          <entry name="EntryDelete" type="NONE">
-            <result-entry utilization="0.0142004" throughput="0.418016" squared-coeff-variation="0.957672" proc-utilization="0.0124569" throughput-bound="66937.5" phase1-service-time="0.0339709" phase1-service-time-variance="0.00110518" phase1-utilization="0.0142004"/>
+            <result-entry utilization="0.0257068" throughput="3.27558" squared-coeff-variation="1.16069" proc-utilization="0.0183432" throughput-bound="192308" phase1-service-time="0.00784801" phase1-service-time-variance="7.14883e-05" phase1-utilization="0.0257068"/>
          </entry>
          <task-activities>
-            <activity name="AH10" host-demand-mean="0.0925">
-               <result-activity proc-waiting="0.00609906" service-time="0.100805" utilization="0.0421382" service-time-variance="0.00960721" throughput="0.418016" proc-utilization="0.0386665"/>
+            <activity name="AH10" host-demand-mean="0.0175">
+               <result-activity proc-waiting="0" service-time="0.0197479" utilization="0.0646856" service-time-variance="0.000399879" throughput="3.27558" proc-utilization="0.0573226"/>
                <synch-call dest="EntryQueryCartsdb" calls-mean="1">
                   <result-call waiting="0"/>
                </synch-call>
             </activity>
             <activity name="AH11" bound-to-entry="EntryDelete" host-demand-mean="5e-10">
-               <result-activity proc-waiting="0" service-time="5.32968e-10" utilization="2.22789e-10" service-time-variance="2.5e-19" throughput="0.418016" proc-utilization="2.09008e-10"/>
+               <result-activity proc-waiting="0" service-time="4.99993e-10" utilization="1.63777e-09" service-time-variance="2.5e-19" throughput="3.27558" proc-utilization="1.63779e-09"/>
             </activity>
-            <activity name="AH12" host-demand-mean="0.0298">
-               <result-activity proc-waiting="0.00196489" service-time="0.0339709" utilization="0.0142004" service-time-variance="0.00110518" throughput="0.418016" proc-utilization="0.0124569"/>
+            <activity name="AH12" host-demand-mean="0.0056">
+               <result-activity proc-waiting="0" service-time="0.00784801" utilization="0.0257068" service-time-variance="7.14883e-05" throughput="3.27558" proc-utilization="0.0183432"/>
                <synch-call dest="EntryQueryCartsdb" calls-mean="1">
                   <result-call waiting="0"/>
                </synch-call>
             </activity>
             <activity name="AH7" bound-to-entry="EntryGet" host-demand-mean="5e-10">
-               <result-activity proc-waiting="0" service-time="5.32968e-10" utilization="2.22789e-10" service-time-variance="2.5e-19" throughput="0.418016" proc-utilization="2.09008e-10"/>
+               <result-activity proc-waiting="0" service-time="4.99993e-10" utilization="1.63777e-09" service-time-variance="2.5e-19" throughput="3.27558" proc-utilization="1.63779e-09"/>
             </activity>
-            <activity name="AH8" host-demand-mean="0.0255">
-               <result-activity proc-waiting="0.00168136" service-time="0.0293874" utilization="0.0122844" service-time-variance="0.00083045" throughput="0.418016" proc-utilization="0.0106594"/>
+            <activity name="AH8" host-demand-mean="0.0048">
+               <result-activity proc-waiting="0" service-time="0.00704802" utilization="0.0230864" service-time-variance="5.95715e-05" throughput="3.27558" proc-utilization="0.0157228"/>
                <synch-call dest="EntryQueryCartsdb" calls-mean="1">
                   <result-call waiting="0"/>
                </synch-call>
             </activity>
             <activity name="AH9" bound-to-entry="EntryAdd" host-demand-mean="5e-10">
-               <result-activity proc-waiting="0" service-time="5.32968e-10" utilization="2.22789e-10" service-time-variance="2.5e-19" throughput="0.418016" proc-utilization="2.09008e-10"/>
+               <result-activity proc-waiting="0" service-time="4.99993e-10" utilization="1.63777e-09" service-time-variance="2.5e-19" throughput="3.27558" proc-utilization="1.63779e-09"/>
             </activity>
             <precedence>
                <pre>
@@ -295,19 +295,19 @@
       </task>
    </processor>
    <processor name="ProcCatalogdb" scheduling="ps" quantum="0.1">
-      <result-processor utilization="0.0105391"/>
+      <result-processor utilization="0.0825843"/>
       <task name="TaskCatalogdb" scheduling="fcfs" multiplicity="151">
-         <result-task throughput="8.10698" utilization="0.0106506" phase1-utilization="0.0106506" proc-utilization="0.0105391"/>
+         <result-task throughput="63.5264" utilization="0.08996" phase1-utilization="0.08996" proc-utilization="0.0825843"/>
          <fan-in source="TaskCatalogsvc" value="1"/>
          <entry name="EntryQueryCatalog" type="NONE">
-            <result-entry utilization="0.0106506" throughput="8.10698" squared-coeff-variation="0.979281" proc-utilization="0.0105391" throughput-bound="116154" phase1-service-time="0.00131375" phase1-service-time-variance="1.69019e-06" phase1-utilization="0.0106506"/>
+            <result-entry utilization="0.08996" throughput="63.5264" squared-coeff-variation="0.849466" proc-utilization="0.0825843" throughput-bound="116154" phase1-service-time="0.0014161" phase1-service-time-variance="1.70348e-06" phase1-utilization="0.08996"/>
          </entry>
          <task-activities>
             <activity name="AH13" bound-to-entry="EntryQueryCatalog" host-demand-mean="5e-10">
-               <result-activity proc-waiting="0" service-time="5.0529e-10" utilization="4.09637e-09" service-time-variance="2.5e-19" throughput="8.10698" proc-utilization="4.05349e-09"/>
+               <result-activity proc-waiting="0" service-time="5.44656e-10" utilization="3.46e-08" service-time-variance="2.5e-19" throughput="63.5264" proc-utilization="3.17632e-08"/>
             </activity>
             <activity name="AH14" host-demand-mean="0.0013">
-               <result-activity proc-waiting="1.37531e-05" service-time="0.00131375" utilization="0.0106506" service-time-variance="1.69019e-06" throughput="8.10698" proc-utilization="0.0105391"/>
+               <result-activity proc-waiting="0.000116104" service-time="0.0014161" utilization="0.08996" service-time-variance="1.70348e-06" throughput="63.5264" proc-utilization="0.0825843"/>
             </activity>
             <precedence>
                <pre>
@@ -324,19 +324,19 @@
       </task>
    </processor>
    <processor name="ProcCartsdb" scheduling="ps" quantum="0.1">
-      <result-processor utilization="0.00275891"/>
+      <result-processor utilization="0.0216188"/>
       <task name="TaskCartsdb" scheduling="fcfs" multiplicity="100">
-         <result-task throughput="1.25405" utilization="0.00276646" phase1-utilization="0.00276646" proc-utilization="0.00275891"/>
+         <result-task throughput="9.82674" utilization="0.0220915" phase1-utilization="0.0220915" proc-utilization="0.0216188"/>
          <fan-in source="TaskCartssvc" value="1"/>
          <entry name="EntryQueryCartsdb" type="NONE">
-            <result-entry utilization="0.00276646" throughput="1.25405" squared-coeff-variation="0.994552" proc-utilization="0.00275891" throughput-bound="45454.5" phase1-service-time="0.00220603" phase1-service-time-variance="4.84004e-06" phase1-utilization="0.00276646"/>
+            <result-entry utilization="0.0220915" throughput="9.82674" squared-coeff-variation="0.958119" proc-utilization="0.0216188" throughput-bound="45454.5" phase1-service-time="0.00224811" phase1-service-time-variance="4.84231e-06" phase1-utilization="0.0220915"/>
          </entry>
          <task-activities>
             <activity name="AH15" bound-to-entry="EntryQueryCartsdb" host-demand-mean="5e-10">
-               <result-activity proc-waiting="0" service-time="5.01369e-10" utilization="6.28741e-10" service-time-variance="2.5e-19" throughput="1.25405" proc-utilization="6.27024e-10"/>
+               <result-activity proc-waiting="0" service-time="5.10933e-10" utilization="5.0208e-09" service-time-variance="2.5e-19" throughput="9.82674" proc-utilization="4.91337e-09"/>
             </activity>
             <activity name="AH16" host-demand-mean="0.0022">
-               <result-activity proc-waiting="6.02519e-06" service-time="0.00220603" utilization="0.00276646" service-time-variance="4.84004e-06" throughput="1.25405" proc-utilization="0.00275891"/>
+               <result-activity proc-waiting="4.81047e-05" service-time="0.0022481" utilization="0.0220915" service-time-variance="4.84231e-06" throughput="9.82674" proc-utilization="0.0216188"/>
             </activity>
             <precedence>
                <pre>
