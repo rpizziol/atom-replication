@@ -1,4 +1,6 @@
-testname = '20220302-1759-browsing'; %
+testname = '20220304-1529-browsing'; %
+
+
 
 saveAllPlots(testname);
 
