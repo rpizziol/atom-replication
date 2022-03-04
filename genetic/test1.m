@@ -15,15 +15,15 @@ testname = strcat(date, mix.name);
 mix.values = [0.63, 0.32, 0.05];
 
 
-%runExperiment(mix.values, 1000);
+runExperiment(mix.values, 1500);
 
-N=@(t,mod,period,shift)sin(t/(period/(2*pi)))*mod+shift;
-start = tic();
-
-for i = 1:5
-    nuser = str2num(sprintf('%5.f',N(toc(start),1500,6000,1510)));
-    runExperiment(mix.values, nuser);
-end
+% N=@(t,mod,period,shift)sin(t/(period/(2*pi)))*mod+shift;
+% start = tic();
+% 
+% for i = 1:5
+%     nuser = str2num(sprintf('%5.f',N(toc(start),1500,6000,1510)));
+%     runExperiment(mix.values, nuser);
+% end
 
 
 
