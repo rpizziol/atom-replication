@@ -19,6 +19,6 @@ function savePlot(foldername, plotName, x, y)
     plot(x, y);
     title(plotName);
     ax = gca;
-    ax.XAxis.Exponent = 0;
+    ax.XAxis.Exponent = 0; % Remove scientific notation
     exportgraphics(ax, strcat('../out/plots/', foldername, '/', plotName, '.png'));
 end
