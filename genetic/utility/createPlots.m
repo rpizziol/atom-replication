@@ -1,23 +1,24 @@
-testname = '20220304-1529-browsing'; %
+clear
 
-
+testname = '20220304-1614-browsing';
 
 saveAllPlots(testname);
 
 % Run savePlot for each variable in the experiment
 function saveAllPlots(testname)
     load(strcat('../out/mat/', testname, '.mat'));
-    savePlot(testname, 'bestIndividuals', bestIndividuals);
-    savePlot(testname, 'bestTimeStamps', bestTimeStamps);
-    savePlot(testname, 'bestValues', bestValues);
-    savePlot(testname, 'nusersInTime', nusersInTime);
+    savePlot(testname, 'bestIndividuals', bestTimeStamps, bestIndividuals);
+    %savePlot(testname, 'bestTimeStamps', bestTimeStamps);
+    savePlot(testname, 'bestValues', bestTimeStamps, bestValues);
+    savePlot(testname, 'nusersInTime', bestTimeStamps, nusersInTime);
 end
 
 % Save a plot of a specific variable in the experiment folder
-function savePlot(foldername, plotName, variable)
+function savePlot(foldername, plotName, x, y)
     mkdir(strcat('../out/plots/', foldername));
-    plot(variable);
+    plot(x, y);
     title(plotName);
     ax = gca;
-    exportgraphics(ax, strcat('../out/plots/', foldername, '/', plotName, '.jpg'));
+    ax.XAxis.Exponent = 0;
+    exportgraphics(ax, strcat('../out/plots/', foldername, '/', plotName, '.png'));
 end
