@@ -8,32 +8,32 @@ G
     
 # Processors declaration, with multiplicity 
 P 0
-p ProcClient f m {{nuser}}
-p ProcRouter f m {{nc[1]}}
-p ProcFrontend f m {{nc[2]}}
-p ProcCatalogSvc f m {{nc[3]}}
+p ProcClient f m 500
+p ProcRouter f m 1
+p ProcFrontend f m 2
+p ProcCatalogSvc f m 3
 -1
 
 # Tasks declaration
 T 0
 t TaskClient r
   EntryBrowse -1
-  ProcClient m {{nt[1]}}
-  r {{nr[1]}}
+  ProcClient m 500
+  r 1
 t TaskRouter n
   EntryAddress -1
-  ProcRouter m {{nt[2]}}
-  r {{nr[2]}}
-  o TaskRouter TaskFrontend {{nr[3]}}
+  ProcRouter m 10
+  r 1
+  o TaskRouter TaskFrontend 2
 t TaskFrontend n
   EntryHome EntryCatalog EntryCarts -1
-  ProcFrontend m {{nt[3]}}
-  r {{nr[3]}}
-  o TaksFrontend TaskCatalogSvc {{nr[4]}}
+  ProcFrontend m 10
+  r 2
+  o TaksFrontend TaskCatalogSvc 3
 t TaskCatalogSvc n
   EntryList EntryItem -1
-  ProcCatalogSvc m {{nt[4]}}
-  r {{nr[4]}}
+  ProcCatalogSvc m 7
+  r 3
 -1
 
 # Entries declaration

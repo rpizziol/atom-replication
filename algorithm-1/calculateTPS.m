@@ -1,6 +1,8 @@
-function outTPS = calculateTPS(oldname, r) % TODO add s
-    newname = strcat(oldname, '-temp-tps');
-    updateReplication(oldname, newname, r)
+function outTPS = calculateTPS(oldname, r, s)
+    repname = strcat(oldname, '-tps1');
+    updateReplication(oldname, repname, r)
+    newname = strcat(oldname, '-tps2');
+    updateHostDemand(repname, newname, s);
     [status,~] = system("cd LQNFiles; java -jar DiffLQN.jar " + newname + ".lqn");
     outTPS = 0; % Default value assigned in case of error
     if status == 0 % No error

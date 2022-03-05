@@ -57,7 +57,7 @@ y EntryBrowse EntryAddress 1.0 -1
 
 # Activities definition
 A TaskRouter
- s ActivityAddress {{sr[5]}}
+ s ActivityAddress 0.0012
  s ActivityHome 0.00000001
  s ActivityCatalog 0.00000001
  s ActivityCarts 0.00000001
