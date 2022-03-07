@@ -68,6 +68,6 @@ function runExperiment(workmix, nuser)
     toc(start);
     
     save(strcat('./out/mat/', testname, '.mat'), 'bestIndividuals', ...
-        'bestValues', 'bestTimeStamps', 'nusersInTime');
+        'bestValues', 'bestTimeStamps', 'nusersInTime', 'testname');
 end
 

@@ -1,8 +1,12 @@
 clear
 
-testname = '20220304-1614-browsing';
+files = dir('../out/mat/*.mat');
+for file = files'
+    testname = file.name(1:end-4);
+    disp(testname);
+    saveAllPlots(testname);
+end
 
-saveAllPlots(testname);
 
 % Run savePlot for each variable in the experiment
 function saveAllPlots(testname)
@@ -11,6 +15,7 @@ function saveAllPlots(testname)
     %savePlot(testname, 'bestTimeStamps', bestTimeStamps);
     savePlot(testname, 'bestValues', bestTimeStamps, bestValues);
     savePlot(testname, 'nusersInTime', bestTimeStamps, nusersInTime);
+    close all  % Close all figures
 end
 
 % Save a plot of a specific variable in the experiment folder
