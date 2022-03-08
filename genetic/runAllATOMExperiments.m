@@ -1,16 +1,16 @@
 %runExperimentByMix('browsing', [0.63, 0.32, 0.05]);
 clear
-runExperimentByMix('shopping', [0.54, 0.26, 0.20], 1000);
-clear
-runExperimentByMix('shopping', [0.54, 0.26, 0.20], 2000);
-clear
-runExperimentByMix('shopping', [0.54, 0.26, 0.20], 3000);
-clear
+% runExperimentByMix('shopping', [0.54, 0.26, 0.20], 1000);
+% clear
+% runExperimentByMix('shopping', [0.54, 0.26, 0.20], 2000);
+% clear
+% runExperimentByMix('shopping', [0.54, 0.26, 0.20], 3000);
+% clear
 runExperimentByMix('ordering', [0.33, 0.17, 0.50], 1000);
-clear
-runExperimentByMix('ordering', [0.33, 0.17, 0.50], 2000);
-clear
-runExperimentByMix('ordering', [0.33, 0.17, 0.50], 3000);
+% clear
+% runExperimentByMix('ordering', [0.33, 0.17, 0.50], 2000);
+% clear
+% runExperimentByMix('ordering', [0.33, 0.17, 0.50], 3000);
 
 %% Run all nuser experiments of a given mix (with nuser = 1000, 2000, 3000)
 function runExperimentByMix(mixname, mixvalues, nuser)
