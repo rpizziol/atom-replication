@@ -119,8 +119,8 @@ class sockShop():
             stime=time.time()
             
             #aggiorno i controlli
-            NT=[10000]+list(map(lambda x: 10 if x is None else int(x), self.r.mget(self.NTNames)))
-            NC=[10000]+list(map(lambda x: 10 if x is None else float(x), self.r.mget(self.NCNames)))
+            NT=[10000]+list(map(lambda x: 1 if x is None else int(x), self.r.mget(self.NTNames)))
+            NC=[10000]+list(map(lambda x: 1 if x is None else float(x), self.r.mget(self.NCNames)))
             #NT=np.ceil([10000,10000,10000,10000,10000,1000,1000]).tolist()
             #NC=[10000,0.7333,1.5276,0.4644,0.3570,1000,1000]
             
