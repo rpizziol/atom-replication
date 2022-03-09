@@ -1,32 +1,44 @@
-load("/Users/emilio/Downloads/tier3.mat");
+load("/Users/emilio/Downloads/tier3_whatif_same_concur.mat");
 
-P=[0.250335  0.250335  0.249791  0.24954
- 0.250335  0.250335  0.249791  0.24954
- 0.250334  0.250334  0.249791  0.249541
- 0.250334  0.250334  0.249791  0.249541];
+P=[   0.999955    4.47735e-5  2.39913e-8  8.22506e-8
+        4.47601e-5  0.999955    2.399e-8    8.21438e-8
+        1.91501e-8  2.04214e-8  1.0         4.00874e-8
+        1.01019e-7  7.23553e-8  3.17123e-8  1.0];
 
-MU=[ 1.3882351138847562
- 4.9466549099888875
- 1.5512472002676083
- 5.769538534887031];
+MU=[    6.23942542349437
+ 32.32314448759933
+  1.1668805219307417
+  5.102027413904388];
 NT=[inf,inf];
 
 RTl=zeros(size(Cli,1),size(P,2));
+Tl=zeros(size(Cli,1),size(P,2));
 
 for i=1:size(Cli,1)
     
     [t,y,Ts]=flatOde([Cli(i),0,0,0],P,MU,NT,NC(i,:));
     
+    Tl(i,:)=[sum(Ts(1:4)),sum(Ts(5:8)),sum(Ts(9:12)),sum(Ts(13:16))];
     RTs=[y(end,1)/sum(Ts(1:4));
         y(end,2)/sum(Ts(5:8));
         y(end,3)/sum(Ts(9:12));
         y(end,4)/sum(Ts(13:16))];
     
-    P2=[-9.99989e-9  -5.79605e-9   1.0         0.482819
-  0.561241    -9.9999e-9    0.172637    0.361429
-  0.00433399   0.0113564   -9.9999e-9   0.640171
-  0.0901085    0.0417553    0.0298025  -9.99993e-9];
+    P2=[   0.0       0.534237  0.355299     0.553354
+ 0.194026  0.0       0.754856     0.513759
+ 0.0       0.0       2.12361e-30  0.0
+ 0.132835  0.0       0.0          2.13375e-30];
     
     
     RTl(i,:)=solveRT(P2,RTs);
 end
+
+figure
+boxplot(abs(RTl-RTm))
+ylabel("AbsoluteError (s)")
+title("Response time absolute prediction error (what-if)")
+
+figure
+boxplot(abs(Tl-Tm))
+title("Throughput absolute prediction error (what-if)")
+ylabel("AbsoluteError (Req/s)")

@@ -267,7 +267,7 @@ while true
                value(X[26-sum(toZero[1,1:26])])+0.01*Ie,
                100000,
                100000
-               ]
+               ]*1.20
 
 
     global NT=ceil.(NU)

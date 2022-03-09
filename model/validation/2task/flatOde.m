@@ -79,7 +79,7 @@ end
 function [x,isterm,dir] = eventfun(t,y,jump,T)    
     dy = jump'*T(y);
     %x = norm(dy) - 1e-5;
-    x=max(abs(dy)) - 1e-7;
+    x=max(abs(dy)) - 1e-10;
     isterm = 1;
     dir = 0;
 end

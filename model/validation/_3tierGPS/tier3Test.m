@@ -1,10 +1,13 @@
 
 MU=zeros(1,10);
-MU([7,8,9,10])=[1/0.360,1/0.5,1/0.220,1/0.140];
+MU([7,8,9,10])=[4.7820    3.2627    6.9041    6.2152];
 X0=zeros(1,10);
 NT=[inf,inf,inf,inf];
 
-np=50;
+%7.1429    4.5455    2.0000    2.7778 ODE rate
+%6.6729    4.4043    1.9732    2.7563 Real rate
+
+np=1;
 
 RTm=zeros(np,4);
 Tm=zeros(np,4);
@@ -13,8 +16,8 @@ Cli=zeros(np,1);
 
 for i=1:np
 
-Cli(i)=randi([100,2000]);
-NC(i,:)=[inf,randi([1,100])];
+Cli(i)=15;
+NC(i,:)=[inf,24];
 [t,y,Ts]=lqnOde([0,0,0,0,0,0,0,0,0,Cli(i)],MU,NT,NC(i,:));
 
 Tm(i,:)=Ts';

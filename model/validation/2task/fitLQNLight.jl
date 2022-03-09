@@ -22,7 +22,7 @@ end
 #model = Model(()->MadNLP.Optimizer(linear_solver=MadNLPMumps,max_iter=100000))
 model = Model(Ipopt.Optimizer)
 #set_optimizer_attribute(model, "linear_solver", "pardiso")
-set_optimizer_attribute(model, "max_iter", 20000)
+#set_optimizer_attribute(model, "max_iter", 20000)
 #set_optimizer_attribute(model, "tol", 10^-10)
 #set_optimizer_attribute(model, "print_level", 0)
 
@@ -64,10 +64,11 @@ register(model, :min_, 1, f, autodiff=true) #∇f)
 @variable(model,MU[i=1:size(jump,2)]>=0)
 @variable(model,X[i=1:size(jump,2),j=1:npoints]>=0)
 @variable(model,P[i=1:size(jump,2),j=1:size(jump,2)]>=0)
-@variable(model,P2[i=1:size(jump,2),j=1:size(jump,2)]>=0,start = 0)
-@variable(model,E_abs[i=1:(1+size(jump,2)),j=1:npoints])
-@variable(model,ERT_abs[i=1:size(jump,2),j=1:npoints])
-@variable(model,RTs[i=1:size(jump,2),j=1:npoints],start = 0)
+@variable(model,P2[i=1:size(jump,2),j=1:size(jump,2)]>=0)
+@variable(model,E_abs[i=1:(size(jump,2)),j=1:npoints]>=0)
+@variable(model,E_abs2[i=1:size(jump,2),j=1:npoints]>=0)
+@variable(model,ERT_abs[i=1:size(jump,2),j=1:npoints]>=0)
+@variable(model,RTs[i=1:size(jump,2),j=1:npoints]>=0)
 
 @constraint(model,sum(P,dims=2).==1)
 @constraint(model,P2.<=1)
@@ -75,10 +76,11 @@ register(model, :min_, 1, f, autodiff=true) #∇f)
 @constraint(model,[i=1:size(P2,1)],P2[i,i]==0)
 
 
-for idx=1:size(MU,2)
-        @constraint(model,MU[idx]>=mmu[idx]*0.9)
-        set_start_value(MU[idx],mmu[idx]*0.90)
+for idx=2:size(MU,2)
+        @constraint(model,MU[idx]>=mmu[idx])
+        set_start_value(MU[idx],mmu[idx])
 end
+#6.6729    4.4043    1.9732    2.7563
 
 Xu=DATA["RTm"].*DATA["Tm"];
 
@@ -106,10 +108,8 @@ exp=@NLexpression(model,(1.0/(X[2,p]+X[3,p]+X[4,p]))*(min_(X[2,p]+X[3,p]+X[4,p]-
 @NLconstraint(model,T[15,p]==X[4,p]*P[4,3]*MU[4]*exp)
 @NLconstraint(model,T[16,p]==X[4,p]*P[4,4]*MU[4]*exp)
 
-@constraint(model,jump'*T[:,p].==0)
-# @constraint(model,jump'*T[:,p].<=10^-6)
-# @constraint(model,jump'*T[:,p].>=-10^-6)
-
+@constraint(model,[k=1:size(E_abs2,1)],E_abs2[k,p]>=(jump'*T[:,p])[k])
+@constraint(model,[k=1:size(E_abs2,1)],E_abs2[k,p]>=-(jump'*T[:,p])[k])
 
 @NLconstraint(model,sum(T[i,p] for i in [1,2,3,4])*RTs[1,p]==X[1,p])
 @NLconstraint(model,sum(T[i,p] for i in [5,6,7,8])*RTs[2,p]==X[2,p])
@@ -119,27 +119,26 @@ end
 
 obj=[]
 for p=1:npoints
+        @constraint(model,sum(X[:,p])==Cli[p])
         @constraints(model,begin
-                E_abs[1,p]>=(sum(X[:,p])-Cli[p])
-                E_abs[1,p]>=-(sum(X[:,p])-Cli[p])
-                E_abs[2,p]>=(Tm[p,1]-sum(T[[1,2,3,4],p]))
-                E_abs[2,p]>=-(Tm[p,1]-sum(T[[1,2,3,4],p]))
-                E_abs[3,p]>=(Tm[p,2]-sum(T[[5,6,7,8],p]))
-                E_abs[3,p]>=-(Tm[p,2]-sum(T[[5,6,7,8],p]))
-                E_abs[4,p]>=(Tm[p,3]-sum(T[[9,10,11,12],p]))
-                E_abs[4,p]>=-(Tm[p,3]-sum(T[[9,10,11,12],p]))
-                E_abs[5,p]>=(Tm[p,4]-sum(T[[13,14,15,16],p]))
-                E_abs[5,p]>=-(Tm[p,4]-sum(T[[13,14,15,16],p]))
+                E_abs[1,p]>=(Tm[p,1]-sum(T[[1,2,3,4],p]))
+                E_abs[1,p]>=-(Tm[p,1]-sum(T[[1,2,3,4],p]))
+                E_abs[2,p]>=(Tm[p,2]-sum(T[[5,6,7,8],p]))
+                E_abs[2,p]>=-(Tm[p,2]-sum(T[[5,6,7,8],p]))
+                E_abs[3,p]>=(Tm[p,3]-sum(T[[9,10,11,12],p]))
+                E_abs[3,p]>=-(Tm[p,3]-sum(T[[9,10,11,12],p]))
+                E_abs[4,p]>=(Tm[p,4]-sum(T[[13,14,15,16],p]))
+                E_abs[4,p]>=-(Tm[p,4]-sum(T[[13,14,15,16],p]))
         end)
 
         for i=1:size(jump,2)
-            #@NLconstraint(model,RTlqn[i,p]==sum(P2[i,j]*RTlqn[j,p] for j=1:size(jump,2))+RTs[i,p])
-            @constraint(model,RTlqn[i,p]==sum(P2[i,j]*DATA["RTm"][p,j] for j=1:size(jump,2))+RTs[i,p])
+            @NLconstraint(model,RTlqn[i,p]==sum(P2[i,j]*RTlqn[j,p] for j=1:size(jump,2))+RTs[i,p])
+            #@constraint(model,RTlqn[i,p]==sum(P2[i,j]*DATA["RTm"][p,j] for j=1:size(jump,2))+RTs[i,p])
             @constraint(model,ERT_abs[i,p]>=RTlqn[i,p]-RTm[p,i])
             @constraint(model,ERT_abs[i,p]>=-RTlqn[i,p]+RTm[p,i])
         end
 end
 
 
-@objective(model,Min, sum(E_abs[i,p] for i=1:size(E_abs,1) for p=1:size(E_abs,2))+sum(ERT_abs[i,p] for i=1:size(ERT_abs,1) for p=1:size(E_abs,2)))
+@objective(model,Min, sum(E_abs2)+sum(E_abs[i,p] for i=1:size(E_abs,1) for p=1:size(E_abs,2))+sum(ERT_abs[i,p] for i=1:size(ERT_abs,1) for p=1:size(E_abs,2)))
 JuMP.optimize!(model)
