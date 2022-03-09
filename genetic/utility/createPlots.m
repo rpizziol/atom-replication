@@ -1,12 +1,14 @@
 clear
 
-files = dir('../out/mat/*.mat');
-for file = files'
-    testname = file.name(1:end-4);
-    disp(testname);
-    saveAllPlots(testname);
-end
+% files = dir('../out/mat/*.mat');
+% for file = files'
+%     testname = file.name(1:end-4);
+%     disp(testname);
+%     saveAllPlots(testname);
+% end
 
+
+saveAllPlots('20220307-2300-shopping-3000-clean');
 
 % Run savePlot for each variable in the experiment
 function saveAllPlots(testname)
