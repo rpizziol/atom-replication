@@ -156,18 +156,19 @@ if __name__ == '__main__':
     
     
     sys=sockShop("../model/validation/2task_prob/lqn.m")
-    sys.startSim(samplingPeriod=1.0, ctrlPeriod=1.0, simLength=1000)
+    sys.startSim(samplingPeriod=1.0, ctrlPeriod=1.0, simLength=100)
     
+    savemat("muopt.mat", {"Tsim":sys.Tsim,"NT":np.array(sys.optNT)[:,1:4],"NC":np.array(sys.NC)[:,1:4],"stimes":sys.stimes})
     
-    plt.figure()
-    plt.plot(sys.Tsim)
-    plt.plot(np.divide(np.cumsum(sys.Tsim),np.linspace(1,len(sys.Tsim),len(sys.Tsim))))
-    plt.axhline(3000*(1.0/7.005))
-    
-    plt.figure()
-    plt.plot(np.array(sys.optNT)[:,1:4])
-    
-    plt.figure()
-    plt.plot(np.array(sys.optNC)[:,1:4])
-    
-    plt.show()
+    # plt.figure()
+    # plt.plot(sys.Tsim)
+    # plt.plot(np.divide(np.cumsum(sys.Tsim),np.linspace(1,len(sys.Tsim),len(sys.Tsim))))
+    # plt.axhline(3000*(1.0/7.005))
+    #
+    # plt.figure()
+    # plt.plot(np.array(sys.optNT)[:,1:4])
+    #
+    # plt.figure()
+    # plt.plot(np.array(sys.optNC)[:,1:4])
+    #
+    # plt.show()
