@@ -243,7 +243,7 @@ while true
     set_value(C,w)
 
     #global tgt=round(alfa*0.999*w,digits=6)
-    global tgt=w/7.005
+    global tgt=w/7.00
     @objective(model,Min,0.5*((sum(T[15:20])-alfa*tgt)^2/(alfa*tgt))+0.5*sum(NC[i] for i=1:size(NC,1)-2)/((size(NC,1)-2)*100))
     push!(stimes,@elapsed JuMP.optimize!(model))
     status=termination_status(model)
