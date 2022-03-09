@@ -1,34 +1,29 @@
 function state = printState(options, state, flag)
     % Function called once for every generation to save the calculated data
+    % from global variables to .mat files.
     global bestValues
     global bestIndividuals
     global bestTimeStamps
     global nusersInTime
     global start
 
-    global wmname
     global currNuser
+
+    % Name of the file where the results of the test will be saved
+    global testname
     
-%     window = 600; % change nusers every 10 minutes
+    %fid = fopen('./res/atom-full_template6.lqnx'); 
+    %cellnow = textscan(fid,'%s',2,'headerlines', 3);
+    %fclose(fid);
 
-    %N = @(t,mod,period,shift)sin(t/(period/(2*pi)))*mod+shift;
-    %plot(N([0:600:6000],1500,6000,1510));
+    now = toc(start);
 
+%     Terminate execution after 10 minutes
+%     if(now > 600)
+%         state.StopFlag = 'y';
+%     end
 
-    
-    fid = fopen('./res/atom-full_template6.lqnx'); 
-    cellnow = textscan(fid,'%s',2,'headerlines', 3);
-    fclose(fid);
-
-    if(toc(start) > 600)
-        state.StopFlag = 'y';
-    end
-
-    
-    now = str2double(cellnow{1}{2});
-%     timeSlot = floor(now / window); % Time sampled every 10 minutes
-%     currTimeSlot = timeSlot*window;
-    %currNuser = ;
+    %now = str2double(cellnow{1}{2});
 
     % Find the index of the 'Score' equal to 'Best'
     if(size(state.Best) >= 1)
@@ -41,10 +36,9 @@ function state = printState(options, state, flag)
         bestValues = [bestValues; state.Best(end)];
         bestTimeStamps = [bestTimeStamps; now];
         nusersInTime = [nusersInTime; currNuser];
-%         timeSlots = [timeSlots; currTimeSlot];
 
-        save(strcat('./out/mat/sintest-', wmname, '.mat'), 'bestIndividuals', ...
-            'bestValues', 'bestTimeStamps', 'nusersInTime');
+        save(strcat('./out/mat/', testname, '.mat'), 'bestIndividuals', ...
+        'bestValues', 'bestTimeStamps', 'nusersInTime');
 
         disp('bestIndividuals');
         disp(bestIndividuals);
@@ -54,7 +48,6 @@ function state = printState(options, state, flag)
         disp(bestTimeStamps);
         disp('nusersInTime');
         disp(nusersInTime);
-        
     end
 end
 

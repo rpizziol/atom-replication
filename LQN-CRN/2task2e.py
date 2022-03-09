@@ -14,20 +14,17 @@ if __name__ == '__main__':
     
     # task declaration
     cTask = Task(name="Client", ref=True)
-    TCristo = Task(name="TCristo")
     T1 = Task(name="T1")
     T2 = Task(name="T2")
     T3 = Task(name="T3")
     
     # entries declaration
     browse = Entry("Browse")
-    ECristo=Entry("ECristo")
     E1 = Entry("E1")
     E2 = Entry("E2")
     E3 = Entry("E3")
     
     cTask.addEntry(browse)
-    TCristo.addEntry(ECristo)
     T1.addEntry(E1)
     T2.addEntry(E2)
     T3.addEntry(E3)
@@ -44,28 +41,15 @@ if __name__ == '__main__':
     E1.getActivities().append(Activity(stime=1.0, parent=E1, name="e"))
     
     
-    choiceCristo=probChoice(parent=ECristo, name="Choice")
-
-    blkE1=actBlock(parent=choiceCristo, name="BlkE1")
-    blkE1.activities.append(SynchCall(dest=E1, parent=blkE1, name="2E1"))
-    
-    blkE2=actBlock(parent=choiceCristo, name="BlkE2")
-    blkE2.activities.append(SynchCall(dest=E2, parent=blkE2, name="2E2"))
-    
-    choiceCristo.addBlock(blkE1,1.0/2)
-    choiceCristo.addBlock(blkE2,1.0/2)
-    
-    ECristo.getActivities().append(choiceCristo)
-    ECristo.getActivities().append(Activity(stime=1.0, parent=ECristo, name="e"))
-    
     
     # client logic#
     
-    browse.getActivities().append(SynchCall(dest=ECristo, parent=browse, name="2ECristo"))
+    browse.getActivities().append(SynchCall(dest=E1, parent=browse, name="2E1"))
+    browse.getActivities().append(SynchCall(dest=E2, parent=browse, name="2E2"))
     browse.getActivities().append(Activity(stime=1.0, parent=browse, name="browse"))
     
     lqn2crn = LQN_CRN2()
-    lqn2crn.getCrn({"task":[cTask,TCristo,T1,T2,T3], "name":"2task2e"})
+    lqn2crn.getCrn({"task":[cTask,T1,T2,T3], "name":"2task2e"})
     
     lqn2crn.toMatlab(outDir="../model/validation")
     lqn2crn.toJuliaCtrl(outDir="./controller/julia")

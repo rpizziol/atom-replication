@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Modified by Alim Ul Gias -->
+<<<<<<< HEAD
 <!-- time of last nuser edit : -->
 <!-- 116753.31852984428 -->
+=======
+<!-- time of last nuser edit -->
+<!-- 387.4673159122467 -->
+>>>>>>> b10bccf83a8ddf9e6a12f489bfd9d128b0cf8518
 <lqn-model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" description="Sock shop LINE." name="sock" xsi:noNamespaceSchemaLocation="/usr/local/share/lqns/lqn.xsd">
 <solver-params comment="Sockshop model" conv_val="1e-05" it_limit="50000" print_int="10" underrelax_coeff="0.1"/>
   <!-- TaskClient -->
   <processor multiplicity="1" name="ProcClient" scheduling="inf">
+<<<<<<< HEAD
     <task multiplicity="1893" name="TaskClient" scheduling="ref" think-time="7.0">
+=======
+    <task multiplicity="1391" name="TaskClient" scheduling="ref" think-time="7.0">
+>>>>>>> b10bccf83a8ddf9e6a12f489bfd9d128b0cf8518
       <entry name="EntryBrowse" type="NONE"/>
       <task-activities>
         <activity bound-to-entry="EntryBrowse" host-demand-mean="0.00000005" name="AS"/>
@@ -27,15 +36,26 @@
   
   <!-- TaskRouter -->
   <processor multiplicity="1" name="ProcRouter" quantum="0.1" replication="1" scheduling="ps">
+<<<<<<< HEAD
     <task multiplicity="2013" name="TaskRouter" replication="1" scheduling="fcfs">
+=======
+    <task multiplicity="3000" name="TaskRouter" replication="1" scheduling="fcfs">
+>>>>>>> b10bccf83a8ddf9e6a12f489bfd9d128b0cf8518
       <fan-out dest="TaskFrontend" value="1"/>
       <entry name="EntryAddress" type="NONE"/>
       <task-activities>
         <activity bound-to-entry="EntryAddress" host-demand-mean="0.00000005" name="AS1"/>
+<<<<<<< HEAD
         <activity host-demand-mean="0.0020" name="AS2">
           <synch-call calls-mean="0.3300" dest="EntryHome"/>
           <synch-call calls-mean="0.1700" dest="EntryCatalog"/>
           <synch-call calls-mean="0.5000" dest="EntryCarts"/>
+=======
+        <activity host-demand-mean="0.0036" name="AS2">
+          <synch-call calls-mean="0.6300" dest="EntryHome"/>
+          <synch-call calls-mean="0.3200" dest="EntryCatalog"/>
+          <synch-call calls-mean="0.0500" dest="EntryCarts"/>
+>>>>>>> b10bccf83a8ddf9e6a12f489bfd9d128b0cf8518
         </activity>
         <precedence>
           <pre>
@@ -53,8 +73,13 @@
   </processor>
   
   <!-- TaskFrontend -->
+<<<<<<< HEAD
   <processor multiplicity="2" name="ProcFrontend" quantum="0.1" replication="1" scheduling="ps">
     <task multiplicity="2013" name="TaskFrontend" replication="1" scheduling="fcfs">
+=======
+  <processor multiplicity="1" name="ProcFrontend" quantum="0.1" replication="1" scheduling="ps">
+    <task multiplicity="3000" name="TaskFrontend" replication="1" scheduling="fcfs">
+>>>>>>> b10bccf83a8ddf9e6a12f489bfd9d128b0cf8518
       <fan-out dest="TaskCartssvc" value="1"/>
       <fan-out dest="TaskCatalogsvc" value="1"/>
       <fan-in source="TaskRouter" value="1"/>
@@ -70,7 +95,11 @@
           <synch-call calls-mean="0.5" dest="EntryItem"/>
         </activity>
         <activity bound-to-entry="EntryCarts" host-demand-mean="0.00000005" name="AH5"/>
+<<<<<<< HEAD
         <activity host-demand-mean="0.0075" name="AH6" phase="1">
+=======
+        <activity host-demand-mean="0.0076" name="AH6" phase="1">
+>>>>>>> b10bccf83a8ddf9e6a12f489bfd9d128b0cf8518
           <synch-call calls-mean="0.33" dest="EntryGet"/>
           <synch-call calls-mean="0.33" dest="EntryAdd"/>
           <synch-call calls-mean="0.33" dest="EntryDelete"/>
@@ -114,18 +143,30 @@
   
   <!-- TaskCatalogsvc -->
   <processor multiplicity="1" name="ProcCatalogsvc" quantum="0.1" replication="1" scheduling="ps">
+<<<<<<< HEAD
     <task multiplicity="2013" name="TaskCatalogsvc" replication="1" scheduling="fcfs">
+=======
+    <task multiplicity="3000" name="TaskCatalogsvc" replication="1" scheduling="fcfs">
+>>>>>>> b10bccf83a8ddf9e6a12f489bfd9d128b0cf8518
       <fan-out dest="TaskCatalogdb" value="1"/>
       <fan-in source="TaskFrontend" value="1"/>
       <entry name="EntryList" type="NONE"/>
       <entry name="EntryItem" type="NONE"/>
       <task-activities>
         <activity bound-to-entry="EntryList" host-demand-mean="0.0000000005" name="AS3"/>
+<<<<<<< HEAD
         <activity host-demand-mean="0.0271" name="AS4" phase="1">
           <synch-call calls-mean="1" dest="EntryQueryCatalog"/>
         </activity>
         <activity bound-to-entry="EntryItem" host-demand-mean="0.0000000005" name="AS5"/>
         <activity host-demand-mean="0.0234" name="AS6" phase="1">
+=======
+        <activity host-demand-mean="0.0106" name="AS4" phase="1">
+          <synch-call calls-mean="1" dest="EntryQueryCatalog"/>
+        </activity>
+        <activity bound-to-entry="EntryItem" host-demand-mean="0.0000000005" name="AS5"/>
+        <activity host-demand-mean="0.0091" name="AS6" phase="1">
+>>>>>>> b10bccf83a8ddf9e6a12f489bfd9d128b0cf8518
           <synch-call calls-mean="1" dest="EntryQueryCatalog"/>
         </activity>
         <precedence>
@@ -155,8 +196,13 @@
   </processor>
   
   <!-- TaskCartssvc -->
+<<<<<<< HEAD
   <processor multiplicity="2" name="ProcCartssvc" quantum="0.1" replication="1" scheduling="ps">
     <task multiplicity="2013" name="TaskCartssvc" replication="1" scheduling="fcfs">
+=======
+  <processor multiplicity="1" name="ProcCartssvc" quantum="0.1" replication="1" scheduling="ps">
+    <task multiplicity="3000" name="TaskCartssvc" replication="1" scheduling="fcfs">
+>>>>>>> b10bccf83a8ddf9e6a12f489bfd9d128b0cf8518
       <fan-out dest="TaskCartsdb" value="1"/>
       <fan-in source="TaskFrontend" value="1"/>
       <entry name="EntryGet" type="NONE"/>
@@ -164,6 +210,7 @@
       <entry name="EntryDelete" type="NONE"/>
       <task-activities>
         <activity bound-to-entry="EntryGet" host-demand-mean="0.0000000005" name="AH7"/>
+<<<<<<< HEAD
         <activity host-demand-mean="0.0083" name="AH8" phase="1">
           <synch-call calls-mean="1" dest="EntryQueryCartsdb"/>
         </activity>
@@ -173,6 +220,17 @@
         </activity>
         <activity bound-to-entry="EntryDelete" host-demand-mean="0.0000000005" name="AH11"/>
         <activity host-demand-mean="0.0097" name="AH12" phase="1">
+=======
+        <activity host-demand-mean="0.0318" name="AH8" phase="1">
+          <synch-call calls-mean="1" dest="EntryQueryCartsdb"/>
+        </activity>
+        <activity bound-to-entry="EntryAdd" host-demand-mean="0.0000000005" name="AH9"/>
+        <activity host-demand-mean="0.1154" name="AH10" phase="1">
+          <synch-call calls-mean="1" dest="EntryQueryCartsdb"/>
+        </activity>
+        <activity bound-to-entry="EntryDelete" host-demand-mean="0.0000000005" name="AH11"/>
+        <activity host-demand-mean="0.0371" name="AH12" phase="1">
+>>>>>>> b10bccf83a8ddf9e6a12f489bfd9d128b0cf8518
           <synch-call calls-mean="1" dest="EntryQueryCartsdb"/>
         </activity>
         <precedence>

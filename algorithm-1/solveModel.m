@@ -1,4 +1,4 @@
-function [fval, c] = solveModel(modelName, N, M, params, Cmax, r, s)
+function [fval, c] = solveModel(modelName, model, params, Cmax, r, s)
     %% Calculate total allocated CPU capacity (to minimize)
     Ct = sum(r.*s); 
     Chat = Ct / Cmax; % Normalized Ct
@@ -6,8 +6,8 @@ function [fval, c] = solveModel(modelName, N, M, params, Cmax, r, s)
     [status, ~] = system("cd LQNFiles; java -jar DiffLQN.jar " + modelName + ".lqn");
 
     if status == 0 % no error
-        Xt = zeros(N, M);
-        m = readmatrix(strcat('./LQNFiles/', modelName, '.csv'));
+        Xt = zeros(model.N, model.M);
+        m = readmatrix(strcat('./out/', modelName, '.csv'));
         Xt(1,1) = m(1,4); % EntryBrowse
         Xt(2,1) = m(2,4); % EntryAddress
         % EntryHome EntryCatalog EntryCarts
@@ -20,7 +20,7 @@ function [fval, c] = solveModel(modelName, N, M, params, Cmax, r, s)
     
         %% Calculate revenue (to maximize)
         Bt = sum(sum(params.psi.*Xt));
-        Bmax = sum(sum(params.psi.*repmat(500, N, M))); % TODO update max value (500?)
+        Bmax = sum(sum(params.psi.*repmat(500, model.N, model.M))); % TODO update max value (500?)
         Bhat = Bt / Bmax; % Normalized Bt
     
         %% Calculate objective function

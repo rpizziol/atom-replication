@@ -11,6 +11,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import scipy.stats as st
 import time
+from dask.dataframe.io.demo import names
+from astropy.units import nA
 
 
 class matlabValidator(Validator):
@@ -30,7 +32,7 @@ class matlabValidator(Validator):
         self.matEng = matlab.engine.start_matlab()
         self.matEng.cd(str(self.modelDirPath.absolute()))
     
-    def solveModel(self, X0, MU, NT, NC, dt=0.1, Names=None, TF=None, rep=None,):
+    def solveModel(self, X0, MU, NT, NC, dt=0.1, Names=None, TF=None, rep=None,EntryTaskMapping=None):
         
         self.matEng.clear
         e = np.infty
@@ -42,6 +44,17 @@ class matlabValidator(Validator):
         # numrto di batch
         N = 50
         B = None
+        
+        #recuper tutte le entry del modello
+        entriesName=set([name.split("_")[0] for name in Names])
+        entriesWaiting={}
+        for idx,val in enumerate(entriesName):
+            #per ogni entry recupero tutti i thread occupati (sperimentale)
+            entriesWaiting[val]=[];
+            for name in Names:
+                if(name.split("_")[0]==val and name not in entriesWaiting[val] and not name.endswith("_a")):
+                    entriesWaiting[val].append(name)
+        
         while(e > 0.05 * 10 ** -1):
             
             X = self.matEng.lqn(matlab.double(X0), matlab.double(MU),
@@ -64,12 +77,41 @@ class matlabValidator(Validator):
             # e=abs(np.mean(Bm[1:])-CI[0])
             
             es=[]
+            
             for idxe in range(Bm2.shape[0]):
                 CI = st.t.interval(0.99, len(Bm2[idxe, 1:]) - 1, loc=np.mean(Bm2[idxe, 1:]), scale=st.sem(Bm2[idxe, 1:]))
                 es.append(abs(np.mean(Bm2[idxe, 1:]) - CI[0]))
+            
+            Rts=[]
+            #calcolo gli errori sui tempi di riposta
+            for idx,val in enumerate(entriesName):
+                #recupero tutte le lunghezze di coda di questa entry
+                qIdx=[]
+                eIdx=None
+                for n in entriesWaiting[val]:
+                    qIdx+=[Names.index(n)]
+                    if(n.endswith("_e") or n.endswith("browse")):
+                        eIdx=Names.index(n)
+                    
+                #print(val,qIdx,eIdx)
+                q=0;
+                for i in qIdx:
+                    q+=Bm2[i, 1:]
+                
+                if(NC[EntryTaskMapping[eIdx]]!=-1):
+                    Ti=np.minimum(np.mean(Bm2[eIdx, 1:]),NC[EntryTaskMapping[eIdx]])*MU[eIdx]
+                else:
+                    Ti=np.mean(Bm2[eIdx, 1:])*MU[eIdx]
+                    
+                Rts.append(np.divide(q,Ti))
+            
+            for rt in Rts:
+                CI = st.t.interval(0.99, len(rt) - 1, loc=np.mean(rt), scale=st.sem(rt))
+                es.append(abs(np.mean(np.mean(rt) - CI[0])))
                 
             e=np.nanmax(es)
-            print(e)
+            print(entriesName)
+            print(np.mean(np.array(Rts),axis=1))
             
         # print([MU[idx] * np.mean(Bm2[idx, 1:]) for idx in tIdx])
         res = {}
@@ -116,7 +158,8 @@ if __name__ == '__main__':
     
     Names=["XBrowse_2Address","XAddress_a","XAddress_2Home","XHome_a","XHome_e","XAddress_e","XBrowse_browse"]
     
-    T = mv.solveModel(X0, MU, NT,NC, dt,Names=Names)
+    
+    T = mv.solveModel(X0, MU, NT,NC, dt,Names=Names,EntryTaskMapping=[0,1,1,2,2,1,0])
     
     print(T["XAddress_a"],T["XAddress_2Home"],T["XAddress_e"])
     print(min(T["XAddress_e"],NC[1])*MU[5])

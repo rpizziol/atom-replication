@@ -1,24 +1,29 @@
-%load('../out/mat/sintest-b.mat');
+clear
 
-
-saveAllPlots('o', '4');
-%saveAllPlots('s');
-%saveAllPlots('o');
-
-
-function saveAllPlots(id, n)
-    load(strcat('../out/mat/sintest-', id, '.mat'));
-    savePlot(strcat(n, '/', id, '-bestIndividuals', n), bestIndividuals);
-    savePlot(strcat(n, '/', id, '-bestTimeStamps', n), bestTimeStamps);
-    savePlot(strcat(n, '/', id, '-bestValues', n), bestValues);
-    savePlot(strcat(n, '/', id, '-nusersInTime', n), nusersInTime);
-    %savePlot(strcat(n, '/', id, '-timeSlots', n), timeSlots);
+files = dir('../out/mat/*.mat');
+for file = files'
+    testname = file.name(1:end-4);
+    disp(testname);
+    saveAllPlots(testname);
 end
 
 
-function savePlot(plotName, variable)
-    plot(variable);
+% Run savePlot for each variable in the experiment
+function saveAllPlots(testname)
+    load(strcat('../out/mat/', testname, '.mat'));
+    savePlot(testname, 'bestIndividuals', bestTimeStamps, bestIndividuals);
+    %savePlot(testname, 'bestTimeStamps', bestTimeStamps);
+    savePlot(testname, 'bestValues', bestTimeStamps, bestValues);
+    savePlot(testname, 'nusersInTime', bestTimeStamps, nusersInTime);
+    close all  % Close all figures
+end
+
+% Save a plot of a specific variable in the experiment folder
+function savePlot(foldername, plotName, x, y)
+    mkdir(strcat('../out/plots/', foldername));
+    plot(x, y);
     title(plotName);
     ax = gca;
-    exportgraphics(ax, strcat('../out/plots/', plotName, '.jpg'));
+    ax.XAxis.Exponent = 0; % Remove scientific notation
+    exportgraphics(ax, strcat('../out/plots/', foldername, '/', plotName, '.png'));
 end

@@ -42,7 +42,6 @@ j = 3;
     % CPU share for each replica of each microservice for the time interval t
     constraints.s_lb = [0.001, 0.001, 0.001, 0.001];  % Lower bound
     constraints.s_ub = [50, 50, 50, 50];      % Upper bound
-    Cmax = sum(constraints.s_ub); %constraints.Q.*constraints.s_ub);
     
     global bestValues
     global bestIndividuals
@@ -56,13 +55,13 @@ j = 3;
     for i = 1:10
         
         disp(i);
-        currNuser = readNUser();
+        currNuser = readNuser('./res/atom-full_template6.lqnx');
         
         %% Genetic algorithm
         
         start = tic();
         
-        f = @(x)fitness(x, sourcemodel, st, model, params, Cmax, workmix, wmname);
+        f = @(x)fitness(x, sourcemodel, st, model, params, constraints, workmix, wmname);
         %ConstraintFunction = @SLAConstraint;
         
         options = optimoptions('ga'); % Load default settings
