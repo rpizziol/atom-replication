@@ -158,7 +158,7 @@ if __name__ == '__main__':
     sys=sockShop("../model/validation/2task_prob/lqn.m")
     sys.startSim(samplingPeriod=1.0, ctrlPeriod=1.0, simLength=100)
     
-    savemat("muopt.mat", {"Tsim":sys.Tsim,"NT":np.array(sys.optNT)[:,1:4],"NC":np.array(sys.NC)[:,1:4],"stimes":sys.stimes})
+    savemat("muopt.mat", {"Tsim":sys.Tsim,"NT":np.array(sys.optNT)[:,1:4],"NC":np.array(sys.optNC)[:,1:4],"stimes":sys.stimes})
     
     # plt.figure()
     # plt.plot(sys.Tsim)
