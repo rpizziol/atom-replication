@@ -148,3 +148,6 @@ dmypy.json
 julia-1.7.1
 *.out~001~
 *.lqx
+*.lqxo
+*.lqxo~
+*.lqnx
