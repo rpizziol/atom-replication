@@ -298,7 +298,7 @@ while true
          end
      end
 
-    cumTr=cumsum(Tsim)./range(1,length(Tsim))
+    cumTr=cumsum(Tsim)./range(1,length=length(Tsim))
 
     if(length(Tsim)>0)
         global Ie += (alfa*tgt - cumTr[end])
