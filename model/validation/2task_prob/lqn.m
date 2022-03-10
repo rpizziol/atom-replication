@@ -18,13 +18,6 @@ end
 if(iscolumn(NT))
     NC = NC';
 end
-disp(X0)
-disp(MU)
-disp(NT)
-disp(NC)
-disp(TF)
-disp(rep)
-disp(dt)
 
 
 p.P_Home=0.63;
