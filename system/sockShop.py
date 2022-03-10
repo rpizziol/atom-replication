@@ -15,6 +15,7 @@ import time
 import json
 from scipy.io import savemat
 from scipy.io import loadmat
+from generator.SinGen import SinGen
 
 class sockShop():
     modelFilePath = None
@@ -26,6 +27,7 @@ class sockShop():
     optNC = None
     optNT = None
     stimes = None
+    w = None
     NTNames=["NTrouter","NTfrontend","NTCatalogsvc","NTCartsvc","NTCatalogdb","NTCartdb"]
     NCNames=["NCrouter","NCfrontend","NCCatalogsvc","NCCartsvc","NCCatalogdb","NCCartdb"]
 
@@ -39,7 +41,12 @@ class sockShop():
         self.matEng.rng("shuffle","combRecursive")
         self.matEng.cd(str(self.modelDirPath.absolute()))
         self.r=redis.Redis()
-    
+        
+        self.Tsim=[]
+        self.optNC=[]
+        self.optNT=[]
+        self.w =[]
+        
     def simulate(self,X0,NT,NC,MU,dt,TF,nrep=1):
         X = self.matEng.lqn(matlab.double(X0), matlab.double(MU),
                           matlab.double(NT), matlab.double(NC), TF, nrep, dt)
@@ -65,7 +72,7 @@ class sockShop():
             self.r.delete(self.NTNames[i])
             self.r.delete(self.NCNames[i])
     
-    def startSim(self,samplingPeriod,ctrlPeriod,simLength):
+    def startSim(self,samplingPeriod,ctrlPeriod,simLength,nusers,NCinit=None,NTinit=None):
         
         if(samplingPeriod<ctrlPeriod):
             raise ValueError("samplingPeriod needs to be greater of equals to ctrlPeriod")
@@ -79,7 +86,8 @@ class sockShop():
         TF=ctrlPeriod
         nrep=1
         
-        X0[47]=3000
+        X0[47]=nusers
+        self.w.append(nusers)
         
         MU[17]=1.0/(2.2*10**-3) #LIST
         MU[22]=1.0/(1.9*10**-3) #ITEM
@@ -99,9 +107,6 @@ class sockShop():
         MU[47]=1.0/7 #think
         
         Xsys=[]
-        self.Tsim=[]
-        self.optNC=[]
-        self.optNT=[]
         step=0
         simTime=0
         self.r.set("w",X0[47])
@@ -119,10 +124,23 @@ class sockShop():
             stime=time.time()
             
             #aggiorno i controlli
-            NT=[10000]+list(map(lambda x: 1 if x is None else int(x), self.r.mget(self.NTNames)))
-            NC=[10000]+list(map(lambda x: 1 if x is None else float(x), self.r.mget(self.NCNames)))
-            #NT=np.ceil([10000,10000,10000,10000,10000,1000,1000]).tolist()
-            #NC=[10000,0.7333,1.5276,0.4644,0.3570,1000,1000]
+            if(NCinit!=None):
+                print("NC not None")
+                NT=[10000]
+                NC=[10000]
+                for idx in range(1,len(NCinit)):
+                    nt= self.r.get(self.NTNames[idx-1])
+                    nc= self.r.get(self.NCNames[idx-1])
+                    if(nt is not None and nc is not None):
+                        NT+=[int(nt)]
+                        NC+=[float(nc)]
+                    else:          
+                        NT+=[NTinit[idx]]
+                        NC+=[NCinit[idx]]                 
+            else:
+                NT=[10000]+list(map(lambda x: 1 if x is None else int(x), self.r.mget(self.NTNames)))
+                NC=[10000]+list(map(lambda x: 1 if x is None else float(x), self.r.mget(self.NCNames)))
+            
             
             self.optNT.append(NT)
             self.optNC.append(NC)
@@ -149,16 +167,36 @@ class sockShop():
         P.terminate()
         
         stimes=self.r.get("stimes").decode('UTF-8')
-        self.stimes=json.loads(stimes)
+        if(self.stimes is None):
+            self.stimes=json.loads(stimes)[1:]
+        else:
+            self.stimes+=json.loads(stimes)[1:]
+    
         
 
 if __name__ == '__main__':
     
+    period=200
+    shift=1520
+    mod=1500
+    step=5
+    sgen=SinGen(period,shift,mod)    
     
     sys=sockShop("../model/validation/2task_prob/lqn.m")
-    sys.startSim(samplingPeriod=1.0, ctrlPeriod=1.0, simLength=500)
     
-    savemat("muopt.mat", {"Tsim":sys.Tsim,"NT":np.array(sys.optNT)[:,1:4],"NC":np.array(sys.optNC)[:,1:4],"stimes":sys.stimes})
+
+    
+    for t in range(0,period+step,step):
+        w=sgen.getUser(t)
+        #print("############Users=%.3f#############"%(w))
+        print("############Step=%d#############"%(t))    
+        if(t==0):
+            sys.startSim(samplingPeriod=1.0, ctrlPeriod=1.0, simLength=step,nusers=w)
+        else:
+            sys.startSim(samplingPeriod=1.0, ctrlPeriod=1.0, simLength=step,nusers=w,NCinit=sys.optNC[-1],NTinit=sys.optNT[-1])
+    
+    savemat("muopt.mat", {"Tsim":sys.Tsim,"NT":np.array(sys.optNT)[:,1:4],"NC":np.array(sys.optNC)[:,1:4],"stimes":sys.stimes,
+                          "w":sys.w})
     
     # plt.figure()
     # plt.plot(sys.Tsim)

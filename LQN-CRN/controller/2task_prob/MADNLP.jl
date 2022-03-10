@@ -261,10 +261,10 @@ while true
      ]
 
     global NU=[100000,
-               value(X[1-sum(toZero[1,1:1])])+0.01*Ie,
-               value(X[1-sum(toZero[1,1:1])])+0.01*Ie,
-               value(X[9-sum(toZero[1,1:9])])+0.01*Ie,
-               value(X[26-sum(toZero[1,1:26])])+0.01*Ie,
+               value(X[1-sum(toZero[1,1:1])])+0.00002*Ie,
+               value(X[1-sum(toZero[1,1:1])])+0.00002*Ie,
+               value(X[9-sum(toZero[1,1:9])])+0.00002*Ie,
+               value(X[26-sum(toZero[1,1:26])])+0.00002*Ie,
                100000,
                100000
                ]*1.20
@@ -281,21 +281,13 @@ while true
         #end
     end
 
-    println([value(X[1-sum(toZero[1,1:1])])])
+    #println([value(X[1-sum(toZero[1,1:1])])])
 
     optNC[i,:]=optNC[i,:]*1.20
 
     optNC[i,6]=30000.
     optNC[i,7]=30000.
 
-    #global NT=ones(1,7)*30000
-    # NT[1]=3000
-    # NT[2]=3000
-    # NT[3]=3000
-    # NT[4]=3000
-    # NT[5]=3000
-    # NT[6]=1000
-    # NT[7]=1000
 
      for idx=1:length(NTNames)
          set(conn, NTNames[idx], @sprintf("%d",NT[idx+1]))
