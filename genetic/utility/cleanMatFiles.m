@@ -1,12 +1,12 @@
 %load('sintest-o.mat');
 clear
 
-tname = '20220307-2300-shopping-3000';
+tname = '20220309-1838-ordering-2000';
 
 
 
 load(strcat('../out/mat/', tname, '.mat'))
-cutoff = 154;
+cutoff = 86;
 
 bestIndividuals = bestIndividuals(cutoff:end,:);
 bestTimeStamps = bestTimeStamps(cutoff:end,:);
