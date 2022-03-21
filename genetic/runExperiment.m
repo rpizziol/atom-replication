@@ -1,6 +1,6 @@
 function runExperiment(workmix, nuser)
-    global currNuser
-    currNuser = nuser;
+%     global currNuser
+%     currNuser = nuser;
     %% Model definition
     % Full model in xml
     sourcemodel = './res/atom-full_template6.lqnx'; % variable workload mix
@@ -47,7 +47,7 @@ function runExperiment(workmix, nuser)
     
     start = tic();
     
-    f = @(x)fitness(x, sourcemodel, st, model, params, constraints, workmix, currNuser);
+    f = @(x)fitness(x, sourcemodel, st, model, params, constraints, workmix, nuser);
     
     options = optimoptions('ga'); % Load default settings
     options = optimoptions(options,'PopulationType', 'doubleVector');
