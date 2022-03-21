@@ -1,5 +1,5 @@
 clear
-runExperimentByMix('browsing', [0.63, 0.32, 0.05]);
+runExperimentByMix('browsing', [0.63, 0.32, 0.05], 1000);
 %clear
 % runExperimentByMix('shopping', [0.54, 0.26, 0.20], 1000);
 % clear
