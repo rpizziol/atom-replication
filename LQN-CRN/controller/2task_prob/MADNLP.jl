@@ -209,7 +209,7 @@ end
 @constraint(model,NC[3]<=(X[18-sum(toZero[1,1:18])]+X[23-sum(toZero[1,1:23])]))
 @constraint(model,NC[4]<=(X[35-sum(toZero[1,1:35])]+X[40-sum(toZero[1,1:40])]+X[45-sum(toZero[1,1:45])]))
 
-alfa=1
+alfa=0.999
 
 NTNames=["NTrouter","NTfrontend","NTCatalogsvc","NTCartsvc","NTCatalogdb","NTCartdb"]
 NCNames=["NCrouter","NCfrontend","NCCatalogsvc","NCCartsvc","NCCatalogdb","NCCartdb"]
@@ -261,16 +261,17 @@ while true
      ]
 
     global NU=[100000,
-               value(X[1-sum(toZero[1,1:1])])+0.00002*Ie,
-               value(X[1-sum(toZero[1,1:1])])+0.00002*Ie,
-               value(X[9-sum(toZero[1,1:9])])+0.00002*Ie,
-               value(X[26-sum(toZero[1,1:26])])+0.00002*Ie,
+               max(value(X[1-sum(toZero[1,1:1])])+0.00002*Ie,1),
+               max(value(X[1-sum(toZero[1,1:1])])+0.00002*Ie,1),
+               max(value(X[9-sum(toZero[1,1:9])])+0.00002*Ie,1),
+               max(value(X[26-sum(toZero[1,1:26])])+0.00002*Ie,1),
                100000,
                100000
                ]*1.20
 
 
     global NT=ceil.(NU)
+    #global NT=[30000,30000,30000,30000,30000,30000,30000]
     b=argmax(U[2:end]./(value.(NC)))
     for p=1:size(NC,1)
         #maximum(value.(NC[:,0])+ones(2)*(0.001*Ie),ones(2)*0.1)

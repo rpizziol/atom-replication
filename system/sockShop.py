@@ -82,12 +82,11 @@ class sockShop():
         X0=[0 for i in range(49)]
         MU=[-1 for i in range(49)]
         
-        dt=0.01
+        dt=1
         TF=ctrlPeriod
         nrep=1
         
         X0[47]=nusers
-        self.w.append(nusers)
         
         MU[17]=1.0/(2.2*10**-3) #LIST
         MU[22]=1.0/(1.9*10**-3) #ITEM
@@ -120,6 +119,7 @@ class sockShop():
         print("started")
         
         while(step<simLength):
+            self.w.append(nusers)
             print("step %d"%(step))
             stime=time.time()
             
@@ -149,10 +149,10 @@ class sockShop():
             
             X=sys.simulate(X0, NT, NC, MU, dt, TF, nrep)
             time.sleep(max(ctrlPeriod-(time.time()-stime),0))
-            Xsys+=(X[47,:]*MU[47]).tolist()
+            #Xsys+=(X[47,:]*MU[47]).tolist()
+            Xsys+=[X[48,-1]/(TF*1.0)]
             
             X0=X[:,-1].tolist()
-            #print(X0)
             X0[48]=0
             simTime+=TF
             #if(simTime%samplingPeriod==0):
@@ -176,7 +176,7 @@ class sockShop():
 
 if __name__ == '__main__':
     
-    period=200
+    period=100
     shift=1520
     mod=1500
     step=5
@@ -187,8 +187,9 @@ if __name__ == '__main__':
 
     
     for t in range(0,period+step,step):
+    #for t in range(1):
+        #w=3000
         w=sgen.getUser(t)
-        #print("############Users=%.3f#############"%(w))
         print("############Step=%d#############"%(t))    
         if(t==0):
             sys.startSim(samplingPeriod=1.0, ctrlPeriod=1.0, simLength=step,nusers=w)

@@ -1,4 +1,4 @@
-function X = lqn(X0,MU,NT,NC,TF,rep,dt)
+function [t,y] = lqnOde(X0,MU,NT,NC)
 import Gillespie.*
 
 % Make sure vector components are doubles
@@ -34,7 +34,7 @@ p.P_Rmv=1.0/3;
 p.MU = MU; 
 p.NT = NT;
 p.NC = NC;
-p.delta = Inf; % context switch rate (super fast)
+p.delta = 10^5; % context switch rate (super fast)
 
 %states name
 %X(1)=XBrowse_2Address;
@@ -142,17 +142,11 @@ stoich_matrix=[+1,  +1,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  
                +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  -1,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  -1,  +1,  +0,  +0;
                -1,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  -1,  +1,  +1;
                ];
-    
-tspan = [0, TF];
-pfun = @propensities_2state;
- 
-X = zeros(length(X0), ceil(TF/dt) + 1, rep);
-for i = 1:rep
-    [t, x] = directMethod(stoich_matrix, pfun, tspan, X0, p);
-    tsin = timeseries(x,t);
-    tsout = resample(tsin, linspace(0, TF, ceil(TF/dt)+1), 'zoh');
-    X(:, :, i) = tsout.Data';
-end
+
+T = @(X)propensities_2state(X,p);
+
+opts = odeset('Events',@(t,y)eventfun(t,y,stoich_matrix,T));
+[t,y]=ode15s(@(t,y) stoich_matrix'*T(y),[0,100], X0,opts);
 
 end
 
@@ -202,4 +196,11 @@ function Rate = propensities_2state(X, p)
     		X(1)/(X(1))*X(47)/(X(47))*min(X(47),p.NC(2))*p.MU(47);
     		];
     Rate(isnan(Rate))=0;
+end
+
+function [x,isterm,dir] = eventfun(t,y,jump,T)    
+    dy = jump'*T(y);
+    x=max(abs(dy)) - 1e-5;
+    isterm = 1;
+    dir = 0;
 end
