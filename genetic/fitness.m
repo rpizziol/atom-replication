@@ -1,9 +1,8 @@
 function value = fitness(cpushare, sourcemodel, st, model, params, ...
-    constraints, workmix, nuser)
+    constraints, workmix)
     
-%     global currNuser
-% 
-%     nuser = currNuser;
+     global currNuser
+     nuser = currNuser;
 
     rv = [nuser, nuser, nuser, nuser];
     newModelName = 'fittmp';
