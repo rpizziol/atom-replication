@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Modified by Alim Ul Gias -->
-<!-- time of last nuser edit : -->
-<!-- 200912.91048932076 -->
-<lqn-model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" description="Sock shop LINE." name="sock" xsi:noNamespaceSchemaLocation="/usr/local/share/lqns/lqn.xsd">
-<solver-params comment="Sockshop model" conv_val="1e-05" it_limit="50000" print_int="10" underrelax_coeff="0.1"/>
+<lqn-model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" description="LQN of gcs case study." name="gcs" xsi:noNamespaceSchemaLocation="/usr/local/share/lqns/lqn.xsd">
+<solver-params comment="gcs model" conv_val="1e-05" it_limit="50000" print_int="10" underrelax_coeff="0.1"/>
   <!-- TaskClient -->
   <processor multiplicity="1" name="ProcClient" scheduling="inf">
-    <task multiplicity="{{nuser}}" name="TaskClient" scheduling="ref" think-time="7.0">
+    <task multiplicity="1391" name="TaskClient" scheduling="ref" think-time="7.0">
       <entry name="EntryBrowse" type="NONE"/>
       <task-activities>
         <activity bound-to-entry="EntryBrowse" host-demand-mean="0.00000005" name="AS"/>
@@ -33,9 +30,9 @@
       <task-activities>
         <activity bound-to-entry="EntryAddress" host-demand-mean="0.00000005" name="AS1"/>
         <activity host-demand-mean="{{st[1]}}" name="AS2">
-          <synch-call calls-mean="0.6300" dest="EntryHome"/>
-          <synch-call calls-mean="0.3200" dest="EntryCatalog"/>
-          <synch-call calls-mean="0.0500" dest="EntryCarts"/>
+          <synch-call calls-mean="{{wm[1]}}" dest="EntryHome"/>
+          <synch-call calls-mean="{{wm[2]}}" dest="EntryCatalog"/>
+          <synch-call calls-mean="{{wm[3]}}" dest="EntryCarts"/>
         </activity>
         <precedence>
           <pre>
