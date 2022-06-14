@@ -11,8 +11,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import scipy.stats as st
 import time
-from dask.dataframe.io.demo import names
-from astropy.units import nA
 
 
 class matlabValidator(Validator):

@@ -19,10 +19,9 @@ if(iscolumn(NT))
     NC = NC';
 end
 
-
-p.P_Home=0.63;
-p.P_Catalog=0.32;
-p.P_Cart=0.05;
+p.P_Home=0.33;
+p.P_Catalog=0.17;
+p.P_Cart=0.50;
 
 p.P_List=1.0/2;
 p.P_Item=1.0/2;

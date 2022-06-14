@@ -35,9 +35,9 @@ r=jump[:,:].==zeros(size(jump,1),1)
 toZero=sum(r,dims=1).==size(jump,1) #se 1 indica che queta colonna è da eliminare
 jumpR=jump[:,.!toZero[1,:]]
 
-P_Home=0.63
-P_Catalog=0.32
-P_Cart=0.05
+P_Home=0.33;
+P_Catalog=0.17;
+P_Cart=0.50;
 
 P_List=1.0/2
 P_Item=1.0/2
@@ -224,7 +224,7 @@ optNC=zeros(tstep,size(NC,1)+1)
 stimes=[]
 t=LinRange(0,(tstep+1)*dt_sim,(tstep+1))
 Tsim=[]
-Ie=0
+
 
 cumAvgT=nothing
 NT=nothing
@@ -236,6 +236,13 @@ if(w==nothing)
     error("number of client not sampled")
 else
     global w=parse(Float64,w)
+end
+
+Ie=get(conn, "Ie")
+if(Ie==nothing)
+    global Ie=0
+else
+    global Ie=parse(Float64,Ie)
 end
 
 while true
@@ -261,10 +268,10 @@ while true
      ]
 
     global NU=[100000,
-               max(value(X[1-sum(toZero[1,1:1])])+0.00002*Ie,1),
-               max(value(X[1-sum(toZero[1,1:1])])+0.00002*Ie,1),
-               max(value(X[9-sum(toZero[1,1:9])])+0.00002*Ie,1),
-               max(value(X[26-sum(toZero[1,1:26])])+0.00002*Ie,1),
+               max(value(X[1-sum(toZero[1,1:1])])+0.0005*Ie,1),
+               max(value(X[1-sum(toZero[1,1:1])])+0.0005*Ie,1),
+               max(value(X[9-sum(toZero[1,1:9])])+0.0005*Ie,1),
+               max(value(X[26-sum(toZero[1,1:26])])+0.0005*Ie,1),
                100000,
                100000
                ]*1.20
@@ -276,7 +283,7 @@ while true
     for p=1:size(NC,1)
         #maximum(value.(NC[:,0])+ones(2)*(0.001*Ie),ones(2)*0.1)
         #if(p==b)
-            optNC[i,p+1]=max(value(NC[p])+0.00002*Ie,0.0)
+            optNC[i,p+1]=max(value(NC[p])+0.00001*Ie,0.0)
         #else
         #    optNC[i,p+1]=value(NC[p])
         #end
@@ -313,6 +320,8 @@ while true
     else
         global w=parse(Float64,w)
     end
+    
+    set(conn,"Ie",@sprintf("%.6f",Ie))
 
     global i+=1
     set(conn, "stimes",JSON.json(stimes))

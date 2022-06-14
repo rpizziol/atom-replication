@@ -9,8 +9,6 @@ from pathlib import Path
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy.stats as st
-import redis
-import subprocess
 import time
 import json
 from scipy.io import savemat
@@ -18,11 +16,7 @@ from scipy.io import loadmat
 from generator.SinGen import SinGen
 
 class sockShop():
-    modelFilePath = None
-    modelDirPath = None
-    res = None
-    matEng = None
-    r = None
+    GAres = None
     Tsim  = None
     optNC = None
     optNT = None
@@ -31,18 +25,19 @@ class sockShop():
     NTNames=["NTrouter","NTfrontend","NTCatalogsvc","NTCartsvc","NTCatalogdb","NTCartdb"]
     NCNames=["NCrouter","NCfrontend","NCCatalogsvc","NCCartsvc","NCCatalogdb","NCCartdb"]
 
-    def __init__(self, modelPathStr):
+    def __init__(self,gaRes,modelPathStr):
+        
+        self.GAres=loadmat(gaRes)
+        
         self.modelFilePath = Path(modelPathStr)
         if(self.modelFilePath.exists()):
             self.modelDirPath = self.modelFilePath.parents[0]
         else:
             raise ValueError("File %s not found" % (modelPathStr)) 
+        
         self.matEng = matlab.engine.start_matlab()
         self.matEng.rng("shuffle","combRecursive")
         self.matEng.cd(str(self.modelDirPath.absolute()))
-        self.r=redis.Redis()
-        
-        self.r.delete("Ie")
         
         self.Tsim=[]
         self.optNC=[]
@@ -61,25 +56,14 @@ class sockShop():
     def getCtrl(self):
         pass
     
-    def startOptCtrl(self):
-        return subprocess.Popen(["julia","../LQN-CRN/controller/2task_prob/MADNLP.jl"])
-    
     def startGenecitCtrl(self):
         pass
-    
-    def reset(self):
-        self.r.delete("Tr")
-        self.r.delete("w")
-        for i in range(len(self.NCNames)):
-            self.r.delete(self.NTNames[i])
-            self.r.delete(self.NCNames[i])
     
     def startSim(self,samplingPeriod,ctrlPeriod,simLength,nusers,NCinit=None,NTinit=None,isInf=True):
         
         if(samplingPeriod<ctrlPeriod):
             raise ValueError("samplingPeriod needs to be greater of equals to ctrlPeriod")
         
-        self.reset()
         
         X0=[0 for i in range(49)]
         MU=[-1 for i in range(49)]
@@ -108,20 +92,11 @@ class sockShop():
         MU[47]=1.0/7 #think
         
         Xsys=[]
-        step=0
+        step=int(np.ceil(self.GAres["bestTimeStamps"][0]))
         simTime=0
-        self.r.set("w",X0[47])
         
-        P=self.startOptCtrl()
-        
-        self.r.set("started","0")
-        while(self.r.get("started").decode('UTF-8')=="0"):
-            print("waint julia to start")
-            time.sleep(0.5)
-        print("started")
         
         e=[]
-        
         Tstep=[]
         
         while(step<simLength):
@@ -129,24 +104,15 @@ class sockShop():
             print("step %d"%(step))
             stime=time.time()
             
-            #aggiorno i controlli
-            if(NCinit!=None):
-                print("NC not None")
-                NT=[10000]
-                NC=[10000]
-                for idx in range(1,len(NCinit)):
-                    nt= self.r.get(self.NTNames[idx-1])
-                    nc= self.r.get(self.NCNames[idx-1])
-                    if(nt is not None and nc is not None):
-                        NT+=[int(nt)]
-                        NC+=[float(nc)]
-                    else:          
-                        NT+=[NTinit[idx]]
-                        NC+=[NCinit[idx]]                 
+            NC=None
+            NT=[100000]*7
+            idx = (np.abs(self.GAres["bestTimeStamps"] - step)).argmin()
+            if(idx==0 and step<=self.GAres["bestTimeStamps"][idx]):
+                NC=[100000]+[1]*4+[100000]*2
             else:
-                NT=[10000]+list(map(lambda x: 1 if x is None else int(x), self.r.mget(self.NTNames)))
-                NC=[10000]+list(map(lambda x: 1 if x is None else float(x), self.r.mget(self.NCNames)))
+                NC=[100000]+self.GAres["bestIndividuals"][idx].tolist()+[100000]*2
             
+                
             
             self.optNT.append(NT)
             self.optNC.append(NC)
@@ -163,11 +129,11 @@ class sockShop():
             simTime+=TF
             #if(simTime%samplingPeriod==0):
             
+            
             self.Tsim.append(np.mean(Xsys))
             Tstep.append(np.mean(Xsys))
-            self.r.set("Tr",str(self.Tsim[-1]))
-            self.r.set("w",X0[47]+X0[0])
             
+            print(Tstep[-1])
             
             Tcum=np.divide(np.cumsum(Tstep),np.linspace(1,len(Tstep),len(Tstep)))[-1]
             e.append(np.abs(Tcum-(nusers*MU[47]))*100/(nusers*MU[47]))
@@ -185,7 +151,7 @@ class sockShop():
                 else:
                     ntime=0
             
-            if(ntime>=20 or step>=1000):
+            if(step-int(np.ceil(self.GAres["bestTimeStamps"][0]))>1010):
                 print("***stopping***")
                 break
             else:
@@ -194,15 +160,16 @@ class sockShop():
             Xsys=[]
             step+=1
                 
-        P.terminate()
         
-        stimes=self.r.get("stimes").decode('UTF-8')
-        if(self.stimes is None):
-            self.stimes=json.loads(stimes)[1:]
-        else:
-            self.stimes+=json.loads(stimes)[1:]
+        # stimes=self.r.get("stimes").decode('UTF-8')
+        # if(self.stimes is None):
+        #     self.stimes=json.loads(stimes)[1:]
+        # else:
+        #     self.stimes+=json.loads(stimes)[1:]
         
-        return step
+        self.stimes=[0]
+        
+        return step-int(np.ceil(self.GAres["bestTimeStamps"][0]))
     
         
 
@@ -215,16 +182,15 @@ if __name__ == '__main__':
     sgen=SinGen(period,shift,mod)    
     
     
-    
-    W=[3000,2000,1000]
+    W=[2000,1000]
     #for t in range(0,period+20,20):
     for t in range(len(W)):
-        
-        sys=sockShop("../model/validation/2task_prob/lqn.m")
-        steps=[]
-        
         w=W[t]
         #w=sgen.getUser(t)
+        
+        sys=sockShop("data/allbest-%do.mat"%(w),"../model/validation/2task_prob/lqn.m")
+        steps=[]
+        
         print("############Step=%d#############"%(t))    
         if(True):
             s=sys.startSim(samplingPeriod=1.0, ctrlPeriod=1.0, simLength=step,nusers=w)
@@ -232,6 +198,6 @@ if __name__ == '__main__':
             s=sys.startSim(samplingPeriod=1.0, ctrlPeriod=1.0, simLength=step,nusers=w,NCinit=sys.optNC[-1],NTinit=sys.optNT[-1])
             
         steps.append(s)
-        
-        savemat("muopt_%d_%s.mat"%(w,"o"), {"Tsim":sys.Tsim,"NT":np.array(sys.optNT)[:,1:5],"NC":np.array(sys.optNC)[:,1:5],"stimes":sys.stimes,
-                          "w":sys.w,"steps":steps})
+    
+        savemat("muopt_%d-%s-GA.mat"%(w,"o"), {"Tsim":sys.Tsim,"NT":np.array(sys.optNT)[:,1:5],"NC":np.array(sys.optNC)[:,1:5],"stimes":sys.stimes,
+                 "w":sys.w,"steps":steps})

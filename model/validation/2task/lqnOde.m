@@ -1,4 +1,4 @@
-function [t,y] = lqnOde(X0,MU,NT,NC,dt)
+function [t,y,ssR] = lqnOde(X0,MU,NT,NC)
 % Make sure vector components are doubles
 X0 = double(X0);
 MU = double(MU);
