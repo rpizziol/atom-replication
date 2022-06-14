@@ -8,7 +8,7 @@
 %   s           : the CPU share array.
 % OUTPUTS
 %   fval        : the value of the objective function given r and s.
-function fval = solveModel(modelName, model, params, constraints, r, s, currNuser)
+function fval = solveModel(modelName, model, params, constraints, r, s, nuser)
     %% Calculate total allocated CPU capacity (to minimize)
     Cmax = sum(constraints.s_ub); %constraints.Q.*constraints.s_ub);
     Ct = sum(s);  %sum(r.*s); 
@@ -46,7 +46,7 @@ function fval = solveModel(modelName, model, params, constraints, r, s, currNuse
         %% Calculate revenue (to maximize)
         Bt = sum(sum(params.psi.*Xt));
 
-        Bmax = sum(sum(params.psi.*repmat(currNuser / 7, model.N, model.M))); % nuser (3000) / 7 (think time)
+        Bmax = sum(sum(params.psi.*repmat(nuser / 7, model.N, model.M))); % nuser (3000) / 7 (think time)
         Bhat = Bt / Bmax; % Normalized Bt
     
         %% Calculate objective function

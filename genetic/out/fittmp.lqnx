@@ -33,9 +33,9 @@
       <task-activities>
         <activity bound-to-entry="EntryAddress" host-demand-mean="0.00000005" name="AS1"/>
         <activity host-demand-mean="{{st[1]}}" name="AS2">
-          <synch-call calls-mean="{{wm[1]}}" dest="EntryHome"/>
-          <synch-call calls-mean="{{wm[2]}}" dest="EntryCatalog"/>
-          <synch-call calls-mean="{{wm[3]}}" dest="EntryCarts"/>
+          <synch-call calls-mean="0.6300" dest="EntryHome"/>
+          <synch-call calls-mean="0.3200" dest="EntryCatalog"/>
+          <synch-call calls-mean="0.0500" dest="EntryCarts"/>
         </activity>
         <precedence>
           <pre>

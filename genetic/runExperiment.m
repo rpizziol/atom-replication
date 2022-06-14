@@ -47,7 +47,7 @@ function runExperiment(workmix, nuser)
     
     start = tic();
     
-    f = @(x)fitness(x, sourcemodel, st, model, params, constraints, workmix, currNuser);
+    f = @(x)fitness(x, sourcemodel, st, model, params, constraints, workmix);
     
     options = optimoptions('ga'); % Load default settings
     options = optimoptions(options,'PopulationType', 'doubleVector');

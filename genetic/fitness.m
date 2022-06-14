@@ -1,9 +1,8 @@
 function value = fitness(cpushare, sourcemodel, st, model, params, ...
-    constraints, workmix, nuser)
+    constraints, workmix)
     
-    %global currNuser
-
-    %nuser = currNuser;
+     global currNuser
+     nuser = currNuser;
 
     rv = [nuser, nuser, nuser, nuser];
     newModelName = 'fittmp';
@@ -13,7 +12,7 @@ function value = fitness(cpushare, sourcemodel, st, model, params, ...
     [np2, st2] = calculateByCPUShare(st, cpushare);
 
     updateModel(sourcemodel, temppath, 'nuser', nuser);
-    updateModel(sourcemodel, temppath, 'wm', workmix);
+    updateModel(temppath, temppath, 'wm', workmix);
     updateModel(temppath, temppath, 'rv', rv);
     updateModel(temppath, temppath, 'st', st2);
     updateModel(temppath, temppath, 'np', np2);
