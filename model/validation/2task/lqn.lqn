@@ -52,7 +52,7 @@ y e2 e4 1.0 -1
 #! solver sim        	# ODE analysis - solver sim will run simulation
 #! stoptime 2000.0   	# integration time horizon
 #! confidence_level 0.99
-#! confidence_percent_error 0.1
+#! confidence_percent_error 0.05
 
 # 2. Output settings
 #! throughput: BrowseEntry e1 e2 e3 e4
