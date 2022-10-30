@@ -7,7 +7,17 @@ function value = fitness(cpushare, sourcemodel, st, model, params, ...
     rv = [nuser, nuser, nuser, nuser];
     newModelName = 'fittmp';
 
-    temppath = './out/fittmp.lqnx';
+    c = clock;
+    year = sprintf('%04d', c(1));
+    month = sprintf('%02d', c(2));
+    day = sprintf('%02d', c(3));
+    hour = sprintf('%02d', c(4));
+    minute = sprintf('%02d', c(5));
+    seconds = sprintf('%02d', c(6));
+    timestamp = strcat(year, month, day, '-', hour, minute, seconds);
+
+
+    temppath = strcat('./out/fittmp', timestamp, '.lqnx');
 
     [np2, st2] = calculateByCPUShare(st, cpushare);
 
