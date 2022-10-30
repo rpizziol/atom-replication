@@ -1,8 +1,8 @@
 
-for i = 1:2  
+%for i = 1:2  
     clear
     runExperimentByMix('browsing', [0.63, 0.32, 0.05], 1000);
-end
+%end
     
     % clear
 % runExperimentByMix('browsing', [0.63, 0.32, 0.05], 2000);
