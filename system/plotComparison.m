@@ -2,7 +2,7 @@ clear
 
 mixs = ['b', 'o', 's'];
 users = [1000, 2000, 3000];
-format = 'png';
+format = 'pdf';
 thinkTime = 7;
 
 %% Preparatory work
@@ -13,7 +13,7 @@ times = zeros(1,9);
 
 for i = 1:length(mixs)
     for j = 1:length(users)
-        expId = j + 3*(i-1);
+        expId = i + 3*(j-1);
         workmixs{1, expId} = sprintf('%i-%s', users(j), mixs(i));
 
         % Load data
@@ -36,10 +36,10 @@ end
 
 
 %% Total cpu share comparison graph
-%generateComparisonBarPlot(CPUs, 'CPU share', sprintf('CPU-muOptvsGA.%s', format), workmixs)
+generateComparisonBarPlot(CPUs, 'CPU share', sprintf('CPU-muOptvsGA.%s', format), workmixs)
 
 %% Steady state time muOpt graph
-%generateComparisonBarPlot(times, 'Execution time (s)', sprintf('time-muOpt.%s', format), workmixs)
+generateComparisonBarPlot(times, 'Execution time (s)', sprintf('time-muOpt.%s', format), workmixs)
 
 %% Steady state throughput comparison graph
 generateComparisonBarPlot(thrs, 'Throughput (req/s)', sprintf('thr-muOptvsGA.%s', format), workmixs)
@@ -54,20 +54,20 @@ function generateComparisonBarPlot(ydata, yname, filename, workmixs)
     if size(ydata, 1) == 1 % time
         bar(x, y, 0.5);
         legend('\muOpt');
-    elseif size(ydata, 2) == 1 % CPU
+    elseif size(ydata, 1) == 2 % CPU
         bar(x, y, 1);
         legend('\muOpt', 'GA');
     else % thr
         bar(x, y, 1);
         legend('\muOpt', 'GA', 'Req');
+        legend('Location','northwest');
     end
 
     % Labels and legend
     ylabel(yname);
     xlabel('Work mix')
-    %line(xlim, [50, 50], 'Color', 'm', 'LineWidth', 2);
     
     % Export graph
-    %exportgraphics(gcf,sprintf('img/%s', filename))
-    %close()
+    exportgraphics(gcf,sprintf('img/%s', filename))
+    close()
 end
