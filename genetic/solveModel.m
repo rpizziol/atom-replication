@@ -51,7 +51,6 @@ function fval = solveModel(modelName, model, params, constraints, r, s, nuser)
     
         %% Calculate objective function
         fval = (params.tau1 * Bhat - params.tau2 * Chat);
-
         %% Obtain response times
 %         rt = zeros(1, 9);
 %         entrynames = ["EntryAddress" "EntryHome" "EntryCatalog" ...
@@ -62,4 +61,8 @@ function fval = solveModel(modelName, model, params, constraints, r, s, nuser)
 %             rt(i) = str2double(getAttributeByEntry(xmlpath, entrynames(i), 'phase1-service-time'));
 %         end
     end
+    %% Remove xml files
+    delete(strcat('./out/', modelName, '.out'));
+    delete(strcat('./out/', modelName, '.lqnx'));
+    delete(strcat('./out/', modelName, '.lqxo'));
 end

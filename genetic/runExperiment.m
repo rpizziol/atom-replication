@@ -1,4 +1,8 @@
 function runExperiment(workmix, nuser)
+    %% Generate random seed    
+    c = clock;
+    rng(c(6));
+
     global currNuser
     currNuser = nuser;
     %% Model definition
