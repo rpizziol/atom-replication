@@ -33,7 +33,7 @@ function runExperiment(workmix, nuser)
     constraints.Q = [1200, 1200, 1200, 1200]; % Max number of replicas for each microservice
     % CPU share for each replica of each microservice for the time interval t
     constraints.s_lb = [0.001, 0.001, 0.001, 0.001];  % Lower bound
-    max_s = 30;
+    max_s = 5; % old value: 30
     constraints.s_ub = [max_s, max_s, max_s, max_s];      % Upper bound
     
 

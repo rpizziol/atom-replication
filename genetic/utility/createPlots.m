@@ -8,7 +8,7 @@ clear
 % end
 
 
-saveAllPlots('20220309-1623-ordering-1000');
+saveAllPlots('20221031-0906-shopping-1000');
 
 % Run savePlot for each variable in the experiment
 function saveAllPlots(testname)
