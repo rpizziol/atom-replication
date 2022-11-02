@@ -1,5 +1,4 @@
-function runAllATOMExperiments(N, wm)
-    clear    
+function runAllATOMExperiments(N, wm) 
     if strcmp(wm, 'b')
         wmName = 'browsing';
         wmProbs = [0.63, 0.32, 0.05];
