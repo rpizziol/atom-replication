@@ -9,7 +9,7 @@ function runAllATOMExperiments(N, wm)
         wmName = 'shopping';
         wmProbs = [0.54, 0.26, 0.20];
     end
-
+    
     runExperimentByMix(wmName, wmProbs, str2double(N));
     
     %clear
