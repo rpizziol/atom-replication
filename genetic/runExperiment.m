@@ -72,7 +72,7 @@ function runExperiment(mixname, workmix, nuser)
     toc(start);
 
     % e.g. '1000-b'
-    foldername = strcat(num2str(nusers), '-', mixname(1));
+    foldername = strcat(num2str(nuser), '-', mixname(1));
     
     % Save final output
     save(strcat('./out/mat/done/', foldername, '/', testname, '.mat'), 'bestIndividuals', ...
