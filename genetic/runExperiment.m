@@ -1,4 +1,4 @@
-function runExperiment(workmix, nuser)
+function runExperiment(mixname, workmix, nuser)
     %% Generate random seed    
     c = clock;
     rng(c(6));
@@ -57,7 +57,7 @@ function runExperiment(workmix, nuser)
     options = optimoptions(options,'PopulationType', 'doubleVector');
     options = optimoptions(options,'PopulationSize', 50); % default: 50
     options = optimoptions(options,'MaxGenerations', 400); % default: 100*nvars
-    options = optimoptions(options,'MaxTime', 2400); % 40m = 2400 seconds
+    options = optimoptions(options,'MaxTime', 60); % 40m = 2400 seconds
     options = optimoptions(options,'MaxStallGenerations', 20);
     options = optimoptions(options,'MutationFcn', { @mutationadaptfeasible 0.1 });
     options = optimoptions(options,'PlotFcn', {@gaplotbestf, @gaplotbestindiv, @printState });
@@ -70,8 +70,12 @@ function runExperiment(workmix, nuser)
     disp(exitflag);
 
     toc(start);
+
+    % e.g. '1000-b'
+    foldername = strcat(num2str(nusers), '-', mixname(1));
     
-    save(strcat('./out/mat/', testname, '.mat'), 'bestIndividuals', ...
+    % Save final output
+    save(strcat('./out/mat/done/', foldername, '/', testname, '.mat'), 'bestIndividuals', ...
         'bestValues', 'bestTimeStamps', 'nusersInTime', 'testname');
 end
 

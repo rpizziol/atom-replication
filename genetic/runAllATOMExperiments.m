@@ -1,4 +1,5 @@
 function runAllATOMExperiments(N, wm)
+    % Input parsing
     if strcmp(wm, 'b')
         wmName = 'browsing';
         wmProbs = [0.63, 0.32, 0.05];
@@ -9,8 +10,11 @@ function runAllATOMExperiments(N, wm)
         wmName = 'shopping';
         wmProbs = [0.54, 0.26, 0.20];
     end
-    
-    runExperimentByMix(wmName, wmProbs, str2double(N));
+    for i = 1:10
+        runExperimentByMix(wmName, wmProbs, str2double(N));
+    end
+end
+
     
     %clear
     %runExperimentByMix('browsing', [0.63, 0.32, 0.05], 1000);
@@ -36,7 +40,7 @@ function runAllATOMExperiments(N, wm)
         timestamp = getTimeStamp();
         global testname
         testname = strcat(timestamp, '-', mixname, '-', int2str(nuser));
-        runExperiment(mixvalues, nuser);
+        runExperiment(mixname, mixvalues, nuser);
     end
     
     %% Get date and time in the string format: 'yyyymmdd-hhmm'
@@ -58,8 +62,6 @@ function runAllATOMExperiments(N, wm)
     % %     nuser = str2num(sprintf('%5.f',N(toc(start),1500,6000,1510)));
     % %     runExperiment(mix.values, nuser);
     % % end 
-
-end
 
 
 
