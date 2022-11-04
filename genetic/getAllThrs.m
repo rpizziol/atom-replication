@@ -1,9 +1,20 @@
-clear global;
+clear
+%cpushare = [0.6198    1.6041    0.2771    0.9554];
+filenames = dir('./muOpt/*.mat');
+for k = 1:size(filenames, 1)
+    filename = filenames(k).name;
+    wm = filename(end-4); % either 'b', 'o', or 's'
+    nuser = str2double(filename(7:10));
+    load(strcat('./muOpt/', filename));   
+    if size(NC,2) == 3
+        % Add missing column
+        NC = [NC ones(size(NC, 1), 1)];
+    end
+    cpushare = NC(end, :);
+    getThrByCPUShare(cpushare, nuser, wm);
+    fprintf('%s - thr = %d\n', filename, thr);
+end
 
-cpushare = [0.6198    1.6041    0.2771    0.9554];
-
-thr = getThrByCPUShare(cpushare, 1000, 'b');
-disp(thr);
 
 function thr = getThrByCPUShare(cpushare, nuser, wm)
     %% Parse input
