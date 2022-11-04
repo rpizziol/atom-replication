@@ -6,7 +6,6 @@ function value = fitness(cpushare, sourcemodel, st, model, params, ...
 
     rv = [nuser, nuser, nuser, nuser];
     
-
     c = clock;
     year = sprintf('%04d', c(1));
     month = sprintf('%02d', c(2));

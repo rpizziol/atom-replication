@@ -17,12 +17,12 @@ for i = 1:length(mixs)
         workmixs{1, expId} = sprintf('%i-%s', users(j), mixs(i));
         foldername = sprintf('%i-%s', users(j), mixs(i));
         disp(foldername);
-        filenames = dir(strcat('./', foldername, '/*.mat'));
+        filenames = dir(strcat('./out/mat/done/', foldername, '/*.mat'));
         sumavg = 0;
         sumtimes = 0;
         sumthr = 0;
         for k = 1:size(filenames, 1)
-            load(strcat('./', foldername, '/', filenames(k).name));
+            load(strcat('./out/mat/done/', foldername, '/', filenames(k).name));
             cumsum = sum(bestIndividuals(end,:));
             % Update maximum value
             if cumsum > maxCpu(expId) 
@@ -46,7 +46,7 @@ for i = 1:length(mixs)
 end
 
 %% Generate barplot
-
+%{
 x = categorical(workmixs);
 x = reordercats(x, workmixs);    
 bar(x, avgCpu);    
@@ -55,6 +55,7 @@ er = errorbar(x, avgCpu, minCpu, maxCpu);
 er.Color = [0 0 0];                            
 er.LineStyle = 'none';   
 hold off
+%}
 
 function thr = getThrByCPUShare(cpushare, nuser, wm)
     %% Parse input
