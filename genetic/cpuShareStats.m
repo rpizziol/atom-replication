@@ -22,7 +22,9 @@ for i = 1:length(mixs)
         sumtimes = 0;
         sumthr = 0;
         for k = 1:size(filenames, 1)
+            disp(filenames(k).name);
             load(strcat('./out/mat/done/', foldername, '/', filenames(k).name));
+            %{
             cumsum = sum(bestIndividuals(end,:));
             % Update maximum value
             if cumsum > maxCpu(expId) 
@@ -35,6 +37,8 @@ for i = 1:length(mixs)
             % Update average
             sumavg = sumavg + cumsum;
             sumtimes = sumtimes + bestTimeStamps(end, :);
+            %}
+            disp(sumthr);
             sumthr = sumthr + getThrByCPUShare(bestIndividuals(end,:), ...
                 users(j), mixs(i));
 
