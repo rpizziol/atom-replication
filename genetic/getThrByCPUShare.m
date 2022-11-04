@@ -28,4 +28,5 @@ function thr = getThrByCPUShare(cpushare, nuser, wm)
     xmlpath = './out/temp.lqxo';
     thr = str2double(getAttributeByEntry(xmlpath, 'EntryBrowse', ...
         'throughput'));
+    disp(thr);
 end
