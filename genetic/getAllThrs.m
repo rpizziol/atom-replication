@@ -11,7 +11,7 @@ for k = 1:size(filenames, 1)
         NC = [NC ones(size(NC, 1), 1)];
     end
     cpushare = NC(end, :);
-    getThrByCPUShare(cpushare, nuser, wm);
+    thr = getThrByCPUShare(cpushare, nuser, wm);
     fprintf('%s - thr = %d\n', filename, thr);
 end
 
