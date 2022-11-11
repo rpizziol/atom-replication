@@ -1,0 +1,75 @@
+function [t,y,ssR] = lqnODE(X0,MU,NT,NC)
+% Make sure vector components are doubles
+X0 = double(X0);
+MU = double(MU);
+
+% Make sure all vectors are row vectors
+if(iscolumn(X0))
+    X0 = X0';
+end
+if(iscolumn(MU))
+    MU = MU';
+end
+if(iscolumn(NT))
+    NT = NT';
+end
+if(iscolumn(NT))
+    NC = NC';
+end
+
+p.MU = MU;
+p.NT = NT;
+p.NC = NC;
+p.delta = 10^5; % context switch rate (super fast)
+
+%states name
+%X(1)=Xb_s;
+%X(2)=Xms
+%X(3)=Xc1;
+%X(4)=Xc2;
+%X(5)=Xb;
+
+
+%task ordering
+%1=Client;
+%2=MS;
+
+p.Pc1=0.5;
+p.Pc2=0.5;
+
+
+% Jump matrix
+jump=[+1,  +1,  +0,  +0,  -1;
+    +0,  -1,  +1,  +0,  +0;
+    +0,  -1,  +0,  +1,  +0;
+    -1,  +0,  -1,  +0,  +1;
+    -1,  +0,  +0,  -1,  +1;
+    ];
+
+T = @(X)propensities_2state(X,p);
+opts = odeset('Events',@(t,y)eventfun(t,y,jump,T));
+[t,y]=ode15s(@(t,y) jump'*T(y),[0,Inf], X0,opts);
+
+ssR=T(y(end,:)');
+
+end
+
+% Propensity rate vector (CTMC)
+function Rate = propensities_2state(X, p)
+Tms=p.delta*min(p.NT(2)-(X(3)+X(4)),X(2));
+Rate = [p.MU(end)*X(end);
+    p.Pc1*Tms;
+    p.Pc2*Tms;
+    X(3)/(X(3)+X(4))*p.MU(3)*min((X(3)+X(4)),p.NC(2));
+    X(4)/(X(3)+X(4))*p.MU(4)*min((X(3)+X(4)),p.NC(2))
+    ];
+Rate(isnan(Rate))=0;
+end
+
+function [x,isterm,dir] = eventfun(t,y,jump,T)
+dy = jump'*T(y);
+%x = norm(dy) - 1e-5;
+x=max(abs(dy)) - 1e-5;
+isterm = 1;
+dir = 0;
+end

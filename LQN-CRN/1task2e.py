@@ -28,9 +28,9 @@ if __name__ == '__main__':
     # Search  entries logic#
     choiceSearch=probChoice(parent=search, name="Choice")
     BlkC1=actBlock(parent=choiceSearch, name="BlkC1")
-    BlkC1.activities.append(Activity(stime=1.0, parent=BlkC1, name="c1"))
+    BlkC1.activities.append(Activity(stime=1.0, parent=BlkC1, name="c1_e"))
     BlkC2=actBlock(parent=choiceSearch, name="BlkC2")
-    BlkC2.activities.append(Activity(stime=1.0, parent=BlkC2, name="c2"))
+    BlkC2.activities.append(Activity(stime=1.0, parent=BlkC2, name="c2_e"))
     
     choiceSearch.addBlock(BlkC1, "P_c1")
     choiceSearch.addBlock(BlkC2, "P_c2")
@@ -40,7 +40,7 @@ if __name__ == '__main__':
     
     
     # client logic#
-    browse.getActivities().append(SynchCall(dest=search, parent=browse, name="2searc"))
+    browse.getActivities().append(SynchCall(dest=search, parent=browse, name="2Search"))
     browse.getActivities().append(Activity(stime=1.0, parent=browse, name="browse"))
     
     lqn2crn = LQN_CRN2()

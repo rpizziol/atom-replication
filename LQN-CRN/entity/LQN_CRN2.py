@@ -331,6 +331,19 @@ class LQN_CRN2():
         mfid.write(model)
         mfid.close()
         
+        #++export ODE
+        mat_tmpl = env.get_template('modelODE-tpl.m')
+        model = mat_tmpl.render(task=self.lqn["task"], name=self.lqn["name"],
+              names=self.names, props=mprops, jumps=self.Jumps)
+        
+        outd = Path(outDir)
+        outd = outd / self.lqn["name"]
+        outd.mkdir(parents=True, exist_ok=True)
+        
+        mfid = open("%s/lqnODE.m" % str(outd.absolute()), "w+")
+        mfid.write(model)
+        mfid.close()
+        
     
     def toPython(self, outDir=None):
         if(outDir == None):
