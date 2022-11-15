@@ -1,0 +1,60 @@
+G
+"acmeair.lqn"
+0.00001
+100
+1
+0.999
+-1
+
+# Processors declaration, with multiplicity 
+P 0
+p ProcClient f m {{nc[1]}}
+p ProcMSauth f m {{nc[2]}}
+p ProcMSvalidateid f m {{nc[3]}}
+p ProcMSviewprofile f m {{nc[4]}}
+p ProcMSupdateprofile f m {{nc[5]}}
+p ProcMSupdateMiles f m {{nc[6]}}
+p ProcMSbookflights f m {{nc[7]}}
+p ProcMScancelbooking f m {{nc[8]}}
+p ProcMSqueryflights f m {{nc[9]}}
+p ProcMSgetrewardmiles f m {{nc[10]}}
+-1
+
+# Tasks declaration
+T 0
+t client r clientEntry -1 ProcClient m {{W}}
+t MSauth r MSauthEntry -1 ProcMSauth m {{W}}
+t MSvalidateid r MSvalidateidEntry -1 ProcMSvalidateid m {{W}}
+t MSviewprofile r MSviewprofileEntry -1 ProcMSviewprofile m {{W}}
+t MSupdateprofile r MSupdateprofileEntry -1 ProcMSupdateprofile m {{W}}
+t MSupdateMiles r MSupdateMilesEntry -1 ProcMSupdateMiles m {{W}}
+t MSbookflights r MSbookflightsEntry -1 ProcMSbookflights m {{W}}
+t MScancelbooking r MScancelbookingEntry -1 ProcMScancelbooking m {{W}}
+t MSqueryflights r MSqueryflightsEntry -1 ProcMSqueryflights m {{W}}
+t MSgetrewardmiles r MSgetrewardmilesEntry -1 ProcMSgetrewardmiles m {{W}}
+-1
+
+# Entries declaration
+E 0
+s clientEntry 0.2738 -1
+y clientEntry MSviewprofileEntry 2.0 -1
+y clientEntry MSupdateprofileEntry 1.0 -1
+y clientEntry MSbookflightsEntry 1.0 -1
+y clientEntry MScancelbookingEntry 2.0 -1
+y clientEntry MSqueryflightsEntry 1.0 -1
+s MSauthEntry 0.1510 -1
+y MSauthEntry MSvalidateidEntry 1.0 -1
+s MSvalidateidEntry 0.0812 -1
+s MSviewprofileEntry 0.1505 -1
+s MSupdateprofileEntry 0.2013 -1
+s MSupdateMilesEntry 0.0403 -1
+s MSbookflightsEntry 0.1008 -1
+y MSbookflightsEntry MSupdateMilesEntry 2.0 -1
+y MSbookflightsEntry MSgetrewardmilesEntry 2.0 -1
+s MScancelbookingEntry 0.0876 -1
+y MScancelbookingEntry MSupdateMilesEntry 1.0 -1
+y MScancelbookingEntry MSgetrewardmilesEntry 1.0 -1
+s MSqueryflightsEntry 0.0908 -1
+s MSgetrewardmilesEntry 0.0504 -1
+y clientEntry MSauthEntry 1.0 -1
+-1
