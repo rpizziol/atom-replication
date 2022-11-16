@@ -26,11 +26,12 @@ for i = 1:25
     if status == 0
         for j = 1:size(entries, 2)
             thr = getAttributeByEntry(outfile, entries(j), 'throughput');
+            st = getAttributeByEntry(outfile, entries(j), 'service-time');
             Tp(i, j) = str2double(thr(1));
-            %disp(thr);
-            %disp(thr(1));
+            RTp(i, j) = str2double(st(1));
         end
         delete(outfile);
     end
+    save("out.mat", "RTp", "Tp");
 end
 
