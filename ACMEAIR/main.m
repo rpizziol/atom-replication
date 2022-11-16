@@ -4,6 +4,10 @@ sourcefile = 'acmeair.lqn';
 tempfile = 'acmeair-2.lqn';
 outfile = 'acmeair-2.lqxo';
 
+% Load data and what if
+data = load('./acmeAir.py_full_data_out.mat');
+wi = load('./acmeAir.py_full_10b.mat');
+
 Tp = zeros(size(wi.Tm));
 RTp = zeros(size(wi.RTm));
 
@@ -11,10 +15,6 @@ entries = ["clientEntry", "MSauthEntry", "MSvalidateidEntry", ...
     "MSviewprofileEntry", "MSupdateprofileEntry", "MSupdateMilesEntry", ...
     "MSbookflightsEntry", "MScancelbookingEntry", "MSqueryflightsEntry", ...
     "MSgetrewardmilesEntry"];
-
-% Load data and what if
-data = load('./acmeAir.py_full_data_out.mat');
-wi = load('./acmeAir.py_full_10b.mat');
 
 for i = 1:25
     % Update model with number of users and cores
