@@ -1,9 +1,9 @@
 G
 "acmeair.lqn"
-0.00001
-100
+0.0001
+500
 1
-0.999
+0.5
 -1
 
 # Processors declaration, with multiplicity 
