@@ -23,15 +23,15 @@ p ProcMSgetrewardmiles f m {{nc[10]}}
 # Tasks declaration
 T 0
 t client r clientEntry -1 ProcClient m {{W}}
-t MSauth r MSauthEntry -1 ProcMSauth m {{W}}
-t MSvalidateid r MSvalidateidEntry -1 ProcMSvalidateid m {{W}}
-t MSviewprofile r MSviewprofileEntry -1 ProcMSviewprofile m {{W}}
-t MSupdateprofile r MSupdateprofileEntry -1 ProcMSupdateprofile m {{W}}
-t MSupdateMiles r MSupdateMilesEntry -1 ProcMSupdateMiles m {{W}}
-t MSbookflights r MSbookflightsEntry -1 ProcMSbookflights m {{W}}
-t MScancelbooking r MScancelbookingEntry -1 ProcMScancelbooking m {{W}}
-t MSqueryflights r MSqueryflightsEntry -1 ProcMSqueryflights m {{W}}
-t MSgetrewardmiles r MSgetrewardmilesEntry -1 ProcMSgetrewardmiles m {{W}}
+t MSauth n MSauthEntry -1 ProcMSauth m {{W}}
+t MSvalidateid n MSvalidateidEntry -1 ProcMSvalidateid m {{W}}
+t MSviewprofile n MSviewprofileEntry -1 ProcMSviewprofile m {{W}}
+t MSupdateprofile n MSupdateprofileEntry -1 ProcMSupdateprofile m {{W}}
+t MSupdateMiles n MSupdateMilesEntry -1 ProcMSupdateMiles m {{W}}
+t MSbookflights n MSbookflightsEntry -1 ProcMSbookflights m {{W}}
+t MScancelbooking n MScancelbookingEntry -1 ProcMScancelbooking m {{W}}
+t MSqueryflights n MSqueryflightsEntry -1 ProcMSqueryflights m {{W}}
+t MSgetrewardmiles n MSgetrewardmilesEntry -1 ProcMSgetrewardmiles m {{W}}
 -1
 
 # Entries declaration
