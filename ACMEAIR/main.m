@@ -15,10 +15,12 @@ for i = 1:25
     updateModel(sourcefile, tempfile, 'W', [wi.Cli(i)]);
     updateModel(tempfile, tempfile, 'nc', wi.NC(i,:));
     % Solve the model
-    [status, ~] = system("lqns -x" + tempfile);
+    [status, ~] = system("lqns -x " + tempfile, '-echo');
     disp(status);
     % Obtain output throughput and service time
-    disp(getAttributeByEntry(outfile, 'clientEntry', 'throughput'));
-    delete(outfile);
+    if status == 0
+        disp(getAttributeByEntry(outfile, 'clientEntry', 'throughput'));
+        delete(outfile);
+    end
 end
 
