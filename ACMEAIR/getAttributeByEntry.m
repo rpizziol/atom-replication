@@ -5,10 +5,12 @@
 %   attrname  : the identifier of the attribute.
 % OUTPUTS
 %   rt        : an array with all the values of attributes 
-function rt = getAttributeByEntry(xmlpath, entryname, attrname)
+function [rt, st] = getAttributeByEntry(xmlpath, entryname, attrname, actname)
     xdoc = xmlread(xmlpath);
     entries = xdoc.getElementsByTagName('entry');
     results = xdoc.getElementsByTagName('result-entry');
+    activities = xdoc.getElementsByTagName('result-activity');
+
     % Initialize variables
     searching = true;
     i = 0;
@@ -17,6 +19,7 @@ function rt = getAttributeByEntry(xmlpath, entryname, attrname)
         if strcmp(entryname, entries.item(i).getAttribute('name'))
             % Pick the relative attribute
             rt = results.item(i).getAttribute(attrname);
+            st = activities.item(i).getAttribute(actname);
             searching = false; % End search
         else
             rt = [];

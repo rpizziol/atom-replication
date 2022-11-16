@@ -25,8 +25,7 @@ for i = 1:25
     % Obtain output throughput and service time
     if status == 0
         for j = 1:size(entries, 2)
-            thr = getAttributeByEntry(outfile, entries(j), 'throughput');
-            st = getAttributeByEntry(outfile, entries(j), 'service-time');
+            [thr, st] = getAttributeByEntry(outfile, entries(j), 'throughput', 'service-time');
             Tp(i, j) = str2double(thr(1));
             RTp(i, j) = str2double(st(1));
         end
