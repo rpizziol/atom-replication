@@ -26,7 +26,7 @@ for i = 1:25
     if status == 0
         for j = 1:size(entries, 2)
             thr = getAttributeByEntry(outfile, entries(j), 'throughput');
-            Tp(i, j) = thr(1);
+            Tp(i, j) = str2double(thr(1));
             %disp(thr);
             %disp(thr(1));
         end
