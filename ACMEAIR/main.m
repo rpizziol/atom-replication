@@ -17,6 +17,8 @@ for i = 1:25
     % Solve the model
     [status, ~] = system("lqns -x" + tempfile);
     % Obtain output throughput and service time
-    disp(getAttributeByEntry(outfile, 'clientEntry', 'throughput'));
+    if status == 0 % no error
+        disp(getAttributeByEntry(outfile, 'clientEntry', 'throughput'));
+    end
 end
 
