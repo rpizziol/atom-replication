@@ -5,8 +5,8 @@ tempfile = 'acmeair-2.lqn';
 outfile = 'acmeair-2.lqxo';
 
 % Load data and what if
-data = load('./acmeAir.py_full_data_out.mat');
-wi = load('./acmeAir.py_full_10b.mat');
+%data = load('./acmeAir.py_full_data_out.mat');
+wi = load('./acmeAir.py_full_2b.mat');
 
 Tp = zeros(size(wi.Tm));
 RTp = zeros(size(wi.RTm));
