@@ -25,10 +25,10 @@ for i = 1:25
     % Obtain output throughput and service time
     if status == 0
         for j = 1:size(entries, 2)
-            %Tp(i, j) = getAttributeByEntry(outfile, entries(i), 'throughput');
-            thr = getAttributeByEntry(outfile, entries(i), 'throughput');
-            disp(thr);
-            disp(thr(1));
+            thr = getAttributeByEntry(outfile, entries(j), 'throughput');
+            Tp(i, j) = thr(1);
+            %disp(thr);
+            %disp(thr(1));
         end
         delete(outfile);
     end
