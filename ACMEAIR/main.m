@@ -16,8 +16,9 @@ for i = 1:25
     updateModel(tempfile, tempfile, 'nc', wi.NC(i,:));
     % Solve the model
     [status, ~] = system("lqns -x" + tempfile);
+    disp(status);
     % Obtain output throughput and service time
-    if status == 0 % no error
+    if status ~= 0 % error
         disp(getAttributeByEntry(outfile, 'clientEntry', 'throughput'));
     end
 end
