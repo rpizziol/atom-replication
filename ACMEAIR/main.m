@@ -10,6 +10,8 @@ wi = load('./acmeAir.py_full_10b.mat');
 
 for i = 1:25
     % Update model with number of users and cores
+    disp(wi.Cli(i));
+    disp(wi.NC(i,:));
     updateModel(sourcefile, tempfile, 'W', [wi.Cli(i)]);
     updateModel(tempfile, tempfile, 'nc', wi.NC(i,:));
     % Solve the model
