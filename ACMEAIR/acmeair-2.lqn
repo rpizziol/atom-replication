@@ -9,7 +9,7 @@ G
 # Processors declaration, with multiplicity 
 P 0
 p ProcClient f m 1000
-p ProcMSauth f m 15
+p ProcMSauth f m 4
 p ProcMSvalidateid f m 15
 p ProcMSviewprofile f m 15
 p ProcMSupdateprofile f m 15
@@ -17,7 +17,7 @@ p ProcMSupdateMiles f m 15
 p ProcMSbookflights f m 15
 p ProcMScancelbooking f m 15
 p ProcMSqueryflights f m 15
-p ProcMSgetrewardmiles f m 4
+p ProcMSgetrewardmiles f m 15
 -1
 
 # Tasks declaration
@@ -36,25 +36,25 @@ t MSgetrewardmiles n MSgetrewardmilesEntry -1 ProcMSgetrewardmiles m 180
 
 # Entries declaration
 E 0
-s clientEntry 0.2738 -1
+s clientEntry 0.2000 -1
 y clientEntry MSviewprofileEntry 2.0 -1
 y clientEntry MSupdateprofileEntry 1.0 -1
 y clientEntry MSbookflightsEntry 1.0 -1
 y clientEntry MScancelbookingEntry 2.0 -1
 y clientEntry MSqueryflightsEntry 1.0 -1
-s MSauthEntry 0.1510 -1
+s MSauthEntry 0.1500 -1
 y MSauthEntry MSvalidateidEntry 1.0 -1
-s MSvalidateidEntry 0.0812 -1
-s MSviewprofileEntry 0.1505 -1
-s MSupdateprofileEntry 0.2013 -1
-s MSupdateMilesEntry 0.0403 -1
-s MSbookflightsEntry 0.1008 -1
+s MSvalidateidEntry 0.0800 -1
+s MSviewprofileEntry 0.1500 -1
+s MSupdateprofileEntry 0.2000 -1
+s MSupdateMilesEntry 0.0400 -1
+s MSbookflightsEntry 0.1000 -1
 y MSbookflightsEntry MSupdateMilesEntry 2.0 -1
 y MSbookflightsEntry MSgetrewardmilesEntry 2.0 -1
-s MScancelbookingEntry 0.0876 -1
+s MScancelbookingEntry 0.0870 -1
 y MScancelbookingEntry MSupdateMilesEntry 1.0 -1
 y MScancelbookingEntry MSgetrewardmilesEntry 1.0 -1
-s MSqueryflightsEntry 0.0908 -1
-s MSgetrewardmilesEntry 0.0504 -1
+s MSqueryflightsEntry 0.0900 -1
+s MSgetrewardmilesEntry 0.0500 -1
 y clientEntry MSauthEntry 1.0 -1
 -1
