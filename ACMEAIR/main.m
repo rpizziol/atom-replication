@@ -11,7 +11,7 @@ wi = load('./acmeAir.py_full_2b.mat');
 Tp = zeros(size(wi.Tm));
 RTp = zeros(size(wi.RTm));
 
-st = [0.2, 0.15, 0.08, 0.15, 0.2, 0.04, 0.1, 0.087, 0.09, 0.05];
+st0 = [0.2, 0.15, 0.08, 0.15, 0.2, 0.04, 0.1, 0.087, 0.09, 0.05];
 
 entries = ["clientEntry", "MSauthEntry", "MSvalidateidEntry", ...
     "MSviewprofileEntry", "MSupdateprofileEntry", "MSupdateMilesEntry", ...
@@ -20,7 +20,7 @@ entries = ["clientEntry", "MSauthEntry", "MSvalidateidEntry", ...
 
 for i = 1:25
     % Update model with number of users and cores
-    updateModel(sourcefile, tempfile, 'st', st);
+    updateModel(sourcefile, tempfile, 'st', st0);
     updateModel(tempfile, tempfile, 'W', [wi.Cli(i)]);
     updateModel(tempfile, tempfile, 'nc', wi.NC(i,:));
     
