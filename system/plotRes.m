@@ -60,8 +60,8 @@ for l = 1:length(mixs)
         legend(["T_{GA}","Req","T_{\muOpt}"],'location','NorthEast')
         set(gca,'FontSize',fontsize)
         %export_fig(sprintf("img/sinResOpt%d_%s.pdf",optRes.w(1),mix))
-        exportgraphics(gcf,sprintf("img/sinResOpt%d_%s.%s",optRes.w(1),mix,format))
-        close()
+        %exportgraphics(gcf,sprintf("img/sinResOpt%d_%s.%s",optRes.w(1),mix,format))
+        %close()
         
 
         %{
