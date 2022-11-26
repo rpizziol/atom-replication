@@ -1,6 +1,4 @@
-using Printf,Ipopt,JuMP,MAT,ParameterJuMP,Statistics
-
-wdir=pwd()
+using Jedis,Printf,Ipopt,JuMP,MAT,ParameterJuMP
 
 #model = Model(()->MadNLP.Optimizer(print_level=MadNLP.INFO))
 model = Model(Ipopt.Optimizer)
@@ -34,9 +32,12 @@ jump=[  +1  +1  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  
     ];
 
 delta=10^5
-alpha=10^-1
-maxNC=1000
-maxNT=1000
+alpha=10^-2
+maxNC=100
+maxNT=100
+
+MS=["MSauth","MSvalidateid","MSbookflights","MSupdateMiles","MScancelbooking",
+	"MSgetrewardmiles","MSqueryflights","MSviewprofile","MSupdateprofile"]
 
 MU=ones(1,size(jump,2))*-1
 
@@ -146,18 +147,20 @@ TmGPS2=@NLexpression(model,-(-NC[7]-X[23]+sqrt((-NC[7]+X[23])^2+alpha))/2)
 #@constraint(model,(X[3])<=MU[3]*1.02*T[4])
 #@constraint(model,(X[4])<=MU[4]*1.02*T[5])
 
-#--------------
-npoint=40
-NCopt=zeros(9,npoint)
-NTopt=zeros(9,npoint)
-stimeOpt=zeros(1,npoint)
-clients=rand(1,npoint)'*500
-#clients=LinRange(1,100, npoint);
-#clients=[1]
+# Set up channels, publisher and subscriber clients
+channels = ["users"]
+subscriber = Client(host="localhost", port=6379)
+redis_cli=Client(host="localhost", port=6379)
 
-for i=1:size(clients,1)
-    global w=round(clients[i])
-    set_value(C,w)
+# Begin the subscription
+stop_fn(msg) = msg[end] == "close";  # stop the subscription loop if the message matches
+
+println("started")
+set("ctrl_started","1";client=redis_cli)
+
+subscribe(channels...; stop_fn=stop_fn, client=subscriber) do msg
+	w=parse(Float64, msg[end])
+	set_value(C,w)
 
     @objective(model,Max,0.5*(T[1])*15/(w)-0.5*(sum(NC)+sum(NT))/(maxNC*10+maxNT*10))
     global stimes=@elapsed JuMP.optimize!(model)
@@ -166,17 +169,46 @@ for i=1:size(clients,1)
         error(status)
     end
 
-    #RTv=[value(X[1]+X[5])/value(T[1]),value(X[3])/value(T[4]),value(X[4])/value(T[5])];
-    #Tv=[value(T[1]),value(T[4]),value(T[5])]
-
-    NCopt[:,i]=value.(NC)
-    NTopt[:,i]=value.(NT)
-    stimeOpt[i]=stimes
+	#qui la logica di attuazione
+	multi()
+	for m=1:length(NC)
+		set(@sprintf("%s_hw",MS[m]),value(NC[m+1]);client=redis_cli)
+	end
+	results = exec()
 end
 
-matwrite("re.mat", Dict(
-	"NC_opt" => NCopt,
-	"NT_opt" => NTopt,
-	"Clients" =>  collect(clients),
-	"rtime_opt" => stimeOpt
-);)
+
+#--------------
+# npoint=40
+# NCopt=zeros(9,npoint)
+# NTopt=zeros(9,npoint)
+# stimeOpt=zeros(1,npoint)
+# clients=rand(1,npoint)'*500
+# #clients=LinRange(1,100, npoint);
+# #clients=[1]
+#
+# for i=1:size(clients,1)
+#     global w=round(clients[i])
+#     set_value(C,w)
+#
+#     @objective(model,Max,0.5*(T[1])*15/(w)-0.5*(sum(NC)+sum(NT))/(maxNC*10+maxNT*10))
+#     global stimes=@elapsed JuMP.optimize!(model)
+#     global status=termination_status(model)
+#     if(status!=MOI.LOCALLY_SOLVED && status!=MOI.ALMOST_LOCALLY_SOLVED)
+#         error(status)
+#     end
+#
+#     #RTv=[value(X[1]+X[5])/value(T[1]),value(X[3])/value(T[4]),value(X[4])/value(T[5])];
+#     #Tv=[value(T[1]),value(T[4]),value(T[5])]
+#
+#     NCopt[:,i]=value.(NC)
+#     NTopt[:,i]=value.(NT)
+#     stimeOpt[i]=stimes
+# end
+#
+# matwrite("re.mat", Dict(
+# 	"NC_opt" => NCopt,
+# 	"NT_opt" => NTopt,
+# 	"Clients" =>  collect(clients),
+# 	"rtime_opt" => stimeOpt
+# );)
