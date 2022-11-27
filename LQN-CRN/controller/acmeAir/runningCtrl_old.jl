@@ -5,7 +5,7 @@ wdir=pwd()
 #model = Model(()->MadNLP.Optimizer(print_level=MadNLP.INFO))
 model = Model(Ipopt.Optimizer)
 #set_optimizer_attribute(model, "linear_solver", "pardiso")
-set_optimizer_attribute(model, "max_iter", 10000)
+set_optimizer_attribute(model, "max_iter", 100000)
 #set_optimizer_attribute(model, "tol", 10^-10)
 set_optimizer_attribute(model, "hessian_approximation", "limited-memory")
 #set_optimizer_attribute(model, "print_level", 0)
@@ -40,16 +40,16 @@ maxNT=1000
 
 MU=ones(1,size(jump,2))*-1
 
-MU[5]=1;
-MU[6]=1;
-MU[9]=1;
-MU[12]=1;
-MU[15]=1;
-MU[20]=1;
-MU[23]=1;
-MU[24]=1;
-MU[29]=1;
-MU[30]=1;
+MU[5]=11.5048; #XValidate_e;
+MU[6]=6.39801; #XLogin_e;
+MU[9]=6.35473; #XViewProfile_e;
+MU[12]=4.76082; #XUpdateProfile_e;
+MU[15]=10.367; #XQuery_e;
+MU[20]=20.8321; #XUpdateMiles_e;
+MU[23]=18.4323; #XGetReward_e;
+MU[24]=8.25514; #XBook_e;
+MU[29]=9.98412; #XCancel_e;
+MU[30]=4.51666; #XBrowse_e;
 
 @variable(model,T[i=1:size(jump,1)]>=0)
 @variable(model,X[i=1:size(jump,2)]>=0)
@@ -147,19 +147,19 @@ TmGPS2=@NLexpression(model,-(-NC[7]-X[23]+sqrt((-NC[7]+X[23])^2+alpha))/2)
 #@constraint(model,(X[4])<=MU[4]*1.02*T[5])
 
 #--------------
-npoint=40
+npoint=10
 NCopt=zeros(9,npoint)
 NTopt=zeros(9,npoint)
 stimeOpt=zeros(1,npoint)
-clients=rand(1,npoint)'*500
-#clients=LinRange(1,100, npoint);
+#clients=rand(1,npoint)'*500
+clients=LinRange(300,500, npoint);
 #clients=[1]
 
 for i=1:size(clients,1)
     global w=round(clients[i])
     set_value(C,w)
 
-    @objective(model,Max,0.5*(T[1])*15/(w)-0.5*(sum(NC)+sum(NT))/(maxNC*10+maxNT*10))
+    @objective(model,Max,0.5*(T[1])/(0.5501*w)-0.5*(sum(NC)+sum(NT))/(maxNC*9+maxNT*9))
     global stimes=@elapsed JuMP.optimize!(model)
     global status=termination_status(model)
     if(status!=MOI.LOCALLY_SOLVED && status!=MOI.ALMOST_LOCALLY_SOLVED)

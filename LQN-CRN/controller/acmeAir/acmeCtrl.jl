@@ -32,25 +32,25 @@ jump=[  +1  +1  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  
     ];
 
 delta=10^5
-alpha=10^-2
-maxNC=100
-maxNT=100
+alpha=10^-1
+maxNC=1000
+maxNT=1000
 
 MS=["MSauth","MSvalidateid","MSbookflights","MSupdateMiles","MScancelbooking",
 	"MSgetrewardmiles","MSqueryflights","MSviewprofile","MSupdateprofile"]
 
 MU=ones(1,size(jump,2))*-1
 
-MU[5]=1;
-MU[6]=1;
-MU[9]=1;
-MU[12]=1;
-MU[15]=1;
-MU[20]=1;
-MU[23]=1;
-MU[24]=1;
-MU[29]=1;
-MU[30]=1;
+MU[5]=11.5048; #XValidate_e;
+MU[6]=6.39801; #XLogin_e;
+MU[9]=6.35473; #XViewProfile_e;
+MU[12]=4.76082; #XUpdateProfile_e;
+MU[15]=10.367; #XQuery_e;
+MU[20]=20.8321; #XUpdateMiles_e;
+MU[23]=18.4323; #XGetReward_e;
+MU[24]=8.25514; #XBook_e;
+MU[29]=9.98412; #XCancel_e;
+MU[30]=4.51666; #XBrowse_e;
 
 @variable(model,T[i=1:size(jump,1)]>=0)
 @variable(model,X[i=1:size(jump,2)]>=0)
@@ -159,7 +159,8 @@ println("started")
 set("ctrl_started","1";client=redis_cli)
 
 subscribe(channels...; stop_fn=stop_fn, client=subscriber) do msg
-	w=parse(Float64, msg[end])
+	#w=parse(Float64, msg[end])
+	w=parse(Float64,get("users";client=redis_cli))
 	set_value(C,w)
 
     @objective(model,Max,0.5*(T[1])*15/(w)-0.5*(sum(NC)+sum(NT))/(maxNC*10+maxNT*10))
