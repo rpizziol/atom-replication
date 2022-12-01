@@ -39,7 +39,7 @@ maxNT=1000
 MS=["MSauth","MSvalidateid","MSbookflights","MSupdateMiles","MScancelbooking",
 	"MSgetrewardmiles","MSqueryflights","MSviewprofile","MSupdateprofile"]
 
-params = matread("params.mat")
+params = matread(@sprintf("%s/git/nodejsMicro/src/params.mat",homedir()))
 MU=params["MU"]
 
 # MU[5]=9.2569; #XValidate_e;
