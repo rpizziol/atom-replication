@@ -1,4 +1,4 @@
-function [t,y,ssR] = lqnODE(X0,MU,NT,NC)
+function [t,y,ssTR,ssRT] = lqnODE(X0,MU,NT,NC)
 import Gillespie.*
 
 % Make sure vector components are doubles
@@ -22,7 +22,7 @@ end
 p.MU = MU;
 p.NT = NT;
 p.NC = NC;
-p.delta = 10^6; % context switch rate (super fast)
+p.delta = 0.5*10^2; % context switch rate (super fast)
 
 %states name
 %X(1)=XBrowse_2Login;
@@ -98,33 +98,41 @@ T = @(X)propensities_2state(X,p);
 opts = odeset('Events',@(t,y)eventfun(t,y,jump,T));
 [t,y]=ode15s(@(t,y) jump'*T(y),[0,Inf], X0,opts);
 
-ssR=T(y(end,:)');
+ssTR=T(y(end,:)');
+
+
+ssTR=[ssTR(1),ssTR(5),ssTR(4),2*ssTR(7),ssTR(9),2*(ssTR(14)+ssTR(19)),ssTR(17),2*ssTR(21),ssTR(11),2*(ssTR(16)+ssTR(20))];
+ssRT=[sum(X0)/ssTR(1),...
+      sum(y(end,[2,3,6]))/ssTR(2),...
+      sum(y(end,[4,5]))/ssTR(3),...
+      sum(y(end,[8,9]))/ssTR(4),...
+      zeros(1,6)];
 
 end
 
 % Propensity rate vector (CTMC)
 function Rate = propensities_2state(X, p)
-Rate = [p.MU(30)*X(30);
+Rate = [p.MU(30)*X(30);%Tclient
     p.delta*min(X(2),p.NT(2)-(X(3)+X(6)));
     p.delta*min(X(4),p.NT(3)-(X(5)));
-    min(X(5),p.NC(3))*p.MU(5);
-    min(X(6),p.NC(2))*p.MU(6);
+    min(X(5),p.NC(3))*p.MU(5); %Tvalidateid
+    min(X(6),p.NC(2))*p.MU(6); %Tauth
     p.delta*min(X(8),p.NT(9)-(X(9)));
-    0.5*min(X(9),p.NC(9))*p.MU(9);
+    0.5*min(X(9),p.NC(9))*p.MU(9); %Tviewprofile
     p.delta*min(X(11),p.NT(10)-(X(12)));
-    min(X(12),p.NC(10))*p.MU(12);
+    min(X(12),p.NC(10))*p.MU(12);%TupdateProfile
     p.delta*min(X(14),p.NT(8)-(X(15)));
-    min(X(15),p.NC(8))*p.MU(15);
+    min(X(15),p.NC(8))*p.MU(15);%Tquery
     p.delta*min(X(17),p.NT(4)-(X(18)+X(21)+X(24)));
     p.delta*min(X(19),p.NT(5)-(X(20)));
-    0.5*X(18)/(X(18)+X(27))*min(X(20),p.NC(5))*p.MU(20);
+    0.5*X(18)/(X(18)+X(27))*min(X(20),p.NC(5))*p.MU(20); %TUpdateMiles
     p.delta*min(X(22),p.NT(7)-(X(23)));
-    0.5*X(21)/(X(21)+X(28))*min(X(23),p.NC(7))*p.MU(23);
-    min(X(24),p.NC(4))*p.MU(24);
+    0.5*X(21)/(X(21)+X(28))*min(X(23),p.NC(7))*p.MU(23); %TGetReward
+    min(X(24),p.NC(4))*p.MU(24); %Tbook
     p.delta*min(X(26),p.NT(6)-(X(27)+X(28)+X(29)));
-    X(27)/(X(18)+X(27))*min(X(20),p.NC(5))*p.MU(20);
-    X(28)/(X(21)+X(28))*min(X(23),p.NC(7))*p.MU(23);
-    min(X(29),p.NC(6))*p.MU(29);
+    X(27)/(X(18)+X(27))*min(X(20),p.NC(5))*p.MU(20); %TUpdateMiles
+    X(28)/(X(21)+X(28))*min(X(23),p.NC(7))*p.MU(23); %TGetReward
+    0.5*min(X(29),p.NC(6))*p.MU(29); %Tcancel
     ];
 Rate(isnan(Rate))=0;
 end

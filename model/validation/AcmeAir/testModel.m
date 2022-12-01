@@ -1,7 +1,11 @@
+% clear
+
 load("/Users/emilio-imt/git/atom-replication/LQN-CRN/controller/acmeAir/re.mat")
+load("/Users/emilio-imt/git/nodejsMicro/src/params.mat")
+wi=load("/Users/emilio-imt/git/nodejsMicro/data/ICDCS/validation/m1/acmeair_val_data.mat");
 
 X0=zeros(1,30);
-MU=zeros(1,30);
+% MU=zeros(1,30);
 % % NT=ones(1,10)*inf;
 % NC=ones(1,10)*inf;
 % NC(1)=inf;
@@ -9,29 +13,6 @@ TF=1000;
 rep=1;
 dt=0.1;
 % N=200;
-
-
-%X(5)=XValidate_e;
-%X(6)=XLogin_e;
-%X(9)=XViewProfile_e;
-%X(12)=XUpdateProfile_e;
-%X(15)=XQuery_e;
-%X(20)=XUpdateMiles_e;
-%X(23)=XGetReward_e;
-%X(24)=XBook_e;
-%X(29)=XCancel_e;
-%X(30)=XBrowse_e;
-
-MU(1,5)=11.5048;
-MU(1,6)=6.39801;
-MU(1,9)=6.35473;
-MU(1,12)=4.76082;
-MU(1,15)=10.367;
-MU(1,20)=20.8321;
-MU(1,23)=18.4323;
-MU(1,24)=8.25514;
-MU(1,29)=9.98412;
-MU(1,30)=4.51666;
 
 %1=Client;
 %2=Auth;
@@ -44,26 +25,42 @@ MU(1,30)=4.51666;
 %9=ViewProfile;
 %10=UpdateProfile;
 
-Tode=zeros(1,size(Clients,1));
-TodeM=zeros(1,size(Clients,1));
+Tode=zeros(size(wi.Tm,2),size(wi.Cli,1));
+RTode=zeros(size(wi.Tm,2),size(wi.Cli,1));
 
-for i=1:size(Clients,1)
+MU=MU*1.025;
+
+
+for i=1:size(wi.Cli,2)
     X0=zeros(1,30);
-    X0(end)=Clients(i);
+    X0(end)=wi.Cli(i);
     disp(X0(end))
-    [t,y,ssR] = lqnODE(X0,MU,[inf;NT_opt(:,i)],[inf;NC_opt(:,i)]);
-    [t2,y2,ssR2] = lqnODE(X0,MU,ones(1,10)*inf,ones(1,10)*inf);
-    Tode(1,i)=ssR(1);
-    TodeM(1,i)=ssR2(1);
+    [t,y,ssTR,ssRT] = lqnODE(X0,MU,ones(1,10)*inf,[inf,ones(1,9)*7]);
+%     [t2,y2,ssR2] = lqnODE(X0,MU,ones(1,10)*inf,ones(1,10)*inf);
+
+    
+    Tode(:,i)=ssTR;
+    RTode(:,i)=ssRT;
+%     TodeM(1,i)=ssR2(1);
     %X=lqn(X0,MU,ones(1,10)*inf,[inf;NC_opt(:,i)],TF,rep,dt);
 end
 
+figure
+hold on
+plot(wi.Cli,Tode)
+plot(wi.Cli(1:size(wi.Tm,1)),wi.Tm)
 
 figure
 hold on
-stem(TodeM)
-stem(Tode)
-ylabel("req/s")
-xlabel("Client")
+plot(wi.Cli,RTode(1:4,:))
+plot(wi.Cli(1:size(wi.Tm,1)),wi.RTm(:,1:4)/1000)
+
+
+% figure
+% hold on
+% stem(TodeM)
+% stem(Tode)
+% ylabel("req/s")
+% xlabel("Client")
 
 

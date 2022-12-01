@@ -35,21 +35,21 @@ jump=[  +1  +1  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  
 
 delta=10^5
 alpha=10^-1
-maxNC=1000
-maxNT=1000
+maxNC=100
+maxNT=100
 
 MU=ones(1,size(jump,2))*-1
 
-MU[5]=11.5048; #XValidate_e;
-MU[6]=6.39801; #XLogin_e;
-MU[9]=6.35473; #XViewProfile_e;
-MU[12]=4.76082; #XUpdateProfile_e;
-MU[15]=10.367; #XQuery_e;
-MU[20]=20.8321; #XUpdateMiles_e;
-MU[23]=18.4323; #XGetReward_e;
-MU[24]=8.25514; #XBook_e;
-MU[29]=9.98412; #XCancel_e;
-MU[30]=4.51666; #XBrowse_e;
+MU[5]=9.2569; #XValidate_e;
+MU[6]=5.5851; #XLogin_e;
+MU[9]=5.6264; #XViewProfile_e;
+MU[12]=3.7859; #XUpdateProfile_e;
+MU[15]=9.0137; #XQuery_e;
+MU[20]=13.1285; #XUpdateMiles_e;
+MU[23]=15.2845; #XGetReward_e;
+MU[24]=5.6010; #XBook_e;
+MU[29]=7.1427; #XCancel_e;
+MU[30]=3.6319; #XBrowse_e;
 
 @variable(model,T[i=1:size(jump,1)]>=0)
 @variable(model,X[i=1:size(jump,2)]>=0)
@@ -152,14 +152,14 @@ NCopt=zeros(9,npoint)
 NTopt=zeros(9,npoint)
 stimeOpt=zeros(1,npoint)
 #clients=rand(1,npoint)'*500
-clients=LinRange(300,500, npoint);
+clients=LinRange(10,180, npoint);
 #clients=[1]
 
 for i=1:size(clients,1)
     global w=round(clients[i])
     set_value(C,w)
 
-    @objective(model,Max,0.5*(T[1])/(0.5501*w)-0.5*(sum(NC)+sum(NT))/(maxNC*9+maxNT*9))
+    @objective(model,Max,0.5*(T[1])/(0.4307*w)-0.5*(sum(NC)+sum(NT))/(maxNC*9+maxNT*9))
     global stimes=@elapsed JuMP.optimize!(model)
     global status=termination_status(model)
     if(status!=MOI.LOCALLY_SOLVED && status!=MOI.ALMOST_LOCALLY_SOLVED)
