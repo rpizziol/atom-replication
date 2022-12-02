@@ -1,6 +1,6 @@
 % clear
 
-load("/Users/emilio-imt/git/atom-replication/LQN-CRN/controller/acmeAir/re.mat")
+ctrl=load("/Users/emilio-imt/git/atom-replication/LQN-CRN/controller/acmeAir/re.mat");
 load("/Users/emilio-imt/git/nodejsMicro/src/params.mat")
 wi=load("/Users/emilio-imt/git/nodejsMicro/data/ICDCS/validation/m1/acmeair_val_data.mat");
 
@@ -25,35 +25,44 @@ dt=0.1;
 %9=ViewProfile;
 %10=UpdateProfile;
 
-Tode=zeros(size(wi.Tm,2),size(wi.Cli,1));
-RTode=zeros(size(wi.Tm,2),size(wi.Cli,1));
+Tode=zeros(size(wi.Tm,2),size(ctrl.Clients,1));
+RTode=zeros(size(wi.Tm,2),size(ctrl.Clients,1));
+
+TodeM=zeros(size(wi.Tm,2),size(ctrl.Clients,1));
 
 MU=MU*1.025;
 
-
-for i=1:size(wi.Cli,2)
+for i=1:size(ctrl.Clients,1)
     X0=zeros(1,30);
-    X0(end)=wi.Cli(i);
+    X0(end)=round(ctrl.Clients(i));
     disp(X0(end))
-    [t,y,ssTR,ssRT] = lqnODE(X0,MU,ones(1,10)*inf,[inf,ones(1,9)*7]);
-%     [t2,y2,ssR2] = lqnODE(X0,MU,ones(1,10)*inf,ones(1,10)*inf);
+    [t,y,ssTR,ssRT] = lqnODE(X0,MU,[inf;ceil(ctrl.NT_opt(:,i))],[inf;ctrl.NC_opt(:,i)]);
+    [t2,y2,ssTR2,ssRT2] = lqnODE(X0,MU,ones(1,10)*inf,ones(1,10)*inf);
 
     
     Tode(:,i)=ssTR;
     RTode(:,i)=ssRT;
-%     TodeM(1,i)=ssR2(1);
+    TodeM(:,i)=ssTR2;
     %X=lqn(X0,MU,ones(1,10)*inf,[inf;NC_opt(:,i)],TF,rep,dt);
 end
 
 figure
 hold on
-plot(wi.Cli,Tode)
-plot(wi.Cli(1:size(wi.Tm,1)),wi.Tm)
+% plot(wi.Cli,Tode)
+% plot(wi.Cli(1:size(wi.Tm,1)),wi.Tm)
+stem(Tode(1,:))
+stem(TodeM(1,:))
 
 figure
-hold on
-plot(wi.Cli,RTode(1:4,:))
-plot(wi.Cli(1:size(wi.Tm,1)),wi.RTm(:,1:4)/1000)
+stairs(ceil(ctrl.NT_opt'))
+
+figure
+stairs(ceil(ctrl.NC_opt'))
+
+% figure
+% hold on
+% plot(wi.Cli,RTode(1:4,:))
+% plot(wi.Cli(1:size(wi.Tm,1)),wi.RTm(:,1:4)/1000)
 
 
 % figure

@@ -22,7 +22,8 @@ end
 p.MU = MU;
 p.NT = NT;
 p.NC = NC;
-p.delta = 0.5*10^2; % context switch rate (super fast)
+p.delta = 10^4; % context switch rate (super fast)
+% p.delta = 0.5*10^5; % context switch rate (super fast)
 
 %states name
 %X(1)=XBrowse_2Login;
@@ -140,7 +141,7 @@ end
 function [x,isterm,dir] = eventfun(t,y,jump,T)
 dy = jump'*T(y);
 %x = norm(dy) - 1e-5;
-x=max(abs(dy)) - 1e-5;
+x=max(abs(dy)) - 1e-3;
 isterm = 1;
 dir = 0;
 end
