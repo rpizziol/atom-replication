@@ -33,14 +33,14 @@ jump=[  +1  +1  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  
 	    +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  -1  +0  +0  +0  -1  +1;
     ];
 
-delta=10^2
+delta=4*10^2
 #alpha=10^-2
 maxNC=300
 maxNT=300
 
 params = matread(@sprintf("%s/git/nodejsMicro/src/params.mat",homedir()))
 MU=params["MU"]
-MU=MU*1.025
+MU=MU*1.01
 
 # MU=ones(1,size(jump,2))*-1
 

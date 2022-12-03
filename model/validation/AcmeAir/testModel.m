@@ -30,7 +30,7 @@ RTode=zeros(size(wi.Tm,2),size(ctrl.Clients,1));
 
 TodeM=zeros(size(wi.Tm,2),size(ctrl.Clients,1));
 
-MU=MU*1.025;
+MU=MU*1.01;
 
 for i=1:size(ctrl.Clients,1)
     X0=zeros(1,30);
