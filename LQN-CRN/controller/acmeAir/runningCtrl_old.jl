@@ -40,7 +40,7 @@ maxNT=300
 
 params = matread(@sprintf("%s/git/nodejsMicro/src/params.mat",homedir()))
 MU=params["MU"]
-MU=MU*1.01
+MU=MU*1.025
 
 # MU=ones(1,size(jump,2))*-1
 
