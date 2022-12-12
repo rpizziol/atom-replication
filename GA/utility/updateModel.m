@@ -7,9 +7,9 @@
 function updateModel(sourcepath, outpath, key, values)
     %% Read the lqn template file
     f = fileread(sourcepath);
-    if strcmp(key, 'nuser')
+    if strcmp(key, 'W')
         value = int2str(values(1));
-        f = strrep(f, '{{nuser}}', value);        
+        f = strrep(f, '{{W}}', value);        
     else
         for i = 1:size(values, 2)
             % Find and replace {{key[i]}} with the value values(i)

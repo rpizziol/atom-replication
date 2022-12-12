@@ -1,14 +1,12 @@
 function runAllATOMExperiments(N, wm)
+    wmProbs = getProbMix(wm);
     % Input parsing
     if strcmp(wm, 'b')
         wmName = 'browsing';
-        wmProbs = [0.63, 0.32, 0.05];
     elseif strcmp(wm, 'o')
         wmName = 'ordering';
-        wmProbs = [0.33, 0.17, 0.50];
     elseif strcmp(wm, 's')
         wmName = 'shopping';
-        wmProbs = [0.54, 0.26, 0.20];
     end
     for i = 1:10
         runExperimentByMix(wmName, wmProbs, str2double(N));

@@ -4,19 +4,17 @@
 %   model       : a structure containing information about the model.
 %   params      : a structure containing parameters of the optimization.
 %   constraints : the constraints of the optimization.
-%   r           : the replication array.
 %   s           : the CPU share array.
+%   nuser       : the number of users in the model.
 % OUTPUTS
-%   fval        : the value of the objective function given r and s.
-function fval = solveModel(modelName, model, params, constraints, r, s, nuser)
+%   fval        : the value of the objective function given s.
+function fval = solveModel(modelName, model, params, constraints, s, nuser)
     %% Calculate total allocated CPU capacity (to minimize)
     Cmax = sum(constraints.s_ub); %constraints.Q.*constraints.s_ub);
     Ct = sum(s);  %sum(r.*s); 
     Chat = Ct / Cmax; % Normalized Ct
-    %global currNuser
-    %currNuser = readNuser('./res/atom-full_template6.lqnx');
 
-    [status, ~] = system("cd out; lqns -x " + modelName + ".lqnx");
+    [status, ~] = system("lqns -x " + modelName + ".lqnx");
 
     if status == 0 % no error
         % TODO read by means of xpath queries.
