@@ -1,10 +1,4 @@
-function runExperiment(mixname, workmix, nuser)
-    %% Generate random seed    
-    c = clock;
-    rng(c(6));
-
-    global currNuser
-    currNuser = nuser;
+function runExperiment(mixname, workmix)
     %% Model definition
     % Full model in xml
     sourcemodel = './res/atom-full_template6.lqnx'; % variable workload mix
