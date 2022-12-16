@@ -1,4 +1,4 @@
-function value = fitness(cpushare, st, model, params, ...
+function value = fitness(cpushare, model, params, ...
     constraints, workmix)
     
     %global currNuser
@@ -10,7 +10,7 @@ function value = fitness(cpushare, st, model, params, ...
     newModelName = strcat('fittmp', timestamp);
     temppath = strcat('./out/', newModelName, '.lqnx');
 
-    [np2, st2] = calculateByCPUShare(st, cpushare);
+    [np2, st2] = calculateByCPUShare(model.st, cpushare);
 
     updateModel(model.path, temppath, 'nuser', nuser);
     updateModel(temppath, temppath, 'wm', workmix);

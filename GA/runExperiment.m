@@ -20,7 +20,7 @@ function runExperiment(wm, model, params, cons)
     
     start = tic();
     
-    f = @(x)fitness(x, st, model, params, cons, workmix);
+    f = @(x)fitness(x, model, params, cons, workmix);
     
     options = optimoptions('ga'); % Load default settings
     options = optimoptions(options,'PopulationType', 'doubleVector');
