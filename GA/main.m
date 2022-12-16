@@ -1,4 +1,5 @@
 addpath('./utility/');
+addpath('./res/');
 wm = 'b';
 
 %% Model definition
