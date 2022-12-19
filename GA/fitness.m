@@ -1,7 +1,11 @@
 function value = fitness(cpushare, wm, model, params)
+    global nusersInTime    
     
     workmix = getProbMix(wm);
+    
     W = getCurrentUsers(); % TODO obtain from Redis database
+
+    nusersInTime = W;
 
     %% Generate temporary lqn file
     rv = [W, W, W, W];
