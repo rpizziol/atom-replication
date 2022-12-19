@@ -1,3 +1,6 @@
+addpath('./utility/');
+addpath('./res/');
+
 [model, params] = initializeSockShop();
 wm = 'b';
 
