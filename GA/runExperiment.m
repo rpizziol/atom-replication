@@ -4,18 +4,18 @@ function runExperiment(wm, model, params)
     rng(c(6));
 
     %% Values to save
-    %global bestValues
-    %global bestIndividuals
-    %global bestTimeStamps
-    %global nusersInTime
-    %global start
+    global bestValues
+    global bestIndividuals
+    global bestTimeStamps
+    global nusersInTime
+    global start
 
-    %global testname 
+    global testname 
         
     
     %% Genetic algorithm
     
-    %start = tic();
+    start = tic();
     
     f = @(x)fitness(x, wm, model, params);
     
@@ -35,7 +35,7 @@ function runExperiment(wm, model, params)
 
     disp(exitflag);
 
-    %toc(start);
+    toc(start);
     
     % Save final output
     save(strcat('./out/mat/', testname, '.mat'), 'bestIndividuals', ...
