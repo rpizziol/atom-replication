@@ -14,7 +14,7 @@ function fval = solveModel(modelName, model, params, s, nuser)
     Ct = sum(s);  %sum(r.*s); 
     Chat = Ct / Cmax; % Normalized Ct
 
-    [status, ~] = system("lqns -x " + modelName + "." + model.extension);
+    [status, ~] = system("lqns -x ./out/" + modelName + "." + model.extension);
 
     if status == 0 % no error
         % TODO read by means of xpath queries.
