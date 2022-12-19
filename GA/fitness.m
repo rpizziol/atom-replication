@@ -3,6 +3,7 @@ function value = fitness(cpushare, wm, model, params)
     workmix = getProbMix(wm);
     W = getCurrentUsers(); % TODO obtain from Redis database
 
+    %% Generate temporary lqn file
     rv = [W, W, W, W];
     
     tempName = strcat('fittmp', getDateString());
@@ -17,6 +18,7 @@ function value = fitness(cpushare, wm, model, params)
     updateModel(tempPath, tempPath, 'np', np2);
     
     %% Calculate the Theta
-    value = solveModel(tempName, model, params, cpushare, W);
-    value = -value;
+    %value = solveModel(tempName, model, params, cpushare, W);
+    %value = -value;
+    value = 0;
 end
