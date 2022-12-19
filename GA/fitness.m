@@ -18,7 +18,6 @@ function value = fitness(cpushare, wm, model, params)
     updateModel(tempPath, tempPath, 'np', np2);
     
     %% Calculate the Theta
-    %value = solveModel(tempName, model, params, cpushare, W);
-    %value = -value;
-    value = 0;
+    value = solveModel(tempName, model, params, cpushare, W);
+    value = -value;
 end
