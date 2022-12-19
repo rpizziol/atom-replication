@@ -1,24 +1,22 @@
-function value = fitness(cpushare, model, params, ...
-    constraints, workmix)
+function value = fitness(cpushare, wm, model, params)
     
-    %global currNuser
-    nuser = getCurrentUsers();
+    workmix = getProbMix(wm);
+    nuser = getCurrentUsers(); % TODO obtain from Redis database
 
     rv = [nuser, nuser, nuser, nuser];
     
-    timestamp = getDateString();
-    newModelName = strcat('fittmp', timestamp);
-    temppath = strcat('./out/', newModelName, '.lqnx');
+    tempName = strcat('fittmp', getDateString());
+    tempPath = strcat('./out/', tempName, '.', model.extension);
 
     [np2, st2] = calculateByCPUShare(model.st, cpushare);
 
-    updateModel(model.path, temppath, 'nuser', nuser);
-    updateModel(temppath, temppath, 'wm', workmix);
-    updateModel(temppath, temppath, 'rv', rv);
-    updateModel(temppath, temppath, 'st', st2);
-    updateModel(temppath, temppath, 'np', np2);
+    updateModel(model.template_path, tempPath, 'nuser', nuser);
+    updateModel(tempPath, tempPath, 'wm', workmix);
+    updateModel(tempPath, tempPath, 'rv', rv);
+    updateModel(tempPath, tempPath, 'st', st2);
+    updateModel(tempPath, tempPath, 'np', np2);
     
     %% Calculate the Theta
-    value = solveModel(newModelName, model, params, constraints, cpushare, nuser);
+    value = solveModel(tempName, model, params, cpushare, nuser);
     value = -value;
 end

@@ -84,14 +84,14 @@ disp("system started")
 end
 
 function updateShare(msname,share)
-fprintf("update share of %s to %.3f",msname,share);
-%     findquery = sprintf("{""name"":""%s""}",msname);
-%     updatequery = sprintf("{""$set"":{""hw"":%.3f}}",max(0,share));
-%     update(conn,"ms",findquery,updatequery);
-
-r = Redis("localhost",6379);
-r.set(sprintf("%s_hw",msname),sprintf("%.3f",share));
-
-%lo lasico solo come esempio per fare una query
-%find(conn,"ms",Query=mongoquery);
+    fprintf("update share of %s to %.3f",msname,share);
+    %     findquery = sprintf("{""name"":""%s""}",msname);
+    %     updatequery = sprintf("{""$set"":{""hw"":%.3f}}",max(0,share));
+    %     update(conn,"ms",findquery,updatequery);
+    
+    r = Redis("localhost",6379);
+    r.set(sprintf("%s_hw",msname),sprintf("%.3f",share));
+    
+    %lo lasico solo come esempio per fare una query
+    %find(conn,"ms",Query=mongoquery);
 end

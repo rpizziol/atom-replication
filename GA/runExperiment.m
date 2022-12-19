@@ -1,26 +1,23 @@
-function runExperiment(wm, model, params, cons)
-    %% Input params
-    workmix = getProbMix(wm);
-    
+function runExperiment(wm, model, params)
     %% Generate random seed    
     c = clock;
     rng(c(6));
 
     %% Values to save
-    global bestValues
-    global bestIndividuals
-    global bestTimeStamps
-    global nusersInTime
-    global start
+    %global bestValues
+    %global bestIndividuals
+    %global bestTimeStamps
+    %global nusersInTime
+    %global start
 
-    global testname 
+    %global testname 
         
     
     %% Genetic algorithm
     
-    start = tic();
+    %start = tic();
     
-    f = @(x)fitness(x, model, params, cons, workmix);
+    f = @(x)fitness(x, wm, model, params);
     
     options = optimoptions('ga'); % Load default settings
     options = optimoptions(options,'PopulationType', 'doubleVector');
@@ -34,11 +31,11 @@ function runExperiment(wm, model, params, cons)
     %options = optimoptions(options,'Display', 'iter');
     
     [x, fval, exitflag, output, population, scores] = ga(f, model.N -3, [],...
-    [], [], [], cons.s_lb, cons.s_ub, [], [], options); %ConstraintFunction
+    [], [], [], params.s_lb, params.s_ub, [], [], options); %ConstraintFunction
 
     disp(exitflag);
 
-    toc(start);
+    %toc(start);
     
     % Save final output
     save(strcat('./out/mat/', testname, '.mat'), 'bestIndividuals', ...

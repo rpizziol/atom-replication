@@ -8,13 +8,13 @@
 %   nuser       : the number of users in the model.
 % OUTPUTS
 %   fval        : the value of the objective function given s.
-function fval = solveModel(modelName, model, params, constraints, s, nuser)
+function fval = solveModel(modelName, model, params, s, nuser)
     %% Calculate total allocated CPU capacity (to minimize)
-    Cmax = sum(constraints.s_ub); %constraints.Q.*constraints.s_ub);
+    Cmax = sum(params.s_ub); %constraints.Q.*constraints.s_ub);
     Ct = sum(s);  %sum(r.*s); 
     Chat = Ct / Cmax; % Normalized Ct
 
-    [status, ~] = system("lqns -x " + modelName + ".lqnx");
+    [status, ~] = system("lqns -x " + modelName + "." + model.extension);
 
     if status == 0 % no error
         % TODO read by means of xpath queries.
