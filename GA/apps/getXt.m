@@ -1,4 +1,4 @@
-function Xt = getXt(model)
+function Xt = getXt(model, modelName)
     %GETXT Summary of this function goes here
     %   Detailed explanation goes here
     % TODO read by means of xpath queries.

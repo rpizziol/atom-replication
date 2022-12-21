@@ -17,7 +17,7 @@ function fval = solveModel(modelName, model, params, s, nuser)
     [status, ~] = system("lqns -x ./out/" + modelName + "." + model.extension);
 
     if status == 0 % no error
-        Xt = getXt(model);
+        Xt = getXt(model, modelName);
     
         %% Calculate revenue (to maximize)
         Bt = sum(sum(params.psi.*Xt));
