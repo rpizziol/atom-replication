@@ -17,29 +17,7 @@ function fval = solveModel(modelName, model, params, s, nuser)
     [status, ~] = system("lqns -x ./out/" + modelName + "." + model.extension);
 
     if status == 0 % no error
-        % TODO read by means of xpath queries.
-        Xt = zeros(model.N, model.M);
-        %m = readmatrix(strcat('./out/', modelName, '.csv'));
-        xmlpath = strcat('./out/', modelName, '.lqxo');
-        % EntryBrowse
-        Xt(1,1) = str2double(getAttributeByEntry(xmlpath, 'EntryBrowse', 'throughput'));
-        % EntryAddress
-        Xt(2,1) = str2double(getAttributeByEntry(xmlpath, 'EntryAddress', 'throughput'));
-        % EntryHome EntryCatalog EntryCarts
-        Xt(3,1) = str2double(getAttributeByEntry(xmlpath, 'EntryHome', 'throughput'));
-        Xt(3,2) = str2double(getAttributeByEntry(xmlpath, 'EntryCatalog', 'throughput'));
-        Xt(3,3) = str2double(getAttributeByEntry(xmlpath, 'EntryCarts', 'throughput'));
-        % EntryList EntryItem
-        Xt(4,1) = str2double(getAttributeByEntry(xmlpath, 'EntryList', 'throughput'));
-        Xt(4,2) = str2double(getAttributeByEntry(xmlpath, 'EntryItem', 'throughput'));
-        % EntryGet EntryAdd EntryDelete
-        Xt(5,1) = str2double(getAttributeByEntry(xmlpath, 'EntryGet', 'throughput'));
-        Xt(5,2) = str2double(getAttributeByEntry(xmlpath, 'EntryAdd', 'throughput'));
-        Xt(5,3) = str2double(getAttributeByEntry(xmlpath, 'EntryDelete', 'throughput'));
-        % EntryQueryCatalog
-        Xt(6,1) = str2double(getAttributeByEntry(xmlpath, 'EntryQueryCatalog', 'throughput'));
-        % EntryQueryCartsdb
-        Xt(7,1) = str2double(getAttributeByEntry(xmlpath, 'EntryQueryCartsdb', 'throughput'));
+        Xt = getXt(model);
     
         %% Calculate revenue (to maximize)
         Bt = sum(sum(params.psi.*Xt));
