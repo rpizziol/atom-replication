@@ -1,4 +1,4 @@
-function [model, params] = initializeSockShop()
+function [model, params] = initializeSockShop(wm)
 %INITIALIZESOCKSHOP Summary of this function goes here
 %   Detailed explanation goes here
 %% Model definition
@@ -8,6 +8,8 @@ model.extension = 'lqnx';
 model.template_path = './res/sockshop-template.lqnx';
 model.N = 7;    % Number of tasks
 model.M = 3;    % Number of classes (max entries)
+
+model.wm = wm; % Workload mix
 
 % Default service times
 model.st = [0.0012, 0.0021, 0.0037, 0.0051, 0.0022, 0.0019, 0.0048, 0.0174,...

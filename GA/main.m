@@ -2,7 +2,7 @@ addpath('./utility/');
 addpath('./res/');
 addpath('./apps/');
 
-[model, params] = initializeSockShop();
-wm = 'b';
+[model, params] = initializeSockShop('b');
+%[model, params] = initializeAcmeAir();
 
-runExperiment(wm, model, params);
+runExperiment(model, params);

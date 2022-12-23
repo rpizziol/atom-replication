@@ -1,4 +1,4 @@
-function runExperiment(wm, model, params)
+function runExperiment(model, params)
     %% Generate random seed    
     c = clock;
     rng(c(6));
@@ -17,7 +17,7 @@ function runExperiment(wm, model, params)
     
     start = tic();
     
-    f = @(x)fitness(x, wm, model, params);
+    f = @(x)fitness(x, model, params);
     
     options = optimoptions('ga'); % Load default settings
     options = optimoptions(options,'PopulationType', 'doubleVector');

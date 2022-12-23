@@ -1,11 +1,9 @@
-function value = fitness(cpushare, wm, model, params)
-    global nusersInTime    
-    
-    workmix = getProbMix(wm);
-    
+function value = fitness(cpushare, model, params)
+    global currNuser 
+     
     W = getCurrentUsers(); % TODO obtain from Redis database
 
-    nusersInTime = W;
+    currNuser = W;
 
     %% Generate temporary lqn file
     rv = [W, W, W, W];
@@ -16,7 +14,10 @@ function value = fitness(cpushare, wm, model, params)
     [np2, st2] = calculateByCPUShare(model.st, cpushare);
 
     updateModel(model.template_path, tempPath, 'W', W);
-    updateModel(tempPath, tempPath, 'wm', workmix);
+    if (strcmp(model.name, 'sockshop'))
+        workmix = getProbMix(model.wm);
+        updateModel(tempPath, tempPath, 'wm', workmix);
+    end
     updateModel(tempPath, tempPath, 'rv', rv);
     updateModel(tempPath, tempPath, 'st', st2);
     updateModel(tempPath, tempPath, 'np', np2);
