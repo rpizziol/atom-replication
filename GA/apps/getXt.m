@@ -26,7 +26,7 @@ function Xt = getXt(model, modelName)
         Xt(6,1) = str2double(getAttributeByEntry(xmlpath, 'EntryQueryCatalog', 'throughput'));
         % EntryQueryCartsdb
         Xt(7,1) = str2double(getAttributeByEntry(xmlpath, 'EntryQueryCartsdb', 'throughput'));
-    else if (strcmp(model.name, 'acmeair'))
+    elseif (strcmp(model.name, 'acmeair'))
         % clientEntry
         Xt(1,1) = str2double(getAttributeByEntry(xmlpath, 'clientEntry', 'throughput'));
         % MSauthEntry
