@@ -8,16 +8,16 @@ G
 
 # Processors declaration, with multiplicity 
 P 0
-p ProcClient f m {{nc[1]}}
-p ProcMSauth f m {{nc[2]}}
-p ProcMSvalidateid f m {{nc[3]}}
-p ProcMSviewprofile f m {{nc[4]}}
-p ProcMSupdateprofile f m {{nc[5]}}
-p ProcMSupdateMiles f m {{nc[6]}}
-p ProcMSbookflights f m {{nc[7]}}
-p ProcMScancelbooking f m {{nc[8]}}
-p ProcMSqueryflights f m {{nc[9]}}
-p ProcMSgetrewardmiles f m {{nc[10]}}
+p ProcClient f m {{np[1]}}
+p ProcMSauth f m {{np[2]}}
+p ProcMSvalidateid f m {{np[3]}}
+p ProcMSviewprofile f m {{np[4]}}
+p ProcMSupdateprofile f m {{np[5]}}
+p ProcMSupdateMiles f m {{np[6]}}
+p ProcMSbookflights f m {{np[7]}}
+p ProcMScancelbooking f m {{np[8]}}
+p ProcMSqueryflights f m {{np[9]}}
+p ProcMSgetrewardmiles f m {{np[10]}}
 -1
 
 # Tasks declaration
