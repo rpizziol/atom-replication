@@ -7,6 +7,7 @@ model.name = 'sockshop';
 model.extension = 'lqnx';
 model.template_path = './res/sockshop-template.lqnx';
 model.N = 7;    % Number of tasks
+model.Nk = 3;   % Number of tasks with known values
 model.M = 3;    % Number of classes (max entries)
 
 model.wm = wm; % Workload mix

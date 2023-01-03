@@ -7,6 +7,7 @@ function [model, params] = initializeAcmeAir()
     model.extension = 'lqn';
     model.template_path = './res/acmeair-template.lqn';
     model.N = 10;   % Number of tasks
+    model.Nk = 1;   % Number of tasks with known values
     model.M = 1;    % Number of classes (max entries)
     
     % Default service times

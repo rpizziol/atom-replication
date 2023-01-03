@@ -30,7 +30,7 @@ function runExperiment(model, params)
     %options = optimoptions(options, 'OutputFcn', @printState);
     %options = optimoptions(options,'Display', 'iter');
     
-    [x, fval, exitflag, output, population, scores] = ga(f, model.N -3, [],...
+    [x, fval, exitflag, output, population, scores] = ga(f, model.N - model.Nk, [],...
     [], [], [], params.s_lb, params.s_ub, [], [], options); %ConstraintFunction
 
     disp(exitflag);
