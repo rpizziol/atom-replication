@@ -11,7 +11,7 @@ function value = fitness(cpushare, model, params)
     tempName = strcat('fittmp', getDateString());
     tempPath = strcat('./out/', tempName, '.', model.extension);
 
-    [np2, st2] = calculateByCPUShare(model.st, cpushare, model);
+    [np2, st2] = calculateByCPUShare(cpushare, model);
 
     updateModel(model.template_path, tempPath, 'W', W);
     if (strcmp(model.name, 'sockshop'))

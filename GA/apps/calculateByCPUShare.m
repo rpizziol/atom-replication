@@ -6,7 +6,8 @@
 % OUTPUTS
 %   np_new  : the newly calculated array of number of processors.
 %   st_new  : the newly calculated array of service time.
-function [np_new, st_new] = calculateByCPUShare(st_old, cpushare, model)
+function [np_new, st_new] = calculateByCPUShare(cpushare, model)
+    st_old = model.st;
     %% np_new
     np_new = ceil(cpushare);
 

@@ -1,6 +1,6 @@
 % Solve the LQN model by means of lqns
 % INPUTS
-%   modelName   : the path to the lqnx model.
+%   modelName   : the path to the lqnx/lqn model.
 %   model       : a structure containing information about the model.
 %   params      : a structure containing parameters of the optimization.
 %   constraints : the constraints of the optimization.
@@ -38,7 +38,7 @@ function fval = solveModel(modelName, model, params, s, nuser)
 %         end
     end
     %% Remove xml files
+    delete(strcat('./out/', modelName, model.extension));
     delete(strcat('./out/', modelName, '.out'));
-    delete(strcat('./out/', modelName, '.lqnx'));
     delete(strcat('./out/', modelName, '.lqxo'));
 end
