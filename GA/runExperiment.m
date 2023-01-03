@@ -12,6 +12,7 @@ function runExperiment(model, params)
 
     global testname 
         
+    testname = getDateString();
     
     %% Genetic algorithm
     
