@@ -8,16 +8,16 @@ G
 
 # Processors declaration, with multiplicity 
 P 0
-p ProcClient f m {{np[1]}}
-p ProcMSauth f m {{np[2]}}
-p ProcMSvalidateid f m {{np[3]}}
-p ProcMSviewprofile f m {{np[4]}}
-p ProcMSupdateprofile f m {{np[5]}}
-p ProcMSupdateMiles f m {{np[6]}}
-p ProcMSbookflights f m {{np[7]}}
-p ProcMScancelbooking f m {{np[8]}}
-p ProcMSqueryflights f m {{np[9]}}
-p ProcMSgetrewardmiles f m {{np[10]}}
+p ProcClient f m {{W}}
+p ProcMSauth f m {{np[1]}}
+p ProcMSvalidateid f m {{np[2]}}
+p ProcMSviewprofile f m {{np[3]}}
+p ProcMSupdateprofile f m {{np[4]}}
+p ProcMSupdateMiles f m {{np[5]}}
+p ProcMSbookflights f m {{np[6]}}
+p ProcMScancelbooking f m {{np[7]}}
+p ProcMSqueryflights f m {{np[8]}}
+p ProcMSgetrewardmiles f m {{np[9]}}
 -1
 
 # Tasks declaration
@@ -36,25 +36,25 @@ t MSgetrewardmiles n MSgetrewardmilesEntry -1 ProcMSgetrewardmiles m {{W}}
 
 # Entries declaration
 E 0
-s clientEntry {{st[1]}} -1
+s clientEntry 0.2738 -1
 y clientEntry MSviewprofileEntry 2.0 -1
 y clientEntry MSupdateprofileEntry 1.0 -1
 y clientEntry MSbookflightsEntry 1.0 -1
 y clientEntry MScancelbookingEntry 2.0 -1
 y clientEntry MSqueryflightsEntry 1.0 -1
-s MSauthEntry {{st[2]}} -1
+s MSauthEntry {{st[1]}} -1
 y MSauthEntry MSvalidateidEntry 1.0 -1
-s MSvalidateidEntry {{st[3]}} -1
-s MSviewprofileEntry {{st[4]}} -1
-s MSupdateprofileEntry {{st[5]}} -1
-s MSupdateMilesEntry {{st[6]}} -1
-s MSbookflightsEntry {{st[7]}} -1
+s MSvalidateidEntry {{st[2]}} -1
+s MSviewprofileEntry {{st[3]}} -1
+s MSupdateprofileEntry {{st[4]}} -1
+s MSupdateMilesEntry {{st[5]}} -1
+s MSbookflightsEntry {{st[6]}} -1
 y MSbookflightsEntry MSupdateMilesEntry 2.0 -1
 y MSbookflightsEntry MSgetrewardmilesEntry 2.0 -1
-s MScancelbookingEntry {{st[8]}} -1
+s MScancelbookingEntry {{st[7]}} -1
 y MScancelbookingEntry MSupdateMilesEntry 1.0 -1
 y MScancelbookingEntry MSgetrewardmilesEntry 1.0 -1
-s MSqueryflightsEntry {{st[9]}} -1
-s MSgetrewardmilesEntry {{st[10]}} -1
+s MSqueryflightsEntry {{st[8]}} -1
+s MSgetrewardmilesEntry {{st[9]}} -1
 y clientEntry MSauthEntry 1.0 -1
 -1

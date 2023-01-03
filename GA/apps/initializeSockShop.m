@@ -32,8 +32,9 @@ params.tau2 = 0.5; % Objective function weight 2
 %% Constraints for r and s
 params.Q = [1200, 1200, 1200, 1200]; % Max number of replicas for each microservice
 % CPU share for each replica of each microservice for the time interval t
-params.s_lb = [0.001, 0.001, 0.001, 0.001];   % Lower bound
-max_s = 5; % old value: 30
+min_s = 0.001;
+params.s_lb = [min_s, min_s, min_s, min_s];   % Lower bound
+max_s = 5; % old value: 30 NB range non scala col numero di utenti
 params.s_ub = [max_s, max_s, max_s, max_s];   % Upper bound
 
 end
