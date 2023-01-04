@@ -20,10 +20,11 @@ function fval = solveModel(modelName, model, params, s, nuser)
         Xt = getXt(model, modelName);
     
         %% Calculate revenue (to maximize)
-        Bt = sum(sum(params.psi.*Xt));
+        Bt = Xt(1,1); %sum(sum(params.psi.*Xt));
 
         % TODO think time sockshop 7 / acmeair 0.27538
-        Bmax = sum(sum(params.psi.*repmat(nuser / 0.27538, model.N, model.M))); % nuser (3000) / 7 (think time)
+        %Bmax = sum(sum(params.psi.*repmat(nuser / 0.27538, model.N, model.M))); % nuser (3000) / 7 (think time)
+        Bmax = nuser * 0.55; %/ 0.27538;
         Bhat = Bt / Bmax; % Normalized Bt
     
         %% Calculate objective function
