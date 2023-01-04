@@ -29,6 +29,7 @@ function main(code)% Functions relative to the web application used
 
         [model, params] = initializeAcmeAir();
         runExperiment(model, params);
+        
         stopStystem(conn);
         close(conn);
     end

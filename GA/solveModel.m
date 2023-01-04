@@ -40,7 +40,7 @@ function fval = solveModel(modelName, model, params, s, nuser)
 %         end
     end
     %% Remove xml files
-    %delete(strcat('./out/', modelName, '.', model.extension));
-    %delete(strcat('./out/', modelName, '.out'));
-    %delete(strcat('./out/', modelName, '.lqxo'));
+    delete(strcat('./out/', modelName, '.', model.extension));
+    delete(strcat('./out/', modelName, '.out'));
+    delete(strcat('./out/', modelName, '.lqxo'));
 end
