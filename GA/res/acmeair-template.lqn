@@ -36,7 +36,7 @@ t MSgetrewardmiles n MSgetrewardmilesEntry -1 ProcMSgetrewardmiles m {{W}}
 
 # Entries declaration
 E 0
-s clientEntry 0.2738 -1
+s clientEntry 0.27538 -1
 y clientEntry MSviewprofileEntry 2.0 -1
 y clientEntry MSupdateprofileEntry 1.0 -1
 y clientEntry MSbookflightsEntry 1.0 -1
