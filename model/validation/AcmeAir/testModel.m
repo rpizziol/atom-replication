@@ -2,7 +2,7 @@
 
 ctrl=load("/Users/emilio-imt/git/atom-replication/LQN-CRN/controller/acmeAir/re.mat");
 load("/Users/emilio-imt/git/nodejsMicro/src/params.mat")
-wi=load("/Users/emilio-imt/git/nodejsMicro/data/ICDCS/validation/m1/acmeair_val_data.mat");
+% wi=load("/Users/emilio-imt/git/nodejsMicro/data/ICDCS/validation/m1/acmeair_val_data.mat");
 
 X0=zeros(1,30);
 % MU=zeros(1,30);
@@ -30,7 +30,7 @@ RTode=zeros(size(wi.Tm,2),size(ctrl.Clients,1));
 
 TodeM=zeros(size(wi.Tm,2),size(ctrl.Clients,1));
 
-MU=MU*1.01;
+MU=MU*1.0;
 
 for i=1:size(ctrl.Clients,1)
     X0=zeros(1,30);

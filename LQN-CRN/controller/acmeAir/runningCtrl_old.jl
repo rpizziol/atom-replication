@@ -40,7 +40,7 @@ maxNT=300
 
 params = matread(@sprintf("%s/git/nodejsMicro/src/params.mat",homedir()))
 MU=params["MU"]
-MU=MU*1.025
+MU=MU*1.0
 
 # MU=ones(1,size(jump,2))*-1
 
@@ -218,7 +218,7 @@ for i=1:size(clients,1)
     global w=round(clients[i])
     set_value(C,w)
 
-    @objective(model,Max,0.5*(T[1])/(0.501*w)-0.5*(sum(NC)+sum(NT))/(maxNC*9+maxNT*9))
+    @objective(model,Max,0.5*(T[1])/(0.5587*w)-0.5*(sum(NC)+sum(NT))/(maxNC*9+maxNT*9))
     global stimes=@elapsed JuMP.optimize!(model)
     global status=termination_status(model)
     if(status!=MOI.LOCALLY_SOLVED && status!=MOI.ALMOST_LOCALLY_SOLVED)
