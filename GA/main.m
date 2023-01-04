@@ -1,9 +1,10 @@
 function main(code)% Functions relative to the web application used
-    addpath('./apps/');
+    addpath('./apps');
     % Utility functions
-    addpath('./utility/');
+    addpath('./utility');
+    addpath('./utility/dbs');
     % xml and lqn templates defining the models
-    addpath('./res/');
+    addpath('./res');
     % Redis
     addpath('/root/git/MatlabRedis');       
     
@@ -25,5 +26,14 @@ function main(code)% Functions relative to the web application used
 
         [model, params] = initializeAcmeAir();
         runExperiment(model, params);
+        %stoppo il sistrema settamndo a 1 il campo toStop
+        stopStystem(conn);
+
+        %msData=readData("../data/ICDCS/*.csv");
+
+        %per visualizzare i risultati importo i csv che sono stati esportati dal
+        %sisrtema
+        close(conn)
+
     end
 end
