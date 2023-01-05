@@ -8,9 +8,9 @@ function thr = getThroughputByCPUShare(cpushare, model)
     updateModel(model.template_path, filepath, 'W', W);
     if (strcmp(model.name, 'sockshop'))
         workmix = getProbMix(model.wm);
-        updateModel(tempPath, filepath, 'wm', workmix);
+        updateModel(filepath, filepath, 'wm', workmix);
         rv = [W, W, W, W];
-        updateModel(tempPath, filepath, 'rv', rv); % TODO add to acmeair too
+        updateModel(filepath, filepath, 'rv', rv); % TODO add to acmeair too
     end  
     updateModel(filepath, filepath, 'st', st_final);
     updateModel(filepath, filepath, 'np', np_final);
