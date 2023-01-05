@@ -12,9 +12,13 @@ function [model, params] = initializeSockShop(wm)
     
     model.wm = wm; % Workload mix
     
+    model.thinkTime = 7; % Think time
+
     % Default service times
     model.st = [0.0012, 0.0021, 0.0037, 0.0051, 0.0022, 0.0019, 0.0048, 0.0174,...
     0.0056];
+
+    model.totalTime = model.thinkTime + sum(model.st);
     
     %% Objective function's parameters
     params.psi = zeros(model.N, model.M); % Weights of transactions

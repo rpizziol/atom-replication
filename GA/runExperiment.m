@@ -46,11 +46,12 @@ function runExperiment(model, params)
     save(strcat('./out/mat/', testname, '.mat'), 'bestIndividuals', ...
         'bestValues', 'bestTimeStamps', 'nusersInTime', 'testname');
 
-    %% Print final throughput
-    %bestIndividuals(end; :);
+    %% Print final throughput (it works only for stable input)
     disp('The final output is: ')
     disp(x);
     disp('The calculated relative throughput is: ')
-    getThroughputByCPUShare(x, model);
+    disp(getThroughputByCPUShare(x, model));
+    disp('The theorietical maximum throughput is: ')
+    disp(getCurrentUsers() / model.totalTime);
 end
 

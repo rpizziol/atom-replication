@@ -11,12 +11,14 @@ function [model, params] = initializeAcmeAir()
     model.M = 1;    % Number of classes (max entries)
     
     % Default service times
-    % think time = 0.2738
-    %model.st = [0.151, 0.0812, 0.1505, 0.2013, 0.0403, 0.1008, ...
-    %    0.0876, 0.0908, 0.0504];
+    model.thinkTime = 0.27538;
 
     model.st = [0.15673, 0.085154, 0.15428, 0.20552, 0.044829, 0.14698, ...
         0.0991, 0.095022, 0.052992];
+
+    repFac = [2, 2, 1, 1, 2, 3, 1, 1, 1, 1];
+
+    model.totalTime = model.thinkTime + (model.st .* repFac);
     
     %% Objective function's parameters
     params.psi = zeros(model.N, model.M); % Weights of transactions

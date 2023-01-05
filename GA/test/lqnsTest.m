@@ -9,6 +9,7 @@ nusers = 1000;
 
 stAcmeNew = [0.15673, 0.085154, 0.15428, 0.20552, 0.044829, 0.14698, ...
         0.0991, 0.095022, 0.052992];
+np = [2, 2, 1, 1, 2, 3, 1, 1, 1, 1];
 
 np = [nusers, nusers, nusers, nusers, nusers, nusers, nusers, nusers, nusers];
 
