@@ -1,4 +1,4 @@
-% clear
+clear
 
 ctrl=load("/Users/emilio-imt/git/atom-replication/LQN-CRN/controller/acmeAir/re.mat");
 load("/Users/emilio-imt/git/nodejsMicro/src/params.mat")

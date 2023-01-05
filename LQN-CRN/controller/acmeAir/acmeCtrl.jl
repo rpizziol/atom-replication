@@ -44,7 +44,6 @@ MS=["MSauth","MSvalidateid","MSbookflights","MSupdateMiles","MScancelbooking",
 params = matread(@sprintf("%s/git/nodejsMicro/src/params.mat",homedir()))
 MU=params["MU"]
 MU=MU*1.0
-MU[2:end]=MU[2:end]*0.98
 
 # MU=ones(1,size(jump,2))*-1
 
