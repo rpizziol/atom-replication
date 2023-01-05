@@ -145,6 +145,11 @@ dmypy.json
 
 #/model/validation/
 
+out/*.lqn
+out/*.lqx
+out/*.lqno
+out/*.lqxo
+
 julia-1.7.1
 *.out~001~
 *.lqx
