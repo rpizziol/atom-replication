@@ -1,12 +1,19 @@
+% The fitness function minimized by the GA autoscaler.
+% INPUTS
+%   cpushare    : The CPU-share array (x of the fitness function)
+%   model       : A structure containing information about the model.
+%   params      : A structure containing parameters of the optimization.
+% OUTPUTS
+%   value       :
 function value = fitness(cpushare, model, params)
     global currNuser 
      
-    W = getCurrentUsers(); % TODO obtain from Redis database
+    W = getCurrentUsers();
 
     currNuser = W;
 
     %% Generate temporary lqn file
-    %rv = [W, W, W, W];
+    
     
     tempName = strcat('fittmp', getDateString());
     tempPath = strcat('./out/', tempName, '.', model.extension);
@@ -17,8 +24,10 @@ function value = fitness(cpushare, model, params)
     if (strcmp(model.name, 'sockshop'))
         workmix = getProbMix(model.wm);
         updateModel(tempPath, tempPath, 'wm', workmix);
+        rv = [W, W, W, W];
+        updateModel(tempPath, tempPath, 'rv', rv); % TODO add to acmeair too
     end
-    %updateModel(tempPath, tempPath, 'rv', rv);
+    
     updateModel(tempPath, tempPath, 'st', st2);
     updateModel(tempPath, tempPath, 'np', np2);
     

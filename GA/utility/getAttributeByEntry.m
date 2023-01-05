@@ -1,10 +1,10 @@
 % Obtain an attribute relative to an entry.
-% INPUTs
-%   xmlpath   : the path of the xml file.
-%   entryname : the name of the entry.
-%   attrname  : the identifier of the attribute.
+% INPUTS
+%   xmlpath   : The path of the xml file.
+%   entryname : The name of the entry.
+%   attrname  : The identifier of the attribute.
 % OUTPUTS
-%   rt        : an array with all the values of attributes 
+%   rt        : An array with all the values of attributes 
 function rt = getAttributeByEntry(xmlpath, entryname, attrname)
     xdoc = xmlread(xmlpath);
     entries = xdoc.getElementsByTagName('entry');

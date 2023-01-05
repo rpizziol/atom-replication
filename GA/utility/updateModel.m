@@ -1,9 +1,9 @@
 % Update an LQN model given
 % INPUTS
-%   sourcepath  : the path of the input LQN file.
-%   outpath     : the path of the output LQN file.
-%   key         : the string that identifies the placeholders to replace.
-%   values      : the values to write in the LQN file.
+%   sourcepath  : The path of the input LQN file.
+%   outpath     : The path of the output LQN file.
+%   key         : The string that identifies the placeholders to replace.
+%   values      : The values to write in the LQN file.
 function updateModel(sourcepath, outpath, key, values)
     %% Read the lqn template file
     f = fileread(sourcepath);

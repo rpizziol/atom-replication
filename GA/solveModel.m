@@ -1,13 +1,12 @@
 % Solve the LQN model by means of lqns
 % INPUTS
-%   modelName   : the path to the lqnx/lqn model.
-%   model       : a structure containing information about the model.
-%   params      : a structure containing parameters of the optimization.
-%   constraints : the constraints of the optimization.
-%   s           : the CPU share array.
-%   nuser       : the number of users in the model.
+%   modelName   : The name of the to the lqnx/lqn file to execute.
+%   model       : A structure containing information about the model.
+%   params      : A structure containing parameters of the optimization.
+%   s           : The CPU share array.
+%   nuser       : The number of users in the model.
 % OUTPUTS
-%   fval        : the value of the objective function given s.
+%   fval        : The value of the objective function given s.
 function fval = solveModel(modelName, model, params, s, nuser)
     %% Calculate total allocated CPU capacity (to minimize)
     Cmax = sum(params.s_ub); %constraints.Q.*constraints.s_ub);
@@ -24,7 +23,11 @@ function fval = solveModel(modelName, model, params, s, nuser)
 
         % TODO think time sockshop 7 / acmeair 0.27538
         %Bmax = sum(sum(params.psi.*repmat(nuser / 0.27538, model.N, model.M))); % nuser (3000) / 7 (think time)
-        Bmax = nuser * 0.55; %/ 0.27538;
+        if (strcmp(model.name, 'sockshop'))
+            Bmax = nuser / 7;
+        elseif (strcmp(model.name, 'acmeair'))
+            Bmax = nuser * 0.55; %/ 0.27538;
+        end
         Bhat = Bt / Bmax; % Normalized Bt
     
         %% Calculate objective function

@@ -1,3 +1,7 @@
+% Run an experiment with the GA and save the results in a .mat file.
+% INPUTS
+%   model       : A structure containing information about the model.
+%   params      : A structure containing parameters of the optimization.
 function runExperiment(model, params)
     %% Generate random seed    
     c = clock;

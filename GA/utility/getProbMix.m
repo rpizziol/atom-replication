@@ -1,8 +1,12 @@
+% Get probabilites of the mix relative to the letter code for Sock Shop.
+% INPUTS
+%   wm  : a character representing the kind of mix
+%           'b' - Browsing Mix
+%           'o' - Ordering Mix
+%           's' - Shopping Mix
+% OUTPUTS
+%   wmProbs : an array containing the relative probability mix.
 function wmProbs = getProbMix(wm)
-%GETPROBMIX Get probabilites of the mix relative to the letter code.
-% 'b' - Browsing Mix
-% 'o' - Ordering Mix
-% 's' - Shopping Mix
     if strcmp(wm, 'b')
         wmProbs = [0.63, 0.32, 0.05];
     elseif strcmp(wm, 'o')
