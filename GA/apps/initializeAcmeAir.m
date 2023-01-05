@@ -37,10 +37,10 @@ function [model, params] = initializeAcmeAir()
     Qmax = 1200; % Max number of replicas for each microservice
     params.Q = [Qmax, Qmax, Qmax, Qmax, Qmax, Qmax, Qmax, Qmax, Qmax];
     % CPUshare for each replica of each ms for the time interval t
-    min_s = 0.001;  % Lower bound
+    min_s = 0.1;  % Lower bound
     params.s_lb = [min_s, min_s, min_s, min_s, min_s, min_s, min_s, ...
         min_s, min_s];
-    max_s = 10;      % Upper bound
+    max_s = 20;      % Upper bound
     params.s_ub = [max_s, max_s, max_s, max_s, max_s, max_s, max_s, ...
         max_s, max_s]; 
 end
