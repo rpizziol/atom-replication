@@ -6,7 +6,7 @@ function main(code)% Functions relative to the web application used
     % xml and lqn templates defining the models
     addpath('./res');
     % Redis
-    addpath('/root/git/MatlabRedis');       
+    %addpath('/root/git/MatlabRedis');       
     
     if (code == 1)
         [model, params] = initializeSockShop('b');
