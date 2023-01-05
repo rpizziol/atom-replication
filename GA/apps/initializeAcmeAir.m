@@ -40,7 +40,7 @@ function [model, params] = initializeAcmeAir()
     min_s = 0.001;  % Lower bound
     params.s_lb = [min_s, min_s, min_s, min_s, min_s, min_s, min_s, ...
         min_s, min_s];
-    max_s = 100;      % Upper bound
+    max_s = 10;      % Upper bound
     params.s_ub = [max_s, max_s, max_s, max_s, max_s, max_s, max_s, ...
         max_s, max_s]; 
 end
