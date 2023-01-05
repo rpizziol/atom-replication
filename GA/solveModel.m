@@ -43,5 +43,5 @@ function fval = solveModel(modelName, model, params, s, nuser)
 %         end
     end
     %% Remove xml files
-    deleteXmlFiles(modelName, model);
+    deleteXmlFiles(model, modelName);
 end
