@@ -6,6 +6,7 @@ function state = printState(options, state, flag)
     global bestTimeStamps
     global nusersInTime
     global start
+    global modelTR
 
     global currNuser
 

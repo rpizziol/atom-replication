@@ -21,6 +21,8 @@ function fval = solveModel(modelName, model, params, s, nuser)
         %% Calculate revenue (to maximize)
         Bt = Xt(1,1); %sum(sum(params.psi.*Xt));
 
+        disp(Bt)
+
         % TODO think time sockshop 7 / acmeair 0.27538
         %Bmax = sum(sum(params.psi.*repmat(nuser / 0.27538, model.N, model.M))); % nuser (3000) / 7 (think time)
         if (strcmp(model.name, 'sockshop'))
