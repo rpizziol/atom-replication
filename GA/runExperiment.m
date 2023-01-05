@@ -47,11 +47,11 @@ function runExperiment(model, params)
         'bestValues', 'bestTimeStamps', 'nusersInTime', 'testname');
 
     %% Print final throughput (it works only for stable input)
-    disp('The final output is: ')
-    disp(x);
-    disp('The calculated relative throughput is: ')
-    disp(getThroughputByCPUShare(x, model));
-    disp('The theorietical maximum throughput is: ')
-    disp(getCurrentUsers() / model.totalTime);
+    %disp('The final output is: ')
+    %disp(x);
+    %disp('The calculated relative throughput is: ')
+    %disp(getThroughputByCPUShare(x, model));
+    %disp('The theorietical maximum throughput is: ')
+    %disp(getCurrentUsers() / model.totalTime);
 end
 
