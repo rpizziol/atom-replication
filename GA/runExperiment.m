@@ -48,6 +48,9 @@ function runExperiment(model, params)
 
     %% Print final throughput
     %bestIndividuals(end; :);
+    disp('The final output is: ')
     disp(x);
+    disp('The calculated relative throughput is: ')
+    getThroughputByCPUShare(x, model);
 end
 
