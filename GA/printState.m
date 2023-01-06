@@ -1,4 +1,4 @@
-function state = printState(options, state, flag)
+function state = printState(options, state, flag,model)
     % Function called once for every generation to save the calculated data
     % from global variables to .mat files.
     global bestValues
@@ -6,7 +6,6 @@ function state = printState(options, state, flag)
     global bestTimeStamps
     global nusersInTime
     global start
-    global modelTR
 
     global currNuser
 
@@ -40,6 +39,10 @@ function state = printState(options, state, flag)
 
         save(strcat('./out/mat/', testname, '.mat'), 'bestIndividuals', ...
         'bestValues', 'bestTimeStamps', 'nusersInTime');
+
+        %qui l'attuazione del nuovo cpushare del numero di server
+        disp(model.ms);
+
 
         disp('bestIndividuals');
         disp(bestIndividuals);

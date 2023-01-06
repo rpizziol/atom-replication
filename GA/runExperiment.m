@@ -31,7 +31,7 @@ function runExperiment(model, params)
     options = optimoptions(options,'MaxTime', 24000); % 40m = 2400 seconds
     options = optimoptions(options,'MaxStallGenerations', 50);
     options = optimoptions(options,'MutationFcn', { @mutationadaptfeasible 0.1 });
-    options = optimoptions(options,'PlotFcn', {@gaplotbestf, @gaplotbestindiv, @printState });
+    options = optimoptions(options,'PlotFcn', {@gaplotbestf, @gaplotbestindiv, @(options, state, flag)printState(options, state, flag,model) });
     %options = optimoptions(options, 'OutputFcn', @printState);
     %options = optimoptions(options,'Display', 'iter');
     

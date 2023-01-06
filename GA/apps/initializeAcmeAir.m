@@ -16,6 +16,10 @@ function [model, params] = initializeAcmeAir()
     model.st = [0.15673, 0.085154, 0.15428, 0.20552, 0.044829, 0.14698, ...
         0.0991, 0.095022, 0.052992];
 
+    model.ms=["MSauth","MSvalidateid","MSviewprofile","MSupdateprofile"...
+                ,"MSupdateMiles","MSbookflights","MScancelbooking"...
+                ,"MSqueryflights","MSgetrewardmiles"];
+
     repFac = [1, 1, 2, 1, 4, 1, 2, 1, 4];
 
     model.totalTime = model.thinkTime + sum(model.st .* repFac);
