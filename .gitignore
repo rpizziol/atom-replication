@@ -145,7 +145,6 @@ dmypy.json
 
 #/model/validation/
 
-GA/out/mat/
 GA/out/*.lqn
 GA/out/*.lqx
 GA/out/*.lqno

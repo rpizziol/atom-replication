@@ -45,7 +45,8 @@ function state = printState(options, state, flag,model)
         for i=1:length(model.ms)
             updateShare(model.ms(i),bestIndividual(i),model.redisConn)
         end
-
+        
+        bestValues(end,:)*
 
         disp('bestIndividuals');
         disp(bestIndividuals(end,:));
