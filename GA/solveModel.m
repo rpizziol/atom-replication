@@ -13,7 +13,7 @@ function fval = solveModel(modelName, model, params, s, nuser)
     Ct = sum(s);  %sum(r.*s); 
     Chat = Ct / Cmax; % Normalized Ct
 
-    [status, ~] = system("lqns -x ./out/" + modelName + "." + model.extension);
+    [status, ~] = system("lqns  --exact-mva -x ./out/" + modelName + "." + model.extension);
 
     if status == 0 % no error
         Xt = getXt(model, modelName);
