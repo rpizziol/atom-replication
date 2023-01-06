@@ -48,13 +48,13 @@ function state = printState(options, state, flag,model)
 
 
         disp('bestIndividuals');
-        disp(bestIndividuals);
+        disp(bestIndividuals(end,:));
         disp('bestValues');
-        disp(bestValues);
+        disp(bestValues(end,:));
         disp('bestTimeStamps');
-        disp(bestTimeStamps);
+        disp(bestTimeStamps(end,:));
         disp('nusersInTime');
-        disp(nusersInTime);
+        disp(nusersInTime(end,:));
     end
 end
 
