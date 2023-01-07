@@ -43,7 +43,7 @@ params.tau2 = 0.5; % Objective function weight 2
 Qmax = 1200; % Max number of replicas for each microservice
 params.Q = [Qmax, Qmax, Qmax, Qmax, Qmax, Qmax, Qmax, Qmax, Qmax];
 % CPUshare for each replica of each ms for the time interval t
-min_s = 0.1;  % Lower bound
+min_s = 1.0;  % Lower bound
 params.s_lb = [min_s, min_s, min_s, min_s, min_s, min_s, min_s, ...
     min_s, min_s];
 max_s = 40;      % Upper bound
