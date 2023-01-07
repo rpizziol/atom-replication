@@ -46,7 +46,7 @@ params.Q = [Qmax, Qmax, Qmax, Qmax, Qmax, Qmax, Qmax, Qmax, Qmax];
 min_s = 0.1;  % Lower bound
 params.s_lb = [min_s, min_s, min_s, min_s, min_s, min_s, min_s, ...
     min_s, min_s];
-max_s = 20;      % Upper bound
+max_s = 200;      % Upper bound
 params.s_ub = [max_s, max_s, max_s, max_s, max_s, max_s, max_s, ...
     max_s, max_s];
 end
