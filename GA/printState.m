@@ -29,42 +29,47 @@ function [state,options,optchanged] = printState(options, state, flag, model)
     
     % Reset
     countIndividual = 0;
+    disp('in printState')
 
 
     % Find the index of the 'Score' equal to 'Best'
-    if(size(state.Best) == 0) % First iteration
-        start = tic();
-    else
-    %if(size(state.Best) >= 1)indices
-        now = toc(start);
-        indices = find(state.Score == state.Best(end));
-        index = indices(1);
-        % Use that index to select the member of the population who had that
-        tmpBestIndividual = state.Population(index, :);
-        bestIndividual = tmpBestIndividual(1, :);
-        
-        bestIndividuals = [bestIndividuals; bestIndividual];
-        bestValues = [bestValues; state.Best(end)];
-        bestTimeStamps = [bestTimeStamps; now];
-        nusersInTime = [nusersInTime; currNuser];
-
-        save(strcat('./out/mat/', testname, '.mat'), 'bestIndividuals', ...
-        'bestValues', 'bestTimeStamps', 'nusersInTime');
-
-        %qui l'attuazione del nuovo cpushare del numero di server
-        %disp(model.ms);
-        for i=1:length(model.ms)
-            updateShare(model.ms(i),bestIndividual(i),model.redisConn)
-        end
-
-        disp('bestIndividuals');
-        disp(bestIndividuals(end,:));
-        disp('bestValues');
-        disp(bestValues(end,:));
-        disp('bestTimeStamps');
-        disp(bestTimeStamps(end,:));
-        disp('nusersInTime');
-        disp(nusersInTime(end,:));
+    switch flag
+        case 'init' %if(size(state.Best) == 0) % First iteration
+            disp('init')
+            start = tic();
+        case 'iter' %else
+            disp('iter')
+            now = toc(start);
+            indices = find(state.Score == state.Best(end));
+            index = indices(1);
+            % Use that index to select the member of the population who had that
+            tmpBestIndividual = state.Population(index, :);
+            bestIndividual = tmpBestIndividual(1, :);
+            
+            bestIndividuals = [bestIndividuals; bestIndividual];
+            bestValues = [bestValues; state.Best(end)];
+            bestTimeStamps = [bestTimeStamps; now];
+            nusersInTime = [nusersInTime; currNuser];
+    
+            save(strcat('./out/mat/', testname, '.mat'), 'bestIndividuals', ...
+            'bestValues', 'bestTimeStamps', 'nusersInTime');
+    
+            %qui l'attuazione del nuovo cpushare del numero di server
+            %disp(model.ms);
+            for i=1:length(model.ms)
+                updateShare(model.ms(i),bestIndividual(i),model.redisConn)
+            end
+%     
+%             disp('bestIndividuals');
+%             disp(bestIndividuals(end,:));
+%             disp('bestValues');
+%             disp(bestValues(end,:));
+%             disp('bestTimeStamps');
+%             disp(bestTimeStamps(end,:));
+%             disp('nusersInTime');
+%             disp(nusersInTime(end,:));
+        case 'done'
+            disp('done')
         
     end
 end
