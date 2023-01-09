@@ -30,7 +30,7 @@ function runExperiment(model, params)
     
     options = optimoptions('ga'); % Load default settings
     options = optimoptions(options,'PopulationType', 'doubleVector');
-    options = optimoptions(options,'PopulationSize', 50); % default: 50
+    options = optimoptions(options,'PopulationSize', 10); % default: 50
     options = optimoptions(options,'MaxGenerations', 400); % default: 100*nvars
     options = optimoptions(options,'MaxTime', 5400); % 90m = 5400 seconds
     options = optimoptions(options,'MaxStallGenerations', 10); % old value: 20
@@ -45,8 +45,8 @@ function runExperiment(model, params)
 
     disp(exitflag);
     
-    % Save final output ('f' stands for final)
-    save(strcat('./out/mat/', testname, 'f.mat'), 'bestIndividuals', ...
+    % Save final output ('#' stands for final)
+    save(strcat('./out/mat/', testname, '#.mat'), 'bestIndividuals', ...
         'bestValues', 'bestTimeStamps', 'nusersInTime', 'testname');
 
     %% Print final throughput (it works only for stable input)

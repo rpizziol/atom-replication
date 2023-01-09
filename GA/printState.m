@@ -1,4 +1,4 @@
-function state = printState(options, state, flag,model)
+function [state,options,optchanged] = printState(options, state, flag,model)
     % Function called once for every generation to save the calculated data
     % from global variables to .mat files.
     global bestValues
@@ -26,7 +26,7 @@ function state = printState(options, state, flag,model)
 %     end
 
     
-
+    % Reset
     countIndividual = 0;
 
 
