@@ -16,7 +16,8 @@ function runExperiment(model, params)
 
     global testname 
         
-    testname = getDateString();
+    uuid = char(matlab.lang.internal.uuid()); 
+    testname = sprintf("%s#%s", getDateString(), uuid);
     
     %% Genetic algorithm
     
