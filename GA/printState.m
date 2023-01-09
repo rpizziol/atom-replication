@@ -11,6 +11,8 @@ function state = printState(options, state, flag,model)
 
     % Name of the file where the results of the test will be saved
     global testname
+
+    global countIndividual
     
     %fid = fopen('./res/atom-full_template6.lqnx'); 
     %cellnow = textscan(fid,'%s',2,'headerlines', 3);
@@ -39,6 +41,8 @@ function state = printState(options, state, flag,model)
 
         save(strcat('./out/mat/', testname, '.mat'), 'bestIndividuals', ...
         'bestValues', 'bestTimeStamps', 'nusersInTime');
+
+        countIndividual = 0;
 
         %qui l'attuazione del nuovo cpushare del numero di server
         %disp(model.ms);

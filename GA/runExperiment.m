@@ -15,6 +15,12 @@ function runExperiment(model, params)
     global start
 
     global testname 
+
+    global countIndividual
+
+    countIndividual = 0;
+
+
         
     uuid = char(matlab.lang.internal.uuid()); 
     testname = sprintf("%s#%s", getDateString(), uuid);

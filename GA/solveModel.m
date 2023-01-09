@@ -8,12 +8,18 @@
 % OUTPUTS
 %   fval        : The value of the objective function given s.
 function fval = solveModel(modelName, model, params, s, nuser)
+        
     %% Calculate total allocated CPU capacity (to minimize)
     Cmax = sum(params.s_ub); %constraints.Q.*constraints.s_ub);
     Ct = sum(s);  %sum(r.*s); 
     Chat = Ct / Cmax; % Normalized Ct
 
     [status, ~] = system("lqns --method-of-layers -x ./out/" + modelName + "." + model.extension);
+
+    global countIndividual
+    countIndividual = countIndividual + 1;
+    disp("countIndividual = ")
+    disp(countIndividual);
 
     if status == 0 % no error
         Xt = getXt(model, modelName);
@@ -32,7 +38,7 @@ function fval = solveModel(modelName, model, params, s, nuser)
         end
         Bhat = Bt / Bmax; % Normalized Bt
 
-        disp([Bt,Bhat,Ct,Chat])
+        %disp([Bt,Bhat,Ct,Chat])
     
         %% Calculate objective function
         fval = (params.tau1 * Bhat - params.tau2 * Chat);
@@ -48,4 +54,5 @@ function fval = solveModel(modelName, model, params, s, nuser)
     end
     %% Remove xml files
     deleteXmlFiles(model, modelName);
+
 end
