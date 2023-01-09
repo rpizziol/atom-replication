@@ -41,7 +41,7 @@ function state = printState(options, state, flag,model)
         'bestValues', 'bestTimeStamps', 'nusersInTime');
 
         %qui l'attuazione del nuovo cpushare del numero di server
-        disp(model.ms);
+        %disp(model.ms);
         for i=1:length(model.ms)
             updateShare(model.ms(i),bestIndividual(i),model.redisConn)
         end
