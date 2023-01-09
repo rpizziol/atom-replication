@@ -61,15 +61,15 @@ function [state,options,optchanged] = printState(options, state, flag, model)
             for i=1:length(model.ms)
                 updateShare(model.ms(i),bestIndividual(i),model.redisConn)
             end
-%     
-%             disp('bestIndividuals');
-%             disp(bestIndividuals(end,:));
-%             disp('bestValues');
-%             disp(bestValues(end,:));
-%             disp('bestTimeStamps');
-%             disp(bestTimeStamps(end,:));
-%             disp('nusersInTime');
-%             disp(nusersInTime(end,:));
+    
+            disp('bestIndividuals');
+            disp(bestIndividuals(end,:));
+            disp('bestValues');
+            disp(bestValues(end,:));
+            disp('bestTimeStamps');
+            disp(bestTimeStamps(end,:));
+            disp('nusersInTime');
+            disp(nusersInTime(end,:));
         case 'done'
             disp('done')
         

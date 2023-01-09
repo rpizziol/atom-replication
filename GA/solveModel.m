@@ -19,7 +19,12 @@ function fval = solveModel(modelName, model, params, s, nuser)
     global countIndividual
     countIndividual = countIndividual + 1;
 
-    fprintf("countIndividual = %d\n", countIndividual);
+    if countIndividual == 1
+        fprintf("countIndividual = %d", countIndividual);
+    elseif countIndividual == 50
+        fprintf(" %d\n", countIndividual);
+    else
+        fprintf(" %d", countIndividual);
 
     if status == 0 % no error
         Xt = getXt(model, modelName);
