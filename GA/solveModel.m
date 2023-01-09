@@ -18,8 +18,8 @@ function fval = solveModel(modelName, model, params, s, nuser)
 
     global countIndividual
     countIndividual = countIndividual + 1;
-    disp("countIndividual = ")
-    disp(countIndividual);
+
+    fprintf("countIndividual = %d\n", countIndividual);
 
     if status == 0 % no error
         Xt = getXt(model, modelName);
