@@ -14,8 +14,9 @@ function value = fitness(cpushare, model, params)
 
     %% Generate temporary lqn file
     
-    
-    tempName = strcat('fittmp', getDateString());
+    uuid = char(matlab.lang.internal.uuid());
+    %tempName = strcat('fittmp', getDateString());
+    tempName = sprintf("%s#%s",getDateString(),uuid);
     tempPath = strcat('./out/', tempName, '.', model.extension);
 
     [np2, st2] = calculateByCPUShare(cpushare, model);

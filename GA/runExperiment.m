@@ -4,8 +4,8 @@
 %   params      : A structure containing parameters of the optimization.
 function runExperiment(model, params)
     %% Generate random seed    
-    c = clock;
-    rng(c(6));
+%     c = clock;
+%     rng(c(6));
 
     %% Values to save
     global bestValues

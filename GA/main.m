@@ -1,4 +1,7 @@
 function main(code)% Functions relative to the web application used
+    
+    rng('shuffle');
+
     addpath('./apps');
     % Utility functions
     addpath('./utility');
