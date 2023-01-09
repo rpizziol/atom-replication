@@ -80,3 +80,20 @@ st1 = stAcme * fact;
 % con 100 client
 % 8.74618784884589,4.752017964866227,8.202189421916708,7.504977086493566,11.060518758601432,8.871612757577955,5.302686771579797,17.21949430386527,11.46916180620429
 end
+
+   % Risultati di muOpt 
+   17.4870
+   9.5011
+   16.3994
+   15.0054
+   22.1143
+   17.7378
+   10.6021
+   34.4284
+   22.9313
+
+
+   % Ordine che corrisponde ai valori di sopra
+   bestIndividuals(end,[1 2 6 5 7 9 8 3 4])'
+
+   % Ci mette di piu' all'inizio a causa di lqns (con ms bottleneck)
