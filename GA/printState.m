@@ -1,4 +1,5 @@
-function [state,options,optchanged] = printState(options, state, flag,model)
+function [state,options,optchanged] = printState(options, state, flag, model)
+    optchanged = false;
     % Function called once for every generation to save the calculated data
     % from global variables to .mat files.
     global bestValues
