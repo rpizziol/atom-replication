@@ -40,8 +40,9 @@ function [state,options,optchanged] = printState(options, state, flag, model)
         case 'iter' %else
             disp('iter')
             now = toc(start);
-            indices = find(state.Score == state.Best(end));
-            index = indices(1);
+            
+            index = find(state.Score == state.Best(end), 1, 'last');
+        
             % Use that index to select the member of the population who had that
             tmpBestIndividual = state.Population(index, :);
             bestIndividual = tmpBestIndividual(1, :);
