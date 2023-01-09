@@ -12,7 +12,6 @@ function runExperiment(model, params)
     global bestIndividuals
     global bestTimeStamps
     global nusersInTime
-    global start
 
     global testname 
 
@@ -26,8 +25,6 @@ function runExperiment(model, params)
     testname = sprintf("%s#%s", getDateString(), uuid);
     
     %% Genetic algorithm
-    
-    start = tic();
     
     f = @(x)fitness(x, model, params);
     
@@ -46,8 +43,6 @@ function runExperiment(model, params)
     [], [], [], params.s_lb, params.s_ub, [], [], options); %ConstraintFunction
 
     disp(exitflag);
-
-    toc(start);
     
     % Save final output ('f' stands for final)
     save(strcat('./out/mat/', testname, 'f.mat'), 'bestIndividuals', ...

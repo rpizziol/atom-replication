@@ -18,17 +18,24 @@ function state = printState(options, state, flag,model)
     %cellnow = textscan(fid,'%s',2,'headerlines', 3);
     %fclose(fid);
 
-    now = toc(start);
+    
 
 %     Terminate execution after 10 minutes
 %     if(now > 600)
 %         state.StopFlag = 'y';
 %     end
 
-    %now = str2double(cellnow{1}{2});
+    
+
+    countIndividual = 0;
+
 
     % Find the index of the 'Score' equal to 'Best'
-    if(size(state.Best) >= 1)
+    if(size(state.Best) == 0) % First iteration
+        start = tic();
+    else
+    %if(size(state.Best) >= 1)
+        now = toc(start);
         index = find(state.Score == state.Best(end));
         % Use that index to select the member of the population who had that
         tmpBestIndividual = state.Population(index, :);
@@ -41,8 +48,6 @@ function state = printState(options, state, flag,model)
 
         save(strcat('./out/mat/', testname, '.mat'), 'bestIndividuals', ...
         'bestValues', 'bestTimeStamps', 'nusersInTime');
-
-        countIndividual = 0;
 
         %qui l'attuazione del nuovo cpushare del numero di server
         %disp(model.ms);
@@ -58,6 +63,7 @@ function state = printState(options, state, flag,model)
         disp(bestTimeStamps(end,:));
         disp('nusersInTime');
         disp(nusersInTime(end,:));
+        
     end
 end
 
