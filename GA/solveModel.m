@@ -25,6 +25,7 @@ function fval = solveModel(modelName, model, params, s, nuser)
         fprintf(" %d\n", countIndividual);
     else
         fprintf(" %d", countIndividual);
+    end
 
     if status == 0 % no error
         Xt = getXt(model, modelName);
