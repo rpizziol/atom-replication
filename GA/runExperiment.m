@@ -48,6 +48,7 @@ function runExperiment(model, params)
     % Save final output ('#' stands for final)
     save(strcat('./out/mat/', testname, '#.mat'), 'bestIndividuals', ...
         'bestValues', 'bestTimeStamps', 'nusersInTime', 'testname');
+    delete(strcat('./out/mat/', testname, '.mat'));
 
     %% Print final throughput (it works only for stable input)
     %disp('The final output is: ')
