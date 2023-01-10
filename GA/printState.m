@@ -1,67 +1,60 @@
-function [state,options,optchanged] = printState(options, state, flag, model)
-    optchanged = false;
-    % Function called once for every generation to save the calculated data
-    % from global variables to .mat files.
+% An output function called once at the end of each generation by the
+% genetic algorithm. It saves the current state of the optimization (i.e.,
+% the global variables) in a .mat file.
+% INPUTS
+%   options     : ...
+%   state       : ...
+%   flag        : ...
+%   model       : A structure containing information about the model.
+% OUTPUTS
+%   state       : ...
+%   options     : ...
+%   optchanged  : ...
+function [state, options, optchanged] = printState(options, state, flag, model)
     global bestValues
     global bestIndividuals
     global bestTimeStamps
     global nusersInTime
+    global testname
     global start
 
     global currNuser
 
-    % Name of the file where the results of the test will be saved
-    global testname
-
     global countIndividual
+    countIndividual = 0; % Reset for the next generation
+   
+    optchanged = false;  
     
-    %fid = fopen('./res/atom-full_template6.lqnx'); 
-    %cellnow = textscan(fid,'%s',2,'headerlines', 3);
-    %fclose(fid);
-
-    
-
-%     Terminate execution after 10 minutes
-%     if(now > 600)
-%         state.StopFlag = 'y';
-%     end
-
-    
-    % Reset
-    countIndividual = 0;
-    disp('in printState')
-
-
-    % Find the index of the 'Score' equal to 'Best'
     switch flag
-        case 'init' %if(size(state.Best) == 0) % First iteration
+        case 'init' % First iteration
             disp('init')
             start = tic();
-        case 'iter' %else
+        case 'iter' % Middle iteration
             disp('iter')
             now = toc(start);
-
+            % Find the index of the 'Score' equal to 'Best'
             index = find(state.Score == state.Best(end), 1, 'last');
-            disp(index);
         
-            % Use that index to select the member of the population who had that
+            % Use index to select the relative member of the population
             tmpBestIndividual = state.Population(index, :);
             bestIndividual = tmpBestIndividual(1, :);
             
+            % Update state global variables
             bestIndividuals = [bestIndividuals; bestIndividual];
             bestValues = [bestValues; state.Best(end)];
             bestTimeStamps = [bestTimeStamps; now];
             nusersInTime = [nusersInTime; currNuser];
     
+            % Update temporary .mat file
             save(strcat('./out/mat/', testname, '.mat'), 'bestIndividuals', ...
             'bestValues', 'bestTimeStamps', 'nusersInTime');
     
-            %qui l'attuazione del nuovo cpushare del numero di server
-            %disp(model.ms);
-            for i=1:length(model.ms)
-                updateShare(model.ms(i),bestIndividual(i),model.redisConn)
+            % Update the new CPU-share in the application
+            for i = 1:length(model.ms)
+                updateShare(model.ms(i), bestIndividual(i), model.redisConn)
             end
     
+            % Display current global variables (for debug)
             disp('bestIndividuals');
             disp(bestIndividuals(end,:));
             disp('bestValues');
@@ -71,8 +64,7 @@ function [state,options,optchanged] = printState(options, state, flag, model)
             disp('nusersInTime');
             disp(nusersInTime(end,:));
         case 'done'
-            disp('done')
-        
+            disp('done')      
     end
 end
 
