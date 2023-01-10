@@ -27,8 +27,8 @@ function runExperiment(model, params)
     uuid = char(matlab.lang.internal.uuid()); 
     testname = sprintf("%s#%s", getDateString(), uuid);
     
-    global currNuser
-    currNuser = getCurrentUsers(model.redisConn);
+%     global currNuser
+%     currNuser = getCurrentUsers(model.redisConn);
 
     %% Genetic algorithm
     

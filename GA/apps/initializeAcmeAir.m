@@ -9,6 +9,7 @@ model.template_path = './res/acmeair-template.lqn';
 model.N = 10;   % Number of tasks
 model.Nk = 1;   % Number of tasks with known values
 model.M = 1;    % Number of classes (max entries)
+global currNuser 
 
 % Default service times
 model.thinkTime = 0.27538;
@@ -30,6 +31,8 @@ model.totalTime = model.thinkTime + sum(model.st .* repFac);
 params.psi = zeros(model.N, model.M); % Weights of transactions
 params.psi(1,1) = 1;
 
+currNuser = getCurrentUsers(model.redisConn);
+
 % [1, 0, 0, 0, 0]
 % [0, 0, 0, 0, 0]
 % [0, 0, 0, 0, 0]
@@ -46,7 +49,8 @@ params.Q = [Qmax, Qmax, Qmax, Qmax, Qmax, Qmax, Qmax, Qmax, Qmax];
 min_s = 1.0;  % Lower bound
 params.s_lb = [min_s, min_s, min_s, min_s, min_s, min_s, min_s, ...
     min_s, min_s];
-max_s = 35*1.5*(300/200);      % Upper bound
+% max_s = 35*1.5*(currNuser/200);      % Upper bound
+max_s=200;
 params.s_ub = [max_s, max_s, max_s, max_s, max_s, max_s, max_s, ...
     max_s, max_s];
 end
