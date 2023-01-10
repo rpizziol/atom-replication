@@ -29,10 +29,10 @@ function [state, options, optchanged] = printState(options, state, flag, model)
     
     switch flag
         case 'init' % First iteration
-            disp('init')
+            fprintf('\ninit\n')
             start = tic();
         case 'iter' % Middle iteration
-            disp('iter')
+            fprintf('\niter\n')
             now = toc(start);
             % Find the index of the 'Score' equal to 'Best'
             index = find(state.Score == state.Best(end), 1, 'last');

@@ -21,8 +21,6 @@ function fval = solveModel(modelName, model, params, s, nuser)
 
     if countIndividual == 1
         fprintf("countIndividual = %d", countIndividual);
-    elseif countIndividual == 50
-        fprintf(" %d\n", countIndividual);
     else
         fprintf(" %d", countIndividual);
     end
