@@ -19,7 +19,7 @@ function [state, options, optchanged] = printState(options, state, flag, model)
     global nusersInTime
     global testname
     global start
-
+    
     global currNuser
 
     global countIndividual
@@ -73,5 +73,7 @@ function [state, options, optchanged] = printState(options, state, flag, model)
         case 'done'
             disp('done')      
     end
+
+    currNuser = getCurrentUsers(model.redisConn); % Update currNuser
 end
 

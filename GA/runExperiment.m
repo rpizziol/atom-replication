@@ -14,6 +14,7 @@ function runExperiment(model, params)
     
     global bestTimeStamps
     global nusersInTime
+    
 
     global testname 
 
@@ -26,6 +27,9 @@ function runExperiment(model, params)
     uuid = char(matlab.lang.internal.uuid()); 
     testname = sprintf("%s#%s", getDateString(), uuid);
     
+    global currNuser
+    currNuser = getCurrentUsers(model.redisConn);
+
     %% Genetic algorithm
     
     f = @(x)fitness(x, model, params);
