@@ -8,8 +8,10 @@ function runExperiment(model, params)
 %     rng(c(6));
 
     %% Values to save
-    global bestValues
     global bestIndividuals
+    global bestThroughputs
+    global bestValues
+    
     global bestTimeStamps
     global nusersInTime
 
@@ -30,7 +32,7 @@ function runExperiment(model, params)
     
     options = optimoptions('ga'); % Load default settings
     options = optimoptions(options,'PopulationType', 'doubleVector');
-    options = optimoptions(options,'PopulationSize', 50); % default: 50
+    options = optimoptions(options,'PopulationSize', 5); % default: 50
     options = optimoptions(options,'MaxGenerations', 400); % default: 100*nvars
     options = optimoptions(options,'MaxTime', 5400); % 90m = 5400 seconds
     options = optimoptions(options,'MaxStallGenerations', 10); % old value: 20
@@ -47,7 +49,8 @@ function runExperiment(model, params)
     
     % Save final output ('#' stands for final)
     save(strcat('./out/mat/', testname, '#.mat'), 'bestIndividuals', ...
-        'bestValues', 'bestTimeStamps', 'nusersInTime', 'testname');
+        'bestValues', 'bestTimeStamps', 'nusersInTime', 'testname', ...
+        'bestThroughputs');
     delete(strcat('./out/mat/', testname, '.mat'));
 
     %% Print final throughput (it works only for stable input)
