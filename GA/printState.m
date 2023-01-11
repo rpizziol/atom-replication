@@ -25,7 +25,9 @@ function [state, options, optchanged] = printState(options, state, flag, model)
     global countIndividual
     countIndividual = 0; % Reset for the next generation
    
-    optchanged = false;  
+    optchanged = false;
+
+    disp(size(state.Population))
     
     switch flag
         case 'init' % First iteration
