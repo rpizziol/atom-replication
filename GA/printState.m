@@ -27,7 +27,7 @@ function [state, options, optchanged] = printState(options, state, flag, model)
    
     optchanged = false;
 
-    disp(size(state.Population))
+    disp(state.Population)
     
     switch flag
         case 'init' % First iteration
@@ -61,14 +61,14 @@ function [state, options, optchanged] = printState(options, state, flag, model)
             end
     
             % Display current global variables (for debug)
-%             disp('bestIndividuals');
-%             disp(bestIndividuals(end,:));
+            disp('bestIndividuals');
+            disp(bestIndividuals(end,:));
             disp('bestThroughputs');
-            disp(bestThroughputs');
+            disp(bestThroughputs(end,:));
             disp('bestValues');
-            disp(bestValues');
-%             disp('bestTimeStamps');
-%             disp(bestTimeStamps(end,:));
+            disp(bestValues(end,:));
+            disp('bestTimeStamps');
+            disp(bestTimeStamps(end,:));
             disp('nusersInTime');
             disp(nusersInTime(end,:));
             
