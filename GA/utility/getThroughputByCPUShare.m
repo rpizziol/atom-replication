@@ -5,7 +5,11 @@ function thr = getThroughputByCPUShare(cpushare, model)
     [np_final, st_final] = calculateByCPUShare(cpushare, model);
     filename = sprintf("%s#%s#thr", getDateString(), uuid);
     filepath = strcat("./out/", filename, ".", model.extension);
-    W = getCurrentUsers(model.redisConn);
+
+    global currNuser
+    W = currNuser;
+
+    % W = getCurrentUsers(model.redisConn);
     updateModel(model.template_path, filepath, 'W', W);
     if (strcmp(model.name, 'sockshop'))
         workmix = getProbMix(model.wm);

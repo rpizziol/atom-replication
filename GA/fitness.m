@@ -8,9 +8,11 @@
 function value = fitness(cpushare, model, params)
     global currNuser 
      
-    W = getCurrentUsers(model.redisConn);
 
-    currNuser = W;
+    W = currNuser;
+    %W = getCurrentUsers(model.redisConn);
+
+    %currNuser = W;
 
     %% Generate temporary lqn file
     

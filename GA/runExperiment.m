@@ -14,6 +14,7 @@ function runExperiment(model, params)
     
     global bestTimeStamps
     global nusersInTime
+    
 
     global testname 
 
@@ -26,6 +27,9 @@ function runExperiment(model, params)
     uuid = char(matlab.lang.internal.uuid()); 
     testname = sprintf("%s#%s", getDateString(), uuid);
     
+    global currNuser
+    currNuser = getCurrentUsers(model.redisConn);
+
     %% Genetic algorithm
     
     f = @(x)fitness(x, model, params);
@@ -36,7 +40,7 @@ function runExperiment(model, params)
     options = optimoptions(options,'MaxGenerations', 400); % default: 100*nvars
     options = optimoptions(options,'MaxTime', 5400); % 90m = 5400 seconds
     options = optimoptions(options,'MaxStallGenerations', 10); % old value: 20
-    options = optimoptions(options,'MutationFcn', { @mutationadaptfeasible 0.1 });
+    options = optimoptions(options,'MutationFcn', { @mutationadaptfeasible 1.0 });
     options = optimoptions(options,'PlotFcn', {@gaplotbestf, @gaplotbestindiv});
     options = optimoptions(options, 'OutputFcn', @(options, state, flag)printState(options, state, flag,model));
     %options = optimoptions(options, 'OutputFcn', @printState);
