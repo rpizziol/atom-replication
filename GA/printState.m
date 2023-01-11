@@ -25,7 +25,7 @@ function [state, options, optchanged] = printState(options, state, flag, model)
     global countIndividual
    
     optchanged = true;
-    options.EvalElites=true;
+    state.EvalElites=true;
     
     %disp(state.Population)
     
