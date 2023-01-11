@@ -40,7 +40,7 @@ function fval = solveModel(modelName, model, params, s, nuser)
         end
         Bhat = Bt / Bmax; % Normalized Bt
 
-        %disp([Bt,Bhat,Ct,Chat])
+        disp([Bt,Bhat,Bmax,Ct,Chat])
     
         %% Calculate objective function
         fval = (params.tau1 * Bhat - params.tau2 * Chat);
