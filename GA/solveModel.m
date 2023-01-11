@@ -9,23 +9,19 @@
 %   fval        : The value of the objective function given s.
 function fval = solveModel(modelName, model, params, s, nuser)
     global countIndividual
-    
+
     %% Calculate total allocated CPU capacity (to minimize)
     Cmax = sum(params.s_ub); %constraints.Q.*constraints.s_ub);
     Ct = sum(s);  %sum(r.*s); 
     Chat = Ct / Cmax; % Normalized Ct
 
     [status, ~] = system("lqns --method-of-layers -x ./out/" + modelName + "." + model.extension);
-
     
-    countIndividual = countIndividual + 1;
-    
-    fprintf(" %d", countIndividual);
-%     if countIndividual == 1
-%         fprintf("countIndividual = %d", countIndividual);
-%     else
-%         fprintf(" %d", countIndividual);
-%     end
+    if countIndividual == 1
+        fprintf("countIndividual = %d", countIndividual);
+    else
+        fprintf(" %d", countIndividual);
+    end
 
     if status == 0 % no error
         Xt = getXt(model, modelName);

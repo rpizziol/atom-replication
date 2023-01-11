@@ -7,7 +7,7 @@
 %   value       :
 function value = fitness(cpushare, model, params)
     global currNuser 
-     
+    global countIndividual
 
     W = currNuser;
     %W = getCurrentUsers(model.redisConn);
@@ -34,6 +34,7 @@ function value = fitness(cpushare, model, params)
     updateModel(tempPath, tempPath, 'np', np2);
     
     %% Calculate the Theta
+    countIndividual = countIndividual + 1;
     value = solveModel(tempName, model, params, cpushare, W);
     value = -value;
 end
