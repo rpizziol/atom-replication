@@ -23,7 +23,6 @@ function [state, options, optchanged] = printState(options, state, flag, model)
     global currNuser
 
     global countIndividual
-    countIndividual = 0; % Reset for the next generation
    
     optchanged = false;
 
@@ -33,6 +32,7 @@ function [state, options, optchanged] = printState(options, state, flag, model)
         case 'init' % First iteration
             fprintf('\ninit\n')
             start = tic();
+            countIndividual = 0; % Reset for the next generation
         case 'iter' % Middle iteration
             fprintf('\niter\n')
             now = toc(start);
@@ -71,6 +71,7 @@ function [state, options, optchanged] = printState(options, state, flag, model)
             disp(bestTimeStamps(end,:));
             disp('nusersInTime');
             disp(nusersInTime(end,:));
+            countIndividual = 0; % Reset for the next generation
             
         case 'done'
             disp('done')      
