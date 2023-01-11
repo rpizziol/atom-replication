@@ -43,6 +43,7 @@ function runExperiment(model, params)
     options = optimoptions(options,'MutationFcn', { @mutationadaptfeasible 1.0 });
     options = optimoptions(options,'PlotFcn', {@gaplotbestf, @gaplotbestindiv});
     options = optimoptions(options, 'OutputFcn', @(options, state, flag)printState(options, state, flag,model));
+    options = optimoptions(options,'EliteCount', 0);
     %options = optimoptions(options, 'OutputFcn', @printState);
     %options = optimoptions(options,'Display', 'iter');
     
