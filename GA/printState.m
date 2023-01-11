@@ -24,9 +24,10 @@ function [state, options, optchanged] = printState(options, state, flag, model)
 
     global countIndividual
    
-    optchanged = false;
-
-    disp(state.Population)
+    optchanged = true;
+    options.EvalElites=true;
+    
+    %disp(state.Population)
     
     switch flag
         case 'init' % First iteration
