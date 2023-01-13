@@ -46,7 +46,7 @@ function [state, options, optchanged] = printState(options, state, flag, model)
             
             % Update state global variables
             bestIndividuals = [bestIndividuals; bestIndividual];
-            bestThroughputs = [bestThroughputs; getThroughputByCPUShare(bestIndividual, model)];
+            %bestThroughputs = [bestThroughputs; getThroughputByCPUShare(bestIndividual, model)];
             bestValues = [bestValues; state.Best(end)];
             bestTimeStamps = [bestTimeStamps; now];
             nusersInTime = [nusersInTime; currNuser];
@@ -54,7 +54,7 @@ function [state, options, optchanged] = printState(options, state, flag, model)
     
             % Update temporary .mat file
             save(strcat('./out/mat/', testname, '.mat'), 'bestIndividuals', ...
-            'bestValues', 'bestTimeStamps', 'nusersInTime', 'bestThroughputs');
+            'bestValues', 'bestTimeStamps', 'nusersInTime');
     
             % Update the new CPU-share in the application
             for i = 1:length(model.ms)
@@ -64,8 +64,8 @@ function [state, options, optchanged] = printState(options, state, flag, model)
             % Display current global variables (for debug)
             disp('bestIndividuals');
             disp(bestIndividuals(end,:));
-            disp('bestThroughputs');
-            disp(bestThroughputs(end,:));
+%             disp('bestThroughputs');
+%             disp(bestThroughputs(end,:));
             disp('bestValues');
             disp(bestValues(end,:));
             disp('bestTimeStamps');
