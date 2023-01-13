@@ -73,6 +73,10 @@ function [state, options, optchanged] = printState(options, state, flag, model)
             disp('nusersInTime');
             disp(nusersInTime(end,:));
             countIndividual = 0; % Reset for the next generation
+
+            %save population
+            pop=state.Population;
+            save("init_pop.mat","pop");
             
         case 'done'
             disp('done')      
