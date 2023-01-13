@@ -20,7 +20,7 @@ elseif(code == 2) % Acme Air
 elseif(code==3)
     %to complete
     global init_pop;
-    delete "init_pop.mat"
+    delete init_pop.mat
     while(true)
         if isfile("init_pop.mat")
             init_pop=load("init_pop.mat");
