@@ -39,7 +39,7 @@ function runExperiment(model, params)
     options = optimoptions(options,'PopulationSize', 50); % default: 50
     options = optimoptions(options,'MaxGenerations', 400); % default: 100*nvars
     options = optimoptions(options,'MaxTime', 10000); % 90m = 5400 seconds
-    options = optimoptions(options,'MaxStallGenerations', 50); % old value: 20
+    options = optimoptions(options,'MaxStallGenerations', 10); % old value: 20
     %options = optimoptions(options,'MutationFcn', { @mutationadaptfeasible});
     options = optimoptions(options,'MutationFcn', { @mutationadaptfeasible 0.8});
 %     options = optimoptions(options,'PlotFcn', {@gaplotbestf, @gaplotbestindiv});
