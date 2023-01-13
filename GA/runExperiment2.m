@@ -46,7 +46,7 @@ function runExperiment2(model, params)
 %     options = optimoptions(options,'PlotFcn', {@gaplotbestf, @gaplotbestindiv});
     options = optimoptions(options, 'OutputFcn', @(options, state, flag)printState(options, state, flag,model));
     if(isstruct(init_pop))
-        options = optimoptions(options,'InitialPopulation', init_pop);
+        options = optimoptions(options,'InitialPopulation', init_pop.pop);
     end
     %options = optimoptions(options,'EliteCount', 0);
     %options = optimoptions(options,'EvalElites', true);
