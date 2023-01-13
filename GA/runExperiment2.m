@@ -45,7 +45,7 @@ function runExperiment2(model, params)
     options = optimoptions(options,'MutationFcn', { @mutationadaptfeasible 0.8});
 %     options = optimoptions(options,'PlotFcn', {@gaplotbestf, @gaplotbestindiv});
     options = optimoptions(options, 'OutputFcn', @(options, state, flag)printState(options, state, flag,model));
-    if(init_pop~=-1)
+    if(isstruct(init_pop))
         options = optimoptions(options,'InitialPopulation', init_pop);
     end
     %options = optimoptions(options,'EliteCount', 0);
