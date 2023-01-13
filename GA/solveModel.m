@@ -15,7 +15,7 @@ function fval = solveModel(modelName, model, params, s, nuser)
     Ct = sum(s);  %sum(r.*s); 
     Chat = Ct / Cmax; % Normalized Ct
 
-    [status, ~] = system("lqns --method-of-layers -x ./out/" + modelName + "." + model.extension);
+    [status, ~] = system("lqns --schweitzer  --method-of-layers -x ./out/" + modelName + "." + model.extension);
     
     if countIndividual == 1
         fprintf("countIndividual = %d", countIndividual);
