@@ -23,8 +23,8 @@ elseif(code==3)
     delete init_pop.mat
     while(true)
         if isfile("init_pop.mat")
-            %init_pop=load("init_pop.mat");
-            init_pop=-1;
+            init_pop=load("init_pop.mat");
+            %init_pop=-1;
         else
             init_pop=-1;
         end
