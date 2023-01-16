@@ -20,10 +20,10 @@ function thr = getThroughputByCPUShare(cpushare, model)
     updateModel(filepath, filepath, 'st', st_final);
     updateModel(filepath, filepath, 'np', np_final);
 
-    [status, ~] = system("lqns --exact-mva -x " + filepath);
+    [status, ~] = system("lqns --schweitzer  --method-of-layers -x " + filepath);
 
     Xt = getXt(model, filename);
     thr = Xt(1,1);
-    deleteXmlFiles(model, filename);
+    %deleteXmlFiles(model, filename);
 end
 
