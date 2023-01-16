@@ -27,7 +27,7 @@ function [state, options, optchanged] = printState(options, state, flag, model)
     optchanged = true;
     state.EvalElites=true;
     
-    %disp(state.Population)
+    disp(flag)
     
     switch flag
         case 'init' % First iteration
@@ -73,7 +73,7 @@ function [state, options, optchanged] = printState(options, state, flag, model)
             disp('nusersInTime');
             disp(nusersInTime(end,:));
             countIndividual = 0; % Reset for the next generation
-
+            
             %save population
             pop=state.Population;
             save("init_pop.mat","pop");
@@ -82,6 +82,8 @@ function [state, options, optchanged] = printState(options, state, flag, model)
             disp('done')      
     end
 
-%     currNuser = getCurrentUsers(model.redisConn); % Update currNuser
+    
+
+    currNuser = getCurrentUsers(model.redisConn); % Update currNuser
 end
 
