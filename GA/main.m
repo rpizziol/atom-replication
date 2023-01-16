@@ -15,8 +15,11 @@ if (code == 1) % Sock Shop
     [model, params] = initializeSockShop('b');
     runExperiment(model, params);
 elseif(code == 2) % Acme Air
+    global init_pop;
+    init_pop=-1;
+    delete init_pop.mat
     [model, params] = initializeAcmeAir();
-    runExperiment(model, params);
+    runExperiment2(model, params);
 elseif(code==3)
     %to complete
     global init_pop;
