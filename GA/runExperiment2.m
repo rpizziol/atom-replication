@@ -20,7 +20,6 @@ function runExperiment2(model, params)
     global testname 
 
     global countIndividual
-
     countIndividual = 0;
 
 

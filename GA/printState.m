@@ -82,6 +82,6 @@ function [state, options, optchanged] = printState(options, state, flag, model)
             disp('done')      
     end
 
-    currNuser = getCurrentUsers(model.redisConn); % Update currNuser
+%     currNuser = getCurrentUsers(model.redisConn); % Update currNuser
 end
 
