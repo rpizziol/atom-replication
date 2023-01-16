@@ -44,7 +44,8 @@ function [state, options, optchanged] = printState(options, state, flag, model)
             
             disp(state.Score)
             [M,index]=min(state.Score,[],'all');
-            disp([M,index])
+            disp(index)
+            disp(M)
 
             % Use index to select the relative member of the population
             tmpBestIndividual = state.Population(index, :);
@@ -53,7 +54,7 @@ function [state, options, optchanged] = printState(options, state, flag, model)
             % Update state global variables
             bestIndividuals = [bestIndividuals; bestIndividual];
             %bestThroughputs = [bestThroughputs; getThroughputByCPUShare(bestIndividual, model)];
-            bestValues = [bestValues; state.Best(end)];
+            bestValues = [bestValues; M];
             bestTimeStamps = [bestTimeStamps; now];
             nusersInTime = [nusersInTime; currNuser];
             
