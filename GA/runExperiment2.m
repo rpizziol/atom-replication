@@ -36,7 +36,7 @@ function runExperiment2(model, params)
     
     options = optimoptions('ga'); % Load default settings
     options = optimoptions(options,'PopulationType', 'doubleVector');
-    options = optimoptions(options,'PopulationSize', 20); % default: 50
+    options = optimoptions(options,'PopulationSize', 50); % default: 50
     options = optimoptions(options,'MaxGenerations', 4000); % default: 100*nvars
     options = optimoptions(options,'MaxTime', 120); % 90m = 5400 seconds
     options = optimoptions(options,'MaxStallGenerations', 10); % old value: 20
