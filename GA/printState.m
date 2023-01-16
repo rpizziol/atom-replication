@@ -27,14 +27,14 @@ function [state, options, optchanged] = printState(options, state, flag, model)
     optchanged = true;
     state.EvalElites=true;
     
-    disp(flag)
+    %disp(flag)
     
     switch flag
         case 'init' % First iteration
             fprintf('\ninit\n')
             start = tic();
             countIndividual = 0; % Reset for the next generation
-        case 'iter' % Middle iteration
+        case {'iter','interrupt'} % Middle iteration
             fprintf('\niter\n')
             now = toc(start);
             % Find the index of the 'Score' equal to 'Best'
@@ -77,6 +77,8 @@ function [state, options, optchanged] = printState(options, state, flag, model)
             %save population
             pop=state.Population;
             save("init_pop.mat","pop");
+
+            currNuser = getCurrentUsers(model.redisConn); % Update currNuser
             
         case 'done'
             disp('done')      
@@ -84,6 +86,6 @@ function [state, options, optchanged] = printState(options, state, flag, model)
 
     
 
-    currNuser = getCurrentUsers(model.redisConn); % Update currNuser
+    
 end
 
