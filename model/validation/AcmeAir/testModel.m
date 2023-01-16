@@ -25,10 +25,10 @@ dt=0.1;
 %9=ViewProfile;
 %10=UpdateProfile;
 
-Tode=zeros(size(wi.Tm,2),size(ctrl.Clients,1));
-RTode=zeros(size(wi.Tm,2),size(ctrl.Clients,1));
+Tode=zeros(size(ctrl.NC_opt,1)+1,size(ctrl.Clients,1));
+RTode=zeros(size(ctrl.NC_opt,1)+1,size(ctrl.Clients,1));
 
-TodeM=zeros(size(wi.Tm,2),size(ctrl.Clients,1));
+TodeM=zeros(size(ctrl.NC_opt,1)+1,size(ctrl.Clients,1));
 
 MU=MU*1.0;
 
