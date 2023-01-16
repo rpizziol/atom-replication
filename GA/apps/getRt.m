@@ -26,7 +26,6 @@ function RT = getRt(model, modelName)
     elseif (strcmp(model.name, 'acmeair'))
         % clientEntry
         RT(1,1) = str2double(getAttributeByEntry(xmlpath, 'clientEntry', 'service-time'));
-
         for i=1:length(model.ms)
             % MSauthEntry
             RT(i+1,1) = str2double(getAttributeByEntry(xmlpath, sprintf('%sEntry',model.ms(i)), 'service-time'));

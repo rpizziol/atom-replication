@@ -19,7 +19,7 @@ updateModel(filepath, filepath, 'np', np_final);
 
 [status, ~] = system("lqns --schweitzer  --method-of-layers -x " + filepath);
 
-RT = getRT(model, filename);
+RT = getRt(model, filename);
 deleteXmlFiles(model, filename);
 end
 
