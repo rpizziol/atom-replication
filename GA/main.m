@@ -22,12 +22,12 @@ elseif(code==3)
     global init_pop;
     delete init_pop.mat
     while(true)
-%         if isfile("init_pop.mat")
-%             init_pop=load("init_pop.mat");
-%         else
-%             init_pop=-1;
-%         end
-        init_pop=-1;
+        if isfile("init_pop.mat")
+            %init_pop=load("init_pop.mat");
+            init_pop=-1;
+        else
+            init_pop=-1;
+        end
         [model, params] = initializeAcmeAir();
         runExperiment2(model, params);
     end
