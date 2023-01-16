@@ -17,7 +17,7 @@ end
 updateModel(filepath, filepath, 'st', st_final);
 updateModel(filepath, filepath, 'np', np_final);
 
-[status, ~] = system("lqns --schweitzer  --method-of-layers -x ./out/" + modelName + "." + model.extension);
+%[status, ~] = system("lqns --schweitzer  --method-of-layers -x ./out/" + modelName + "." + model.extension);
 [status, ~] = system("lqns --schweitzer  --method-of-layers -x " + filepath);
 
 RT = getRt(model, filename);
