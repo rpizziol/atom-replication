@@ -34,7 +34,7 @@ function [state, options, optchanged] = printState(options, state, flag, model)
             fprintf('\ninit\n')
             start = tic();
             countIndividual = 0; % Reset for the next generation
-        case {'iter'} % Middle iteration
+        case {'iter','done'} % Middle iteration
             fprintf('\niter\n')
             now = toc(start);
             
@@ -89,8 +89,8 @@ function [state, options, optchanged] = printState(options, state, flag, model)
          
         case 'interrupt'
              countIndividual = 0;
-        case 'done'
-            disp('done')      
+%         case 'done'
+%             disp('done')      
     end
 
     
