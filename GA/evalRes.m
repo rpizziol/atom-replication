@@ -22,7 +22,7 @@ mudataT=zeros(1,size(gaun.data,1));
 for i=1:size(gaun.data,1)    
     currNuser=gaun.data(i,2);
 
-    gaunT(1,i)=getThroughputByCPUShare(gaun.data(i,3:end), model);
-    gacsT(1,i)=getThroughputByCPUShare(gacs.dataga_cstr(i,3:end), model);
-    mudataT(1,i)=getThroughputByCPUShare(mudata.data_mu(i,3:end), model);
+    gaunT(1,i)=getThroughputByCPUShare(fillmissing(gaun.data(i,3:end),"constant",1), model);
+    gacsT(1,i)=getThroughputByCPUShare(fillmissing(gacs.dataga_cstr(i,3:end),"constant",1), model);
+    mudataT(1,i)=getThroughputByCPUShare(fillmissing(mudata.data_mu(i,3:end),"constant",1), model);
 end
