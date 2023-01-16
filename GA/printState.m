@@ -37,9 +37,14 @@ function [state, options, optchanged] = printState(options, state, flag, model)
         case {'iter','interrupt'} % Middle iteration
             fprintf('\niter\n')
             now = toc(start);
+            
+            
             % Find the index of the 'Score' equal to 'Best'
-            index = find(state.Score == state.Best(end), 1, 'last');
-        
+            % index = find(state.Score == state.Best(end), 1, 'last');
+
+            [M,index]=min(state.Score,'all');
+            disp([M,index])
+
             % Use index to select the relative member of the population
             tmpBestIndividual = state.Population(index, :);
             bestIndividual = tmpBestIndividual(1, :);
