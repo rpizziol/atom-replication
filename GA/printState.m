@@ -43,7 +43,7 @@ function [state, options, optchanged] = printState(options, state, flag, model)
             % index = find(state.Score == state.Best(end), 1, 'last');
             
             disp(state.Score)
-            [M,index]=min(state.Score,'all');
+            [M,index]=min(state.Score,[],'all');
             disp([M,index])
 
             % Use index to select the relative member of the population
