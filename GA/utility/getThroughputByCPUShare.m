@@ -20,7 +20,7 @@ function thr = getThroughputByCPUShare(cpushare, model)
     updateModel(filepath, filepath, 'st', st_final);
     updateModel(filepath, filepath, 'np', np_final);
 
-    [status, ~] = system("lqns -x " + filepath);
+    [status, ~] = system("lqns --exact-mva -x " + filepath);
 
     Xt = getXt(model, filename);
     thr = Xt(1,1);
