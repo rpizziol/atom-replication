@@ -1,5 +1,8 @@
 %evaluate result
 clear
+
+global currNuser;
+
 gaun=load("gadata.mat");
 gacs=load("gadata_cstr.mat");
 mudata=load("mudata.mat");
@@ -15,10 +18,10 @@ gaunT=zeros(1,size(gaun.data,1));
 gacsT=zeros(1,size(gaun.data,1));
 mudata=zeros(1,size(gaun.data,1));
 
-
-
 [model, params] = initializeAcmeAir();
-for i=size(gaun.data,1)
+for i=size(gaun.data,1)    
+    currNuser=gaun.data(i,2);
+
     gaunT(1,i)=getThroughputByCPUShare(gaun.data(i,3:end), model);
     gacsT(1,i)=getThroughputByCPUShare(gacs.data(i,3:end), model);
     mudata(1,i)=getThroughputByCPUShare(mudata.data(i,3:end), model);
