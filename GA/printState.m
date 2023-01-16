@@ -27,7 +27,7 @@ function [state, options, optchanged] = printState(options, state, flag, model)
     optchanged = true;
     state.EvalElites=true;
     
-    %disp(flag)
+    disp(flag)
     
     switch flag
         case 'init' % First iteration
@@ -36,8 +36,6 @@ function [state, options, optchanged] = printState(options, state, flag, model)
             countIndividual = 0; % Reset for the next generation
         case {'iter','interrupt'} % Middle iteration
             fprintf('\niter\n')
-
-            disp(flag)
             now = toc(start);
             % Find the index of the 'Score' equal to 'Best'
             index = find(state.Score == state.Best(end), 1, 'last');
