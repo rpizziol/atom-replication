@@ -19,7 +19,7 @@ gacsT=zeros(1,size(gaun.data,1));
 mudataT=zeros(1,size(gaun.data,1));
 
 [model, params] = initializeAcmeAir();
-for i=size(gaun.data,1)    
+for i=1:size(gaun.data,1)    
     currNuser=gaun.data(i,2);
 
     gaunT(1,i)=getThroughputByCPUShare(gaun.data(i,3:end), model);
