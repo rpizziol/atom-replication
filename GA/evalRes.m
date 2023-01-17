@@ -3,7 +3,7 @@
 global currNuser;
 gaun=load("gadata.mat");
 gacs=load("gadata_cstr.mat");
-mudata=load("mudata.mat");
+mudata=load("mudata2.mat");
 
 addpath('./apps');
 % Utility functions
@@ -23,8 +23,8 @@ for i=1:size(gaun.data,1)
     currNuser=gaun.data(i,2);
     
     disp(i);
-%     gaunT(1,i)=getThroughputByCPUShare(fillmissing(gaun.data(i,newIDX),"constant",1), model);
-%     gacsT(1,i)=getThroughputByCPUShare(fillmissing(gacs.dataga_cstr(i,newIDX),"constant",1), model);
-    mudataT(1,i)=getThroughputByCPUShare(fillmissing(mudata.data_mu(i,newIDX)*2,"constant",1), model);
+    gaunT(1,i)=getThroughputByCPUShare(fillmissing(gaun.data(i,newIDX),"constant",1), model);
+    gacsT(1,i)=getThroughputByCPUShare(fillmissing(gacs.dataga_cstr(i,newIDX),"constant",1), model);
+    mudataT(1,i)=getThroughputByCPUShare(fillmissing(mudata.data_mu(i,newIDX),"constant",1), model);
     disp(mudataT(1,i))
 end

@@ -39,7 +39,6 @@ for i=1:size(ctrl.Clients,1)
     [t,y,ssTR,ssRT] = lqnODE(X0,MU,[inf,ceil(ones(1,9)*inf)],[inf;ctrl.NC_opt(:,i)]);
     [t2,y2,ssTR2,ssRT2] = lqnODE(X0,MU,ones(1,10)*inf,ones(1,10)*inf);
     
-    
     Tode(:,i)=ssTR;
     RTode(:,i)=ssRT;
     TodeM(:,i)=ssTR2;

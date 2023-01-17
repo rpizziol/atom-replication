@@ -205,13 +205,13 @@ MU=params["MU"]
 #@constraint(model,(X[4])<=MU[4]*1.02*T[5])
 
 #----------------
-npoint=20
+npoint=1
 NCopt=zeros(9,npoint)
 NTopt=zeros(9,npoint)
 stimeOpt=zeros(1,npoint)
 #clients=rand(1,npoint)'*300 .+200.0
-clients=LinRange(10,180, npoint);
-#clients=[250]
+#clients=LinRange(10,180, npoint);
+clients=[250]
 
 for i=1:size(clients,1)
     global w=round(clients[i])
