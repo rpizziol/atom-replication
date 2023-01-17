@@ -1,5 +1,5 @@
 %evaluate result
-% clear
+clear
 global currNuser;
 gaun=load("gadata.mat");
 gacs=load("gadata_cstr.mat");
@@ -26,5 +26,5 @@ for i=1:size(gaun.data,1)
     gaunT(1,i)=getThroughputByCPUShare(fillmissing(gaun.data(i,newIDX),"constant",1), model);
     gacsT(1,i)=getThroughputByCPUShare(fillmissing(gacs.dataga_cstr(i,newIDX),"constant",1), model);
     mudataT(1,i)=getThroughputByCPUShare(fillmissing(mudata.mudata2(i,newIDX),"constant",1), model);
-    disp(mudataT(1,i))
+    disp([gaunT(1,i),gacsT(1,i),mudataT(1,i)]')
 end
