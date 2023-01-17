@@ -36,7 +36,7 @@ for i=1:size(ctrl.Clients,1)
     X0=zeros(1,30);
     X0(end)=round(ctrl.Clients(i));
     disp(X0(end))
-    [t,y,ssTR,ssRT] = lqnODE(X0,MU,[inf;ceil(ctrl.NT_opt(:,i))],[inf;ctrl.NC_opt(:,i)]);
+    [t,y,ssTR,ssRT] = lqnODE(X0,MU,[inf,ceil(ones(1,9)*inf)],[inf;ctrl.NC_opt(:,i)]);
     [t2,y2,ssTR2,ssRT2] = lqnODE(X0,MU,ones(1,10)*inf,ones(1,10)*inf);
     
     

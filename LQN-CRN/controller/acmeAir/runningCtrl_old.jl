@@ -31,16 +31,16 @@ jump=[  +1  +1  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  
 	    +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  -1  +0  +1  +0  +0  +0  +0  -1  +1  +0  +0;
 	    +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  -1  +0  +0  +0  +0  -1  +1  +0;
 	    +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  -1  +0  +0  +0  -1  +1;
+		+0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +1  +0  +0  -1  +0;
     ];
 
-delta=4*10^2
+delta=10^5
 #alpha=10^-2
 maxNC=300
 maxNT=300
 
 params = matread(@sprintf("%s/git/nodejsMicro/src/params.mat",homedir()))
 MU=params["MU"]
-MU=MU*1.0
 
 # MU=ones(1,size(jump,2))*-1
 
@@ -67,8 +67,6 @@ MU=MU*1.0
 @constraint(model,jump'*T.==0)
 @constraint(model,NC.<=maxNC)
 @constraint(model,NT.<=maxNT)
-
-
 
 #--------rate
 #-(-a-b+sqrt((-a+b)^2+10^-2))/2;
@@ -188,6 +186,7 @@ MU=MU*1.0
 @NLconstraint(model,T[19]==X[27]/(X[18]+X[27])*TmGPS1*MU[20])
 @NLconstraint(model,T[20]==X[28]/(X[21]+X[28])*TmGPS2*MU[23])
 @NLconstraint(model,T[21]==0.5*Tm21*MU[29])
+@NLconstraint(model,T[22]==0.5*Tm21*MU[29])
 
 
 @constraint(model,X[1]==X[2]+X[3]+X[6])
@@ -206,19 +205,19 @@ MU=MU*1.0
 #@constraint(model,(X[4])<=MU[4]*1.02*T[5])
 
 #----------------
-npoint=1
+npoint=20
 NCopt=zeros(9,npoint)
 NTopt=zeros(9,npoint)
 stimeOpt=zeros(1,npoint)
 #clients=rand(1,npoint)'*300 .+200.0
-#clients=LinRange(10,180, npoint);
-clients=[200]
+clients=LinRange(10,180, npoint);
+#clients=[250]
 
 for i=1:size(clients,1)
     global w=round(clients[i])
     set_value(C,w)
 
-    @objective(model,Max,0.5*(T[1])/(0.5587*w)-0.5*(sum(NC)+sum(NT))/(maxNC*9+maxNT*9))
+    @objective(model,Max,0.5*(T[1])/(0.5368*w)-0.5*(sum(NC)+sum(NT))/(maxNC*9+maxNT*9))
     global stimes=@elapsed JuMP.optimize!(model)
     global status=termination_status(model)
     if(status!=MOI.LOCALLY_SOLVED && status!=MOI.ALMOST_LOCALLY_SOLVED)

@@ -22,7 +22,8 @@ end
 p.MU = MU;
 p.NT = NT;
 p.NC = NC;
-p.delta = 4*10^2; % context switch rate (super fast)
+%p.delta = 4*10^2; % context switch rate (super fast)
+p.delta = 10^5;
 % p.delta = 0.5*10^5; % context switch rate (super fast)
 
 %states name
@@ -93,6 +94,7 @@ jump=[+1,  +1,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0, 
     +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  -1,  +0,  +1,  +0,  +0,  +0,  +0,  -1,  +1,  +0,  +0;
     +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  -1,  +0,  +0,  +0,  +0,  -1,  +1,  +0;
     +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  -1,  +0,  +0,  +0,  -1,  +1;
+    +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +1,  +0,  +0,  -1,  +0;
     ];
 
 T = @(X)propensities_2state(X,p);
@@ -104,12 +106,14 @@ ssTR=T(y(end,:)');
 
 ssTR=[ssTR(1),ssTR(5),ssTR(4),2*ssTR(7),ssTR(9),2*(ssTR(14)+ssTR(19)),ssTR(17),2*ssTR(21),ssTR(11),2*(ssTR(16)+ssTR(20))];
 ssRT=[sum(X0)/ssTR(1),...
-      sum(y(end,[2,3,6]))/ssTR(2),...
-      sum(y(end,[4,5]))/ssTR(3),...
-      sum(y(end,[8,9]))/ssTR(4),...
-      zeros(1,6)];
+    sum(y(end,[2,3,6]))/ssTR(2),...
+    sum(y(end,[4,5]))/ssTR(3),...
+    sum(y(end,[8,9]))/ssTR(4),...
+    zeros(1,6)];
 
 end
+
+
 
 % Propensity rate vector (CTMC)
 function Rate = propensities_2state(X, p)
@@ -133,7 +137,8 @@ Rate = [p.MU(30)*X(30);%Tclient
     p.delta*min(X(26),p.NT(6)-(X(27)+X(28)+X(29)));
     X(27)/(X(18)+X(27))*min(X(20),p.NC(5))*p.MU(20); %TUpdateMiles
     X(28)/(X(21)+X(28))*min(X(23),p.NC(7))*p.MU(23); %TGetReward
-    0.5*min(X(29),p.NC(6))*p.MU(29); %Tcancel
+    1/2*min(X(29),p.NC(6))*p.MU(29); %Tcancel_end
+    1/2*min(X(29),p.NC(6))*p.MU(29); %Tcancel_loop
     ];
 Rate(isnan(Rate))=0;
 end
