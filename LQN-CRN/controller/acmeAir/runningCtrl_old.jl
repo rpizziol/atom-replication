@@ -211,7 +211,7 @@ NTopt=zeros(9,npoint)
 stimeOpt=zeros(1,npoint)
 #clients=rand(1,npoint)'*300 .+200.0
 #clients=LinRange(10,180, npoint);
-clients=[250]
+clients=[10]
 
 for i=1:size(clients,1)
     global w=round(clients[i])
