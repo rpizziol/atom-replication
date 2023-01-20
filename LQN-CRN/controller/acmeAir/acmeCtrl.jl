@@ -212,7 +212,7 @@ MU=params["MU"]
 
 # Set up channels, publisher and subscriber clients
 channels = ["users"]
-subscriber = Client(host="localhost", port=6379)
+subscriber = Client(host=redisHost, port=6379)
 redis_cli=Client(host=redisHost, port=6379)
 
 # Begin the subscription
