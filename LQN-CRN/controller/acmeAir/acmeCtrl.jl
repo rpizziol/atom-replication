@@ -1,6 +1,7 @@
 using Jedis,Printf,Ipopt,JuMP,MAT,ParameterJuMP
 
 wdir=pwd()
+redisHost="185.10.17.121"
 
 #model = Model(()->MadNLP.Optimizer(print_level=MadNLP.INFO))
 model = Model(Ipopt.Optimizer)
@@ -212,7 +213,7 @@ MU=params["MU"]
 # Set up channels, publisher and subscriber clients
 channels = ["users"]
 subscriber = Client(host="localhost", port=6379)
-redis_cli=Client(host="localhost", port=6379)
+redis_cli=Client(host=redisHost, port=6379)
 
 # Begin the subscription
 stop_fn(msg) = msg[end] == "close";  # stop the subscription loop if the message matches
