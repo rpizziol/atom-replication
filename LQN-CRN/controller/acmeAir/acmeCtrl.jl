@@ -63,7 +63,7 @@ MU=params["MU"]
 @variable(model,X[i=1:size(jump,2)]>=0)
 @variable(model,C == 0, Param())
 @variable(model,NC[2:10]>=0)
-#@variable(model,NT[2:10]>=0)
+@variable(model,NT[2:10]>=0)
 
 #devo sottrarre gli stati che contano il numero di richieste sincrone, altrimneti non si conservano il numero di job
 @constraint(model,sum(X[i] for i in [2,4,5,6,8,9,11,12,14,15,17,19,20,22,23,24,26,29,30])==C)
