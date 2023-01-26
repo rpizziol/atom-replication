@@ -1,5 +1,5 @@
 using Jedis,Printf,Ipopt,JuMP,MAT,ParameterJuMP,Mongoc
-include("getTr.jl")
+include("./getTr.jl")
 
 
 wdir=pwd()
