@@ -225,6 +225,8 @@ stop_fn(msg) = msg[end] == "close";  # stop the subscription loop if the message
 println("started")
 set("ctrl_started","1";client=redis_cli)
 
+global Ik=0
+
 subscribe(channels...; stop_fn=stop_fn, client=subscriber) do msg
 	#w=parse(Float64, msg[end])
 	w=parse(Float64,get("users";client=redis_cli))
@@ -239,12 +241,10 @@ subscribe(channels...; stop_fn=stop_fn, client=subscriber) do msg
 
 	Tmk=getTr(mongoClient,10,"MSauth")
 	if(typeof(Tmk)!=Nothing)
-		Ik=Ik+((0.2079*w)-Tmk)
+		global Ik=Ik+((0.2079*w)-Tmk)
 	else
-		Ik=0
+		global Ik=0
 	end
-
-
 
 	#qui la logica di attuazione
 	#multi()
