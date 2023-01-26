@@ -239,7 +239,11 @@ subscribe(channels...; stop_fn=stop_fn, client=subscriber) do msg
     end
 
 	Tmk=getTr(mongoClient,10,"MSauth")
-	Ik=Ik+((0.2079*w)-Tmk)
+	if(typeof(Tmk)!=Nothing)
+		Ik=Ik+((0.2079*w)-Tmk)
+	end
+
+
 
 	#qui la logica di attuazione
 	#multi()
