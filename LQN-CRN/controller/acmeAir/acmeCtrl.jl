@@ -1,7 +1,10 @@
-using Jedis,Printf,Ipopt,JuMP,MAT,ParameterJuMP
+using Jedis,Printf,Ipopt,JuMP,MAT,ParameterJuMP,Mongoc
+include("getTr.jl")
+
 
 wdir=pwd()
 redisHost="185.10.17.121"
+mongoClient = Mongoc.Client(redisHost, 27017)
 
 #model = Model(()->MadNLP.Optimizer(print_level=MadNLP.INFO))
 model = Model(Ipopt.Optimizer)
@@ -221,23 +224,27 @@ stop_fn(msg) = msg[end] == "close";  # stop the subscription loop if the message
 
 println("started")
 set("ctrl_started","1";client=redis_cli)
+Ik=0;
 
 subscribe(channels...; stop_fn=stop_fn, client=subscriber) do msg
 	#w=parse(Float64, msg[end])
 	w=parse(Float64,get("users";client=redis_cli))
 	set_value(C,w)
 
-    @objective(model,Max,0.5*(T[1])*1.0/(0.2079*w)-0.5*(sum(NC)+0*sum(NT))/(maxNC*9+0*maxNT*9))
+    @objective(model,Max,0.5*(T[1])*1.0/(0.2149*w)-0.5*(sum(NC)+0*sum(NT))/(maxNC*9+0*maxNT*9))
     global stimes=@elapsed JuMP.optimize!(model)
     global status=termination_status(model)
     if(status!=MOI.LOCALLY_SOLVED && status!=MOI.ALMOST_LOCALLY_SOLVED)
         error(status)
     end
 
+	Tmk=getTr(mongoClient,10,"MSauth")
+	Ik=Ik+((0.2079*w)-Tmk)
+
 	#qui la logica di attuazione
 	#multi()
 	for m=1:length(NC)
-		set(@sprintf("%s_hw",MS[m]),value(NC[m+1]);client=redis_cli)
+		set(@sprintf("%s_hw",MS[m]),value(NC[m+1])+0.1*Ik;client=redis_cli)
 	end
 	#results = exec()
 end

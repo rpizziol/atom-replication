@@ -34,10 +34,10 @@ jump=[  +1  +1  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  
 		+0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +1  +0  +0  -1  +0;
     ];
 
-delta=10^5
+delta=10^3
 #alpha=10^-2
-maxNC=300
-maxNT=300
+maxNC=3000
+maxNT=3000
 
 params = matread(@sprintf("%s/git/nodejsMicro/src/params.mat",homedir()))
 MU=params["MU"]
@@ -60,6 +60,7 @@ MU=params["MU"]
 @variable(model,C == 0, Param())
 @variable(model,NC[2:10]>=0)
 @variable(model,NT[2:10]>=0)
+Umax=1.0;
 
 #devo sottrarre gli stati che contano il numero di richieste sincrone, altrimneti non si conservano il numero di job
 @constraint(model,sum(X[i] for i in [2,4,5,6,8,9,11,12,14,15,17,19,20,22,23,24,26,29,30])==C)
@@ -84,13 +85,13 @@ MU=params["MU"]
 #min(X(5),p.NC(3));
 #Tm4=@NLexpression(model,-(-NC[3]-X[5]+sqrt((-NC[3]+X[5])^2+alpha))/2)
 @variable(model,Tm4>=0)
-@constraint(model,Tm4<=X[5])
-@constraint(model,Tm4<=NC[3])
+@constraint(model,Tm4<=Umax*X[5])
+@constraint(model,Tm4<=Umax*NC[3])
 #min(X(6),p.NC(2));
 #Tm5=@NLexpression(model,-(-NC[2]-X[6]+sqrt((-NC[2]+X[6])^2+alpha))/2)
 @variable(model,Tm5>=0)
-@constraint(model,Tm5<=X[6])
-@constraint(model,Tm5<=NC[2])
+@constraint(model,Tm5<=Umax*X[6])
+@constraint(model,Tm5<=Umax*NC[2])
 #p.delta*min(p.NT(9)-(X(9)),X(8));
 #Tm6=@NLexpression(model,delta*-(-(NT[9]-X[9])-X[8]+sqrt((-(NT[9]-X[9])+X[8])^2+alpha))/2)
 @variable(model,Tm6>=0)
@@ -99,8 +100,8 @@ MU=params["MU"]
 #min(X(9),p.NC(9));
 #Tm7=@NLexpression(model,-(-NC[9]-X[9]+sqrt((-NC[9]+X[9])^2+alpha))/2)
 @variable(model,Tm7>=0)
-@constraint(model,Tm7<=NC[9])
-@constraint(model,Tm7<=X[9])
+@constraint(model,Tm7<=Umax*NC[9])
+@constraint(model,Tm7<=Umax*X[9])
 #p.delta*min(p.NT(10)-(X(12)),X(11));
 #Tm8=@NLexpression(model,delta*-(-(NT[10]-X[12])-X[11]+sqrt((-(NT[10]-X[12])+X[11])^2+alpha))/2)
 @variable(model,Tm8>=0)
@@ -109,8 +110,8 @@ MU=params["MU"]
 #min(p.NC(10),X(12));
 #Tm9=@NLexpression(model,-(-NC[10]-X[12]+sqrt((-NC[10]+X[12])^2+alpha))/2)
 @variable(model,Tm9>=0)
-@constraint(model,Tm9<=NC[10])
-@constraint(model,Tm9<=X[12])
+@constraint(model,Tm9<=Umax*NC[10])
+@constraint(model,Tm9<=Umax*X[12])
 #p.delta*min(p.NT(8)-(X(15)),X(14));
 #Tm10=@NLexpression(model,delta*-(-(NT[8]-X[15])-X[14]+sqrt((-(NT[8]-X[15])+X[14])^2+alpha))/2)
 @variable(model,Tm10>=0)
@@ -119,8 +120,8 @@ MU=params["MU"]
 #min(p.NC(8),X(15));
 #Tm11=@NLexpression(model,-(-NC[8]-X[15]+sqrt((-NC[8]+X[15])^2+alpha))/2)
 @variable(model,Tm11>=0)
-@constraint(model,Tm11<=NC[8])
-@constraint(model,Tm11<=X[15])
+@constraint(model,Tm11<=Umax*NC[8])
+@constraint(model,Tm11<=Umax*X[15])
 #p.delta*min(p.NT(4)-(X(18)+X(21)+X(24)),X(17));
 #Tm12=@NLexpression(model,delta*-(-(NT[4]-(X[18]+X[21]+X[24]))-X[17]+sqrt((-(NT[4]-(X[18]+X[21]+X[24]))+X[17])^2+alpha))/2)
 @variable(model,Tm12>=0)
@@ -139,7 +140,7 @@ MU=params["MU"]
 #min(p.NC(4),X(24));
 #Tm17=@NLexpression(model,-(-NC[4]-X[24]+sqrt((-NC[4]+X[24])^2+alpha))/2)
 @variable(model,Tm17>=0)
-@constraint(model,Tm17<=NC[4])
+@constraint(model,Tm17<=Umax*NC[4])
 @constraint(model,Tm17<=X[24])
 #p.delta*min(p.NT(6)-(X(27)+X(28)+X(29)),X(26));
 #Tm18=@NLexpression(model,delta*-(-(NT[6]-(X[27]+X[28]+X[29]))-X[26]+sqrt((-(NT[6]-(X[27]+X[28]+X[29]))+X[26])^2+alpha))/2)
@@ -149,20 +150,20 @@ MU=params["MU"]
 #min(X(29),p.NC(6));
 #Tm21=@NLexpression(model,-(-NC[6]-X[29]+sqrt((-NC[6]+X[29])^2+alpha))/2)
 @variable(model,Tm21>=0)
-@constraint(model,Tm21<=NC[6])
-@constraint(model,Tm21<=X[29])
+@constraint(model,Tm21<=Umax*NC[6])
+@constraint(model,Tm21<=Umax*X[29])
 
 #min(p.NC(5),X(20));
 #TmGPS1=@NLexpression(model,-(-NC[5]-X[20]+sqrt((-NC[5]+X[20])^2+alpha))/2)
 @variable(model,TmGPS1>=0)
-@constraint(model,TmGPS1<=NC[5])
-@constraint(model,TmGPS1<=X[20])
+@constraint(model,TmGPS1<=Umax*NC[5])
+@constraint(model,TmGPS1<=Umax*X[20])
 
 #min(p.NC(7),X(23));
 #TmGPS2=@NLexpression(model,-(-NC[7]-X[23]+sqrt((-NC[7]+X[23])^2+alpha))/2)
 @variable(model,TmGPS2>=0)
-@constraint(model,TmGPS2<=NC[7])
-@constraint(model,TmGPS2<=X[23])
+@constraint(model,TmGPS2<=Umax*NC[7])
+@constraint(model,TmGPS2<=Umax*X[23])
 
 
 @constraint(model,  T[1]==MU[30]*X[30])
@@ -211,13 +212,14 @@ NTopt=zeros(9,npoint)
 stimeOpt=zeros(1,npoint)
 #clients=rand(1,npoint)'*300 .+200.0
 #clients=LinRange(10,180, npoint);
-clients=[10]
+clients=[10000]
 
 for i=1:size(clients,1)
     global w=round(clients[i])
     set_value(C,w)
 
-    @objective(model,Max,0.5*(T[1])/(0.5368*w)-0.5*(sum(NC)+sum(NT))/(maxNC*9+maxNT*9))
+	Psi=0.9
+    @objective(model,Max,Psi*(T[1])/(0.2488*w)-(1-Psi)*(sum(NC)+0*sum(NT))/(maxNC*9+0*maxNT*9))
     global stimes=@elapsed JuMP.optimize!(model)
     global status=termination_status(model)
     if(status!=MOI.LOCALLY_SOLVED && status!=MOI.ALMOST_LOCALLY_SOLVED)

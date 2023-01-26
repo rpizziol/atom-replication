@@ -22,7 +22,7 @@ end
 p.MU = MU;
 p.NT = NT;
 p.NC = NC;
-p.delta = 10^5; % context switch rate (super fast)
+p.delta = 10^3; % context switch rate (super fast)
 
 %states name
 %X(1)=XBrowse_2Login;
@@ -70,9 +70,7 @@ p.delta = 10^5; % context switch rate (super fast)
 %10=UpdateProfile;
 
 
-% Jump matrix
-stoich_matrix=[
-    +1,  +1,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  -1;
+stoich_matrix=[+1,  +1,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  -1;
     +0,  -1,  +1,  +1,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0;
     +0,  +0,  +0,  -1,  +1,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0;
     +0,  +0,  -1,  +0,  -1,  +1,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0;
@@ -93,6 +91,7 @@ stoich_matrix=[
     +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  -1,  +0,  +1,  +0,  +0,  +0,  +0,  -1,  +1,  +0,  +0;
     +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  -1,  +0,  +0,  +0,  +0,  -1,  +1,  +0;
     +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  -1,  +0,  +0,  +0,  -1,  +1;
+    +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +1,  +0,  +0,  -1,  +0;
     ];
 
 tspan = [0, TF];
@@ -100,7 +99,7 @@ pfun = @propensities_2state;
 
 X = zeros(length(X0), ceil(TF/dt) + 1, rep);
 for i = 1:rep
-    [t, x] = directMethod(stoich_matrix, pfun, tspan, X0, p);
+    [t, x] = firstReactionMethod(stoich_matrix, pfun, tspan, X0, p,[],10000000);
     tsin = timeseries(x,t);
     tsout = resample(tsin, linspace(0, TF, ceil(TF/dt)+1), 'zoh');
     X(:, :, i) = tsout.Data';
@@ -110,27 +109,28 @@ end
 
 % Propensity rate vector (CTMC)
 function Rate = propensities_2state(X, p)
-Rate = [p.MU(30)*X(30);
-    X(2)/(X(2))*p.delta*min(X(2),p.NT(2)-(X(3)+X(6)));
-    X(4)/(X(4))*p.delta*min(X(4),p.NT(3)-(X(5)));
-    X(3)/(X(3))*X(5)/(X(5))*min(X(5),p.NC(3))*p.MU(5);
-    X(1)/(X(1))*X(6)/(X(6))*min(X(6),p.NC(2))*p.MU(6);
-    X(8)/(X(8))*p.delta*min(X(8),p.NT(9)-(X(9)));
-    0.5*X(7)/(X(7))*X(9)/(X(9))*min(X(9),p.NC(9))*p.MU(9);
-    X(11)/(X(11))*p.delta*min(X(11),p.NT(10)-(X(12)));
-    X(10)/(X(10))*X(12)/(X(12))*min(X(12),p.NC(10))*p.MU(12);
-    X(14)/(X(14))*p.delta*min(X(14),p.NT(8)-(X(15)));
-    X(13)/(X(13))*X(15)/(X(15))*min(X(15),p.NC(8))*p.MU(15);
-    X(17)/(X(17))*p.delta*min(X(17),p.NT(4)-(X(18)+X(21)+X(24)));
-    X(19)/(X(19))*p.delta*min(X(19),p.NT(5)-(X(20)));
-    0.5*X(18)/(X(18)+X(27))*X(20)/(X(20))*min(X(20),p.NC(5))*p.MU(20);
-    X(22)/(X(22))*p.delta*min(X(22),p.NT(7)-(X(23)));
-    0.5*X(21)/(X(21)+X(28))*X(23)/(X(23))*min(X(23),p.NC(7))*p.MU(23);
-    X(16)/(X(16))*X(24)/(X(24))*min(X(24),p.NC(4))*p.MU(24);
-    X(26)/(X(26))*p.delta*min(X(26),p.NT(6)-(X(27)+X(28)+X(29)));
-    X(27)/(X(18)+X(27))*X(20)/(X(20))*min(X(20),p.NC(5))*p.MU(20);
-    X(28)/(X(21)+X(28))*X(23)/(X(23))*min(X(23),p.NC(7))*p.MU(23);
-    X(25)/(X(25))*X(29)/(X(29))*min(X(29),p.NC(6))*p.MU(29);
+Rate = [p.MU(30)*X(30);%Tclient
+    p.delta*min(X(2),p.NT(2)-(X(3)+X(6)));
+    p.delta*min(X(4),p.NT(3)-(X(5)));
+    min(X(5),p.NC(3))*p.MU(5); %Tvalidateid
+    min(X(6),p.NC(2))*p.MU(6); %Tauth
+    p.delta*min(X(8),p.NT(9)-(X(9)));
+    0.5*min(X(9),p.NC(9))*p.MU(9); %Tviewprofile
+    p.delta*min(X(11),p.NT(10)-(X(12)));
+    min(X(12),p.NC(10))*p.MU(12);%TupdateProfile
+    p.delta*min(X(14),p.NT(8)-(X(15)));
+    min(X(15),p.NC(8))*p.MU(15);%Tquery
+    p.delta*min(X(17),p.NT(4)-(X(18)+X(21)+X(24)));
+    p.delta*min(X(19),p.NT(5)-(X(20)));
+    0.5*X(18)/(X(18)+X(27))*min(X(20),p.NC(5))*p.MU(20); %TUpdateMiles
+    p.delta*min(X(22),p.NT(7)-(X(23)));
+    0.5*X(21)/(X(21)+X(28))*min(X(23),p.NC(7))*p.MU(23); %TGetReward
+    min(X(24),p.NC(4))*p.MU(24); %Tbook
+    p.delta*min(X(26),p.NT(6)-(X(27)+X(28)+X(29)));
+    X(27)/(X(18)+X(27))*min(X(20),p.NC(5))*p.MU(20); %TUpdateMiles
+    X(28)/(X(21)+X(28))*min(X(23),p.NC(7))*p.MU(23); %TGetReward
+    1/2*min(X(29),p.NC(6))*p.MU(29); %Tcancel_end
+    1/2*min(X(29),p.NC(6))*p.MU(29); %Tcancel_loop
     ];
 Rate(isnan(Rate))=0;
 end
