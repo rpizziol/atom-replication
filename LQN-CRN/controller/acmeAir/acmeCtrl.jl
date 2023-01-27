@@ -249,7 +249,7 @@ subscribe(channels...; stop_fn=stop_fn, client=subscriber) do msg
 	#qui la logica di attuazione
 	#multi()
 	for m=1:length(NC)
-		set(@sprintf("%s_hw",MS[m]),value(NC[m+1])+0.05*Ik;client=redis_cli)
+		set(@sprintf("%s_hw",MS[m]),max(value(NC[m+1])+0.05*Ik,0.5);client=redis_cli)
 	end
 	#results = exec()
 end
