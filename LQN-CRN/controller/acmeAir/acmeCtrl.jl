@@ -3,7 +3,7 @@ include("getTR.jl")
 
 
 wdir=pwd()
-redisHost="185.154.155.43"
+redisHost="185.10.16.192"
 mongoClient = Mongoc.Client(redisHost, 27017)
 
 #model = Model(()->MadNLP.Optimizer(print_level=MadNLP.INFO))
