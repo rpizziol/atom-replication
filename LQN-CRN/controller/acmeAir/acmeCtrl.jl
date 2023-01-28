@@ -239,9 +239,9 @@ subscribe(channels...; stop_fn=stop_fn, client=subscriber) do msg
         error(status)
     end
 
-	Tmk=getTr(mongoClient,10,"MSauth")
+	Tmk=getTr(mongoClient,2,"MSauth")
 	if(typeof(Tmk)!=Nothing)
-		global Ik=Ik+((0.2149*w)-Tmk)
+		global Ik=Ik+((0.2079*w)-Tmk)
 	else
 		global Ik=0
 	end
