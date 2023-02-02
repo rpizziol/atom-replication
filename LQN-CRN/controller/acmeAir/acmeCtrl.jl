@@ -232,7 +232,7 @@ subscribe(channels...; stop_fn=stop_fn, client=subscriber) do msg
 	w=parse(Float64,get("users";client=redis_cli))
 	set_value(C,w)
 
-    @objective(model,Max,0.5*(T[1])*1.0/(0.77*w)-0.5*(sum(NC)+0*sum(NT))/(maxNC*9+0*maxNT*9))
+    @objective(model,Max,0.5*(T[1])*1.0/(0.7667*w)-0.5*(sum(NC)+0*sum(NT))/(maxNC*9+0*maxNT*9))
     global stimes=@elapsed JuMP.optimize!(model)
     global status=termination_status(model)
     if(status!=MOI.LOCALLY_SOLVED && status!=MOI.ALMOST_LOCALLY_SOLVED)
@@ -241,7 +241,7 @@ subscribe(channels...; stop_fn=stop_fn, client=subscriber) do msg
 
 	Tmk=getTr(mongoClient,5,"MSauth")
 	if(typeof(Tmk)!=Nothing)
-		global Ik=Ik+((0.77*w)-Tmk)
+		global Ik=Ik+((0.7667*w)-Tmk)
 	else
 		global Ik=0
 	end
@@ -249,7 +249,7 @@ subscribe(channels...; stop_fn=stop_fn, client=subscriber) do msg
 	#qui la logica di attuazione
 	#multi()
 	for m=1:length(NC)
-		set(@sprintf("%s_hw",MS[m]),max(value(NC[m+1])+0.02*Ik,0.5);client=redis_cli)
+		set(@sprintf("%s_hw",MS[m]),max(value(NC[m+1])+0.008*Ik,0.5);client=redis_cli)
 	end
 	#results = exec()
 end
