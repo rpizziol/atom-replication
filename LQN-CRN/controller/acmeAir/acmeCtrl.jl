@@ -12,7 +12,7 @@ model = Model(Ipopt.Optimizer)
 set_optimizer_attribute(model, "max_iter", 100000)
 #set_optimizer_attribute(model, "tol", 10^-10)
 #set_optimizer_attribute(model, "hessian_approximation", "limited-memory")
-#set_optimizer_attribute(model, "print_level", 0)
+set_optimizer_attribute(model, "print_level", 0)
 
 jump=[  +1  +1  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  -1;
 	    +0  -1  +1  +1  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0;
@@ -239,7 +239,8 @@ subscribe(channels...; stop_fn=stop_fn, client=subscriber) do msg
         error(status)
     end
 
-	Tmk=getTr(mongoClient,5,"MSauth")
+	Tmk=getTr(mongoClient,10,"MSauth")
+	println(Tmk,0.7667*w,Ik)
 	if(typeof(Tmk)!=Nothing)
 		global Ik=Ik+((0.7667*w)-Tmk)
 	else
