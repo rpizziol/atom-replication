@@ -244,6 +244,7 @@ subscribe(channels...; stop_fn=stop_fn, client=subscriber) do msg
 	if(typeof(Tmk)!=Nothing)
 		global Ik=Ik+((0.7667*w)-Tmk)
 	else
+		println("error")
 		global Ik=0
 	end
 
