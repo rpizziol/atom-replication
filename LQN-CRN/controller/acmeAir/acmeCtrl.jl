@@ -240,7 +240,7 @@ subscribe(channels...; stop_fn=stop_fn, client=subscriber) do msg
     end
 
 	Tmk=getTr(mongoClient,10,"MSauth")
-	println(Tmk,0.7667*w,Ik)
+	println(Tmk," ",0.7667*w," ",Ik)
 	if(typeof(Tmk)!=Nothing)
 		global Ik=Ik+((0.7667*w)-Tmk)
 	else
@@ -250,7 +250,7 @@ subscribe(channels...; stop_fn=stop_fn, client=subscriber) do msg
 	#qui la logica di attuazione
 	#multi()
 	for m=1:length(NC)
-		set(@sprintf("%s_hw",MS[m]),max(value(NC[m+1])+0.008*Ik,0.5);client=redis_cli)
+		set(@sprintf("%s_hw",MS[m]),max(value(NC[m+1])+0.1*Ik,0.5);client=redis_cli)
 	end
 	#results = exec()
 end
