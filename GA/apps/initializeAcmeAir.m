@@ -11,10 +11,10 @@ model.Nk = 1;   % Number of tasks with known values
 model.M = 1;    % Number of classes (max entries)
 
 % Default service times
-model.thinkTime = 0.27538;
+model.thinkTime = 0.2631;
 
-model.st = [0.15673, 0.085154, 0.15428, 0.20552, 0.044829, 0.14698, ...
-    0.0991, 0.095022, 0.052992];
+model.st = [0.10367, 0.052292, 0.092846, 0.12455, 0.027508, 0.10152, ...
+    0.072616, 0.056759, 0.031846];
 
 model.RTmax=[1.8372;0.2400;0.0848;0.1536;0.2045;0.0446;0.3392;0.1951;0.0945;0.0527]*1.50;
 
@@ -31,12 +31,6 @@ model.totalTime = model.thinkTime + sum(model.st .* repFac);
 %% Objective function's parameters
 params.psi = zeros(model.N, model.M); % Weights of transactions
 params.psi(1,1) = 1;
-
-% [1, 0, 0, 0, 0]
-% [0, 0, 0, 0, 0]
-% [0, 0, 0, 0, 0]
-% [0, 0, 0, 0, 0]
-% [0, 0, 0, 0, 0]
 
 params.tau1 = 0.5; % Objective function weight 1
 params.tau2 = 0.5; % Objective function weight 2

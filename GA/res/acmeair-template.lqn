@@ -6,7 +6,7 @@ G
 0.5
 -1
 
-# Processors declaration, with multiplicity 
+# Processors declaration, with multiplicity
 P 0
 p ProcClient f m {{W}}
 p ProcMSauth f m {{np[1]}}
@@ -36,7 +36,7 @@ t MSgetrewardmiles n MSgetrewardmilesEntry -1 ProcMSgetrewardmiles m {{W}}
 
 # Entries declaration
 E 0
-s clientEntry 0.27538 -1
+s clientEntry 0.2631 -1
 y clientEntry MSviewprofileEntry 2.0 -1
 y clientEntry MSupdateprofileEntry 1.0 -1
 y clientEntry MSbookflightsEntry 1.0 -1
