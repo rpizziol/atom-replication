@@ -34,6 +34,7 @@ function [state, options, optchanged] = printState(options, state, flag, model)
             fprintf('\ninit\n')
             start = tic();
             countIndividual = 0; % Reset for the next generation
+            currNuser = getCurrentUsers(model.redisConn);
         case {'iter','done'} % Middle iteration
             fprintf('\niter\n')
             now = toc(start);
@@ -88,9 +89,7 @@ function [state, options, optchanged] = printState(options, state, flag, model)
             currNuser = getCurrentUsers(model.redisConn); % Update currNuser
          
         case 'interrupt'
-             countIndividual = 0;
-%         case 'done'
-%             disp('done')      
+             countIndividual = 0;      
     end
 
     

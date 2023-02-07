@@ -14,12 +14,12 @@ function runExperiment(model, params)
     
     global bestTimeStamps
     global nusersInTime
+    global init_pop;
     
 
     global testname 
 
     global countIndividual
-
     countIndividual = 0;
 
 
@@ -37,20 +37,24 @@ function runExperiment(model, params)
     options = optimoptions('ga'); % Load default settings
     options = optimoptions(options,'PopulationType', 'doubleVector');
     options = optimoptions(options,'PopulationSize', 50); % default: 50
-    options = optimoptions(options,'MaxGenerations', 400); % default: 100*nvars
-    options = optimoptions(options,'MaxTime', 10000); % 90m = 5400 seconds
-    options = optimoptions(options,'MaxStallGenerations', 10); % old value: 20
+    options = optimoptions(options,'MaxGenerations', 4000); % default: 100*nvars
+    options = optimoptions(options,'MaxTime', 5400); % 90m = 5400 seconds
+    options = optimoptions(options,'MaxStallGenerations', 20); % old value: 20
     %options = optimoptions(options,'MutationFcn', { @mutationadaptfeasible});
     options = optimoptions(options,'MutationFcn', { @mutationadaptfeasible 0.8});
 %     options = optimoptions(options,'PlotFcn', {@gaplotbestf, @gaplotbestindiv});
     options = optimoptions(options, 'OutputFcn', @(options, state, flag)printState(options, state, flag,model));
+    if(isstruct(init_pop))
+        disp("initpop")
+        options = optimoptions(options,'InitialPopulation', init_pop.pop);
+    end
     %options = optimoptions(options,'EliteCount', 0);
     %options = optimoptions(options,'EvalElites', true);
     %options = optimoptions(options, 'OutputFcn', @printState);
     %options = optimoptions(options,'Display', 'iter');
     
     [x, fval, exitflag, output, population, scores] = ga(f, model.N - model.Nk, [],...
-    [], [], [], params.s_lb, params.s_ub, [], [], options); %ConstraintFunction
+    [], [], [], params.s_lb, params.s_ub, @(x)nlcon(x,model), [], options); %aggiungre funzione nl per le constraint sui tempi di risposta non lineari
 
     disp(exitflag);
     
