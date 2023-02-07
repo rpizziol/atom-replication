@@ -42,7 +42,9 @@ params.Q = [Qmax, Qmax, Qmax, Qmax, Qmax, Qmax, Qmax, Qmax, Qmax];
 min_s = 0.1;  % Lower bound
 params.s_lb = [min_s, min_s, min_s, min_s, min_s, min_s, min_s, ...
     min_s, min_s];
-max_s = 100;      % Upper bound
+
+W = getCurrentUsers(model.redisConn);
+max_s = W*0.8;      % Upper bound
 params.s_ub = [max_s, max_s, max_s, max_s, max_s, max_s, max_s, ...
     max_s, max_s];
 end
