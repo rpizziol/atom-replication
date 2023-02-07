@@ -44,7 +44,7 @@ params.s_lb = [min_s, min_s, min_s, min_s, min_s, min_s, min_s, ...
     min_s, min_s];
 
 W = getCurrentUsers(model.redisConn);
-max_s = W*0.8;      % Upper bound
+max_s = W;      % Upper bound
 params.s_ub = [max_s, max_s, max_s, max_s, max_s, max_s, max_s, ...
     max_s, max_s];
 end
