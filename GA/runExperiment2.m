@@ -53,6 +53,8 @@ function runExperiment2(model, params)
     %options = optimoptions(options, 'OutputFcn', @printState);
     %options = optimoptions(options,'Display', 'iter');
     
+    model.redisConn.set("ctrlStrt","1");
+    
     [x, fval, exitflag, output, population, scores] = ga(f, model.N - model.Nk, [],...
     [], [], [], params.s_lb, params.s_ub, @(x)nlcon(x,model), [], options); %aggiungre funzione nl per le constraint sui tempi di risposta non lineari
 
