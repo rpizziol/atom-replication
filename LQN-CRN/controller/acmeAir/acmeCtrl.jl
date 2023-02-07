@@ -94,13 +94,13 @@ MU=params["MU"]
 #Tm4=@NLexpression(model,-(-NC[3]-X[5]+sqrt((-NC[3]+X[5])^2+alpha))/2)
 @variable(model,Tm4>=0)
 @constraint(model,Tm4<=X[5])
-@constraint(model,Tm4<=NC[3])
+@constraint(model,Tm4<=0.7*NC[3])
 
 #min(X(6),p.NC(2));
 #Tm5=@NLexpression(model,-(-NC[2]-X[6]+sqrt((-NC[2]+X[6])^2+alpha))/2)
 @variable(model,Tm5>=0)
 @constraint(model,Tm5<=X[6])
-@constraint(model,Tm5<=NC[2])
+@constraint(model,Tm5<=0.7*NC[2])
 #p.delta*min(p.NT(9)-(X(9)),X(8));
 #Tm6=@NLexpression(model,delta*-(-(NT[9]-X[9])-X[8]+sqrt((-(NT[9]-X[9])+X[8])^2+alpha))/2)
 @variable(model,Tm6>=0)
@@ -109,7 +109,7 @@ MU=params["MU"]
 #min(X(9),p.NC(9));
 #Tm7=@NLexpression(model,-(-NC[9]-X[9]+sqrt((-NC[9]+X[9])^2+alpha))/2)
 @variable(model,Tm7>=0)
-@constraint(model,Tm7<=NC[9])
+@constraint(model,Tm7<=0.7*NC[9])
 @constraint(model,Tm7<=X[9])
 #p.delta*min(p.NT(10)-(X(12)),X(11));
 #Tm8=@NLexpression(model,delta*-(-(NT[10]-X[12])-X[11]+sqrt((-(NT[10]-X[12])+X[11])^2+alpha))/2)
@@ -119,7 +119,7 @@ MU=params["MU"]
 #min(p.NC(10),X(12));
 #Tm9=@NLexpression(model,-(-NC[10]-X[12]+sqrt((-NC[10]+X[12])^2+alpha))/2)
 @variable(model,Tm9>=0)
-@constraint(model,Tm9<=NC[10])
+@constraint(model,Tm9<=0.7*NC[10])
 @constraint(model,Tm9<=X[12])
 #p.delta*min(p.NT(8)-(X(15)),X(14));
 #Tm10=@NLexpression(model,delta*-(-(NT[8]-X[15])-X[14]+sqrt((-(NT[8]-X[15])+X[14])^2+alpha))/2)
@@ -129,7 +129,7 @@ MU=params["MU"]
 #min(p.NC(8),X(15));
 #Tm11=@NLexpression(model,-(-NC[8]-X[15]+sqrt((-NC[8]+X[15])^2+alpha))/2)
 @variable(model,Tm11>=0)
-@constraint(model,Tm11<=NC[8])
+@constraint(model,Tm11<=0.7*NC[8])
 @constraint(model,Tm11<=X[15])
 #p.delta*min(p.NT(4)-(X(18)+X(21)+X(24)),X(17));
 #Tm12=@NLexpression(model,delta*-(-(NT[4]-(X[18]+X[21]+X[24]))-X[17]+sqrt((-(NT[4]-(X[18]+X[21]+X[24]))+X[17])^2+alpha))/2)
@@ -149,7 +149,7 @@ MU=params["MU"]
 #min(p.NC(4),X(24));
 #Tm17=@NLexpression(model,-(-NC[4]-X[24]+sqrt((-NC[4]+X[24])^2+alpha))/2)
 @variable(model,Tm17>=0)
-@constraint(model,Tm17<=NC[4])
+@constraint(model,Tm17<=0.7*NC[4])
 @constraint(model,Tm17<=X[24])
 #p.delta*min(p.NT(6)-(X(27)+X(28)+X(29)),X(26));
 #Tm18=@NLexpression(model,delta*-(-(NT[6]-(X[27]+X[28]+X[29]))-X[26]+sqrt((-(NT[6]-(X[27]+X[28]+X[29]))+X[26])^2+alpha))/2)
@@ -159,7 +159,7 @@ MU=params["MU"]
 #min(X(29),p.NC(6));
 #Tm21=@NLexpression(model,-(-NC[6]-X[29]+sqrt((-NC[6]+X[29])^2+alpha))/2)
 @variable(model,Tm21>=0)
-@constraint(model,Tm21<=NC[6])
+@constraint(model,Tm21<=0.7*NC[6])
 @constraint(model,Tm21<=X[29])
 
 #min(p.NC(5),X(20));
