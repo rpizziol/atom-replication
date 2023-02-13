@@ -242,7 +242,7 @@ subscribe(channels...; stop_fn=stop_fn, client=subscriber) do msg
 	Tmk=getTr(mongoClient,10,"MSauth")
 	println(Tmk," ",0.77*w," ",Ik)
 	if(typeof(Tmk)!=Nothing)
-		global Ik=Ik+((0.72*w)-Tmk)
+		global Ik=Ik+((0.77*w)-Tmk)
 	else
 		println("error")
 		global Ik=0
