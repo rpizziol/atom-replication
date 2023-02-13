@@ -17,7 +17,7 @@ if (code == 1) % Sock Shop
     [model, params] = initializeSockShop('b');
     runExperiment(model, params);
 elseif(code == 2) % Acme Air
-    
+
     init_pop=-1;
     delete init_pop.mat
     [model, params] = initializeAcmeAir();
@@ -28,12 +28,8 @@ elseif(code==3)
         if isfile("init_pop.mat")
             init_pop=load("init_pop.mat");
         else
-            if isfile("tweet_pop.mat")
-                disp("loading tweetpop")
-                init_pop=load("tweet_pop.mat");
-            else
-                init_pop=-1;
-            end
+            disp("generiting intial pop")
+            init_pop=struct("pop",max(ones(50,9).*init+randn(50,9),0.1));
         end
         [model, params] = initializeAcmeAir();
         runExperiment2(model, params);
