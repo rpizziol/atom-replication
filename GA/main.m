@@ -24,9 +24,13 @@ elseif(code==3)
     %to complete
     global init_pop;
     delete init_pop.mat
+    if isfile("tweet_pop.mat")
+        disp("loading tweetpop")
+        init_pop=load("tweet_pop.mat");
+    end
     while(true)
-        if isfile("tweet_pop.mat")
-            init_pop=load("tweet_pop.mat");
+        if isfile("init_pop.mat")
+            init_pop=load("init_pop.mat");
         else
             init_pop=-1;
         end
