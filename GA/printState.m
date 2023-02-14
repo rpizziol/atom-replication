@@ -43,18 +43,13 @@ function [state, options, optchanged] = printState(options, state, flag, model)
 %           Find the index of the 'Score' equal to 'Best'
             index = find(state.Score == state.Best(end), 1, 'last');
             
-%             disp(state.Score)
-%             [M,index]=min(state.Score,[],'all');
-%             disp(index)
-%             disp(M)
+            disp(state.Score)
+            [M,index]=min(state.Score,[],'all');
+            disp(index)
+            disp(M)
 
             % Use index to select the relative member of the population
             tmpBestIndividual = state.Population(index, :);
-            disp("debug");
-            disp(state.Score)
-            disp(index)
-            disp(tmpBestIndividual)
-            disp("end_debug");
             bestIndividual = tmpBestIndividual(1, :);
             
             % Update state global variables
