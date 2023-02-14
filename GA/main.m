@@ -30,7 +30,7 @@ elseif(code==3)
             init_pop=load("init_pop.mat");
         else
             disp("generiting intial pop")
-            init_pop=struct("pop",max(ones(50,9).*init+randn(50,9),0.1));
+            init_pop=struct("pop",max(ones(50,9).*init+0*randn(50,9),0.1));
         end
         [model, params] = initializeAcmeAir();
         runExperiment2(model, params);
