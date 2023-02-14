@@ -50,6 +50,11 @@ function [state, options, optchanged] = printState(options, state, flag, model)
 
             % Use index to select the relative member of the population
             tmpBestIndividual = state.Population(index, :);
+            disp("debug");
+            disp(state.Score)
+            disp(index)
+            disp(tmpBestIndividual)
+            disp("end_debug");
             bestIndividual = tmpBestIndividual(1, :);
             
             % Update state global variables
