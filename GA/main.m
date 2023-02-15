@@ -24,8 +24,8 @@ elseif(code == 2) % Acme Air
     runExperiment(model, params);
 elseif(code==3)
     delete init_pop.mat
-    %init=[3.6572    1.8773    3.5825    2.7341    5.0964    3.1551    2.0323    6.4983    4.3805];
-    init=[2.3320    1.1760    2.2830    1.7320    3.2660    2.0050    1.2760    4.1760    2.8010];
+    init=[3.6572    1.8773    3.5825    2.7341    5.0964    3.1551    2.0323    6.4983    4.3805];
+    %init=[2.3320    1.1760    2.2830    1.7320    3.2660    2.0050    1.2760    4.1760    2.8010];
     while(true)
         if isfile("init_pop.mat")
             init_pop=load("init_pop.mat");
