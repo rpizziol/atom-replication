@@ -1,4 +1,4 @@
-using Jedis,Printf,Ipopt,JuMP,MAT,ParameterJuMP,Mongoc
+using Jedis,Printf,Ipopt,JuMP,MAT,ParameterJuMP,Mongoc,UUIDs
 include("getTR.jl")
 
 
@@ -226,14 +226,20 @@ println("started")
 set("ctrlStrt","1";client=redis_cli)
 
 global Ik=0
+global stimes=[]
+global outfile=string(UUIDs.uuid4())
 
 subscribe(channels...; stop_fn=stop_fn, client=subscriber) do msg
 	#w=parse(Float64, msg[end])
 	w=parse(Float64,get("users";client=redis_cli))
 	set_value(C,w)
+	global stimes
+	global outfile
 
     @objective(model,Max,0.5*(T[1])*1.0/(0.75*w)-0.5*(sum(NC)+0*sum(NT))/(maxNC*9+0*maxNT*9))
-    global stimes=@elapsed JuMP.optimize!(model)
+    stime=@elapsed JuMP.optimize!(model)
+    push!(stimes,stime)
+    
     global status=termination_status(model)
     if(status!=MOI.LOCALLY_SOLVED && status!=MOI.ALMOST_LOCALLY_SOLVED)
         error(status)
@@ -247,12 +253,14 @@ subscribe(channels...; stop_fn=stop_fn, client=subscriber) do msg
 		global Ik=0
 	end
 
-	#qui la logica di attuazione
-	#multi()
 	for m=1:length(NC)
 		set(@sprintf("%s_hw",MS[m]),@sprintf("%.3f",value(NC[m+1])+0.0001*Ik);client=redis_cli)
 	end
-	#results = exec()
+	
+	matwrite(@sprintf("./data/%s.mat",outfile), Dict(
+        "stimes" => stimes
+    );)
+	
 end
 
 

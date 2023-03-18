@@ -1,0 +1,52 @@
+#optionally the first section can include variable definitions to #include parameters in the model, including expressions. See SPEX #input
+G
+"Four tier service system"
+#Convergence criterion, iteration limit, print interval, under-relax
+#Under-relaxation coefficient stabilizes the algorithm if less than 1
+0.00001
+1000
+1
+0.2
+# End of General Information, -1 is the terminator
+-1
+
+P 0
+p UserP f m 10000
+p HTTP_P f m 100
+p App_P f m 100
+p DB_P f m 100
+-1
+
+T 0
+t Users r userWork -1 UserP m 100
+t App n appRequest -1 App_P m 1
+t HTTPServer n accept -1 HTTP_P m 100
+t DB n dbAccess -1 DB_P m 100
+-1
+
+#Entry Information: No. of Entries or 0
+E 0
+s userWork 1 -1
+y userWork accept 1 -1
+s accept 0.002 -1
+y accept appRequest 1 -1 
+y accept dbAccess 1 -1
+s appRequest 0.015 -1
+y appRequest dbAccess 1 -1
+s dbAccess 0.010 -1
+-1
+
+# 1. Solver settings
+#! v 1.0e5           # fast rate to approximate instantaneous events
+#! solver ode        # ODE analysis - solver sim will run simulation
+#! stoptime 200.0     # integration time horizon
+#! confidence_level 0.95
+#! confidence_percent_error 0.1
+
+# 2. Output settings
+#! throughput: userWork accept appRequest dbAccess
+#! utilization: userWork accept appRequest dbAccess
+#! responsetime: userWork accept appRequest  dbAccess -1
+
+# 3. Export settings
+#! export csv
