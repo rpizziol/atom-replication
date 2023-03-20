@@ -64,7 +64,7 @@ jump=[+1,  +1,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  -1;
 
 T = @(X)propensities_2state(X,p);
 opts = odeset('Events',@(t,y)eventfun(t,y,jump,T));
-[t,y]=ode15s(@(t,y) jump'*T(y),linspace(0,5,5000+1), X0,opts);
+[t,y]=ode15s(@(t,y) jump'*T(y),linspace(0,5,5001), X0,opts);
 %[t,y]=ode15s(@(t,y) jump'*T(y),[0,inf], X0,opts);
 ssR=T(y(end,:)');
 

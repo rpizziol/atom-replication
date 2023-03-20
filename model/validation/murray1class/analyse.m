@@ -17,8 +17,8 @@ NTDB=2;
 
 NCUsers=NUsers;
 NCApp=1;
-NCHTTPServer=2;
-NCDB=2;
+NCHTTPServer=1;
+NCDB=1;
 
 MU([7,8,10,11])=1000./[XdbAccess_e,XappRequest_e,Xaccept_e,XuserWork_e];
 NT=[NTUsers,NTApp,NTHTTPServer,NTDB];
@@ -59,6 +59,67 @@ Y(:,[11])=y(:,[7]);
 Y(:,[13])=y(:,[6]);
 
 T = array2table(Y);
+
+userWorkM=readmatrix("/Users/emilio-imt/Desktop/murray/csv/4tierOneClassEmilioOneClass17-Mar-2023_userWork.csv");
+acceptM=readmatrix("/Users/emilio-imt/Desktop/murray/csv/4tierOneClassEmilioOneClass17-Mar-2023_accept.csv");
+appreqM=readmatrix("/Users/emilio-imt/Desktop/murray/csv/4tierOneClassEmilioOneClass17-Mar-2023_ appRequest.csv");
+dbM=readmatrix("/Users/emilio-imt/Desktop/murray/csv/4tierOneClassEmilioOneClass17-Mar-2023_userWork_4tierOneClassEmilioOneClass17-Mar-2023_dbaccces.csv");
+
+figure 
+box on
+grid on
+hold on
+title("userWork")
+plot(userWorkM(:,1),userWorkM(:,[2]),"LineWidth",1.5);
+plot(t*1000,Y(:,2),"--","LineWidth",1.5);
+legend("MurrayODE","EmiODE")
+xlabel("Time(ms)")
+ylabel("#Tokens")
+exportgraphics(gca,"Users.png");
+close()
+
+figure 
+box on
+grid on
+hold on
+title("accept")
+plot(acceptM(:,1),sum(acceptM(:,[2,3,4]),2),"LineWidth",1.5);
+plot(t*1000,sum(Y(:,[5,6,7]),2),"--","LineWidth",1.5);
+legend("MurrayODE","EmiODE")
+xlabel("Time(ms)")
+ylabel("#Tokens")
+exportgraphics(gca,"HTTPServer.png");
+close()
+
+figure 
+box on
+grid on
+hold on
+title("appRequest")
+plot(appreqM(:,1),sum(appreqM(:,[2,3,4]),2),"LineWidth",1.5);
+plot(t*1000,sum(Y(:,[8,9,10]),2),"--","LineWidth",1.5);
+legend("MurrayODE","EmiODE")
+xlabel("Time(ms)")
+ylabel("#Tokens")
+exportgraphics(gca,"App.png");
+close()
+
+figure 
+box on
+grid on
+hold on
+title("dbaccces")
+plot(dbM(:,1),sum(dbM(:,[2,3,4]),2),"LineWidth",1.5);
+plot(t*1000,sum(Y(:,[11,12,13]),2),"--","LineWidth",1.5);
+legend("MurrayODE","EmiODE")
+xlabel("Time(ms)")
+ylabel("#Tokens")
+exportgraphics(gca,"DB.png");
+close()
+
+
+
+
 
 %> /dev/null
 % system("java -jar /usr/local/bin/DiffLQN.jar model.lqn");

@@ -68,7 +68,7 @@ jump=[+1,  +1,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  +0,  -1;
 
 T = @(X)propensities_2state(X,p);
 opts = odeset('Events',@(t,y)eventfun(t,y,jump,T));
-[t,y]=ode15s(@(t,y) jump'*T(y),[0,Inf], X0,opts);
+[t,y]=ode15s(@(t,y) jump'*T(y),linspace(0,5,21), X0,opts);
 
 ssR=T(y(end,:)');
 
@@ -83,8 +83,8 @@ Rate = [p.MU(13)*X(13); %thinking
     X(6)/(X(6)+X(10))*p.delta*min(X(6)+X(10),p.NT(4)-(X(7)+X(11))); %acquiring DB1
     X(7)/(X(7)+X(11))*min(X(7)+X(11),p.NC(4))*p.MU(7); %executing DB1
 
-    min(X(8),p.NC(2))*p.MU(8)*3/3; %executing APP
-    min(X(8),p.NC(2))*p.MU(8)*0/3; %executing APP
+    min(X(8),p.NC(2))*p.MU(8)*1/3; %executing APP
+    min(X(8),p.NC(2))*p.MU(8)*2/3; %executing APP
 
     X(10)/(X(6)+X(10))*p.delta*min(X(6)+X(10),p.NT(4)-(X(7)+X(11))); %acquiring DB2
 

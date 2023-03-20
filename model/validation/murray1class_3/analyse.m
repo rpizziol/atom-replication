@@ -17,8 +17,8 @@ NTDB=2;
 
 NCUsers=NUsers;
 NCApp=1;
-NCHTTPServer=2;
-NCDB=2;
+NCHTTPServer=1;
+NCDB=1;
 
 
 MU([7,8,12,13])=1000./[XdbAccess_e,XappRequest_e,Xaccept_e,XuserWork_e];
@@ -38,6 +38,14 @@ TOde=[Tuser,Taccept,Tapprequest,Tdbaccess]';
 % system("java -jar /usr/local/bin/DiffLQN.jar model.lqn > /dev/null");
 % diffLqnRes = readtable("model.csv",'Delimiter',",");
 
+userWorkM=readmatrix("/Users/emilio-imt/Desktop/murray/csv/4tierOneClassEmilioOneClass17-Mar-2023_userWork.csv");
+
+figure 
+hold on
+plot(userWorkM(:,1),userWorkM(:,[2]));
+plot(userWorkM(:,1),y(:,end));
+plot(userWorkM(:,1),userWorkM(:,[end]));
+legend("Murray","Emilio","LQNS")
 
 % figure
 % grid on
