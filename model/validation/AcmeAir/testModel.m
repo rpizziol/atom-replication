@@ -1,4 +1,4 @@
-% clear
+clear
 
 ctrl=load("/Users/emilio-imt/git/atom-replication/LQN-CRN/controller/acmeAir/re.mat");
 load("/Users/emilio-imt/git/nodejsMicro/src/params.mat")
@@ -34,19 +34,18 @@ MU=MU*1.0;
 
 for i=1:size(ctrl.Clients,1)
     X0=zeros(1,30);
-    X0(end)=round(ctrl.Clients(i)/100);
-    disp(X0(end))
-    [t,y,ssTR,ssRT] = lqnODE(X0,MU,[inf,ceil(ones(1,9)*inf)],[inf;ctrl.NC_opt(:,i)/100]);
+    X0(end)=round(ctrl.Clients(i));
+    [t,y,ssTR,ssRT] = lqnODE(X0,MU,[inf,ceil(ones(1,9)*inf)],[inf;ctrl.NC_opt(:,i)]);
     [t2,y2,ssTR2,ssRT2] = lqnODE(X0,MU,ones(1,10)*inf,ones(1,10)*inf);
-    Xsim=lqn(X0,MU,ones(1,10)*inf,[inf;ctrl.NC_opt/100],2000,1,1);
-    Xsim2=lqn(X0,MU,ones(1,10)*inf,ones(1,10)*inf,2000,1,1);
+%     Xsim=lqn(X0,MU,ones(1,10)*inf,[inf;ctrl.NC_opt/100],2000,1,1);
+%     Xsim2=lqn(X0,MU,ones(1,10)*inf,ones(1,10)*inf,2000,1,1);
 
     %Tsim=(cumsum(X(end,:))./linspace(1,size(X,2),size(X,2)))*MU(end);
-    Tsim=mean(Xsim(end,:))*MU(end);
+%     Tsim=mean(Xsim(end,:))*MU(end);
     Tode(:,i)=ssTR;
     RTode(:,i)=ssRT;
     TodeM(:,i)=ssTR2;
-    disp(abs(Tode(1,i)-Tsim)*100/Tsim)
+%     disp(abs(Tode(1,i)-Tsim)*100/Tsim);
     %X=lqn(X0,MU,ones(1,10)*inf,[inf;NC_opt(:,i)],TF,rep,dt);
 end
 
@@ -56,14 +55,14 @@ hold on
 % plot(wi.Cli(1:size(wi.Tm,1)),wi.Tm)
 stem(Tode(1,:))
 stem(TodeM(1,:))
-stem(Tsim(1,:))
+% stem(Tsim(1,:))
 legend("ctrl_{ode}","real_{ode}","T_{sim}")
 
 % figure
 % stairs(ceil(ctrl.NT_opt'))
 
-figure
-stairs(ceil(ctrl.NC_opt'))
+% figure
+% stairs(ceil(ctrl.NC_opt'))
 
 % figure
 % hold on

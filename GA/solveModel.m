@@ -36,8 +36,8 @@ function fval = solveModel(modelName, model, params, s, nuser)
         if (strcmp(model.name, 'sockshop'))
             Bmax = nuser / 7;
         elseif (strcmp(model.name, 'acmeair'))
-            %Bmax = nuser * 0.77; %/ 0.27538;
-            Bmax = 58;
+            Bmax = nuser * 0.77; %/ 0.27538;
+%           Bmax = 58;
         end
         Bhat = Bt / Bmax; % Normalized Bt
     
