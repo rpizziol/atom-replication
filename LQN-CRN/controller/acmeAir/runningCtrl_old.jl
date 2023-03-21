@@ -34,10 +34,10 @@ jump=[  +1  +1  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  
 		+0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +1  +0  +0  -1  +0;
     ];
 
-delta=10^5
+delta=10^6
 #alpha=10^-2
-maxNC=20
-maxNT=20
+maxNC=15
+maxNT=1000
 
 params = matread(@sprintf("%s/git/nodejsMicro/src/params.mat",homedir()))
 MU=params["MU"]
@@ -211,15 +211,15 @@ NCopt=zeros(9,npoint)
 NTopt=zeros(9,npoint)
 stimeOpt=zeros(1,npoint)
 #clients=rand(1,npoint)'*300 .+200.0
-clients=LinRange(10,80, npoint);
+clients=LinRange(10,90, npoint);
 #clients=[100]
 
 for i=1:size(clients,1)
     global w=round(clients[i])
     set_value(C,w)
 
-	Psi=0.5
-    @objective(model,Max,Psi*(T[1])/(0.75*w)-(1-Psi)*(sum(NC)+0*sum(NT))/(maxNC*9+0*maxNT*9))
+	Psi=0.9
+    @objective(model,Max,Psi*(T[1])/(0.75*w)-(1-Psi)*(sum(NC)+1*sum(NT))/(maxNC*9+1*maxNT*9))
     global stimes=@elapsed JuMP.optimize!(model)
     global status=termination_status(model)
     if(status!=MOI.LOCALLY_SOLVED && status!=MOI.ALMOST_LOCALLY_SOLVED)
