@@ -39,7 +39,7 @@ jump=[  +1  +1  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  +0  
     ];
 
 delta=10^6
-maxNC=15
+maxNC=60
 maxNT=200
 
 MS=["MSauth","MSvalidateid","MSbookflights","MSupdateMiles","MScancelbooking",
