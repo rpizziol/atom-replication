@@ -1,0 +1,62 @@
+# This block is supported for backward compatibility
+# but it is not used by DiffLQN
+G
+"simple-qn.lqn"
+0.0001
+500
+1
+0.5
+-1
+
+# Processors declaration, with multiplicity
+P 0
+p P1 f m 1000
+p P2 f m 1000
+p P3 f m 1000
+-1
+
+# Tasks declaration
+T 0
+t C r browse -1 P1 m 10 
+t T1 n e1 -1 P2 m 1000 
+t T2 n e2 -1 P3 m 1000 
+-1
+
+# Entries declaration
+E 0
+s browse 1 -1
+A e1 choice   
+s e2 3 -1 
+y browse e1 1.0 -1    
+-1
+
+#activity definition blocks for tasks (here: task TServer)
+A T1 
+ s choice 0.0001
+ s e1_e 1
+ s e1_e2Synch 0.0001
+ s e1_e2Asynch 0.0001
+ y e1_e2Synch e2 1.0
+ y e1_e2Asynch e2 1.0
+:
+ choice ->  (0.5) e1_e2Synch + (0.5) e1_e2Asynch;
+ e1_e2Synch -> e1_e;
+ e1_e2Asynch -> e1_e;
+ e1_e[e1]
+-1
+
+# DiffLQN settings, starting with #!
+# These will be ignored by LQNS
+
+# 1. Solver settings
+#! v 1.0e5           # fast rate to approximate instantaneous events
+#! solver ode        # ODE analysis - solver sim will run simulation
+#! confidence_percent_error 0.5
+#! stoptime 50.0     # integration time horizon
+
+# 2. Output settings
+#! throughput: browse
+#! responsetime: browse -1
+
+# 3. Export settings
+#! export matlab

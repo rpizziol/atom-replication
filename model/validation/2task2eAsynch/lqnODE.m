@@ -1,4 +1,4 @@
-function [t,y,ssR] = lqnODE_new(X0,MU,NT,NC,TF,DT)
+function [t,y,ssR] = lqnODE(X0,MU,NT,NC)
 import Gillespie.*
 
 % Make sure vector components are doubles
@@ -19,31 +19,38 @@ if(iscolumn(NT))
     NC = NC';
 end
 
-p.MU = MU;
+p.MU = MU; 
 p.NT = NT;
 p.NC = NC;
 p.delta = 10^5; % context switch rate (super fast)
 
 %states name
-%X(1)=X0;
-%X(2)=X1;
-%X(3)=X2;
+%X(1)=XBrowse_2E1;
+%X(2)=XE1_a;
+%X(3)=XE1_E1ToE2;
+%X(4)=XE2_a;
+%X(5)=XE2_e;
+%X(6)=XE1_e;
+%X(7)=XBrowse_browse;
 
 
 %task ordering
-%1=C;
-%2=T;
+%1=Client;
+%2=T1;
+%3=T2;
 
 
 % Jump matrix
-jump=[-1,  +1,  +0;
-      +0,  -1,  +1;
-      +1,  +0,  -1;
-    ];
+jump=[+1,  +1,  +0,  +0,  +0,  +0,  -1;
+               +0,  -1,  +1,  +1,  +0,  +1,  +0;
+               +0,  +0,  +0,  -1,  +1,  +0,  +0;
+               +0,  +0,  -1,  +0,  +0,  +1,  +0;
+               -1,  +0,  +0,  +0,  +0,  -1,  +1;
+               ];
 
 T = @(X)propensities_2state(X,p);
 opts = odeset('Events',@(t,y)eventfun(t,y,jump,T));
-[t,y]=ode45(@(t,y) jump'*T(y),linspace(0,TF,round(TF/DT)+1), X0,opts);
+[t,y]=ode15s(@(t,y) jump'*T(y),[0,Inf], X0,opts);
 
 ssR=T(y(end,:)');
 
@@ -51,19 +58,14 @@ end
 
 % Propensity rate vector (CTMC)
 function Rate = propensities_2state(X, p)
-x2_a=X(2)-min(X(2),(p.NT(2)-X(3)));
-X(2)=min(X(2),(p.NT(2)-X(3)));
-Rate = [p.MU(5)*X(1);
-        X(2)/(X(2)+X(3))*min(X(2)+X(3),p.NC(2))*p.MU(3);
-        X(3)/(X(2)+X(3))*min(X(2)+X(3),p.NC(2))*p.MU(4);
-    ];
-Rate(isnan(Rate))=0;
+    Rate = [];
+    Rate(isnan(Rate))=0;
 end
 
 function [x,isterm,dir] = eventfun(t,y,jump,T)
 dy = jump'*T(y);
-x = norm(dy) - 1e-5;
-%x=max(abs(dy)) - 1e-5;
+%x = norm(dy) - 1e-5;
+x=max(abs(dy)) - 1e-5;
 isterm = 1;
 dir = 0;
 end

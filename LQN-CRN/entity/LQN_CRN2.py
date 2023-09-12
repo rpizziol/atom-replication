@@ -88,7 +88,8 @@ class LQN_CRN2():
             for a in act.dest.getActivities():
                 self.mapStateName(a)
         elif(isinstance(act, AsynchCall)):
-            raise  NotImplementedError
+            for a in act.dest.getActivities():
+                self.mapStateName(a)
         elif(isinstance(act, probChoice)):
             for a in act.getActivities():
                 self.mapStateName(a)
@@ -102,7 +103,11 @@ class LQN_CRN2():
         jump = [0 for i in range(len(self.names))]
         
         jump[self.names.index(sndName)] = -1
-        jump[self.names.index(lrcvName)] = 1
+        if(type(lrcvName) is list):
+            for lrcv in lrcvName:
+                jump[self.names.index(lrcv)] = 1
+        else:
+            jump[self.names.index(lrcvName)] = 1
         
         if(rrcvName is not None):
             jump[self.names.index(rrcvName)] = +1
@@ -116,7 +121,7 @@ class LQN_CRN2():
     
     def createPropensity(self, jump):
         # per semplicita cerco di determinare la propensita a partire dal jump
-        # e le assunzione che ho fatto sul modellos
+        # e le assunzione che ho fatto sul modello
         frm = []
         to = []
         for i in range(len(jump)):
@@ -235,6 +240,7 @@ class LQN_CRN2():
         lrcvName = "X%s_%s" % (act.getParentEntry().name, act.name)
         
         prvact = act.prev()
+        
         if(len(prvact) > 1):
             # il caso in cui il numero di azioni senders e maggiori di uno
             for a in prvact:
@@ -244,6 +250,9 @@ class LQN_CRN2():
                     rrcvName = "X%s_a" % (act.dest.name)
                 if(isinstance(a, SynchCall)):
                     rsyncName = "X%s_e" % (a.dest.name)
+                if(isinstance(a, AsynchCall)):
+                    pass
+                
                 self.createJump(sndName, lrcvName, rrcvName, rsyncName)
                 
         else:
@@ -254,6 +263,9 @@ class LQN_CRN2():
             
             if(isinstance(act, Call)):
                 rrcvName = "X%s_a" % (act.dest.name)
+                if(isinstance(act, AsynchCall)):
+                    lrcvName=[lrcvName,"X%s_%s"%(act.getParentEntry().name,act.getParent().getActivities()[idx+1].name)]
+                    
             if(len(prvact) == 1 and isinstance(prvact[0], SynchCall)):
                 rsyncName = "X%s_e" % (prvact[0].dest.name)
            
@@ -263,7 +275,9 @@ class LQN_CRN2():
             for a in act.dest.getActivities():
                 self.mapJump(a)
         elif(isinstance(act, AsynchCall)):
-            raise  NotImplementedError
+            #da rendere asincrona
+            for a in act.dest.getActivities():
+                self.mapJump(a)
         elif(isinstance(act, probChoice)):
             for a in act.getActivities():
                 self.mapJump(a)
@@ -278,6 +292,7 @@ class LQN_CRN2():
     def getCrn(self, lqn):
         self.lqn = lqn
         try:
+            #assumo che il primo task sia quello dei client
             ref = self.lqn["task"][0].getEntries()[0]
             for a in ref.getActivities():
                 self.mapStateName(a)
@@ -285,7 +300,9 @@ class LQN_CRN2():
             for a in ref.getActivities():
                 self.mapJump(a)
             
-            self.mapProp()
+            #self.mapProp()
+            
+            
         except:
             traceback.print_exc()
     

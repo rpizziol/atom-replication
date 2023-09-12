@@ -19,34 +19,38 @@ if(iscolumn(NT))
     NC = NC';
 end
 
-p.MU = MU;
+p.MU = MU; 
 p.NT = NT;
 p.NC = NC;
-p.delta = 10^35; % context switch rate (super fast)
+p.delta = 10^5; % context switch rate (super fast)
 
 %states name
-%X(1)=XB_2E1;
+%X(1)=XBrowse_2E1;
 %X(2)=XE1_a;
-%X(3)=XE1_E1_c1;
-%X(4)=XE1_e;
-%X(5)=XB_e;
+%X(3)=XE1_E1ToE2;
+%X(4)=XE2_a;
+%X(5)=XE2_e;
+%X(6)=XE1_e;
+%X(7)=XBrowse_browse;
 
 
 %task ordering
-%1=C;
-%2=T;
+%1=Client;
+%2=T1;
+%3=T2;
 
 
 % Jump matrix
-stoich_matrix=[+1,  +1,  +0,  +0,  -1;
-    +0,  -1,  +1,  +0,  +0;
-    +0,  +0,  -1,  +1,  +0;
-    -1,  +0,  +0,  -1,  +1;
-    ];
-
+stoich_matrix=[+1,  +1,  +0,  +0,  +0,  +0,  -1;
+               +0,  -1,  +1,  +1,  +0,  +1,  +0;
+               +0,  +0,  +0,  -1,  +1,  +0,  +0;
+               +0,  +0,  -1,  +0,  +0,  +1,  +0;
+               -1,  +0,  +0,  +0,  +0,  -1,  +1;
+               ];
+    
 tspan = [0, TF];
 pfun = @propensities_2state;
-
+ 
 X = zeros(length(X0), ceil(TF/dt) + 1, rep);
 for i = 1:rep
     [t, x] = directMethod(stoich_matrix, pfun, tspan, X0, p);
@@ -59,10 +63,6 @@ end
 
 % Propensity rate vector (CTMC)
 function Rate = propensities_2state(X, p)
-Rate = [ p.MU(5)*X(5);
-    p.delta*min(X(2),p.NT(2)-(X(3)+X(4)));
-    X(3)/(X(3)+X(4))*min(X(3)+X(4),p.NC(2))*p.MU(3);
-    X(4)/(X(3)+X(4))*min(X(3)+X(4),p.NC(2))*p.MU(4);
-    ];
-Rate(isnan(Rate))=0;
+    Rate = [];
+    Rate(isnan(Rate))=0;
 end

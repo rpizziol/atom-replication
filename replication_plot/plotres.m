@@ -1,5 +1,7 @@
 clear
 
+datadir="/Users/emilio-imt/git/nodejsMicro/data/revision2/ctrl/data";
+
 colorOrange = [0.85,0.33,0.10];
 colorBlue = [0.00,0.45,0.74];
 
@@ -13,8 +15,8 @@ exps=["sin", "step"];
 maxTime = 2000;
 %}
 
-exps=["tweeter_7_8"];
-maxTime = 2100;
+exps=["sin","step"];
+maxTime = 2000;
 
 
 
@@ -44,8 +46,8 @@ for ex=1:length(exps)
 
     %load ga data
     for i=1:size(ctrlGA,3)
-        ctrlGA(:,:,i)=readmatrix(sprintf("../data/replication/%s_%d/ctrldata.csv",expnameAtom,i-1));
-        gadata=[gadata;readData(sprintf("../data/replication/%s_%d/*.csv",expnameAtom,i-1))];
+        ctrlGA(:,:,i)=readmatrix(sprintf("%s/%s_%d/ctrldata.csv",datadir,expnameAtom,i-1));
+        gadata=[gadata;readData(sprintf("%s/%s_%d/*.csv",datadir,expnameAtom,i-1))];
 
         gaRT=[gaRT;gadata(end).rt];
         %gaT=[gaT;gadata(end).tr'];
@@ -71,8 +73,8 @@ for ex=1:length(exps)
 
     %load muOpt data
     for i=1:size(ctrlMU,3)
-        ctrlMU(:,:,i)=readmatrix(sprintf("../data/replication/%s_%d/ctrldata.csv",expnameMu,i-1));
-        mudata=[mudata;readData(sprintf("../data/replication/%s_%d/*.csv",expnameMu,i-1))];
+        ctrlMU(:,:,i)=readmatrix(sprintf("%s/%s_%d/ctrldata.csv",datadir,expnameMu,i-1));
+        mudata=[mudata;readData(sprintf("%s/%s_%d/*.csv",datadir,expnameMu,i-1))];
 
         muRT=[muRT;mudata(end).rt];
         %muT=[muT;mudata(end).tr'];
@@ -116,11 +118,12 @@ for ex=1:length(exps)
     grid on
     hold on  
     
+    
+    stairs(sum(mMU,2),"LineWidth",2.5,"Color",colorBlue);
     stairs(sum(mGA,2),"LineWidth",2.5,"Color",colorOrange);
+    
     shade(1:1:maxTime,ctrlGACI(1:end,2),1:1:maxTime,ctrlGACI(1:end,1),'FillType',[1 2], 'FillColor', colorOrange, 'LineStyle', 'none');
     %stairs(ctrlGACI(1:end,:),"-","Color",[0.85,0.33,0.10])
-
-    stairs(sum(mMU,2),"LineWidth",2.5,"Color",colorBlue);
     shade(1:1:maxTime,ctrlMUCI(1:end,2),1:1:maxTime,ctrlMUCI(1:end,1),'FillType',[1 2], 'FillColor', colorBlue, 'LineStyle', 'none');
     %stairs(ctrlMUCI(1:end,:),"-","Color",[0.00,0.45,0.74]) 
 
@@ -128,9 +131,9 @@ for ex=1:length(exps)
     ax.FontSize = fontSize;
     xlabel("Time(s)")
     ylabel("#Cores")
-    legend("\muOpt","ATOM","Location","southeast")
     xlim(lim)
     ylim([0,80]) %max(sum(mMU,2))*1.25
+    legend("\muOpt","ATOM","Location","southeast")
     exportgraphics(gca,sprintf("figure/acmeair_%s_cores.pdf",expWork));
     close()
 
@@ -139,7 +142,6 @@ for ex=1:length(exps)
     stairs(smoothdata(mean(muT,2),'movmean',3),"LineWidth",2.5, "Color",colorBlue);
     hold on
     stairs(smoothdata(mean(gaT,2),'movmean',3),"LineWidth",2.5,"Color",colorOrange);
-
     shade(1:1:maxTime,smoothdata(gaTCI(:,2), 'movmean', 3),1:1:maxTime,smoothdata(gaTCI(:,1), 'movmean', 3),'FillType',[1 2], 'FillColor', colorOrange, 'LineStyle', 'none');
 % smoothdata(
     %stairs(gaTCI(:,1),"-","Color",[0.85,0.33,0.10],"LineWidth",0.001);
@@ -173,7 +175,7 @@ for ex=1:length(exps)
     hold on
     %somedata=[(totMUT(end)-totGAT(end))*100/totMUT(end),(-trapz(sum(mGA,2))+trapz(sum(mMU,2)))*100/trapz(sum(mMU,2))];
     somedata=[mean(deltaT),mean(deltaS)];
-    somenames={"","$\Delta\mathcal{T}$","","$\Delta\mathcal{S}$"};
+    somenames=["","$\Delta\mathcal{T}$","","$\Delta\mathcal{S}$"];
     % somenames={" "," "};
     set(gca,'defaultAxesTickLabelInterpreter','latex');
     set(gca,'defaulttextinterpreter','latex');
